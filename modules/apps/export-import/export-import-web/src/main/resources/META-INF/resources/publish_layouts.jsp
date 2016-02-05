@@ -197,6 +197,8 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 					<portlet:renderURL var="simplePublishURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 						<portlet:param name="mvcRenderCommandName" value="publishLayoutsSimple" />
 						<portlet:param name="redirect" value="<%= simplePublishRedirectURL %>" />
+						<portlet:param name="lastImportUserName" value="<%= user.getFullName() %>" />
+						<portlet:param name="lastImportUserUuid" value="<%= String.valueOf(user.getUserUuid()) %>" />
 						<portlet:param name="localPublishing" value="<%= String.valueOf(localPublishing) %>" />
 						<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
 						<portlet:param name="quickPublish" value="<%= Boolean.FALSE.toString() %>" />
