@@ -23,6 +23,9 @@ import static com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleCon
 import com.liferay.asset.kernel.model.adapter.StagedAssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetLinkLocalService;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.expando.kernel.exception.NoSuchTableException;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoTable;
@@ -37,6 +40,7 @@ import com.liferay.exportimport.kernel.exception.LayoutImportException;
 import com.liferay.exportimport.kernel.exception.MissingReferenceException;
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
+import com.liferay.exportimport.kernel.lar.ExportImportProcessCallbackRegistryUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.MissingReference;
@@ -113,9 +117,12 @@ import java.io.Serializable;
 
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.time.StopWatch;
 
@@ -234,6 +241,15 @@ public class PortletImportController implements ImportController {
 				PortletDataContextFactoryUtil.clonePortletDataContext(
 					portletDataContext),
 				userId);
+
+			Map<Long, Long> folderIdPairs =
+				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+					DLFolder.class);
+
+			if (!folderIdPairs.isEmpty()) {
+				ExportImportProcessCallbackRegistryUtil.registerCallback(
+					new CascadeFileEntryTypesCallable(folderIdPairs));
+			}
 		}
 		catch (Throwable t) {
 			ExportImportThreadLocal.setPortletImportInProcess(false);
@@ -1412,6 +1428,51 @@ public class PortletImportController implements ImportController {
 				}
 			}
 		}
+	}
+
+	private class CascadeFileEntryTypesCallable implements Callable<Void> {
+		public CascadeFileEntryTypesCallable(Map<Long, Long> folderIdPairs) {
+			_folderIdPairs = folderIdPairs;
+		}
+
+		@Override
+		public Void call() throws PortalException {
+			_checkedFolders = new HashSet<DLFolder>();
+
+			for(Long newFolderId : _folderIdPairs.values()) {
+				DLFolder newFolder =
+					DLFolderLocalServiceUtil.fetchDLFolder(newFolderId);
+
+				DLFolder rootFolder = getProcessableRootFolder(newFolder);
+
+				if(Validator.isNotNull(rootFolder)) {
+					DLFileEntryTypeLocalServiceUtil.cascadeFileEntryTypes(
+						rootFolder.getUserId(), rootFolder);
+				}
+			}
+
+			return null;
+		}
+
+		protected DLFolder getProcessableRootFolder(DLFolder folder)
+			throws PortalException {
+
+			if(_checkedFolders.contains(folder)) {
+				return null;
+			}
+
+			_checkedFolders.add(folder);
+			DLFolder parentFolder = folder.getParentFolder();
+
+			if(Validator.isNull(parentFolder)) {
+				return folder;
+			}
+
+			return getProcessableRootFolder(parentFolder);
+		}
+
+		private Set<DLFolder> _checkedFolders;
+		private final Map<Long, Long> _folderIdPairs;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
