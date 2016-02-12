@@ -24,8 +24,8 @@ import com.liferay.asset.kernel.model.adapter.StagedAssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetLinkLocalService;
 import com.liferay.document.library.kernel.model.DLFolder;
-import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
-import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.expando.kernel.exception.NoSuchTableException;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoTable;
@@ -1212,6 +1212,20 @@ public class PortletImportController implements ImportController {
 	}
 
 	@Reference(unbind = "-")
+	protected void setDLFileEntryTypeLocalService(
+		DLFileEntryTypeLocalService dlFileEntryTypeLocalService) {
+
+		_dlFileEntryTypeLocalService = dlFileEntryTypeLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setDLFolderLocalService(
+		DLFolderLocalService dlFolderLocalService) {
+
+		_dlFolderLocalService = dlFolderLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setExpandoColumnLocalService(
 		ExpandoColumnLocalService expandoColumnLocalService) {
 
@@ -1437,6 +1451,8 @@ public class PortletImportController implements ImportController {
 	private AssetLinkLocalService _assetLinkLocalService;
 	private final DeletionSystemEventImporter _deletionSystemEventImporter =
 		DeletionSystemEventImporter.getInstance();
+	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
+	private DLFolderLocalService _dlFolderLocalService;
 	private ExpandoColumnLocalService _expandoColumnLocalService;
 	private ExpandoTableLocalService _expandoTableLocalService;
 	private ExportImportLifecycleManager _exportImportLifecycleManager;
@@ -1460,13 +1476,13 @@ public class PortletImportController implements ImportController {
 			_processedFolders = new HashSet<>();
 
 			for (Long newFolderId : _folderIdPairs.values()) {
-				DLFolder newFolder = DLFolderLocalServiceUtil.fetchDLFolder(
+				DLFolder newFolder = _dlFolderLocalService.fetchDLFolder(
 					newFolderId);
 
 				DLFolder rootFolder = getProcessableRootFolder(newFolder);
 
 				if (Validator.isNotNull(rootFolder)) {
-					DLFileEntryTypeLocalServiceUtil.cascadeFileEntryTypes(
+					_dlFileEntryTypeLocalService.cascadeFileEntryTypes(
 						rootFolder.getUserId(), rootFolder);
 				}
 			}
