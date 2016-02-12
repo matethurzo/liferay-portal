@@ -1430,51 +1430,6 @@ public class PortletImportController implements ImportController {
 		}
 	}
 
-	private class CascadeFileEntryTypesCallable implements Callable<Void> {
-		public CascadeFileEntryTypesCallable(Map<Long, Long> folderIdPairs) {
-			_folderIdPairs = folderIdPairs;
-		}
-
-		@Override
-		public Void call() throws PortalException {
-			_checkedFolders = new HashSet<DLFolder>();
-
-			for(Long newFolderId : _folderIdPairs.values()) {
-				DLFolder newFolder =
-					DLFolderLocalServiceUtil.fetchDLFolder(newFolderId);
-
-				DLFolder rootFolder = getProcessableRootFolder(newFolder);
-
-				if(Validator.isNotNull(rootFolder)) {
-					DLFileEntryTypeLocalServiceUtil.cascadeFileEntryTypes(
-						rootFolder.getUserId(), rootFolder);
-				}
-			}
-
-			return null;
-		}
-
-		protected DLFolder getProcessableRootFolder(DLFolder folder)
-			throws PortalException {
-
-			if(_checkedFolders.contains(folder)) {
-				return null;
-			}
-
-			_checkedFolders.add(folder);
-			DLFolder parentFolder = folder.getParentFolder();
-
-			if(Validator.isNull(parentFolder)) {
-				return folder;
-			}
-
-			return getProcessableRootFolder(parentFolder);
-		}
-
-		private Set<DLFolder> _checkedFolders;
-		private final Map<Long, Long> _folderIdPairs;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletImportController.class);
 
@@ -1493,5 +1448,51 @@ public class PortletImportController implements ImportController {
 	private PortletLocalService _portletLocalService;
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
 	private UserLocalService _userLocalService;
+
+	private class CascadeFileEntryTypesCallable implements Callable<Void> {
+
+		public CascadeFileEntryTypesCallable(Map<Long, Long> folderIdPairs) {
+			_folderIdPairs = folderIdPairs;
+		}
+
+		@Override
+		public Void call() throws PortalException {
+			_processedFolders = new HashSet<>();
+
+			for (Long newFolderId : _folderIdPairs.values()) {
+				DLFolder newFolder = DLFolderLocalServiceUtil.fetchDLFolder(
+					newFolderId);
+
+				DLFolder rootFolder = getProcessableRootFolder(newFolder);
+
+				if (Validator.isNotNull(rootFolder)) {
+					DLFileEntryTypeLocalServiceUtil.cascadeFileEntryTypes(
+						rootFolder.getUserId(), rootFolder);
+				}
+			}
+
+			return null;
+		}
+
+		protected DLFolder getProcessableRootFolder(DLFolder folder)
+			throws PortalException {
+
+			if (_processedFolders.contains(folder)) {
+				return null;
+			}
+
+			_processedFolders.add(folder);
+
+			if (Validator.isNull(folder.getParentFolder())) {
+				return folder;
+			}
+
+			return getProcessableRootFolder(parentFolder);
+		}
+
+		private Set<DLFolder> _processedFolders;
+		private final Map<Long, Long> _folderIdPairs;
+
+	}
 
 }
