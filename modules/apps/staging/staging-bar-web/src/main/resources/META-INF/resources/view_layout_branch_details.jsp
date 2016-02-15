@@ -19,7 +19,6 @@
 <%
 LayoutBranch layoutBranch = (LayoutBranch)request.getAttribute("view.jsp-layoutBranch");
 LayoutRevision layoutRevision = (LayoutRevision)request.getAttribute("view.jsp-layoutRevision");
-LayoutSetBranch layoutSetBranch = (LayoutSetBranch)request.getAttribute("view.jsp-layoutSetBranch");
 String stagingFriendlyURL = (String)request.getAttribute("view.jsp-stagingFriendlyURL");
 %>
 
