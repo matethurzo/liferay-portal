@@ -1474,8 +1474,6 @@ public class PortletImportController implements ImportController {
 
 		@Override
 		public Void call() throws PortalException {
-			_processedFolders = new HashSet<>();
-
 			for (Long newFolderId : _folderIds) {
 				DLFolder newFolder = _dlFolderLocalService.fetchDLFolder(
 					newFolderId);
@@ -1494,11 +1492,11 @@ public class PortletImportController implements ImportController {
 		protected DLFolder getProcessableRootFolder(DLFolder folder)
 			throws PortalException {
 
-			if (_processedFolders.contains(folder)) {
+			if (_processedFolderIds.contains(folder.getFolderId())) {
 				return null;
 			}
 
-			_processedFolders.add(folder);
+			_processedFolderIds.add(folder.getFolderId());
 
 			if (Validator.isNull(folder.getParentFolder())) {
 				return folder;
@@ -1507,7 +1505,7 @@ public class PortletImportController implements ImportController {
 			return getProcessableRootFolder(parentFolder);
 		}
 
-		private Set<DLFolder> _processedFolders;
+		private Set<Long> _processedFolderIds = new HashSet<>();
 		private final Collection<Long> _folderIds;
 
 	}
