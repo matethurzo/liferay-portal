@@ -101,6 +101,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -230,13 +231,13 @@ public class LayoutImportController implements ImportController {
 					portletDataContext),
 				userId);
 
-			Map<Long, Long> folderIdPairs =
+			Map<Long, Long> folderIds =
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 					DLFolder.class);
 
-			if (!folderIdPairs.isEmpty()) {
+			if (!folderIds.isEmpty()) {
 				ExportImportProcessCallbackRegistryUtil.registerCallback(
-					new CascadeFileEntryTypesCallable(folderIdPairs));
+					new CascadeFileEntryTypesCallable(folderIds.values()));
 			}
 		}
 		catch (Throwable t) {
@@ -1513,15 +1514,15 @@ public class LayoutImportController implements ImportController {
 
 	private class CascadeFileEntryTypesCallable implements Callable<Void> {
 
-		public CascadeFileEntryTypesCallable(Map<Long, Long> folderIdPairs) {
-			_folderIdPairs = folderIdPairs;
+		public CascadeFileEntryTypesCallable(Collection<Long> folderIds) {
+			_folderIds = folderIds;
 		}
 
 		@Override
 		public Void call() throws PortalException {
 			_processedFolders = new HashSet<>();
 
-			for (Long newFolderId : _folderIdPairs.values()) {
+			for (Long newFolderId : _folderIds) {
 				DLFolder newFolder = _dlFolderLocalService.fetchDLFolder(
 					newFolderId);
 
@@ -1553,7 +1554,7 @@ public class LayoutImportController implements ImportController {
 		}
 
 		private Set<DLFolder> _processedFolders;
-		private final Map<Long, Long> _folderIdPairs;
+		private final Collection<Long> _folderIds;
 
 	}
 
