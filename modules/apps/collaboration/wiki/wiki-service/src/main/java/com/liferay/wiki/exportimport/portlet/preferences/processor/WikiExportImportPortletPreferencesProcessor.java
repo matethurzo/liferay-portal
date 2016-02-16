@@ -14,12 +14,16 @@
 
 package com.liferay.wiki.exportimport.portlet.preferences.processor;
 
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.portlet.preferences.processor.Capability;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessor;
 import com.liferay.exportimport.portlet.preferences.processor.capability.ReferencedStagedModelImporterCapability;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portlet.display.template.exportimport.portlet.preferences.processor.PortletDisplayTemplateExportCapability;
@@ -68,26 +72,85 @@ public class WikiExportImportPortletPreferencesProcessor
 
 		String portletId = portletDataContext.getPortletId();
 
+		Group scopeGroup = GroupLocalServiceUtil.fetchGroup(
+			portletDataContext.getScopeGroupId());
+
+		Group liveGroup = scopeGroup.getLiveGroup();
+
+		boolean isPartialStaging = false;
+
+		if (ExportImportThreadLocal.isStagingInProcess() &&
+			(liveGroup != null) && !liveGroup.isStagedPortlet(portletId)) {
+
+			isPartialStaging = true;
+		}
+
 		String hiddenNodeNames = portletPreferences.getValue(
 			"hiddenNodes", null);
 
 		for (String hiddenNodeName : StringUtil.split(hiddenNodeNames)) {
-			WikiNode wikiNode = _wikiNodeLocalService.fetchNode(
-				portletDataContext.getScopeGroupId(), hiddenNodeName);
+			WikiNode hiddenWikiNode = null;
+
+			try {
+				hiddenWikiNode = _wikiNodeLocalService.getNode(
+					portletDataContext.getScopeGroupId(), hiddenNodeName);
+			}
+			catch (PortalException pe1) {
+				if (isPartialStaging) {
+					try {
+						_wikiNodeLocalService.getNode(
+							liveGroup.getGroupId(), hiddenNodeName);
+					} catch (PortalException pe2) {
+						throw new PortletDataException(
+							"Unable to find wiki node " + hiddenNodeName +
+								" for preference of portlet " + portletId, pe2);
+					}
+
+					continue;
+				}
+				else {
+					throw new PortletDataException(
+						"Unable to find wiki node " + hiddenNodeName +
+							" for preference of portlet " + portletId, pe1);
+				}
+			}
 
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, portletId, wikiNode);
+				portletDataContext, portletId, hiddenWikiNode);
 		}
 
 		String visibleNodeNames = portletPreferences.getValue(
 			"visibleNodes", null);
 
 		for (String visibleNodeName : StringUtil.split(visibleNodeNames)) {
-			WikiNode wikiNode = _wikiNodeLocalService.fetchNode(
-				portletDataContext.getScopeGroupId(), visibleNodeName);
+			WikiNode visibleWikiNode = null;
+
+			try {
+				visibleWikiNode = _wikiNodeLocalService.getNode(
+					portletDataContext.getScopeGroupId(), visibleNodeName);
+			}
+			catch (PortalException pe1) {
+				if (isPartialStaging) {
+					try {
+						_wikiNodeLocalService.getNode(
+							liveGroup.getGroupId(), visibleNodeName);
+					} catch (PortalException pe2) {
+						throw new PortletDataException(
+							"Unable to find wiki node " + visibleNodeName +
+								" for preference of portlet " + portletId, pe2);
+					}
+
+					continue;
+				}
+				else {
+					throw new PortletDataException(
+						"Unable to find wiki node " + visibleNodeName +
+							" for preference of portlet " + portletId, pe1);
+				}
+			}
 
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, portletId, wikiNode);
+				portletDataContext, portletId, visibleWikiNode);
 		}
 
 		return portletPreferences;
