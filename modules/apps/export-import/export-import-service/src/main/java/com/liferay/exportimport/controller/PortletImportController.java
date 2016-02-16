@@ -24,8 +24,6 @@ import com.liferay.asset.kernel.model.adapter.StagedAssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetLinkLocalService;
 import com.liferay.document.library.kernel.model.DLFolder;
-import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
-import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.expando.kernel.exception.NoSuchTableException;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoTable;
@@ -58,6 +56,7 @@ import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
 import com.liferay.exportimport.lar.DeletionSystemEventImporter;
 import com.liferay.exportimport.lar.LayoutCache;
 import com.liferay.exportimport.lar.PermissionImporter;
+import com.liferay.exportimport.lifecycle.CascadeFileEntryTypesCallable;
 import com.liferay.exportimport.portlet.preferences.processor.Capability;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessor;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessorRegistryUtil;
@@ -116,14 +115,10 @@ import java.io.File;
 import java.io.Serializable;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.time.StopWatch;
 
@@ -1213,20 +1208,6 @@ public class PortletImportController implements ImportController {
 	}
 
 	@Reference(unbind = "-")
-	protected void setDLFileEntryTypeLocalService(
-		DLFileEntryTypeLocalService dlFileEntryTypeLocalService) {
-
-		_dlFileEntryTypeLocalService = dlFileEntryTypeLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setDLFolderLocalService(
-		DLFolderLocalService dlFolderLocalService) {
-
-		_dlFolderLocalService = dlFolderLocalService;
-	}
-
-	@Reference(unbind = "-")
 	protected void setExpandoColumnLocalService(
 		ExpandoColumnLocalService expandoColumnLocalService) {
 
@@ -1452,8 +1433,6 @@ public class PortletImportController implements ImportController {
 	private AssetLinkLocalService _assetLinkLocalService;
 	private final DeletionSystemEventImporter _deletionSystemEventImporter =
 		DeletionSystemEventImporter.getInstance();
-	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
-	private DLFolderLocalService _dlFolderLocalService;
 	private ExpandoColumnLocalService _expandoColumnLocalService;
 	private ExpandoTableLocalService _expandoTableLocalService;
 	private ExportImportLifecycleManager _exportImportLifecycleManager;
@@ -1465,49 +1444,5 @@ public class PortletImportController implements ImportController {
 	private PortletLocalService _portletLocalService;
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
 	private UserLocalService _userLocalService;
-
-	private class CascadeFileEntryTypesCallable implements Callable<Void> {
-
-		public CascadeFileEntryTypesCallable(Collection<Long> folderIds) {
-			_folderIds = folderIds;
-		}
-
-		@Override
-		public Void call() throws PortalException {
-			for (Long newFolderId : _folderIds) {
-				DLFolder newFolder = _dlFolderLocalService.fetchDLFolder(
-					newFolderId);
-
-				DLFolder rootFolder = getProcessableRootFolder(newFolder);
-
-				if (Validator.isNotNull(rootFolder)) {
-					_dlFileEntryTypeLocalService.cascadeFileEntryTypes(
-						rootFolder.getUserId(), rootFolder);
-				}
-			}
-
-			return null;
-		}
-
-		protected DLFolder getProcessableRootFolder(DLFolder folder)
-			throws PortalException {
-
-			if (_processedFolderIds.contains(folder.getFolderId())) {
-				return null;
-			}
-
-			_processedFolderIds.add(folder.getFolderId());
-
-			if (Validator.isNull(folder.getParentFolder())) {
-				return folder;
-			}
-
-			return getProcessableRootFolder(parentFolder);
-		}
-
-		private Set<Long> _processedFolderIds = new HashSet<>();
-		private final Collection<Long> _folderIds;
-
-	}
 
 }

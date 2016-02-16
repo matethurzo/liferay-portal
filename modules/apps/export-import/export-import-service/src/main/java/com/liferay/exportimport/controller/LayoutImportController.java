@@ -24,8 +24,6 @@ import static com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleCon
 import static com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleConstants.PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS;
 
 import com.liferay.document.library.kernel.model.DLFolder;
-import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalService;
-import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.exportimport.kernel.controller.ExportImportController;
 import com.liferay.exportimport.kernel.controller.ImportController;
 import com.liferay.exportimport.kernel.exception.LARFileException;
@@ -51,6 +49,7 @@ import com.liferay.exportimport.lar.DeletionSystemEventImporter;
 import com.liferay.exportimport.lar.LayoutCache;
 import com.liferay.exportimport.lar.PermissionImporter;
 import com.liferay.exportimport.lar.ThemeImporter;
+import com.liferay.exportimport.lifecycle.CascadeFileEntryTypesCallable;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskThreadLocal;
 import com.liferay.portal.kernel.exception.LayoutPrototypeException;
 import com.liferay.portal.kernel.exception.LocaleException;
@@ -101,14 +100,12 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.time.StopWatch;
 
@@ -1046,20 +1043,6 @@ public class LayoutImportController implements ImportController {
 	}
 
 	@Reference(unbind = "-")
-	protected void setDLFileEntryTypeLocalService(
-		DLFileEntryTypeLocalService dlFileEntryTypeLocalService) {
-
-		_dlFileEntryTypeLocalService = dlFileEntryTypeLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setDLFolderLocalService(
-		DLFolderLocalService dlFolderLocalService) {
-
-		_dlFolderLocalService = dlFolderLocalService;
-	}
-
-	@Reference(unbind = "-")
 	protected void setExportImportLifecycleManager(
 		ExportImportLifecycleManager exportImportLifecycleManager) {
 
@@ -1498,8 +1481,6 @@ public class LayoutImportController implements ImportController {
 
 	private final DeletionSystemEventImporter _deletionSystemEventImporter =
 		DeletionSystemEventImporter.getInstance();
-	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
-	private DLFolderLocalService _dlFolderLocalService;
 	private ExportImportLifecycleManager _exportImportLifecycleManager;
 	private GroupLocalService _groupLocalService;
 	private LayoutLocalService _layoutLocalService;
@@ -1511,49 +1492,5 @@ public class LayoutImportController implements ImportController {
 	private PortletImportController _portletImportController;
 	private PortletLocalService _portletLocalService;
 	private final ThemeImporter _themeImporter = ThemeImporter.getInstance();
-
-	private class CascadeFileEntryTypesCallable implements Callable<Void> {
-
-		public CascadeFileEntryTypesCallable(Collection<Long> folderIds) {
-			_folderIds = folderIds;
-		}
-
-		@Override
-		public Void call() throws PortalException {
-			for (Long newFolderId : _folderIds) {
-				DLFolder newFolder = _dlFolderLocalService.fetchDLFolder(
-					newFolderId);
-
-				DLFolder rootFolder = getProcessableRootFolder(newFolder);
-
-				if (Validator.isNotNull(rootFolder)) {
-					_dlFileEntryTypeLocalService.cascadeFileEntryTypes(
-						rootFolder.getUserId(), rootFolder);
-				}
-			}
-
-			return null;
-		}
-
-		protected DLFolder getProcessableRootFolder(DLFolder folder)
-			throws PortalException {
-
-			if (_processedFolderIds.contains(folder.getFolderId())) {
-				return null;
-			}
-
-			_processedFolderIds.add(folder.getFolderId());
-
-			if (Validator.isNull(folder.getParentFolder())) {
-				return folder;
-			}
-
-			return getProcessableRootFolder(parentFolder);
-		}
-
-		private Set<Long> _processedFolderIds = new HashSet<>();
-		private final Collection<Long> _folderIds;
-
-	}
 
 }
