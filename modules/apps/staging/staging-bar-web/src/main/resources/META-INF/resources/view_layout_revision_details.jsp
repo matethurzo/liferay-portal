@@ -269,7 +269,7 @@ request.setAttribute("view_layout_revision_details.jsp-layoutRevision", layoutRe
 	<liferay-ui:icon-help message="page-variations-help" />
 </liferay-util:buffer>
 
-<liferay-util:buffer var="sitePagesVariationHelpIcon">
+<liferay-util:buffer var="sitePagesVariationsHelpIcon">
 	<liferay-ui:icon-help message="pages-variations-help" />
 </liferay-util:buffer>
 
@@ -302,7 +302,7 @@ request.setAttribute("view_layout_revision_details.jsp-layoutRevision", layoutRe
 				},
 				id: 'sitePagesVariationDialog',
 
-				title: '<liferay-ui:message arguments="<%= sitePagesVariationHelpIcon %>" key="site-pages-variation-x" />',
+				title: '<liferay-ui:message arguments="<%= sitePagesVariationsHelpIcon %>" key="site-pages-variation-x" />',
 
 				<liferay-portlet:renderURL var="layoutSetBranchesURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 					<portlet:param name="mvcRenderCommandName" value="viewLayoutSetBranches" />
