@@ -19,7 +19,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.blogs.kernel.model.BlogsEntry;
-import com.liferay.document.library.kernel.exception.DuplicateFileException;
+import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
@@ -734,7 +734,7 @@ public class FileSystemImporter extends BaseImporter {
 					StringPool.BLANK, StringPool.BLANK, inputStream, length,
 					serviceContext);
 			}
-			catch (DuplicateFileException dfe) {
+			catch (DuplicateFileEntryException dfee) {
 				fileEntry = DLAppLocalServiceUtil.getFileEntry(
 					groupId, parentFolderId, title);
 
