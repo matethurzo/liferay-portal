@@ -28,6 +28,7 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
+import com.liferay.dynamic.data.mapping.io.DDMFormJSONDeserializerUtil;
 import com.liferay.dynamic.data.mapping.io.DDMFormXSDDeserializerUtil;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
@@ -415,6 +416,8 @@ public class FileSystemImporter extends BaseImporter {
 			InputStream inputStream)
 		throws Exception {
 
+		String language = getDDMStructureLanguage(fileName);
+
 		fileName = FileUtil.stripExtension(fileName);
 
 		String name = getName(fileName);
@@ -439,15 +442,22 @@ public class FileSystemImporter extends BaseImporter {
 			}
 		}
 
-		String xsd = StringUtil.read(inputStream);
+		String content = StringUtil.read(inputStream);
 
-		if (isJournalStructureXSD(xsd)) {
-			xsd = journalConverter.getDDMXSD(xsd);
+		DDMForm ddmForm = null;
+
+		if (language.equals(TemplateConstants.LANG_TYPE_XML)) {
+			if (isJournalStructureXSD(content)) {
+				content = journalConverter.getDDMXSD(content);
+			}
+
+			DDMXMLUtil.validateXML(content);
+
+			ddmForm = DDMFormXSDDeserializerUtil.deserialize(content);
 		}
-
-		DDMXMLUtil.validateXML(xsd);
-
-		DDMForm ddmForm = DDMFormXSDDeserializerUtil.deserialize(xsd);
+		else {
+			ddmForm = DDMFormJSONDeserializerUtil.deserialize(content);
+		}
 
 		DDMFormLayout ddmFormLayout = DDMUtil.getDefaultDDMFormLayout(ddmForm);
 
@@ -1339,6 +1349,18 @@ public class FileSystemImporter extends BaseImporter {
 		finally {
 			IndexWriterHelperUtil.setIndexReadOnly(indexReadOnly);
 		}
+	}
+
+	protected String getDDMStructureLanguage(String fileName) {
+		String extension = FileUtil.getExtension(fileName);
+
+		if (extension.equals(TemplateConstants.LANG_TYPE_JSON) ||
+			extension.equals(TemplateConstants.LANG_TYPE_XML)) {
+
+			return extension;
+		}
+
+		return TemplateConstants.LANG_TYPE_XML;
 	}
 
 	protected String getDDMTemplateLanguage(String fileName) {
