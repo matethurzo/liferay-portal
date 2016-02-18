@@ -611,7 +611,7 @@ public class FileSystemImporter extends BaseImporter {
 
 		String name = getName(fileName);
 
-		String xsl = StringUtil.read(inputStream);
+		String script = StringUtil.read(inputStream);
 
 		setServiceContext(fileName);
 
@@ -648,7 +648,7 @@ public class FileSystemImporter extends BaseImporter {
 					PortalUtil.getClassNameId(JournalArticle.class),
 					getKey(fileName), getMap(name), null,
 					DDMTemplateConstants.TEMPLATE_TYPE_DISPLAY, null, language,
-					replaceFileEntryURL(xsl), false, false, null, null,
+					replaceFileEntryURL(script), false, false, null, null,
 					serviceContext);
 			}
 			else {
@@ -656,7 +656,7 @@ public class FileSystemImporter extends BaseImporter {
 					userId, ddmTemplate.getTemplateId(),
 					PortalUtil.getClassNameId(DDMStructure.class), getMap(name),
 					null, DDMTemplateConstants.TEMPLATE_TYPE_DISPLAY, null,
-					language, replaceFileEntryURL(xsl), false, false, null,
+					language, replaceFileEntryURL(script), false, false, null,
 					null, serviceContext);
 			}
 		}
