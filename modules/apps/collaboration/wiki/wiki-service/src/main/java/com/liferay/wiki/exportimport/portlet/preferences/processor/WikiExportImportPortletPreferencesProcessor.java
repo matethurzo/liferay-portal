@@ -23,7 +23,7 @@ import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortle
 import com.liferay.exportimport.portlet.preferences.processor.capability.ReferencedStagedModelImporterCapability;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portlet.display.template.exportimport.portlet.preferences.processor.PortletDisplayTemplateExportCapability;
@@ -72,7 +72,7 @@ public class WikiExportImportPortletPreferencesProcessor
 
 		String portletId = portletDataContext.getPortletId();
 
-		Group scopeGroup = GroupLocalServiceUtil.fetchGroup(
+		Group scopeGroup = _groupLocalService.fetchGroup(
 			portletDataContext.getScopeGroupId());
 
 		Group liveGroup = scopeGroup.getLiveGroup();
@@ -100,10 +100,12 @@ public class WikiExportImportPortletPreferencesProcessor
 					try {
 						_wikiNodeLocalService.getNode(
 							liveGroup.getGroupId(), hiddenNodeName);
-					} catch (PortalException pe2) {
+					}
+					catch (PortalException pe2) {
 						throw new PortletDataException(
 							"Unable to find wiki node " + hiddenNodeName +
-								" for preference of portlet " + portletId, pe2);
+								" for preference of portlet " + portletId,
+							pe2);
 					}
 
 					continue;
@@ -111,7 +113,8 @@ public class WikiExportImportPortletPreferencesProcessor
 				else {
 					throw new PortletDataException(
 						"Unable to find wiki node " + hiddenNodeName +
-							" for preference of portlet " + portletId, pe1);
+							" for preference of portlet " + portletId,
+						pe1);
 				}
 			}
 
@@ -134,10 +137,12 @@ public class WikiExportImportPortletPreferencesProcessor
 					try {
 						_wikiNodeLocalService.getNode(
 							liveGroup.getGroupId(), visibleNodeName);
-					} catch (PortalException pe2) {
+					}
+					catch (PortalException pe2) {
 						throw new PortletDataException(
 							"Unable to find wiki node " + visibleNodeName +
-								" for preference of portlet " + portletId, pe2);
+								" for preference of portlet " + portletId,
+							pe2);
 					}
 
 					continue;
@@ -145,7 +150,8 @@ public class WikiExportImportPortletPreferencesProcessor
 				else {
 					throw new PortletDataException(
 						"Unable to find wiki node " + visibleNodeName +
-							" for preference of portlet " + portletId, pe1);
+							" for preference of portlet " + portletId,
+						pe1);
 				}
 			}
 
@@ -163,6 +169,11 @@ public class WikiExportImportPortletPreferencesProcessor
 		throws PortletDataException {
 
 		return portletPreferences;
+	}
+
+	@Reference(unbind = "-")
+	protected void setGroupLocalService(GroupLocalService groupLocalService) {
+		_groupLocalService = groupLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -199,6 +210,7 @@ public class WikiExportImportPortletPreferencesProcessor
 		_wikiNodeLocalService = wikiNodeLocalService;
 	}
 
+	private GroupLocalService _groupLocalService;
 	private PortletDisplayTemplateExportCapability
 		_portletDisplayTemplateExportCapability;
 	private PortletDisplayTemplateImportCapability
