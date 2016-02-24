@@ -1313,6 +1313,15 @@ public class StagingImpl implements Staging {
 			long userId, ExportImportConfiguration exportImportConfiguration)
 		throws PortalException {
 
+		Map<String, Serializable> settingsMap =
+			exportImportConfiguration.getSettingsMap();
+
+		Map<String, String[]> parameterMap =
+			(Map<String, String[]>)settingsMap.get("parameterMap");
+
+		String backgroundTaskName = MapUtil.getString(
+			parameterMap, "name", exportImportConfiguration.getName());
+
 		Map<String, Serializable> taskContextMap = new HashMap<>();
 
 		taskContextMap.put(
@@ -1322,7 +1331,7 @@ public class StagingImpl implements Staging {
 		BackgroundTask backgroundTask =
 			BackgroundTaskManagerUtil.addBackgroundTask(
 				userId, exportImportConfiguration.getGroupId(),
-				exportImportConfiguration.getName(),
+				backgroundTaskName,
 				BackgroundTaskExecutorNames.
 					LAYOUT_STAGING_BACKGROUND_TASK_EXECUTOR, taskContextMap,
 				new ServiceContext());
@@ -1999,6 +2008,15 @@ public class StagingImpl implements Staging {
 			boolean secureConnection, boolean remotePrivateLayout)
 		throws PortalException {
 
+		Map<String, Serializable> settingsMap =
+			exportImportConfiguration.getSettingsMap();
+
+		Map<String, String[]> parameterMap =
+			(Map<String, String[]>)settingsMap.get("parameterMap");
+
+		String backgroundTaskName = MapUtil.getString(
+			parameterMap, "name", exportImportConfiguration.getName());
+
 		Map<String, Serializable> taskContextMap = new HashMap<>();
 
 		taskContextMap.put(
@@ -2023,7 +2041,7 @@ public class StagingImpl implements Staging {
 		BackgroundTask backgroundTask =
 			BackgroundTaskManagerUtil.addBackgroundTask(
 				user.getUserId(), exportImportConfiguration.getGroupId(),
-				exportImportConfiguration.getName(),
+				backgroundTaskName,
 				BackgroundTaskExecutorNames.
 					LAYOUT_REMOTE_STAGING_BACKGROUND_TASK_EXECUTOR,
 				taskContextMap, new ServiceContext());
