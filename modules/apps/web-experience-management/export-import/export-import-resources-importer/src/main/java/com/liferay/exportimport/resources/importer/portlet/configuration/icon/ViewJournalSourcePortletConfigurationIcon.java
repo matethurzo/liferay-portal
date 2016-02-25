@@ -15,7 +15,6 @@
 package com.liferay.exportimport.resources.importer.portlet.configuration.icon;
 
 import com.liferay.journal.constants.JournalPortletKeys;
-import com.liferay.journal.exception.NoSuchArticleException;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleConstants;
 import com.liferay.journal.service.JournalArticleLocalService;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -151,7 +149,6 @@ public class ViewJournalSourcePortletConfigurationIcon
 	}
 
 	protected JournalArticle getArticle(HttpServletRequest request) {
-
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
