@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -73,11 +74,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 
 		JournalArticle article = null;
 
-		try {
-			article = getArticle(portletRequest);
-		}
-		catch (PortalException pe) {
-		}
+		article = getArticle(portletRequest);
 
 		if (article == null) {
 			return StringPool.BLANK;
@@ -153,8 +150,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 		return false;
 	}
 
-	protected JournalArticle getArticle(HttpServletRequest request)
-		throws PortalException {
+	protected JournalArticle getArticle(HttpServletRequest request) {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 			WebKeys.THEME_DISPLAY);
@@ -170,7 +166,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 		JournalArticle article = null;
 
 		if (Validator.isNotNull(articleId)) {
-			article = _journalArticleLocalService.getLatestArticle(
+			article = _journalArticleLocalService.fetchLatestArticle(
 				groupId, articleId, status);
 		}
 		else if ((classNameId > 0) &&
@@ -182,7 +178,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 				article = _journalArticleLocalService.getLatestArticle(
 					groupId, className, classPK);
 			}
-			catch (NoSuchArticleException nsae) {
+			catch (PortalException pe) {
 				return null;
 			}
 		}
@@ -190,9 +186,7 @@ public class ViewJournalSourcePortletConfigurationIcon
 		return article;
 	}
 
-	protected JournalArticle getArticle(PortletRequest request)
-		throws PortalException {
-
+	protected JournalArticle getArticle(PortletRequest request) {
 		HttpServletRequest httpServletRequest =
 			PortalUtil.getHttpServletRequest(request);
 
