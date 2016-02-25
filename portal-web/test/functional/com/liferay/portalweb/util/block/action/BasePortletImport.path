@@ -44,7 +44,7 @@
 	<td></td>
 </tr>
 <tr>
-	<td>DELETIONS</td>
+	<td>DELETE_PORTLET_DATA_CHECKBOX</td>
 	<td>//input[contains(@id,'DELETE_PORTLET_DATA')]</td>
 	<td></td>
 </tr>

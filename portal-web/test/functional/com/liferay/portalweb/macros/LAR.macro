@@ -312,7 +312,7 @@
 			<then>
 				<execute function="Click" locator1="BasePortletImport#DELETIONS_TITLE" />
 
-				<execute function="Check#checkToggleSwitch" locator1="BasePortletImport#DELETIONS" />
+				<execute function="Check#checkToggleSwitch" locator1="BasePortletImport#DELETE_PORTLET_DATA_CHECKBOX" />
 			</then>
 		</if>
 
