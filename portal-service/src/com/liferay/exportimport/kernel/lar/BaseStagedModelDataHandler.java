@@ -614,6 +614,10 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 			portletDataContext.getReferenceElements(
 				stagedModel, AssetCategory.class);
 
+		if (referenceElements.isEmpty()) {
+			return;
+		}
+
 		List<Long> assetCategoryIds = new ArrayList<>(referenceElements.size());
 
 		for (Element referenceElement : referenceElements) {
@@ -637,10 +641,6 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 			importedAssetCategoryIds[i] = MapUtil.getLong(
 				assetCategoryIdsMap, categoryId, categoryId);
-		}
-
-		if (importedAssetCategoryIds.length == 0) {
-			return;
 		}
 
 		portletDataContext.addAssetCategories(
