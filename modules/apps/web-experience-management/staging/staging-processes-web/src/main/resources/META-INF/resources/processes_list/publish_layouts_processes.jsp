@@ -100,7 +100,7 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 			<%
 			String backgroundTaskName = backgroundTask.getName();
 
-			if (backgroundTask.getGroupId() == liveGroupId) {
+			if (localPublishing && (backgroundTask.getGroupId() == liveGroupId)) {
 				backgroundTaskName = LanguageUtil.get(request, "initial-publication");
 			}
 
