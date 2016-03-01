@@ -2580,6 +2580,15 @@ public class StagingImpl implements Staging {
 			Group remoteGroup = GroupServiceHttp.getGroup(
 				httpPrincipal, remoteGroupId);
 
+			if (group.equals(remoteGroup)) {
+				RemoteExportException ree = new RemoteExportException(
+					RemoteExportException.SAME_GROUP);
+
+				ree.setGroupId(remoteGroupId);
+
+				throw ree;
+			}
+
 			if (group.isCompany() ^
 				isCompanyGroup(httpPrincipal, remoteGroup)) {
 
