@@ -130,7 +130,9 @@ else {
 			<c:otherwise>
 				<aui:model-context bean="<%= layoutRevision %>" model="<%= LayoutRevision.class %>" />
 
-				<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= layoutRevision.getStatus() %>" statusMessage='<%= layoutRevision.isHead() ? "ready-for-publication" : null %>' />
+				<span class="staging-bar-workflow-text">
+					<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= layoutRevision.getStatus() %>" statusMessage='<%= layoutRevision.isHead() ? "ready-for-publication" : null %>' />
+				</span>
 
 				<aui:script>
 					AUI.$('.layout-revision-info .taglib-workflow-status').on(
