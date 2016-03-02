@@ -28,6 +28,7 @@ import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
+import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -94,6 +95,14 @@ public class LayoutStagingBackgroundTaskExecutor
 
 		try {
 			ExportImportThreadLocal.setLayoutStagingInProcess(true);
+
+			Group targetGroup = GroupLocalServiceUtil.fetchGroup(targetGroupId);
+
+			if (targetGroup == null) {
+				throw new NoSuchGroupException(
+					"Target group does not exists with the primary key " +
+						targetGroupId);
+			}
 
 			Group sourceGroup = GroupLocalServiceUtil.getGroup(sourceGroupId);
 
