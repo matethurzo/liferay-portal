@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Brian Wing Shun Chan
@@ -227,7 +228,11 @@ public class PermissionImporter {
 			Element permissionsElement, boolean portletActions)
 		throws Exception {
 
-		Map<Long, String[]> roleIdsToActionIds = new HashMap<>();
+		Map<Long, Set<String>> existingRoleIdsToActionIds =
+			ExportImportPermissionUtil.getRoleIdsToActionIds(
+				companyId, resourceName, resourcePrimKey);
+
+		Map<Long, String[]> importedRoleIdsToActionIds = new HashMap<>();
 
 		List<Element> roleElements = permissionsElement.elements("role");
 
@@ -253,10 +258,14 @@ public class PermissionImporter {
 
 			List<String> actions = getActions(roleElement);
 
-			roleIdsToActionIds.put(
+			importedRoleIdsToActionIds.put(
 				role.getRoleId(), actions.toArray(new String[actions.size()]));
 		}
 
+		Map<Long, String[]> roleIdsToActionIds =
+			ExportImportPermissionUtil.
+				mergeImportedPermissionsWithExistingPermissions(
+					existingRoleIdsToActionIds, importedRoleIdsToActionIds);
 
 		ExportImportPermissionUtil.updateResourcePermissions(
 			companyId, groupId, resourceName, resourcePrimKey,

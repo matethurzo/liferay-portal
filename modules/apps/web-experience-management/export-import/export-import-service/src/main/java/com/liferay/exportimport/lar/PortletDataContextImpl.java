@@ -1452,7 +1452,11 @@ public class PortletDataContextImpl implements PortletDataContext {
 			return;
 		}
 
-		Map<Long, String[]> roleIdsToActionIds = new HashMap<>();
+		Map<Long, Set<String>> existingRoleIdsToActionIds =
+			ExportImportPermissionUtil.getRoleIdsToActionIds(
+				_companyId, resourceName, resourcePK);
+
+		Map<Long, String[]> importedRoleIdsToActionIds = new HashMap<>();
 
 		for (KeyValuePair permission : permissions) {
 			String roleName = permission.getKey();
@@ -1503,9 +1507,13 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 			String[] actionIds = StringUtil.split(permission.getValue());
 
-			roleIdsToActionIds.put(role.getRoleId(), actionIds);
+			importedRoleIdsToActionIds.put(role.getRoleId(), actionIds);
 		}
 
+		Map<Long, String[]> roleIdsToActionIds =
+			ExportImportPermissionUtil.
+				mergeImportedPermissionsWithExistingPermissions(
+					existingRoleIdsToActionIds, importedRoleIdsToActionIds);
 
 		ExportImportPermissionUtil.updateResourcePermissions(
 			_companyId, _groupId, resourceName, newResourcePK,
