@@ -94,7 +94,7 @@ public class PermissionImporter {
 
 			importPermissions(
 				layoutCache, companyId, groupId, userId, layout, resourceName,
-				resourcePrimKey, permissionsElement, true);
+				resourcePrimKey, permissionsElement);
 		}
 	}
 
@@ -225,7 +225,7 @@ public class PermissionImporter {
 	protected void importPermissions(
 			LayoutCache layoutCache, long companyId, long groupId, long userId,
 			Layout layout, String resourceName, String resourcePrimKey,
-			Element permissionsElement, boolean portletActions)
+			Element permissionsElement)
 		throws Exception {
 
 		Map<Long, Set<String>> existingRoleIdsToActionIds =
