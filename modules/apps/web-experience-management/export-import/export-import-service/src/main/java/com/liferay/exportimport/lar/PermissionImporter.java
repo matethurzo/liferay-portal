@@ -17,16 +17,15 @@ package com.liferay.exportimport.lar;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
+import com.liferay.exportimport.util.ExportImportPermissionUtil;
 import com.liferay.portal.kernel.exception.NoSuchTeamException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.PortletConstants;
-import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.Team;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.TeamLocalServiceUtil;
@@ -152,8 +151,9 @@ public class PermissionImporter {
 
 		Role role = null;
 
-		if (name.startsWith(PermissionExporter.ROLE_TEAM_PREFIX)) {
-			name = name.substring(PermissionExporter.ROLE_TEAM_PREFIX.length());
+		if (ExportImportPermissionUtil.isTeamRoleName(name)) {
+			name = name.substring(
+				ExportImportPermissionUtil.ROLE_TEAM_PREFIX.length());
 
 			String description = roleElement.attributeValue("description");
 
@@ -257,13 +257,10 @@ public class PermissionImporter {
 				role.getRoleId(), actions.toArray(new String[actions.size()]));
 		}
 
-		if (roleIdsToActionIds.isEmpty()) {
-			return;
-		}
 
-		ResourcePermissionLocalServiceUtil.setResourcePermissions(
-			companyId, resourceName, ResourceConstants.SCOPE_INDIVIDUAL,
-			resourcePrimKey, roleIdsToActionIds);
+		ExportImportPermissionUtil.updateResourcePermissions(
+			companyId, groupId, resourceName, resourcePrimKey,
+			roleIdsToActionIds);
 	}
 
 	private PermissionImporter() {
