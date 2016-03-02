@@ -26,7 +26,9 @@ import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
 import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -45,6 +47,7 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import java.io.File;
 import java.io.Serializable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -171,6 +174,19 @@ public class LayoutStagingBackgroundTaskExecutor
 
 				StagingLocalServiceUtil.disableStaging(
 					sourceGroup, serviceContext);
+
+				List<BackgroundTask> pendingTasks =
+					BackgroundTaskManagerUtil.getBackgroundTasks(
+						sourceGroupId,
+						LayoutStagingBackgroundTaskExecutor.class.getName(),
+						BackgroundTaskConstants.STATUS_QUEUED);
+
+				for (BackgroundTask pendingTask : pendingTasks) {
+					BackgroundTaskManagerUtil.amendBackgroundTask(
+						pendingTask.getBackgroundTaskId(), null,
+						BackgroundTaskConstants.STATUS_CANCELLED,
+						new ServiceContext());
+				}
 			}
 
 			deleteTempLarOnFailure(file);
