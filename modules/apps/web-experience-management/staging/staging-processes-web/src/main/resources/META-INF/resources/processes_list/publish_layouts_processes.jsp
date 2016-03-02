@@ -204,8 +204,14 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 							</c:if>
 						</c:if>
 
+						<h6 class="background-task-status-row background-task-status-<%= BackgroundTaskConstants.getStatusLabel(backgroundTask.getStatus()) %> <%= BackgroundTaskConstants.getStatusCssClass(backgroundTask.getStatus()) %>">
+							<liferay-ui:message key="<%= backgroundTask.getStatusLabel() %>" />
+						</h6>
+
 						<c:if test="<%= Validator.isNotNull(backgroundTask.getStatusMessage()) %>">
-							<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= backgroundTask.getBackgroundTaskId() %>', title: $('#<portlet:namespace />backgroundTaskName<%= backgroundTask.getBackgroundTaskId() %>').text()}); void(0);"><liferay-ui:message key="see-more-details" /></a>
+							<h6 class="background-task-status-row">
+								<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= backgroundTask.getBackgroundTaskId() %>', title: $('#<portlet:namespace />backgroundTaskName<%= backgroundTask.getBackgroundTaskId() %>').text()}); void(0);"><liferay-ui:message key="see-more-details" /></a>
+							</h6>
 
 							<div class="background-task-status-message hide" id="<portlet:namespace />backgroundTaskStatusMessage<%= backgroundTask.getBackgroundTaskId() %>">
 								<liferay-util:include page="/processes_list/publish_process_message_task_details.jsp" servletContext="<%= application %>">
@@ -213,10 +219,6 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 								</liferay-util:include>
 							</div>
 						</c:if>
-
-						<h6 class="background-task-status-<%= BackgroundTaskConstants.getStatusLabel(backgroundTask.getStatus()) %> <%= BackgroundTaskConstants.getStatusCssClass(backgroundTask.getStatus()) %>">
-							<liferay-ui:message key="<%= backgroundTask.getStatusLabel() %>" />
-						</h6>
 					</liferay-ui:search-container-column-text>
 				</c:when>
 				<c:when test='<%= displayStyle.equals("list") %>'>
