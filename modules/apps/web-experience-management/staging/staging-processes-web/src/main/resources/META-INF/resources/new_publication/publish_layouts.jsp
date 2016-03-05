@@ -274,6 +274,11 @@ renderResponse.setTitle(!configuredPublish ? LanguageUtil.get(request, "new-publ
 				</aui:fieldset>
 
 				<c:if test="<%= !group.isCompany() %>">
+
+					<%
+					request.setAttribute("select_pages.jsp-parameterMap", parameterMap);
+					%>
+
 					<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="pages">
 						<liferay-util:include page="/new_publication/select_pages.jsp" servletContext="<%= application %>">
 							<liferay-util:param name="<%= Constants.CMD %>" value="<%= cmd %>" />
