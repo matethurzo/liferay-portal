@@ -28,19 +28,13 @@ ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_
 ExportImportConfiguration exportImportConfiguration = (ExportImportConfiguration)row.getObject();
 %>
 
-<portlet:renderURL var="publishRedirectURL">
+<portlet:renderURL var="publishByExportImportConfigurationURL">
 	<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
-	<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.PUBLISH_TO_LIVE %>" />
+	<portlet:param name="<%= Constants.CMD %>" value="<%= localPublishing ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
 	<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
 	<portlet:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
 	<portlet:param name="layoutSetBranchName" value="<%= layoutSetBranchName %>" />
 	<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
-</portlet:renderURL>
-
-<portlet:renderURL var="publishByExportImportConfigurationURL">
-	<portlet:param name="mvcRenderCommandName" value="confirmation" />
-	<portlet:param name="<%= Constants.CMD %>" value="<%= localPublishing ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
-	<portlet:param name="redirect" value="<%= publishRedirectURL %>" />
 	<portlet:param name="exportImportConfigurationId" value="<%= String.valueOf(exportImportConfiguration.getExportImportConfigurationId()) %>" />
 </portlet:renderURL>
 
