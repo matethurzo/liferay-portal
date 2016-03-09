@@ -31,8 +31,6 @@ String closeRedirect = ParamUtil.getString(request, "closeRedirect");
 
 String publishConfigurationButtons = ParamUtil.getString(request, "publishConfigurationButtons", "custom");
 
-boolean quickPublish = ParamUtil.getBoolean(request, "quickPublish");
-
 long exportImportConfigurationId = 0;
 
 ExportImportConfiguration exportImportConfiguration = null;
@@ -150,11 +148,6 @@ portletURL.setParameter("stagingGroupId", String.valueOf(stagingGroupId));
 PortletURL renderURL = renderResponse.createRenderURL();
 
 renderURL.setParameter("mvcRenderCommandName", "publishLayouts");
-
-if (cmd.equals(Constants.ADD) || cmd.equals(Constants.UPDATE)) {
-	renderURL.setParameter("publishConfigurationButtons", "saved");
-}
-
 renderURL.setParameter("closeRedirect", closeRedirect);
 renderURL.setParameter("groupId", String.valueOf(stagingGroupId));
 renderURL.setParameter("layoutSetBranchId", String.valueOf(layoutSetBranchId));
@@ -178,59 +171,57 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 		</c:if>
 	</c:if>
 
-	<c:if test='<%= !cmd.equals("view_processes") && !quickPublish %>'>
-		<div <%= (!cmd.equals(Constants.ADD) && !cmd.equals(Constants.UPDATE)) ? StringPool.BLANK : "class=\"hide\"" %>>
-			<aui:nav-bar>
-				<aui:nav cssClass="navbar-nav" id="publishConfigurationButtons">
-					<aui:nav-item
-						data-value="custom"
-						iconCssClass="icon-puzzle"
-						label="custom"
-						selected='<%= publishConfigurationButtons.equals("custom") %>'
-					/>
+	<c:if test='<%= !cmd.equals("view_processes") %>'>
+		<aui:nav-bar>
+			<aui:nav cssClass="navbar-nav" id="publishConfigurationButtons">
+				<aui:nav-item
+					data-value="custom"
+					iconCssClass="icon-puzzle"
+					label="custom"
+					selected='<%= publishConfigurationButtons.equals("custom") %>'
+				/>
 
-					<aui:nav-item
-						data-value="saved"
-						iconCssClass="icon-archive"
-						label="publish-templates"
-						selected='<%= publishConfigurationButtons.equals("saved") %>'
-					/>
+				<aui:nav-item
+					data-value="saved"
+					iconCssClass="icon-archive"
+					label="publish-templates"
+					selected='<%= publishConfigurationButtons.equals("saved") %>'
+				/>
 
-					<portlet:renderURL var="simplePublishRedirectURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-						<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
-						<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
-						<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
-						<portlet:param name="quickPublish" value="<%= Boolean.TRUE.toString() %>" />
-					</portlet:renderURL>
+				<portlet:renderURL var="simplePublishRedirectURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+					<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
+					<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
+					<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
+					<portlet:param name="quickPublish" value="<%= Boolean.TRUE.toString() %>" />
+				</portlet:renderURL>
 
-					<portlet:renderURL var="simplePublishURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-						<portlet:param name="mvcRenderCommandName" value="publishLayoutsSimple" />
-						<portlet:param name="<%= Constants.CMD %>" value="<%= (localPublishing) ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
-						<portlet:param name="redirect" value="<%= simplePublishRedirectURL %>" />
-						<portlet:param name="lastImportUserName" value="<%= user.getFullName() %>" />
-						<portlet:param name="lastImportUserUuid" value="<%= String.valueOf(user.getUserUuid()) %>" />
-						<portlet:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
-						<portlet:param name="layoutSetBranchName" value="<%= layoutSetBranchName %>" />
-						<portlet:param name="localPublishing" value="<%= String.valueOf(localPublishing) %>" />
-						<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
-						<portlet:param name="quickPublish" value="<%= Boolean.TRUE.toString() %>" />
-						<portlet:param name="remoteAddress" value='<%= liveGroupTypeSettings.getProperty("remoteAddress") %>' />
-						<portlet:param name="remotePort" value='<%= liveGroupTypeSettings.getProperty("remotePort") %>' />
-						<portlet:param name="remotePathContext" value='<%= liveGroupTypeSettings.getProperty("remotePathContext") %>' />
-						<portlet:param name="remoteGroupId" value='<%= liveGroupTypeSettings.getProperty("remoteGroupId") %>' />
-						<portlet:param name="secureConnection" value='<%= liveGroupTypeSettings.getProperty("secureConnection") %>' />
-						<portlet:param name="sourceGroupId" value="<%= String.valueOf(stagingGroupId) %>" />
-						<portlet:param name="targetGroupId" value="<%= String.valueOf(liveGroupId) %>" />
-					</portlet:renderURL>
+				<portlet:renderURL var="simplePublishURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+					<portlet:param name="mvcRenderCommandName" value="publishLayoutsSimple" />
+					<portlet:param name="<%= Constants.CMD %>" value="<%= (localPublishing) ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
+					<portlet:param name="redirect" value="<%= simplePublishRedirectURL %>" />
+					<portlet:param name="lastImportUserName" value="<%= user.getFullName() %>" />
+					<portlet:param name="lastImportUserUuid" value="<%= String.valueOf(user.getUserUuid()) %>" />
+					<portlet:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
+					<portlet:param name="layoutSetBranchName" value="<%= layoutSetBranchName %>" />
+					<portlet:param name="localPublishing" value="<%= String.valueOf(localPublishing) %>" />
+					<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
+					<portlet:param name="quickPublish" value="<%= Boolean.TRUE.toString() %>" />
+					<portlet:param name="remoteAddress" value='<%= liveGroupTypeSettings.getProperty("remoteAddress") %>' />
+					<portlet:param name="remotePort" value='<%= liveGroupTypeSettings.getProperty("remotePort") %>' />
+					<portlet:param name="remotePathContext" value='<%= liveGroupTypeSettings.getProperty("remotePathContext") %>' />
+					<portlet:param name="remoteGroupId" value='<%= liveGroupTypeSettings.getProperty("remoteGroupId") %>' />
+					<portlet:param name="secureConnection" value='<%= liveGroupTypeSettings.getProperty("secureConnection") %>' />
+					<portlet:param name="sourceGroupId" value="<%= String.valueOf(stagingGroupId) %>" />
+					<portlet:param name="targetGroupId" value="<%= String.valueOf(liveGroupId) %>" />
+				</portlet:renderURL>
 
-					<aui:nav-item
-						href="<%= simplePublishURL %>"
-						iconCssClass="icon-rocket"
-						label="switch-to-simple-publication"
-					/>
-				</aui:nav>
-			</aui:nav-bar>
-		</div>
+				<aui:nav-item
+					href="<%= simplePublishURL %>"
+					iconCssClass="icon-rocket"
+					label="switch-to-simple-publication"
+				/>
+			</aui:nav>
+		</aui:nav-bar>
 
 		<div <%= publishConfigurationButtons.equals("custom") ? StringPool.BLANK : "class=\"hide\"" %> id="<portlet:namespace />customConfiguration">
 			<portlet:actionURL name="editPublishConfiguration" var="updatePublishConfigurationURL">
@@ -303,10 +294,6 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 					<liferay-ui:message key="<%= se.getMessage() %>" />
 				</liferay-ui:error>
 
-				<c:if test="<%= !cmd.equals(Constants.PUBLISH_TO_LIVE) && !cmd.equals(Constants.PUBLISH_TO_REMOTE) %>">
-					<liferay-staging:configuration-header exportImportConfiguration="<%= exportImportConfiguration %>" label='<%= cmd.equals(Constants.ADD) ? "new-publish-template" : "edit-template" %>' />
-				</c:if>
-
 				<div id="<portlet:namespace />publishOptions">
 					<div class="export-dialog-tree">
 
@@ -324,48 +311,45 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 							</liferay-util:include>
 						</div>
 
+						<%
+						String scheduleCMD = StringPool.BLANK;
+						String unscheduleCMD = StringPool.BLANK;
+
+						if (cmd.equals(Constants.PUBLISH_TO_LIVE)) {
+							scheduleCMD = "schedule_publish_to_live";
+							unscheduleCMD = "unschedule_publish_to_live";
+						}
+						else if (cmd.equals(Constants.PUBLISH_TO_REMOTE)) {
+							scheduleCMD = "schedule_publish_to_remote";
+							unscheduleCMD = "unschedule_publish_to_remote";
+						}
+						else if (cmd.equals("copy_from_live")) {
+							scheduleCMD = "schedule_copy_from_live";
+							unscheduleCMD = "unschedule_copy_from_live";
+						}
+						%>
+
 						<aui:fieldset-group markupView="lexicon">
-							<c:if test="<%= !cmd.equals(Constants.ADD) && !cmd.equals(Constants.UPDATE) %>">
+							<aui:fieldset>
+								<c:choose>
+									<c:when test="<%= exportImportConfiguration == null %>">
+										<aui:input name="name" placeholder="process-name-placeholder" />
+									</c:when>
+									<c:otherwise>
+										<aui:input name="name" value="<%= exportImportConfiguration.getName() %>" />
+									</c:otherwise>
+								</c:choose>
+							</aui:fieldset>
 
-								<%
-								String scheduleCMD = StringPool.BLANK;
-								String unscheduleCMD = StringPool.BLANK;
-
-								if (cmd.equals(Constants.PUBLISH_TO_LIVE)) {
-									scheduleCMD = "schedule_publish_to_live";
-									unscheduleCMD = "unschedule_publish_to_live";
-								}
-								else if (cmd.equals(Constants.PUBLISH_TO_REMOTE)) {
-									scheduleCMD = "schedule_publish_to_remote";
-									unscheduleCMD = "unschedule_publish_to_remote";
-								}
-								else if (cmd.equals("copy_from_live")) {
-									scheduleCMD = "schedule_copy_from_live";
-									unscheduleCMD = "unschedule_copy_from_live";
-								}
-								%>
-
-								<aui:fieldset>
-									<c:choose>
-										<c:when test="<%= exportImportConfiguration == null %>">
-											<aui:input name="name" placeholder="process-name-placeholder" />
-										</c:when>
-										<c:otherwise>
-											<aui:input name="name" value="<%= exportImportConfiguration.getName() %>" />
-										</c:otherwise>
-									</c:choose>
-								</aui:fieldset>
-
-								<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="date">
-									<%@ include file="/publish/publish_layouts_scheduler.jspf" %>
-								</aui:fieldset>
-							</c:if>
+							<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="date">
+								<%@ include file="/publish/publish_layouts_scheduler.jspf" %>
+							</aui:fieldset>
 
 							<c:if test="<%= !group.isCompany() %>">
 								<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="pages">
 
 									<%
-									request.setAttribute("select_pages.jsp-parameterMap", parameterMap);
+										request.setAttribute("select_pages.jsp-parameterMap", parameterMap);
 									%>
 
 									<liferay-util:include page="/publish/select_pages.jsp" servletContext="<%= application %>">
@@ -380,13 +364,11 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 								</aui:fieldset>
 							</c:if>
 
-							<liferay-staging:content cmd="<%= cmd %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" type="<%= localPublishing ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
+							<liferay-staging:content cmd="<%= cmd %>" disableInputs="<%= configuredPublish %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" type="<%= localPublishing ? Constants.PUBLISH_TO_LIVE : Constants.PUBLISH_TO_REMOTE %>" />
 
-							<c:if test="<%= !quickPublish %>">
-								<liferay-staging:deletions cmd="<%= Constants.PUBLISH %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" />
+							<liferay-staging:deletions cmd="<%= Constants.PUBLISH %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" />
 
-								<liferay-staging:permissions action="publish" descriptionCSSClass="permissions-description" exportImportConfigurationId="<%= exportImportConfigurationId %>" global="<%= group.isCompany() %>" labelCSSClass="permissions-label" />
-							</c:if>
+							<liferay-staging:permissions action="publish" descriptionCSSClass="permissions-description" disableInputs="<%= configuredPublish %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" global="<%= group.isCompany() %>" labelCSSClass="permissions-label" />
 
 							<c:if test="<%= !localPublishing %>">
 								<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="remote-live-connection-settings">
@@ -397,18 +379,9 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 					</div>
 
 					<aui:button-row>
-						<c:choose>
-							<c:when test="<%= cmd.equals(Constants.ADD) || cmd.equals(Constants.UPDATE) %>">
-								<aui:button cssClass="btn-lg" type="submit" value="save" />
+						<aui:button cssClass="btn-lg" id="addButton" onClick='<%= renderResponse.getNamespace() + "schedulePublishEvent();" %>' value="add-event" />
 
-								<aui:button cssClass="btn-lg" href="<%= renderURL.toString() %>" type="reset" value="cancel" />
-							</c:when>
-							<c:otherwise>
-								<aui:button cssClass="btn-lg" id="addButton" onClick='<%= renderResponse.getNamespace() + "schedulePublishEvent();" %>' value="add-event" />
-
-								<aui:button cssClass="btn-lg" id="publishButton" type="submit" value="<%= LanguageUtil.get(request, publishMessageKey) %>" />
-							</c:otherwise>
-						</c:choose>
+						<aui:button cssClass="btn-lg" id="publishButton" type="submit" value="<%= LanguageUtil.get(request, publishMessageKey) %>" />
 					</aui:button-row>
 				</div>
 			</aui:form>
@@ -459,7 +432,6 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 		<portlet:param name="liveGroupId" value="<%= String.valueOf(liveGroupId) %>" />
 		<portlet:param name="localPublishing" value="<%= String.valueOf(localPublishing) %>" />
 		<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
-		<portlet:param name="quickPublish" value="<%= String.valueOf(quickPublish) %>" />
 	</liferay-portlet:resourceURL>
 
 	new Liferay.ExportImport(
