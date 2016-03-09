@@ -95,30 +95,39 @@ try {
 catch (NoSuchLayoutException nsle) {
 }
 
+if (configuredPublish) {
+	privateLayout = MapUtil.getBoolean(exportImportConfigurationSettingsMap, "privateLayout", privateLayout);
+}
+
 treeId = treeId + privateLayout + layoutSetBranchId;
 
 long[] selectedLayoutIds = null;
 
-String openNodes = SessionTreeJSClicks.getOpenNodes(request, treeId + "SelectedNode");
-
-if (openNodes == null) {
-	selectedLayoutIds = ExportImportHelperUtil.getAllLayoutIds(stagingGroupId, privateLayout);
-
-	for (long selectedLayoutId : selectedLayoutIds) {
-		SessionTreeJSClicks.openLayoutNodes(request, treeId + "SelectedNode", privateLayout, selectedLayoutId, true);
-	}
+if (configuredPublish) {
+	selectedLayoutIds = GetterUtil.getLongValues(exportImportConfigurationSettingsMap.get("layoutIds"));
 }
 else {
-	selectedLayoutIds = GetterUtil.getLongValues(StringUtil.split(openNodes, ','));
+	String openNodes = SessionTreeJSClicks.getOpenNodes(request, treeId + "SelectedNode");
+
+	if (openNodes == null) {
+		selectedLayoutIds = ExportImportHelperUtil.getAllLayoutIds(stagingGroupId, privateLayout);
+
+		for (long selectedLayoutId : selectedLayoutIds) {
+			SessionTreeJSClicks.openLayoutNodes(request, treeId + "SelectedNode", privateLayout, selectedLayoutId, true);
+		}
+	}
+	else {
+		selectedLayoutIds = GetterUtil.getLongValues(StringUtil.split(openNodes, ','));
+	}
 }
 
 UnicodeProperties liveGroupTypeSettings = liveGroup.getTypeSettingsProperties();
 
-PortletURL portletURL = renderResponse.createActionURL();
-
 if (group.isStaged() && group.isStagedRemotely()) {
 	cmd = Constants.PUBLISH_TO_REMOTE;
 }
+
+PortletURL portletURL = renderResponse.createActionURL();
 
 portletURL.setParameter(ActionRequest.ACTION_NAME, "publishLayouts");
 portletURL.setParameter("mvcRenderCommandName", "publishLayouts");
@@ -165,6 +174,7 @@ renderResponse.setTitle(!configuredPublish ? LanguageUtil.get(request, "new-publ
 	<aui:input name="originalCmd" type="hidden" value="<%= cmd %>" />
 	<aui:input name="currentURL" type="hidden" value="<%= currentURL %>" />
 	<aui:input name="redirect" type="hidden" value="<%= basePortletURL %>" />
+	<aui:input name="exportImportConfigurationId" type="hidden" value="<%= exportImportConfigurationId %>" />
 	<aui:input name="groupId" type="hidden" value="<%= stagingGroupId %>" />
 	<aui:input name="privateLayout" type="hidden" value="<%= privateLayout %>" />
 	<aui:input name="layoutSetBranchName" type="hidden" value="<%= layoutSetBranchName %>" />
@@ -283,7 +293,7 @@ renderResponse.setTitle(!configuredPublish ? LanguageUtil.get(request, "new-publ
 							<liferay-util:param name="<%= Constants.CMD %>" value="<%= cmd %>" />
 							<liferay-util:param name="groupId" value="<%= String.valueOf(groupId) %>" />
 							<liferay-util:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
-							<liferay-util:param name="privateLayout" value='<%= MapUtil.getString(exportImportConfigurationSettingsMap, "privateLayout", String.valueOf(privateLayout)) %>' />
+							<liferay-util:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
 							<liferay-util:param name="treeId" value="<%= treeId %>" />
 							<liferay-util:param name="selectedLayoutIds" value="<%= StringUtil.merge(selectedLayoutIds) %>" />
 							<liferay-util:param name="disableInputs" value="<%= String.valueOf(configuredPublish) %>" />
