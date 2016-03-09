@@ -288,11 +288,11 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 					</ul>
 				</liferay-ui:error>
 
-				<%@ include file="/error_auth_exception.jspf" %>
+				<%@ include file="/publish/error/error_auth_exception.jspf" %>
 
-				<%@ include file="/error_remote_export_exception.jspf" %>
+				<%@ include file="/publish/error/error_remote_export_exception.jspf" %>
 
-				<%@ include file="/error_remote_options_exception.jspf" %>
+				<%@ include file="/publish/error/error_remote_options_exception.jspf" %>
 
 				<liferay-ui:error exception="<%= SystemException.class %>">
 
@@ -357,7 +357,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 								</aui:fieldset>
 
 								<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="date">
-									<%@ include file="/publish_layouts_scheduler.jspf" %>
+									<%@ include file="/publish/publish_layouts_scheduler.jspf" %>
 								</aui:fieldset>
 							</c:if>
 
@@ -368,7 +368,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 									request.setAttribute("select_pages.jsp-parameterMap", parameterMap);
 									%>
 
-									<liferay-util:include page="/select_pages.jsp" servletContext="<%= application %>">
+									<liferay-util:include page="/publish/select_pages.jsp" servletContext="<%= application %>">
 										<liferay-util:param name="<%= Constants.CMD %>" value="<%= cmd %>" />
 										<liferay-util:param name="groupId" value="<%= String.valueOf(groupId) %>" />
 										<liferay-util:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
@@ -390,7 +390,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 
 							<c:if test="<%= !localPublishing %>">
 								<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="remote-live-connection-settings">
-									<%@ include file="/publish_layouts_remote_options.jspf" %>
+									<%@ include file="/publish/publish_layouts_remote_options.jspf" %>
 								</aui:fieldset>
 							</c:if>
 						</aui:fieldset-group>
@@ -415,7 +415,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 		</div>
 
 		<div <%= publishConfigurationButtons.equals("saved") ? StringPool.BLANK : "class=\"hide\"" %> id="<portlet:namespace />savedConfigurations">
-			<liferay-util:include page="/publish_layouts_configurations.jsp" servletContext="<%= application %>">
+			<liferay-util:include page="/publish/publish_layouts_configurations.jsp" servletContext="<%= application %>">
 				<liferay-util:param name="groupId" value="<%= String.valueOf(stagingGroupId) %>" />
 				<liferay-util:param name="localPublishing" value="<%= String.valueOf(localPublishing) %>" />
 				<liferay-util:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />

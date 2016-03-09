@@ -71,7 +71,7 @@ public class PublishLayoutsSimpleMVCRenderCommand implements MVCRenderCommand {
 			}
 		}
 
-		return "/publish_layouts_simple.jsp";
+		return "/publish/simple/publish_layouts_simple.jsp";
 	}
 
 	protected void createExportImportConfiguration(RenderRequest renderRequest)
