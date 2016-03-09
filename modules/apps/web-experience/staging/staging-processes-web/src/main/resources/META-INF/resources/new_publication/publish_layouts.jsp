@@ -122,9 +122,7 @@ if (group.isStaged() && group.isStagedRemotely()) {
 
 portletURL.setParameter(ActionRequest.ACTION_NAME, "publishLayouts");
 portletURL.setParameter("mvcRenderCommandName", "publishLayouts");
-portletURL.setParameter("groupId", String.valueOf(stagingGroupId));
 portletURL.setParameter("stagingGroupId", String.valueOf(stagingGroupId));
-portletURL.setParameter("privateLayout", String.valueOf(privateLayout));
 
 PortletURL renderURL = renderResponse.createRenderURL();
 
