@@ -175,15 +175,17 @@ public class LayoutStagingBackgroundTaskExecutor
 				StagingLocalServiceUtil.disableStaging(
 					sourceGroup, serviceContext);
 
-				List<BackgroundTask> pendingTasks =
+				List<BackgroundTask> queuedBackgroundTasks =
 					BackgroundTaskManagerUtil.getBackgroundTasks(
 						sourceGroupId,
 						LayoutStagingBackgroundTaskExecutor.class.getName(),
 						BackgroundTaskConstants.STATUS_QUEUED);
 
-				for (BackgroundTask pendingTask : pendingTasks) {
+				for (BackgroundTask queuedBackgroundTask :
+						queuedBackgroundTasks) {
+
 					BackgroundTaskManagerUtil.amendBackgroundTask(
-						pendingTask.getBackgroundTaskId(), null,
+						queuedBackgroundTask.getBackgroundTaskId(), null,
 						BackgroundTaskConstants.STATUS_CANCELLED,
 						new ServiceContext());
 				}
