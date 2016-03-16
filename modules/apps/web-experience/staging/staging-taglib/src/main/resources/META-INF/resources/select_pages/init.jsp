@@ -17,14 +17,50 @@
 <%@ include file="/init.jsp" %>
 
 <%
+String action = GetterUtil.getString(request.getAttribute("liferay-staging:permissions:action"));
 boolean disableInputs = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:disableInputs"));
+long exportImportConfigurationId = GetterUtil.getLong(request.getAttribute("liferay-staging:select-pages:exportImportConfigurationId"));
 groupId = GetterUtil.getLong(request.getAttribute("liferay-staging:select-pages:groupId"));
-long layoutSetBranchId = GetterUtil.getLong(request.getAttribute("liferay-staging:select-pages:layoutSetBranchId"));
-boolean layoutSetSettings = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:layoutSetSettings"));
-boolean logo = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:logo"));
 privateLayout = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:privateLayout"));
-String selectedLayoutIds = GetterUtil.getString(request.getAttribute("liferay-staging:select-pages:selectedLayoutIds"));
-boolean showDeleteMissingLayouts = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:showDeleteMissingLayouts"));
-boolean themeReference = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:themeReference"));
 String treeId = GetterUtil.getString(request.getAttribute("liferay-staging:select-pages:treeId"));
+
+Map<String, Serializable> settingsMap = Collections.emptyMap();
+Map<String, String[]> parameterMap = Collections.emptyMap();
+
+ExportImportConfiguration exportImportConfiguration = ExportImportConfigurationLocalServiceUtil.fetchExportImportConfiguration(exportImportConfigurationId);
+
+long[] selectedLayoutIdsArray = null;
+
+if (exportImportConfiguration != null) {
+	settingsMap = exportImportConfiguration.getSettingsMap();
+
+	parameterMap = (Map<String, String[]>)settingsMap.get("parameterMap");
+
+	int type = exportImportConfiguration.getType();
+
+	if (type == ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_REMOTE) {
+		Map<Long, Boolean> layoutIdMap = (Map<Long, Boolean>)settingsMap.get("layoutIdMap");
+
+		selectedLayoutIdsArray = ExportImportHelperUtil.getLayoutIds(layoutIdMap);
+	}
+	else {
+		selectedLayoutIdsArray = GetterUtil.getLongValues(settingsMap.get("layoutIds"));
+	}
+}
+else {
+	String openNodes = SessionTreeJSClicks.getOpenNodes(request, treeId + "SelectedNode");
+
+	if (openNodes == null) {
+		selectedLayoutIdsArray = ExportImportHelperUtil.getAllLayoutIds(groupId, privateLayout);
+
+		for (long selectedLayoutId : selectedLayoutIdsArray) {
+			SessionTreeJSClicks.openLayoutNodes(request, treeId + "SelectedNode", privateLayout, selectedLayoutId, true);
+		}
+	}
+	else {
+		selectedLayoutIdsArray = GetterUtil.getLongValues(StringUtil.split(openNodes, ','));
+	}
+}
+
+String selectedLayoutIds = StringUtil.merge(selectedLayoutIdsArray);
 %>

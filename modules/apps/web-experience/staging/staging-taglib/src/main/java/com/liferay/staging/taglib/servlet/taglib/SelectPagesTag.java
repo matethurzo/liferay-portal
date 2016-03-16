@@ -26,8 +26,23 @@ import javax.servlet.jsp.PageContext;
  */
 public class SelectPagesTag extends IncludeTag {
 
+	public void setAction(String action) {
+		if (action == null) {
+			_action = StringPool.BLANK;
+		}
+		else {
+			_action = action;
+		}
+	}
+
 	public void setDisableInputs(boolean disableInputs) {
 		_disableInputs = disableInputs;
+	}
+
+	public void setExportImportConfigurationId(
+		long exportImportConfigurationId) {
+
+		_exportImportConfigurationId = exportImportConfigurationId;
 	}
 
 	public void setGroupId(long groupId) {
@@ -75,7 +90,9 @@ public class SelectPagesTag extends IncludeTag {
 
 	@Override
 	protected void cleanUp() {
+		_action = StringPool.BLANK;
 		_disableInputs = false;
+		_exportImportConfigurationId = 0;
 		_groupId = 0;
 		_layoutSetBranchId = 0;
 		_layoutSetSettings = true;
@@ -94,8 +111,12 @@ public class SelectPagesTag extends IncludeTag {
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
+		request.setAttribute("liferay-staging:permissions:action", _action);
 		request.setAttribute(
 			"liferay-staging:select-pages:disableInputs", _disableInputs);
+		request.setAttribute(
+			"liferay-staging:select-pages:exportImportConfigurationId",
+			_exportImportConfigurationId);
 		request.setAttribute("liferay-staging:select-pages:groupId", _groupId);
 		request.setAttribute(
 			"liferay-staging:select-pages:layoutSetBranchId",
@@ -119,7 +140,9 @@ public class SelectPagesTag extends IncludeTag {
 
 	private static final String _PAGE = "/select_pages/page.jsp";
 
+	private String _action = StringPool.BLANK;
 	private boolean _disableInputs;
+	private long _exportImportConfigurationId;
 	private long _groupId;
 	private long _layoutSetBranchId;
 	private boolean _layoutSetSettings = true;
