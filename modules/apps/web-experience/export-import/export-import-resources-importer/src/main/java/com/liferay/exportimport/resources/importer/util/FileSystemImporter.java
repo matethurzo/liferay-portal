@@ -125,7 +125,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Ryan Park
  * @author Raymond Augé
  */
-@Component(immediate = true)
+@Component(immediate = true, service = FileSystemImporter.class)
 public class FileSystemImporter extends BaseImporter {
 
 	@Override
