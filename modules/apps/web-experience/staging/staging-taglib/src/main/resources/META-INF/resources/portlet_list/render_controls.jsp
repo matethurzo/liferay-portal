@@ -57,7 +57,7 @@ for (int i = 0; i < controls.length; i++) {
 					if (modelAdditionCount != 0) {
 						controlLabel += modelAdditionCount > 0 ? " (" + modelAdditionCount + ")" : StringPool.BLANK;
 					}
-					else {
+					else if (!showAllPortlets) {
 						continue control;
 					}
 				}

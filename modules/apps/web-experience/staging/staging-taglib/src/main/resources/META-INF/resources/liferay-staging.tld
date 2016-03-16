@@ -207,6 +207,12 @@
 			<type>java.util.List</type>
 		</attribute>
 		<attribute>
+			<name>showAllPortlets</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>boolean</type>
+		</attribute>
+		<attribute>
 			<name>type</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>

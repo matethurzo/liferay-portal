@@ -22,6 +22,10 @@
 	DateRange dateRange = null;
 
 	for (Portlet portlet : portlets) {
+		if (!liveGroup.isStagedPortlet(portlet.getRootPortletId()) && !type.equals(Constants.EXPORT)) {
+			continue;
+		}
+
 		PortletDataHandler portletDataHandler = portlet.getPortletDataHandlerInstance();
 
 		Class<?> portletDataHandlerClass = portletDataHandler.getClass();
@@ -68,7 +72,7 @@
 			displayCounts = displayCounts && GetterUtil.getBoolean(liveGroupTypeSettings.getProperty(StagingUtil.getStagedPortletId(portlet.getRootPortletId())), portletDataHandler.isPublishToLiveByDefault());
 		}
 
-		if (!displayCounts) {
+		if (!displayCounts && !showAllPortlets) {
 			continue;
 		}
 
