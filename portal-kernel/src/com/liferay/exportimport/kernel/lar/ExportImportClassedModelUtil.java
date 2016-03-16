@@ -27,10 +27,6 @@ import com.liferay.portal.kernel.model.StagedModel;
 public class ExportImportClassedModelUtil {
 
 	public static String getClassName(ClassedModel classedModel) {
-		if (classedModel == null) {
-			return null;
-		}
-
 		String modelClassName = classedModel.getModelClassName();
 
 		if (classedModel instanceof StagedModel) {
