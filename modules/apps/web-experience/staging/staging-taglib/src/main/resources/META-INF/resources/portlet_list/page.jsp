@@ -22,7 +22,7 @@
 	DateRange dateRange = null;
 
 	for (Portlet portlet : portlets) {
-		if (((liveGroup != null) && !liveGroup.isStagedPortlet(portlet.getRootPortletId())) && !type.equals(Constants.EXPORT)) {
+		if (!type.equals(Constants.EXPORT) && ((liveGroup != null) && !liveGroup.isStagedPortlet(portlet.getRootPortletId()))) {
 			continue;
 		}
 
