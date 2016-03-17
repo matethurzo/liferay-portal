@@ -128,9 +128,7 @@ renderResponse.setTitle((exportImportConfiguration == null) ? LanguageUtil.get(r
 						<liferay-staging:configuration-header exportImportConfiguration="<%= exportImportConfiguration %>" />
 
 						<c:if test="<%= !group.isCompany() %>">
-							<aui:fieldset collapsible="<%= true %>" cssClass="options-group" label="pages">
-								<liferay-staging:select-pages action="<%= Constants.PUBLISH %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" groupId="<%= stagingGroupId %>" privateLayout="<%= privateLayout %>" treeId="<%= treeId %>" />
-							</aui:fieldset>
+							<liferay-staging:select-pages action="<%= Constants.PUBLISH %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" groupId="<%= stagingGroupId %>" privateLayout="<%= privateLayout %>" treeId="<%= treeId %>" />
 						</c:if>
 
 						<liferay-staging:content cmd="<%= cmd %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" showAllPortlets="true" type="<%= stagingGroup.isStagedRemotely() ? Constants.PUBLISH_TO_REMOTE : Constants.PUBLISH_TO_LIVE %>" />
