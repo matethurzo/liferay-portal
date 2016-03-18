@@ -249,7 +249,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 
 					<liferay-staging:deletions cmd="<%= Constants.PUBLISH %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" />
 
-					<liferay-staging:permissions action="publish" descriptionCSSClass="permissions-description" disableInputs="<%= configuredPublish %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" global="<%= group.isCompany() %>" labelCSSClass="permissions-label" />
+					<liferay-staging:permissions action="<%= Constants.PUBLISH %>" descriptionCSSClass="permissions-description" disableInputs="<%= configuredPublish %>" exportImportConfigurationId="<%= exportImportConfigurationId %>" global="<%= group.isCompany() %>" labelCSSClass="permissions-label" />
 
 					<c:if test="<%= !localPublishing %>">
 						<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="remote-live-connection-settings">
