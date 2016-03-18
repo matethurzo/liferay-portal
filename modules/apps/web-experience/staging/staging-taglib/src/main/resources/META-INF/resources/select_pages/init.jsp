@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String action = GetterUtil.getString(request.getAttribute("liferay-staging:permissions:action"));
+String action = GetterUtil.getString(request.getAttribute("liferay-staging:select-pages:action"));
 boolean disableInputs = GetterUtil.getBoolean(request.getAttribute("liferay-staging:select-pages:disableInputs"));
 long exportImportConfigurationId = GetterUtil.getLong(request.getAttribute("liferay-staging:select-pages:exportImportConfigurationId"));
 groupId = GetterUtil.getLong(request.getAttribute("liferay-staging:select-pages:groupId"));

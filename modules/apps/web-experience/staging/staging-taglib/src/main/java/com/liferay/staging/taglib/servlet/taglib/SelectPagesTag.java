@@ -111,7 +111,7 @@ public class SelectPagesTag extends IncludeTag {
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
-		request.setAttribute("liferay-staging:permissions:action", _action);
+		request.setAttribute("liferay-staging:select-pages:action", _action);
 		request.setAttribute(
 			"liferay-staging:select-pages:disableInputs", _disableInputs);
 		request.setAttribute(
