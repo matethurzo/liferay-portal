@@ -64,7 +64,7 @@
 
 		long modelDeletionCount = manifestSummary.getModelDeletionCount(portletDataHandler.getDeletionSystemEventStagedModelTypes());
 
-		boolean displayCounts = (exportModelCount != 0) || (modelDeletionCount != 0);
+		boolean displayCounts = (exportModelCount > 0) || (modelDeletionCount > 0);
 
 		if (!type.equals(Constants.EXPORT)) {
 			UnicodeProperties liveGroupTypeSettings = liveGroup.getTypeSettingsProperties();
