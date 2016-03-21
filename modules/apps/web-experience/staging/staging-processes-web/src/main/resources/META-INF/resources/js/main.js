@@ -109,24 +109,6 @@ AUI.add(
 									var portletTitle = event.currentTarget.attr('data-portlettitle');
 
 									if (!portletTitle) {
-										portletTitle = Liferay.Language.get('configuration');
-									}
-
-									var configurationDialog = instance._getConfigurationDialog(portletId, portletTitle);
-
-									configurationDialog.show();
-								},
-								'.configuration-link'
-							);
-
-							form.delegate(
-								STR_CLICK,
-								function(event) {
-									var portletId = event.currentTarget.attr('data-portletid');
-
-									var portletTitle = event.currentTarget.attr('data-portlettitle');
-
-									if (!portletTitle) {
 										portletTitle = Liferay.Language.get('content');
 									}
 
@@ -272,63 +254,6 @@ AUI.add(
 						privateLayoutNode.val(privateLayout);
 
 						instance._reloadForm();
-					},
-
-					_getConfigurationDialog: function(portletId, portletTitle) {
-						var instance = this;
-
-						var configurationNode = instance.byId('configuration_' + portletId);
-
-						var configurationDialog = configurationNode.getData('configurationDialog');
-
-						if (!configurationDialog) {
-							configurationNode.show();
-
-							configurationDialog = Liferay.Util.Window.getWindow(
-								{
-									dialog: {
-										bodyContent: configurationNode,
-										centered: true,
-										height: 300,
-										modal: true,
-										render: instance.get('form'),
-										toolbars: {
-											footer: [
-												{
-													label: Liferay.Language.get('ok'),
-													on: {
-														click: function(event) {
-															event.domEvent.preventDefault();
-
-															instance._setConfigurationLabels(portletId);
-
-															configurationDialog.hide();
-														}
-													},
-													primary: true
-												},
-												{
-													label: Liferay.Language.get('cancel'),
-													on: {
-														click: function(event) {
-															event.domEvent.preventDefault();
-
-															configurationDialog.hide();
-														}
-													}
-												}
-											]
-										},
-										width: 400
-									},
-									title: portletTitle
-								}
-							);
-
-							configurationNode.setData('configurationDialog', configurationDialog);
-						}
-
-						return configurationDialog;
 					},
 
 					_getContentDialog: function(portletId, portletTitle) {
@@ -619,12 +544,6 @@ AUI.add(
 					_initLabels: function() {
 						var instance = this;
 
-						instance.all('.configuration-link').each(
-							function(item, index, collection) {
-								instance._setConfigurationLabels(item.attr('data-portletid'));
-							}
-						);
-
 						instance.all('.content-link').each(
 							function(item, index, collection) {
 								instance._setContentLabels(item.attr('data-portletid'));
@@ -818,34 +737,6 @@ AUI.add(
 						}
 
 						A.later(renderInterval, instance, instance._renderProcesses);
-					},
-
-					_setConfigurationLabels: function(portletId) {
-						var instance = this;
-
-						var configurationNode = instance.byId('configuration_' + portletId);
-
-						var inputs = configurationNode.all('.field');
-
-						var selectedConfiguration = [];
-
-						inputs.each(
-							function(item, index, collection) {
-								var checked = item.attr(STR_CHECKED);
-
-								if (checked) {
-									selectedConfiguration.push(item.attr('data-name'));
-								}
-							}
-						);
-
-						if (selectedConfiguration.length === 0) {
-							instance.byId('PORTLET_CONFIGURATION_' + portletId).attr('checked', false);
-
-							instance.byId('showChangeConfiguration_' + portletId).hide();
-						}
-
-						instance._setLabels('configurationLink_' + portletId, 'selectedConfiguration_' + portletId, selectedConfiguration.join(', '));
 					},
 
 					_setContentLabels: function(portletId) {
