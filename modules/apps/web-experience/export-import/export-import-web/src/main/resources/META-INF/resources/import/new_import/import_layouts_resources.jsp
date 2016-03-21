@@ -243,6 +243,7 @@ ManifestSummary manifestSummary = ExportImportHelperUtil.getManifestSummary(user
 																			request.setAttribute("render_controls.jsp-controls", importControls);
 																			request.setAttribute("render_controls.jsp-manifestSummary", manifestSummary);
 																			request.setAttribute("render_controls.jsp-portletDisabled", !portletDataHandler.isPublishToLiveByDefault());
+																			request.setAttribute("render_controls.jsp-portletId", portlet.getPortletId());
 																		%>
 
 																			<aui:field-wrapper label='<%= ArrayUtil.isNotEmpty(importMetadataControls) ? "content" : StringPool.BLANK %>'>
