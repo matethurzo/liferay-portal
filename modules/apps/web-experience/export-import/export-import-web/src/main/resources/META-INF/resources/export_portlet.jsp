@@ -117,6 +117,7 @@ portletURL.setParameter("portletResource", portletResource);
 
 																<%
 																request.setAttribute("render_controls.jsp-action", Constants.EXPORT);
+																request.setAttribute("render_controls.jsp-childControl", false);
 																request.setAttribute("render_controls.jsp-controls", configurationControls);
 																request.setAttribute("render_controls.jsp-portletId", selPortlet.getRootPortletId());
 																%>
@@ -321,6 +322,7 @@ portletURL.setParameter("portletResource", portletResource);
 
 																			<%
 																			request.setAttribute("render_controls.jsp-action", Constants.EXPORT);
+																			request.setAttribute("render_controls.jsp-childControl", false);
 																			request.setAttribute("render_controls.jsp-controls", exportControls);
 																			request.setAttribute("render_controls.jsp-manifestSummary", manifestSummary);
 																			request.setAttribute("render_controls.jsp-portletDisabled", !portletDataHandler.isPublishToLiveByDefault());

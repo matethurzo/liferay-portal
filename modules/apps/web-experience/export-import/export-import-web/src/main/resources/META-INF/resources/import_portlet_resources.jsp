@@ -113,6 +113,7 @@ ManifestSummary manifestSummary = ExportImportHelperUtil.getManifestSummary(them
 
 														<%
 														request.setAttribute("render_controls.jsp-action", Constants.IMPORT);
+														request.setAttribute("render_controls.jsp-childControl", false);
 														request.setAttribute("render_controls.jsp-controls", configurationControls);
 														request.setAttribute("render_controls.jsp-portletId", selPortlet.getRootPortletId());
 														%>
@@ -187,6 +188,7 @@ ManifestSummary manifestSummary = ExportImportHelperUtil.getManifestSummary(them
 
 																<%
 																request.setAttribute("render_controls.jsp-action", Constants.IMPORT);
+																request.setAttribute("render_controls.jsp-childControl", false);
 																request.setAttribute("render_controls.jsp-controls", importControls);
 																request.setAttribute("render_controls.jsp-manifestSummary", manifestSummary);
 																request.setAttribute("render_controls.jsp-portletDisabled", !portletDataHandler.isPublishToLiveByDefault());
