@@ -468,8 +468,8 @@ portletURL.setParameter("portletResource", portletResource);
 
 	var exportImport = new Liferay.ExportImport(
 		{
-			commentsNode: '#<%= PortletDataHandlerKeys.COMMENTS %>Checkbox',
-			deletionsNode: '#<%= PortletDataHandlerKeys.DELETIONS %>Checkbox',
+			commentsNode: '#<%= PortletDataHandlerKeys.COMMENTS %>',
+			deletionsNode: '#<%= PortletDataHandlerKeys.DELETIONS %>',
 			form: document.<portlet:namespace />fm1,
 			incompleteProcessMessageNode: '#<portlet:namespace />incompleteProcessMessage',
 			locale: '<%= locale.toLanguageTag() %>',
@@ -479,7 +479,7 @@ portletURL.setParameter("portletResource", portletResource);
 			rangeAllNode: '#rangeAll',
 			rangeDateRangeNode: '#rangeDateRange',
 			rangeLastNode: '#rangeLast',
-			ratingsNode: '#<%= PortletDataHandlerKeys.RATINGS %>Checkbox',
+			ratingsNode: '#<%= PortletDataHandlerKeys.RATINGS %>',
 			timeZone: '<%= timeZone.getID() %>'
 		}
 	);
