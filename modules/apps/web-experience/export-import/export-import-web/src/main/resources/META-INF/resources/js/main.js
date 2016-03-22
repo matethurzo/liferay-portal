@@ -140,6 +140,35 @@ AUI.add(
 							);
 						}
 
+						$('[id^=' + instance.ns('PORTLET_CONFIGURATION') + ']').each(
+							function() {
+								var checkBox = $(this);
+
+								checkBox.on(
+									STR_CLICK,
+									function() {
+										if (checkBox.is(":checked")) {
+											var id = checkBox.prop('id');
+
+											var controlCheckboxes = $('[data-root-control-id=' + id + ']');
+
+											controlCheckboxes.each(
+												function() {
+													var controlCheckbox = $(this);
+
+													if (!controlCheckbox.is(':checked')) {
+														controlCheckbox.trigger(STR_CLICK);
+													}
+												}
+											);
+
+											instance._setConfigurationLabels(id.replace(instance.ns('PORTLET_CONFIGURATION') + '_', ''));
+										}
+									}
+								);
+							}
+						);
+
 						$('[id^=' + instance.ns('PORTLET_DATA') + ']').each(
 							function() {
 								var checkBox = $(this);
@@ -842,6 +871,9 @@ AUI.add(
 							instance.byId('PORTLET_CONFIGURATION_' + portletId).attr('checked', false);
 
 							instance.byId('showChangeConfiguration_' + portletId).hide();
+						}
+						else {
+							instance.byId('showChangeConfiguration_' + portletId).show();
 						}
 
 						instance._setLabels('configurationLink_' + portletId, 'selectedConfiguration_' + portletId, selectedConfiguration.join(', '));

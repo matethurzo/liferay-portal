@@ -24,6 +24,7 @@ boolean disableInputs = GetterUtil.getBoolean(request.getAttribute("render_contr
 ManifestSummary manifestSummary = (ManifestSummary)request.getAttribute("render_controls.jsp-manifestSummary");
 Map<String, String[]> parameterMap = (Map<String, String[]>)GetterUtil.getObject(request.getAttribute("render_controls.jsp-parameterMap"), Collections.emptyMap());
 String portletId = (String)request.getAttribute("render_controls.jsp-portletId");
+String rootControlId = (String)request.getAttribute("render_controls.jsp-rootControlId");
 
 if (Validator.isNotNull(portletId)) {
 	PortletBag portletBag = PortletBagPool.get(portletId);
@@ -68,7 +69,7 @@ for (int i = 0; i < controls.length; i++) {
 				data.put("name", controlLabel);
 
 				if (!childControl) {
-					data.put("root-control-id", liferayPortletResponse.getNamespace() + PortletDataHandlerKeys.PORTLET_DATA + StringPool.UNDERLINE + portletId);
+					data.put("root-control-id", liferayPortletResponse.getNamespace() + rootControlId);
 				}
 
 				PortletDataHandlerControl[] children = control.getChildren();
