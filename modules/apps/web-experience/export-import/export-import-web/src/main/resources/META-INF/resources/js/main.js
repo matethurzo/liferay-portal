@@ -152,6 +152,10 @@ AUI.add(
 
 											var controlCheckboxes = $('[data-root-control-id=' + id + ']');
 
+											if (controlCheckboxes.length == 0) {
+												return;
+											}
+
 											controlCheckboxes.each(
 												function() {
 													var controlCheckbox = $(this);
@@ -180,6 +184,10 @@ AUI.add(
 											var id = checkBox.prop('id');
 
 											var controlCheckboxes = $('[data-root-control-id=' + id + ']');
+
+											if (controlCheckboxes.length == 0) {
+												return;
+											}
 
 											controlCheckboxes.each(
 												function() {
