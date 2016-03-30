@@ -2907,7 +2907,11 @@ public class StagingImpl implements Staging {
 			Group remoteGroup = GroupServiceHttp.getGroup(
 				httpPrincipal, remoteGroupId);
 
-			if (group.equals(remoteGroup)) {
+			String uuid = group.getUuid();
+
+			if (group.equals(remoteGroup) &&
+				uuid.equals(remoteGroup.getUuid())) {
+
 				RemoteExportException ree = new RemoteExportException(
 					RemoteExportException.SAME_GROUP);
 
