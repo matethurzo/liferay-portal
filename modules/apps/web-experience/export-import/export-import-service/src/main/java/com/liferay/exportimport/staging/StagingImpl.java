@@ -2602,8 +2602,8 @@ public class StagingImpl implements Staging {
 	}
 
 	protected boolean isCompanyGroup(HttpPrincipal httpPrincipal, Group group) {
-		ClassName className = ClassNameServiceHttp.fetchClassName(
-			httpPrincipal, String.valueOf(group.getClassNameId()));
+		ClassName className = ClassNameServiceHttp.fetchByClassNameId(
+			httpPrincipal, group.getClassNameId());
 
 		if (Validator.equals(
 				className.getClassName(), Company.class.getName())) {
