@@ -106,12 +106,12 @@ public class DraftExportImportConfigurationMessageListener
 			return;
 		}
 
-		final Date lastDate;
+		final Date lastCreateDate;
 
 		if (ExportImportWebConfigurationValues.
 				DRAFT_EXPORT_IMPORT_CONFIGURATION_CLEAN_UP_COUNT == 0) {
 
-			lastDate = new Date();
+			lastCreateDate = new Date();
 		}
 		else {
 			DynamicQuery dynamicQuery =
@@ -139,7 +139,7 @@ public class DraftExportImportConfigurationMessageListener
 				return;
 			}
 
-			lastDate = createDates.get(createDates.size() - 1);
+			lastCreateDate = createDates.get(createDates.size() - 1);
 		}
 
 		ActionableDynamicQuery actionableDynamicQuery =
@@ -154,7 +154,7 @@ public class DraftExportImportConfigurationMessageListener
 				public void addCriteria(DynamicQuery dynamicQuery) {
 					addCommonCriterions(dynamicQuery);
 
-					dynamicQuery.add(createDate.lt(lastDate));
+					dynamicQuery.add(createDate.lt(lastCreateDate));
 				}
 
 			});
