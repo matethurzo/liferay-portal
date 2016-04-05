@@ -18,6 +18,7 @@
 
 <%
 long exportImportConfigurationId = GetterUtil.getLong(request.getAttribute("liferay-staging:remote-options:exportImportConfigurationId"));
+privateLayout = GetterUtil.getBoolean(request.getAttribute("liferay-staging:remote-options:privateLayout"), privateLayout);
 
 Map<String, Serializable> settingsMap = Collections.emptyMap();
 
