@@ -314,7 +314,7 @@ public class StagingImpl implements Staging {
 				portletRequest);
 
 		return publishPortlet(
-			themeDisplay.getUserId(), themeDisplay.getScopeGroupId(), plid,
+			themeDisplay.getUserId(), scopeGroupId, plid,
 			portlet.getPortletId(), parameterMap, true);
 	}
 
@@ -1689,7 +1689,7 @@ public class StagingImpl implements Staging {
 				portletRequest);
 
 		return publishPortlet(
-			themeDisplay.getUserId(), themeDisplay.getScopeGroupId(), plid,
+			themeDisplay.getUserId(), scopeGroupId, plid,
 			portlet.getPortletId(), parameterMap, false);
 	}
 
