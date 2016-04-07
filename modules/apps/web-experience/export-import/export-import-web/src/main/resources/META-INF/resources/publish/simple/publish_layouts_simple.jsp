@@ -75,6 +75,12 @@ Map<String, String[]> parameterMap = (Map<String, String[]>)settingsMap.get("par
 		<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 		<aui:input name="exportImportConfigurationId" type="hidden" value="<%= exportImportConfigurationId %>" />
 
+		<%@ include file="/publish/error/error_auth_exception.jspf" %>
+
+		<%@ include file="/publish/error/error_remote_export_exception.jspf" %>
+
+		<%@ include file="/publish/error/error_remote_options_exception.jspf" %>
+
 		<div class="export-dialog-tree">
 
 			<%
