@@ -16,6 +16,8 @@
 
 <%@ include file="/init.jsp" %>
 
+<liferay-staging:defineObjects />
+
 <%
 String cmd = ParamUtil.getString(request, Constants.CMD, Constants.PUBLISH_TO_LIVE);
 
@@ -24,7 +26,6 @@ long exportImportConfigurationId = GetterUtil.getLong(request.getAttribute("expo
 ExportImportConfiguration exportImportConfiguration = ExportImportConfigurationLocalServiceUtil.getExportImportConfiguration(exportImportConfigurationId);
 
 long selPlid = ParamUtil.getLong(request, "selPlid", LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
-boolean privateLayout = ParamUtil.getBoolean(request, "privateLayout");
 
 boolean localPublishing = true;
 String publishMessageKey = "publish-to-live";
@@ -150,8 +151,6 @@ Map<String, String[]> parameterMap = (Map<String, String[]>)settingsMap.get("par
 
 										long exportModelCount = portletDataHandler.getExportModelCount(manifestSummary);
 										long modelDeletionCount = manifestSummary.getModelDeletionCount(portletDataHandler.getDeletionSystemEventStagedModelTypes());
-
-										Group liveGroup = groupDisplayContextHelper.getLiveGroup();
 
 										UnicodeProperties liveGroupTypeSettings = liveGroup.getTypeSettingsProperties();
 
