@@ -65,7 +65,7 @@ Map<String, String[]> parameterMap = (Map<String, String[]>)settingsMap.get("par
 	</aui:nav-bar>
 
 	<portlet:actionURL name="editPublishConfiguration" var="confirmedActionURL">
-		<portlet:param name="mvcRenderCommandName" value="editPublishConfiguration" />
+		<portlet:param name="mvcRenderCommandName" value="editPublishConfigurationSimple" />
 		<portlet:param name="exportImportConfigurationId" value="<%= String.valueOf(exportImportConfiguration.getExportImportConfigurationId()) %>" />
 		<portlet:param name="quickPublish" value="<%= Boolean.TRUE.toString() %>" />
 	</portlet:actionURL>
