@@ -20,7 +20,7 @@
 int configurationType = ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_LOCAL;
 boolean localPublishing = true;
 
-if (stagingGroup.hasRemoteStagingGroup()) {
+if (stagingGroup.isStagedRemotely()) {
 	configurationType = ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_REMOTE;
 	localPublishing = false;
 }
