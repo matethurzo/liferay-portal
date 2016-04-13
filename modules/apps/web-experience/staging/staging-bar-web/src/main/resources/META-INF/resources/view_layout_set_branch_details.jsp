@@ -64,9 +64,3 @@ String stagingFriendlyURL = (String)request.getAttribute("view.jsp-stagingFriend
 		</div>
 	</li>
 </c:if>
-
-<aui:script>
-	function <portlet:namespace />selectLayoutSetBranch(url) {
-
-	}
-</aui:script>
