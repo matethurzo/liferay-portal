@@ -2462,7 +2462,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 		Class[] types = new Class[] {
 			Boolean.class, Date.class, Integer.class, String.class,
-			Locale.class, Long.class
+			Locale.class, Long.class, Float.class, Double.class, byte[].class,
+			int[].class, long[].class, float[].class, double[].class,
+			boolean[].class
 		};
 
 		_xStream.allowTypes(types);
