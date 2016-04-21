@@ -2465,8 +2465,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 		_xStream.allowTypeHierarchy(Set.class);
 
 		Class[] types = new Class[] {
-			Date.class, String.class, Locale.class, byte[].class, int[].class,
-			long[].class, float[].class, double[].class, boolean[].class
+			Date.class, Locale.class, String.class, boolean[].class,
+			byte[].class, double[].class, float[].class, int[].class,
+			long[].class
 		};
 
 		_xStream.allowTypes(types);
