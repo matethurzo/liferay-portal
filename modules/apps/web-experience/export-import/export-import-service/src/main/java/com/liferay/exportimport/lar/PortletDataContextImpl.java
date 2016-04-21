@@ -2464,13 +2464,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 		_xStream.allowTypeHierarchy(Timestamp.class);
 		_xStream.allowTypeHierarchy(Set.class);
 
-		Class[] types = new Class[] {
-			Date.class, Locale.class, String.class, boolean[].class,
-			byte[].class, double[].class, float[].class, int[].class,
-			long[].class, String[].class
-		};
-
-		_xStream.allowTypes(types);
+		_xStream.allowTypes(_XSTREAM_DEFAULT_ALLOWED_TYPES);
 
 		_xStream.allowTypes(allowedTypeNames.toArray(new String[0]));
 
@@ -2509,6 +2503,13 @@ public class PortletDataContextImpl implements PortletDataContext {
 			element.addAttribute("attached-class-name", attachedClassName);
 		}
 	}
+
+	private static final Class<?>[] _XSTREAM_DEFAULT_ALLOWED_TYPES =
+		new Class[] {
+			Date.class, Locale.class, String.class, boolean[].class,
+			byte[].class, double[].class, float[].class, int[].class,
+			long[].class, String[].class
+		};
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletDataContextImpl.class);
