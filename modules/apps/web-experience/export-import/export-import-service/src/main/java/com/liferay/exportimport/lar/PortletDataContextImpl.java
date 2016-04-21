@@ -105,6 +105,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.ClassLoaderReference;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -2452,6 +2453,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 		_xStream.addPermission(NoTypePermission.NONE);
 
+		// Add permissions
+
+		_xStream.addPermission(PrimitiveTypePermission.PRIMITIVES);
 		_xStream.addPermission(
 			XStreamStagedModelTypeHierarchyPermission.STAGED_MODELS);
 
@@ -2461,10 +2465,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 		_xStream.allowTypeHierarchy(Set.class);
 
 		Class[] types = new Class[] {
-			Boolean.class, Date.class, Integer.class, String.class,
-			Locale.class, Long.class, Float.class, Double.class, byte[].class,
-			int[].class, long[].class, float[].class, double[].class,
-			boolean[].class
+			Date.class, String.class, Locale.class, byte[].class, int[].class,
+			long[].class, float[].class, double[].class, boolean[].class
 		};
 
 		_xStream.allowTypes(types);
