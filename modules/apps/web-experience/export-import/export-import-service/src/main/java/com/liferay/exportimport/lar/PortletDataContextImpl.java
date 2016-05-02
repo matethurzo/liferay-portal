@@ -2506,9 +2506,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	private static final Class<?>[] _XSTREAM_DEFAULT_ALLOWED_TYPES =
 		new Class[] {
-			Date.class, Locale.class, String.class, boolean[].class,
-			byte[].class, double[].class, float[].class, int[].class,
-			long[].class, String[].class
+			boolean[].class, byte[].class, Date.class, double[].class,
+			float[].class, int[].class, Locale.class, long[].class,
+			String.class, String[].class
 		};
 
 	private static final Log _log = LogFactoryUtil.getLog(
