@@ -2459,12 +2459,12 @@ public class PortletDataContextImpl implements PortletDataContext {
 		_xStream.addPermission(
 			XStreamStagedModelTypeHierarchyPermission.STAGED_MODELS);
 
+		_xStream.allowTypes(_XSTREAM_DEFAULT_ALLOWED_TYPES);
+
 		_xStream.allowTypeHierarchy(List.class);
 		_xStream.allowTypeHierarchy(Map.class);
 		_xStream.allowTypeHierarchy(Timestamp.class);
 		_xStream.allowTypeHierarchy(Set.class);
-
-		_xStream.allowTypes(_XSTREAM_DEFAULT_ALLOWED_TYPES);
 
 		_xStream.allowTypes(allowedTypeNames.toArray(new String[0]));
 
