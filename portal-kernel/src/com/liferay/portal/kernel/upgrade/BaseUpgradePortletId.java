@@ -60,7 +60,7 @@ public abstract class BaseUpgradePortletId extends UpgradeProcess {
 		String oldStagingPortletId = StagingUtil.getStagedPortletId(
 			oldRootPortletId);
 
-		if (!typeSettingsProperties.containsKey(oldRootPortletId)) {
+		if (!typeSettingsProperties.containsKey(oldStagingPortletId)) {
 			return typeSettings;
 		}
 
