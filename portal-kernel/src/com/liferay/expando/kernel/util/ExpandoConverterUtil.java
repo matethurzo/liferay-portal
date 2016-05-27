@@ -83,7 +83,7 @@ public class ExpandoConverterUtil {
 			return GetterUtil.getNumber(attribute);
 		}
 		else if (type == ExpandoColumnConstants.NUMBER_ARRAY) {
-			return GetterUtil.getNumberValues(attribute);
+			return GetterUtil.getNumberValues(StringUtil.split(attribute));
 		}
 		else if (type == ExpandoColumnConstants.SHORT) {
 			return GetterUtil.getShort(attribute);
