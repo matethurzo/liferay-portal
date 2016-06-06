@@ -230,21 +230,25 @@ public class JournalArticleExportImportContentProcessor
 				}
 			}
 
-			Map<Long, Long> primaryKeys =
+			Map<Long, Long> articlePrimaryKeys =
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 					JournalArticle.class + ".primaryKey");
 
-			long primaryKey = MapUtil.getLong(primaryKeys, classPK, classPK);
+			long articlePrimaryKey = MapUtil.getLong(
+				articlePrimaryKeys, classPK, classPK);
 
 			JournalArticle journalArticle =
-				_journalArticleLocalService.fetchJournalArticle(primaryKey);
+				_journalArticleLocalService.fetchJournalArticle(
+					articlePrimaryKey);
 
 			if (journalArticle == null) {
 				if (_log.isWarnEnabled()) {
-					_log.warn("Unable to fetch article with id: " + primaryKey);
+					_log.warn(
+						"Unable to fetch article with id: " +
+							articlePrimaryKey);
 				}
 
-				throw new NoSuchArticleException("id = " + primaryKey);
+				throw new NoSuchArticleException("id = " + articlePrimaryKey);
 			}
 			else {
 				String journalArticleReference =
