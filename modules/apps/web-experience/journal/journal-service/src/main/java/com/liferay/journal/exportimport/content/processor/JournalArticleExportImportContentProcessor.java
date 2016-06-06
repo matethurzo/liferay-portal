@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
@@ -206,29 +205,6 @@ public class JournalArticleExportImportContentProcessor
 		for (Element referenceElement : referenceElements) {
 			long classPK = GetterUtil.getLong(
 				referenceElement.attributeValue("class-pk"));
-
-			try {
-				StagedModelDataHandlerUtil.importReferenceStagedModel(
-					portletDataContext, stagedModel, JournalArticle.class,
-					classPK);
-			}
-			catch (Exception e) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(e, e);
-				}
-				else if (_log.isWarnEnabled()) {
-					StringBundler sb = new StringBundler(6);
-
-					sb.append("Unable to process journal article ");
-					sb.append(classPK);
-					sb.append(" for ");
-					sb.append(stagedModel.getModelClassName());
-					sb.append(" with primary key ");
-					sb.append(stagedModel.getPrimaryKeyObj());
-
-					_log.warn(sb.toString());
-				}
-			}
 
 			Map<Long, Long> articlePrimaryKeys =
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
