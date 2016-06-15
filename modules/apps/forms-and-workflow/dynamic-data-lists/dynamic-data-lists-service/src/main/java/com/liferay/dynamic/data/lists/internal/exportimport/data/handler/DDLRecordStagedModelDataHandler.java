@@ -127,6 +127,21 @@ public class DDLRecordStagedModelDataHandler
 	}
 
 	@Override
+	protected void doImportMissingReference(
+			PortletDataContext portletDataContext, String uuid, long groupId,
+			long recordId)
+		throws Exception {
+
+		DDLRecord existingRecord = fetchMissingReference(uuid, groupId);
+
+		Map<Long, Long> recordIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				DDLRecord.class);
+
+		recordIds.put(recordId, existingRecord.getRecordId());
+	}
+
+	@Override
 	protected void doImportStagedModel(
 			PortletDataContext portletDataContext, DDLRecord record)
 		throws Exception {
