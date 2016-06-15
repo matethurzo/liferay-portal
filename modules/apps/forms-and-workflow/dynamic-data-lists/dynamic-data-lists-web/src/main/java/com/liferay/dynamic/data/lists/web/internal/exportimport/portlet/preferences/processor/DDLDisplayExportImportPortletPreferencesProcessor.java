@@ -220,6 +220,18 @@ public class DDLDisplayExportImportPortletPreferencesProcessor
 				}
 
 			});
+		recordActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<DDLRecord>() {
+
+				@Override
+				public void performAction(DDLRecord record)
+					throws PortalException {
+
+					StagedModelDataHandlerUtil.exportReferenceStagedModel(
+						portletDataContext, portletId, record);
+				}
+
+			});
 
 		return recordActionableDynamicQuery;
 	}
