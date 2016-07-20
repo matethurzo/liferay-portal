@@ -6625,6 +6625,23 @@ public class JournalArticleLocalServiceImpl
 		dynamicContentElement.addCDATA(previewURL);
 	}
 
+	protected void formatImage(JournalArticle article, Element el)
+		throws PortalException {
+
+		List<Element> imageContents = el.elements("dynamic-content");
+
+		for (Element dynamicContent : imageContents) {
+			String elType = dynamicContent.attributeValue(
+				"type", StringPool.BLANK);
+
+			if (ExportImportThreadLocal.isImportInProcess()) {
+				continue;
+			}
+
+			formatImageDynamicContent(article, elType, dynamicContent);
+		}
+	}
+
 	protected void formatImageDynamicContent(
 			JournalArticle article, String type, Element dynamicContentElement)
 		throws PortalException {
@@ -6650,8 +6667,8 @@ public class JournalArticleLocalServiceImpl
 		String uuid = jsonObject.getString("uuid");
 		long groupId = jsonObject.getLong("groupId");
 
-		FileEntry fileEntry =
-			dlAppLocalService.getFileEntryByUuidAndGroupId(uuid, groupId);
+		FileEntry fileEntry = dlAppLocalService.getFileEntryByUuidAndGroupId(
+			uuid, groupId);
 
 		boolean isTempFile = fileEntry.isRepositoryCapabilityProvided(
 			TemporaryFileEntriesCapability.class);
@@ -6666,8 +6683,7 @@ public class JournalArticleLocalServiceImpl
 				fileEntry.getFileName());
 
 			fileEntry = PortletFileRepositoryUtil.addPortletFileEntry(
-				groupId, fileEntry.getUserId(),
-				JournalArticle.class.getName(),
+				groupId, fileEntry.getUserId(), JournalArticle.class.getName(),
 				article.getResourcePrimKey(), JournalConstants.SERVICE_NAME,
 				folder.getFolderId(), fileEntry.getContentStream(),
 				fileEntryName, fileEntry.getMimeType(), false);
@@ -6685,24 +6701,6 @@ public class JournalArticleLocalServiceImpl
 		dynamicContentElement.clearContent();
 
 		dynamicContentElement.addCDATA(previewURL);
-	}
-
-	protected void formatImage(JournalArticle article, Element el)
-		throws PortalException {
-
-		List<Element> imageContents = el.elements("dynamic-content");
-
-		for (Element dynamicContent : imageContents) {
-			String elType = dynamicContent.attributeValue(
-				"type", StringPool.BLANK);
-
-			if (ExportImportThreadLocal.isImportInProcess()) {
-				continue;
-			}
-
-			formatImageDynamicContent(
-				article, elType, dynamicContent);
-		}
 	}
 
 	protected Locale getArticleDefaultLocale(String content) {
