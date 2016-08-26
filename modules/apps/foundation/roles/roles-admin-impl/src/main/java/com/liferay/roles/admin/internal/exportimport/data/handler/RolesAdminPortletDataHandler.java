@@ -220,6 +220,14 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 		return actionableDynamicQuery;
 	}
 
+	protected void setAllSystemRoleNames(Set<String> allSystemRoleNames) {
+
+		// Source formatter would finalize the variable if no setter is present
+		// in the class
+
+		_allSystemRoleNames = allSystemRoleNames;
+	}
+
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
 	protected void setModuleServiceLifecycle(
 		ModuleServiceLifecycle moduleServiceLifecycle) {
