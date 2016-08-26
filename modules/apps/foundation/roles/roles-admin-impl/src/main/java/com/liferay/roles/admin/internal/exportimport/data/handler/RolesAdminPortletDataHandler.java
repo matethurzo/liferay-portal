@@ -225,7 +225,7 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 		ModuleServiceLifecycle moduleServiceLifecycle) {
 	}
 
-	@Reference
+	@Reference(unbind = "-")
 	protected void setPortal(Portal portal) {
 		_allSystemRoleNames.addAll(
 			Arrays.asList(portal.getSystemOrganizationRoles()));
