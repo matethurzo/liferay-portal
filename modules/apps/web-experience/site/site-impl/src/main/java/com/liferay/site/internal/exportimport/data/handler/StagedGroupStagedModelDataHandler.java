@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.site.admin.web.internal.exportimport.data.handler;
+package com.liferay.site.internal.exportimport.data.handler;
 
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.xml.Element;
+import com.liferay.site.internal.exportimport.staged.model.repository.StagedGroupStagedModelRepository;
 import com.liferay.site.model.adapter.StagedGroup;
 
 import java.util.Collections;
@@ -137,16 +138,15 @@ public class StagedGroupStagedModelDataHandler
 		target = "(model.class.name=com.liferay.site.model.adapter.StagedGroup)",
 		unbind = "-"
 	)
-	protected void setStagedModelRepository(
+	protected void setStagedGroupStagedModelRepository(
 		StagedGroupStagedModelRepository stagedGroupStagedModelRepository) {
 
-		_stagedModelRepository = stagedModelRepository;
+		_stagedGroupStagedModelRepository = stagedGroupStagedModelRepository;
 	}
 
 	@Reference
 	private GroupLocalService _groupLocalService;
 
-	private final StagedGroupStagedModelRepository
-		_stagedGroupStagedModelRepository;
+	private StagedGroupStagedModelRepository _stagedGroupStagedModelRepository;
 
 }
