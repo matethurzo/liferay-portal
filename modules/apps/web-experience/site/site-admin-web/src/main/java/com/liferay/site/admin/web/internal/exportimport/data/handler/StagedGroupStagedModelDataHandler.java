@@ -83,8 +83,9 @@ public class StagedGroupStagedModelDataHandler
 			return true;
 		}
 
-		Group existingGroup = fetchExistingGroup(
-			portletDataContext, referenceElement);
+		Group existingGroup =
+			_stagedGroupStagedModelRepository.fetchExistingGroup(
+				portletDataContext, referenceElement);
 
 		if (existingGroup == null) {
 			return false;
@@ -115,8 +116,9 @@ public class StagedGroupStagedModelDataHandler
 			return;
 		}
 
-		Group existingGroup = fetchExistingGroup(
-			portletDataContext, referenceElement);
+		Group existingGroup =
+			_stagedGroupStagedModelRepository.fetchExistingGroup(
+				portletDataContext, referenceElement);
 
 		groupIds.put(groupId, existingGroup.getGroupId());
 	}
@@ -126,49 +128,9 @@ public class StagedGroupStagedModelDataHandler
 		PortletDataContext portletDataContext, StagedGroup stagedGroup) {
 	}
 
-	protected Group fetchExistingGroup(
-		PortletDataContext portletDataContext, Element referenceElement) {
-
-		long groupId = GetterUtil.getLong(
-			referenceElement.attributeValue("group-id"));
-		long liveGroupId = GetterUtil.getLong(
-			referenceElement.attributeValue("live-group-id"));
-
-		if ((groupId == 0) || (liveGroupId == 0)) {
-			return null;
-		}
-
-		return fetchExistingGroup(portletDataContext, groupId, liveGroupId);
-	}
-
-	protected Group fetchExistingGroup(
-		PortletDataContext portletDataContext, long groupId, long liveGroupId) {
-
-		Group liveGroup = _groupLocalService.fetchGroup(liveGroupId);
-
-		if (liveGroup != null) {
-			return liveGroup;
-		}
-
-		long existingGroupId = portletDataContext.getScopeGroupId();
-
-		if (groupId == portletDataContext.getSourceCompanyGroupId()) {
-			existingGroupId = portletDataContext.getCompanyGroupId();
-		}
-		else if (groupId == portletDataContext.getSourceGroupId()) {
-			existingGroupId = portletDataContext.getGroupId();
-		}
-
-		// During remote staging, valid mappings are found when the reference's
-		// group is properly staged. During local staging, valid mappings are
-		// found when the references do not change between staging and live.
-
-		return _groupLocalService.fetchGroup(existingGroupId);
-	}
-
 	@Override
 	protected StagedModelRepository<StagedGroup> getStagedModelRepository() {
-		return _stagedModelRepository;
+		return _stagedGroupStagedModelRepository;
 	}
 
 	@Reference(
@@ -176,7 +138,7 @@ public class StagedGroupStagedModelDataHandler
 		unbind = "-"
 	)
 	protected void setStagedModelRepository(
-		StagedModelRepository<StagedGroup> stagedModelRepository) {
+		StagedGroupStagedModelRepository stagedGroupStagedModelRepository) {
 
 		_stagedModelRepository = stagedModelRepository;
 	}
@@ -184,6 +146,7 @@ public class StagedGroupStagedModelDataHandler
 	@Reference
 	private GroupLocalService _groupLocalService;
 
-	private StagedModelRepository<StagedGroup> _stagedModelRepository;
+	private final StagedGroupStagedModelRepository
+		_stagedGroupStagedModelRepository;
 
 }
