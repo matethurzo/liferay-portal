@@ -36,9 +36,11 @@ import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.io.File;
+import java.io.Serializable;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -65,14 +67,15 @@ public class ExportImportContentProcessorControllerTest {
 
 	@Test
 	public void testExport() throws Exception {
+		Map<String, String[]> parameterMap = new HashMap<>();
+		Date startDate = new Date(System.currentTimeMillis() - Time.HOUR);
+		Date endDate = new Date();
 		ZipWriter zipWriter = ZipWriterFactoryUtil.getZipWriter();
 
 		PortletDataContext portletDataContext =
 			PortletDataContextFactoryUtil.createExportPortletDataContext(
-				_group.getCompanyId(), _group.getGroupId(),
-				new HashMap<String, String[]>(),
-				new Date(System.currentTimeMillis() - Time.HOUR), new Date(),
-				zipWriter);
+				_group.getCompanyId(), _group.getGroupId(), parameterMap,
+				startDate, endDate, zipWriter);
 
 		ExportImportContentProcessorController
 			exportImportContentProcessorController =
@@ -89,24 +92,30 @@ public class ExportImportContentProcessorControllerTest {
 
 	@Test
 	public void testImport() throws Exception {
+		boolean privateLayout = false;
+		long[] layoutIds = null;
+		Map<String, String[]> parameterMap = new HashMap<>();
+
+		Map<String, Serializable> settingsMap =
+			ExportImportConfigurationSettingsMapFactory.
+				buildExportLayoutSettingsMap(
+					TestPropsValues.getUser(), _group.getGroupId(),
+					privateLayout, layoutIds, parameterMap);
+
 		ExportImportConfiguration exportImportConfiguration =
 			ExportImportConfigurationLocalServiceUtil.
 				addDraftExportImportConfiguration(
 					TestPropsValues.getUserId(),
 					ExportImportConfigurationConstants.
 						TYPE_PUBLISH_LAYOUT_REMOTE,
-					ExportImportConfigurationSettingsMapFactory.
-						buildExportLayoutSettingsMap(
-							TestPropsValues.getUser(), _group.getGroupId(),
-							false, null, new HashMap<String, String[]>()));
+					settingsMap);
 
 		File file = ExportImportLocalServiceUtil.exportLayoutsAsFile(
 			exportImportConfiguration);
 
 		PortletDataContext portletDataContext =
 			PortletDataContextFactoryUtil.createImportPortletDataContext(
-				_group.getCompanyId(), _group.getGroupId(),
-				new HashMap<String, String[]>(),
+				_group.getCompanyId(), _group.getGroupId(), parameterMap,
 				new CurrentUserIdStrategy(TestPropsValues.getUser()),
 				ZipReaderFactoryUtil.getZipReader(file));
 
