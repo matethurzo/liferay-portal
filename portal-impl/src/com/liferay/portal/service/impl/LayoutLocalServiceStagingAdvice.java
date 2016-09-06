@@ -317,17 +317,26 @@ public class LayoutLocalServiceStagingAdvice implements MethodInterceptor {
 
 		serviceContext.setAttribute("revisionInProgress", hasWorkflowTask);
 
-		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+		int workflowAction = serviceContext.getWorkflowAction();
 
-		LayoutRevisionLocalServiceUtil.updateLayoutRevision(
-			serviceContext.getUserId(), layoutRevision.getLayoutRevisionId(),
-			layoutRevision.getLayoutBranchId(), layoutRevision.getName(),
-			layoutRevision.getTitle(), layoutRevision.getDescription(),
-			layoutRevision.getKeywords(), layoutRevision.getRobots(),
-			layoutRevision.getTypeSettings(), layoutRevision.getIconImage(),
-			layoutRevision.getIconImageId(), layoutRevision.getThemeId(),
-			layoutRevision.getColorSchemeId(), layoutRevision.getCss(),
-			serviceContext);
+		try {
+			serviceContext.setWorkflowAction(
+				WorkflowConstants.ACTION_SAVE_DRAFT);
+
+			LayoutRevisionLocalServiceUtil.updateLayoutRevision(
+				serviceContext.getUserId(),
+				layoutRevision.getLayoutRevisionId(),
+				layoutRevision.getLayoutBranchId(), layoutRevision.getName(),
+				layoutRevision.getTitle(), layoutRevision.getDescription(),
+				layoutRevision.getKeywords(), layoutRevision.getRobots(),
+				layoutRevision.getTypeSettings(), layoutRevision.getIconImage(),
+				layoutRevision.getIconImageId(), layoutRevision.getThemeId(),
+				layoutRevision.getColorSchemeId(), layoutRevision.getCss(),
+				serviceContext);
+		}
+		finally {
+			serviceContext.setWorkflowAction(workflowAction);
+		}
 
 		return layout;
 	}
