@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.roles.admin.lar.test;
+package com.liferay.roles.admin.internal.exportimport.data.handler;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.model.Group;
