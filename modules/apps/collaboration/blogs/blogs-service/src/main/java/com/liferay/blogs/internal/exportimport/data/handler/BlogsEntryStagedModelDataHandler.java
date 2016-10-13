@@ -226,7 +226,8 @@ public class BlogsEntryStagedModelDataHandler
 		for (Element referenceElement : referenceElements) {
 			String className = referenceElement.attributeValue("class-name");
 
-			if (className.equals(AssetCategory.class.getName()) ||
+			if (className.equals(FriendlyURL.class.getName()) ||
+				className.equals(AssetCategory.class.getName()) ||
 				className.equals(RatingsEntry.class.getName()) ||
 				className.equals(stagedModelClassName)) {
 
