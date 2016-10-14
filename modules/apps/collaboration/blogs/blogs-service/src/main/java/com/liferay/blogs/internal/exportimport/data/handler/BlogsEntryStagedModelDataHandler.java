@@ -55,6 +55,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
+import com.liferay.ratings.kernel.model.RatingsEntry;
 
 import java.io.InputStream;
 
@@ -62,7 +63,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import com.liferay.ratings.kernel.model.RatingsEntry;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -196,51 +196,6 @@ public class BlogsEntryStagedModelDataHandler
 
 		portletDataContext.addClassedModel(
 			entryElement, ExportImportPathUtil.getModelPath(entry), entry);
-	}
-
-	@Override
-	protected void importReferenceStagedModels(
-			PortletDataContext portletDataContext, BlogsEntry stagedModel)
-		throws PortletDataException {
-
-		Element stagedModelElement =
-			portletDataContext.getImportDataStagedModelElement(stagedModel);
-
-		Element referencesElement = stagedModelElement.element("references");
-
-		if (referencesElement == null) {
-			return;
-		}
-
-		DiscussionStagingHandler discussionStagingHandler =
-			CommentManagerUtil.getDiscussionStagingHandler();
-
-		String stagedModelClassName = null;
-
-		if (discussionStagingHandler != null) {
-			stagedModelClassName = discussionStagingHandler.getClassName();
-		}
-
-		List<Element> referenceElements = referencesElement.elements();
-
-		for (Element referenceElement : referenceElements) {
-			String className = referenceElement.attributeValue("class-name");
-
-			if (className.equals(FriendlyURL.class.getName()) ||
-				className.equals(AssetCategory.class.getName()) ||
-				className.equals(RatingsEntry.class.getName()) ||
-				className.equals(stagedModelClassName)) {
-
-				continue;
-			}
-
-			long classPK = GetterUtil.getLong(
-				referenceElement.attributeValue("class-pk"));
-
-			StagedModelDataHandlerUtil.importReferenceStagedModel(
-				portletDataContext, stagedModel, className, classPK);
-		}
-
 	}
 
 	@Override
@@ -474,6 +429,50 @@ public class BlogsEntryStagedModelDataHandler
 		}
 
 		return inputStream;
+	}
+
+	@Override
+	protected void importReferenceStagedModels(
+			PortletDataContext portletDataContext, BlogsEntry stagedModel)
+		throws PortletDataException {
+
+		Element stagedModelElement =
+			portletDataContext.getImportDataStagedModelElement(stagedModel);
+
+		Element referencesElement = stagedModelElement.element("references");
+
+		if (referencesElement == null) {
+			return;
+		}
+
+		DiscussionStagingHandler discussionStagingHandler =
+			CommentManagerUtil.getDiscussionStagingHandler();
+
+		String stagedModelClassName = null;
+
+		if (discussionStagingHandler != null) {
+			stagedModelClassName = discussionStagingHandler.getClassName();
+		}
+
+		List<Element> referenceElements = referencesElement.elements();
+
+		for (Element referenceElement : referenceElements) {
+			String className = referenceElement.attributeValue("class-name");
+
+			if (className.equals(FriendlyURL.class.getName()) ||
+				className.equals(AssetCategory.class.getName()) ||
+				className.equals(RatingsEntry.class.getName()) ||
+				className.equals(stagedModelClassName)) {
+
+				continue;
+			}
+
+			long classPK = GetterUtil.getLong(
+				referenceElement.attributeValue("class-pk"));
+
+			StagedModelDataHandlerUtil.importReferenceStagedModel(
+				portletDataContext, stagedModel, className, classPK);
+		}
 	}
 
 	/**

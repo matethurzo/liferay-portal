@@ -2320,9 +2320,6 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 			entry.getEntryId(), urlTitle);
 	}
 
-	@ServiceReference(type = FriendlyURLLocalService.class)
-	protected FriendlyURLLocalService friendlyURLLocalService;
-
 	@ServiceReference(type = BlogsEntryPersistence.class)
 	protected BlogsEntryPersistence blogsEntryPersistence;
 
@@ -2331,6 +2328,9 @@ public class BlogsEntryLocalServiceImpl extends BlogsEntryLocalServiceBaseImpl {
 
 	@ServiceReference(type = ClassNameLocalService.class)
 	protected ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(type = FriendlyURLLocalService.class)
+	protected FriendlyURLLocalService friendlyURLLocalService;
 
 	private static final String _COVER_IMAGE_FOLDER_NAME = "Cover Image";
 
