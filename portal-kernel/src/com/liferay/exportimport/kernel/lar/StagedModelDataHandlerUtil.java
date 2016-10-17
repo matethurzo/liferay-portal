@@ -17,6 +17,8 @@ package com.liferay.exportimport.kernel.lar;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
@@ -28,6 +30,7 @@ import com.liferay.portal.kernel.xml.Element;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Brian Wing Shun Chan
@@ -448,6 +451,11 @@ public class StagedModelDataHandlerUtil {
 		_getStagedModelDataHandler(T stagedModel) {
 
 		if (stagedModel == null) {
+			_log.error(
+				"Can not retrieve StagedModelDataHandler for a null value. " +
+					"This typically means something hasn't been exported " +
+						"properly");
+
 			return null;
 		}
 
@@ -458,5 +466,8 @@ public class StagedModelDataHandlerUtil {
 
 		return stagedModelDataHandler;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StagedModelDataHandlerUtil.class);
 
 }
