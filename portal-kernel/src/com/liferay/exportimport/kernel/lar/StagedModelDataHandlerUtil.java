@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.xml.Element;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Brian Wing Shun Chan
