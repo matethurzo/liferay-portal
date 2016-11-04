@@ -106,6 +106,12 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 			BackgroundTaskDisplay backgroundTaskDisplay = BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(backgroundTask);
 
 			String backgroundTaskName = backgroundTaskDisplay.getDisplayName(request);
+
+			boolean stagingPrivateLayout = (boolean)backgroundTask.getTaskContextMap().get("privateLayout");
+
+			String stagingPageLayoutDescription = (stagingPrivateLayout) ? LanguageUtil.get(request, "private-pages") : LanguageUtil.get(request, "public-pages");
+
+			backgroundTaskName = String.format("%s (%s)", backgroundTaskName, stagingPageLayoutDescription);
 			%>
 
 			<c:choose>
