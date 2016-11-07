@@ -150,7 +150,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportAssetCategories(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportAssetCategories(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -234,7 +234,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportComments(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportComments(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -244,7 +244,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportComments(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportComments(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -414,7 +414,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportRatings(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportRatings(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -424,7 +424,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportRatings(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#exportRatings(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -1486,7 +1486,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#importComments(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#importComments(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
@@ -1644,7 +1644,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	/**
 	 * @deprecated As of 3.0.0, replaced by {@link
-	 *             om.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#importRatings(
+	 *             com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler#importRatings(
 	 *             PortletDataContext, StagedModel)}
 	 */
 	@Deprecated
