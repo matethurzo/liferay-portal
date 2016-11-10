@@ -32,7 +32,7 @@ if (backgroundTaskId > 0) {
 }
 %>
 
-<liferay-ui:search-container emptyResultsMessage="no-export-processes-were-found">
+<liferay-ui:search-container emptyResultsMessage="no-processes-were-found">
 	<liferay-ui:search-container-results>
 
 		<%
