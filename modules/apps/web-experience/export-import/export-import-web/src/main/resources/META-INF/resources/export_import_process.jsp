@@ -18,6 +18,12 @@
 
 <%
 long backgroundTaskId = ParamUtil.getLong(request, "backgroundTaskId");
+String backURL = ParamUtil.getString(request, "backURL");
+
+if (Validator.isNotNull(backURL)) {
+	portletDisplay.setShowBackIcon(true);
+	portletDisplay.setURLBack(backURL);
+}
 
 BackgroundTask backgroundTask = null;
 
