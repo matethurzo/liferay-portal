@@ -24,10 +24,10 @@ long parentGroupId = ParamUtil.getLong(request, "parentGroupSearchContainerPrima
 
 if (parentGroupId <= 0) {
 	parentGroupId = GroupConstants.DEFAULT_PARENT_GROUP_ID;
+}
 
-	if (liveGroup != null) {
-		parentGroupId = liveGroup.getParentGroupId();
-	}
+if (liveGroup != null) {
+	parentGroupId = liveGroup.getParentGroupId();
 }
 
 Group parentGroup = null;
