@@ -57,11 +57,9 @@ if (backgroundTaskId > 0) {
 	>
 
 		<%
-		String backgroundTaskName = curBackgroundTask.getName();
+		BackgroundTaskDisplay backgroundTaskDisplay = BackgroundTaskDisplayFactoryUtil.getBackgroundTaskDisplay(curBackgroundTask);
 
-		if (backgroundTaskName.equals(StringPool.BLANK)) {
-			backgroundTaskName = LanguageUtil.get(request, "untitled");
-		}
+		String backgroundTaskName = backgroundTaskDisplay.getDisplayName(request);
 		%>
 
 		<liferay-ui:search-container-column-text>
