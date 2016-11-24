@@ -90,18 +90,23 @@ public class AssetVocabularySettingsImportHelper
 		String[] classNameIdsAndClassTypePKs, boolean required) {
 
 		for (String classNameIdAndClassTypePK : classNameIdsAndClassTypePKs) {
-			long classNameId = getClassNameId(classNameIdAndClassTypePK);
+			long oldClassNameId = getClassNameId(classNameIdAndClassTypePK);
 
-			if (!existClassName(classNameId)) {
+			if (!existClassName(oldClassNameId)) {
 				continue;
 			}
 
-			long classTypePK = getClassTypePK(classNameIdAndClassTypePK);
+			long newClassNameId = getNewClassNameId(oldClassNameId);
 
-			_classNameIds = ArrayUtil.append(
-				_classNameIds, getNewClassNameId(classNameId));
-			_classTypePKs = ArrayUtil.append(
-				_classTypePKs, getNewClassTypePK(classNameId, classTypePK));
+			_classNameIds = ArrayUtil.append(_classNameIds, newClassNameId);
+
+			long oldClassTypePK = getClassTypePK(classNameIdAndClassTypePK);
+
+			long newClassTypePK = getNewClassTypePK(
+				oldClassNameId, newClassNameId, oldClassTypePK);
+
+			_classTypePKs = ArrayUtil.append(_classTypePKs, newClassTypePK);
+
 			_requireds = ArrayUtil.append(_requireds, required);
 		}
 	}
@@ -123,14 +128,16 @@ public class AssetVocabularySettingsImportHelper
 		return _classNameLocalService.getClassNameId(className);
 	}
 
-	protected long getNewClassTypePK(long classNameId, long classTypePK) {
-		if (classTypePK == AssetCategoryConstants.ALL_CLASS_TYPE_PK) {
+	protected long getNewClassTypePK(
+		long oldClassNameId, long newClassNameId, long oldClassTypePK) {
+
+		if (oldClassTypePK == AssetCategoryConstants.ALL_CLASS_TYPE_PK) {
 			return AssetCategoryConstants.ALL_CLASS_TYPE_PK;
 		}
 
 		AssetRendererFactory<?> assetRendererFactory =
 			AssetRendererFactoryRegistryUtil.
-				getAssetRendererFactoryByClassNameId(classNameId);
+				getAssetRendererFactoryByClassNameId(newClassNameId);
 
 		ClassTypeReader classTypeReader =
 			assetRendererFactory.getClassTypeReader();
@@ -138,13 +145,13 @@ public class AssetVocabularySettingsImportHelper
 		List<ClassType> availableClassTypes =
 			classTypeReader.getAvailableClassTypes(_groupIds, _locale);
 
-		JSONObject metadataJSONObject = getMetadataJSONObject(classNameId);
+		JSONObject metadataJSONObject = getMetadataJSONObject(oldClassNameId);
 
 		JSONObject classTypesJSONObject = metadataJSONObject.getJSONObject(
 			"classTypes");
 
 		String classTypeName = classTypesJSONObject.getString(
-			String.valueOf(classTypePK));
+			String.valueOf(oldClassTypePK));
 
 		for (ClassType classType : availableClassTypes) {
 			if (classType.getName().equals(classTypeName)) {
