@@ -15,9 +15,17 @@
 package com.liferay.document.library.web.internal.exportimport.portlet.preferences.processor;
 
 import com.liferay.document.library.web.constants.DLPortletKeys;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.PortletDataException;
+import com.liferay.exportimport.portlet.preferences.processor.Capability;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessor;
 
+import java.util.List;
+
+import javax.portlet.PortletPreferences;
+
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Marcellus Tavares
@@ -28,5 +36,46 @@ import org.osgi.service.component.annotations.Component;
 	service = ExportImportPortletPreferencesProcessor.class
 )
 public class IGDisplayExportImportPortletPreferencesProcessor
-	extends DLExportImportPortletPreferencesProcessor {
+	implements ExportImportPortletPreferencesProcessor {
+
+	@Override
+	public List<Capability> getExportCapabilities() {
+		return
+			_dlExportImportPortletPreferencesProcessor.getExportCapabilities();
+	}
+
+	@Override
+	public List<Capability> getImportCapabilities() {
+		return
+			_dlExportImportPortletPreferencesProcessor.getImportCapabilities();
+	}
+
+	@Override
+	public PortletPreferences processExportPortletPreferences(
+			PortletDataContext portletDataContext,
+			PortletPreferences portletPreferences)
+		throws PortletDataException {
+
+		return
+			_dlExportImportPortletPreferencesProcessor.
+				processExportPortletPreferences(
+					portletDataContext, portletPreferences);
+	}
+
+	@Override
+	public PortletPreferences processImportPortletPreferences(
+			PortletDataContext portletDataContext,
+			PortletPreferences portletPreferences)
+		throws PortletDataException {
+
+		return
+			_dlExportImportPortletPreferencesProcessor.
+				processImportPortletPreferences(
+					portletDataContext, portletPreferences);
+	}
+
+	@Reference
+	private DLExportImportPortletPreferencesProcessor
+		_dlExportImportPortletPreferencesProcessor;
+
 }
