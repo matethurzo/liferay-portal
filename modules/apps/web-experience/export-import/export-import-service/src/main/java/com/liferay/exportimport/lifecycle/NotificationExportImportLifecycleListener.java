@@ -15,6 +15,7 @@
 package com.liferay.exportimport.lifecycle;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.exportimport.constants.ExportImportPortletKeys;
 import com.liferay.exportimport.kernel.lifecycle.BaseProcessExportImportLifecycleListener;
 import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleListener;

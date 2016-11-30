@@ -78,7 +78,7 @@ public class ExportImportUserNotificationHandler
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
 			userNotificationEvent.getPayload());
 
-		ExportImportConfiguration exportImportConfiguration;
+		ExportImportConfiguration exportImportConfiguration = null;
 
 		try {
 			exportImportConfiguration =
@@ -99,6 +99,7 @@ public class ExportImportUserNotificationHandler
 			"x-" +
 				ExportImportConfigurationConstants.getTypeLabel(
 					exportImportConfiguration.getType());
+
 		int status = jsonObject.getInt("status");
 
 		if (status == BackgroundTaskConstants.STATUS_SUCCESSFUL) {
