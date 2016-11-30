@@ -14,6 +14,7 @@
 
 package com.liferay.exportimport.lifecycle;
 
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.exportimport.constants.ExportImportPortletKeys;
 import com.liferay.exportimport.kernel.lifecycle.BaseProcessExportImportLifecycleListener;
 import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleListener;
@@ -40,6 +41,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Akos Thurzo
  */
 @Component(immediate = true, service = {ExportImportLifecycleListener.class})
+@ProviderType
 public class NotificationExportImportLifecycleListener
 	extends BaseProcessExportImportLifecycleListener {
 
