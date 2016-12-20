@@ -633,6 +633,10 @@
 			<finder-column name="groupId" />
 			<finder-column name="privateLayout" />
 		</finder>
+		<finder name="C_L" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="layoutPrototypeUuid" />
+		</finder>
 		<finder name="P_I" return-type="Layout">
 			<finder-column name="privateLayout" />
 			<finder-column name="iconImageId" />
