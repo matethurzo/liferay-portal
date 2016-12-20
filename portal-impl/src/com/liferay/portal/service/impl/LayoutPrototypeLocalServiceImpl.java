@@ -142,7 +142,8 @@ public class LayoutPrototypeLocalServiceImpl
 
 		// Group
 
-		if (layoutPersistence.countByLayoutPrototypeUuid(
+		if (layoutPersistence.countByC_L(
+				layoutPrototype.getCompanyId(),
 				layoutPrototype.getUuid()) > 0) {
 
 			throw new RequiredLayoutPrototypeException();
