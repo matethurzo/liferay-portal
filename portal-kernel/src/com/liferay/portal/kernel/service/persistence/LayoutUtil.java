@@ -1555,6 +1555,192 @@ public class LayoutUtil {
 	}
 
 	/**
+	* Returns all the layouts where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @return the matching layouts
+	*/
+	public static List<Layout> findByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid) {
+		return getPersistence().findByC_L(companyId, layoutPrototypeUuid);
+	}
+
+	/**
+	* Returns a range of all the layouts where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LayoutModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param start the lower bound of the range of layouts
+	* @param end the upper bound of the range of layouts (not inclusive)
+	* @return the range of matching layouts
+	*/
+	public static List<Layout> findByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid, int start, int end) {
+		return getPersistence()
+				   .findByC_L(companyId, layoutPrototypeUuid, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the layouts where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LayoutModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param start the lower bound of the range of layouts
+	* @param end the upper bound of the range of layouts (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching layouts
+	*/
+	public static List<Layout> findByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid, int start, int end,
+		OrderByComparator<Layout> orderByComparator) {
+		return getPersistence()
+				   .findByC_L(companyId, layoutPrototypeUuid, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the layouts where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LayoutModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param start the lower bound of the range of layouts
+	* @param end the upper bound of the range of layouts (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching layouts
+	*/
+	public static List<Layout> findByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid, int start, int end,
+		OrderByComparator<Layout> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByC_L(companyId, layoutPrototypeUuid, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first layout in the ordered set where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching layout
+	* @throws NoSuchLayoutException if a matching layout could not be found
+	*/
+	public static Layout findByC_L_First(long companyId,
+		java.lang.String layoutPrototypeUuid,
+		OrderByComparator<Layout> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchLayoutException {
+		return getPersistence()
+				   .findByC_L_First(companyId, layoutPrototypeUuid,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first layout in the ordered set where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching layout, or <code>null</code> if a matching layout could not be found
+	*/
+	public static Layout fetchByC_L_First(long companyId,
+		java.lang.String layoutPrototypeUuid,
+		OrderByComparator<Layout> orderByComparator) {
+		return getPersistence()
+				   .fetchByC_L_First(companyId, layoutPrototypeUuid,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last layout in the ordered set where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching layout
+	* @throws NoSuchLayoutException if a matching layout could not be found
+	*/
+	public static Layout findByC_L_Last(long companyId,
+		java.lang.String layoutPrototypeUuid,
+		OrderByComparator<Layout> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchLayoutException {
+		return getPersistence()
+				   .findByC_L_Last(companyId, layoutPrototypeUuid,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last layout in the ordered set where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching layout, or <code>null</code> if a matching layout could not be found
+	*/
+	public static Layout fetchByC_L_Last(long companyId,
+		java.lang.String layoutPrototypeUuid,
+		OrderByComparator<Layout> orderByComparator) {
+		return getPersistence()
+				   .fetchByC_L_Last(companyId, layoutPrototypeUuid,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the layouts before and after the current layout in the ordered set where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param plid the primary key of the current layout
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next layout
+	* @throws NoSuchLayoutException if a layout with the primary key could not be found
+	*/
+	public static Layout[] findByC_L_PrevAndNext(long plid, long companyId,
+		java.lang.String layoutPrototypeUuid,
+		OrderByComparator<Layout> orderByComparator)
+		throws com.liferay.portal.kernel.exception.NoSuchLayoutException {
+		return getPersistence()
+				   .findByC_L_PrevAndNext(plid, companyId, layoutPrototypeUuid,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the layouts where companyId = &#63; and layoutPrototypeUuid = &#63; from the database.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	*/
+	public static void removeByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid) {
+		getPersistence().removeByC_L(companyId, layoutPrototypeUuid);
+	}
+
+	/**
+	* Returns the number of layouts where companyId = &#63; and layoutPrototypeUuid = &#63;.
+	*
+	* @param companyId the company ID
+	* @param layoutPrototypeUuid the layout prototype uuid
+	* @return the number of matching layouts
+	*/
+	public static int countByC_L(long companyId,
+		java.lang.String layoutPrototypeUuid) {
+		return getPersistence().countByC_L(companyId, layoutPrototypeUuid);
+	}
+
+	/**
 	* Returns the layout where privateLayout = &#63; and iconImageId = &#63; or throws a {@link NoSuchLayoutException} if it could not be found.
 	*
 	* @param privateLayout the private layout
