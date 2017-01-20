@@ -328,12 +328,12 @@ public class AssetVocabularyStagedModelDataHandler
 	private AssetVocabularyLocalService _assetVocabularyLocalService;
 
 	@Reference
-	private Portal _portal;
-
-	@Reference
 	private ClassNameLocalService _classNameLocalService;
 
 	@Reference
 	private JSONFactory _jsonFactory;
+
+	@Reference
+	private Portal _portal;
 
 }
