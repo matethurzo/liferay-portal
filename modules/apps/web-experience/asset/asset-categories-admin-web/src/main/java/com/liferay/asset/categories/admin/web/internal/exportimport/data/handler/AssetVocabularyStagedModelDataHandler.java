@@ -120,7 +120,7 @@ public class AssetVocabularyStagedModelDataHandler
 			PortletDataContext portletDataContext, AssetVocabulary vocabulary)
 		throws Exception {
 
-		Locale locale = PortalUtil.getSiteDefaultLocale(
+		Locale locale = _portal.getSiteDefaultLocale(
 			portletDataContext.getScopeGroupId());
 
 		Element vocabularyElement = portletDataContext.getExportDataElement(
@@ -263,7 +263,7 @@ public class AssetVocabularyStagedModelDataHandler
 		long[] groupIds =
 			new long[] {portletDataContext.getCompanyGroupId(), groupId};
 
-		Locale locale = PortalUtil.getSiteDefaultLocale(groupId);
+		Locale locale = _portal.getSiteDefaultLocale(groupId);
 
 		AssetVocabularySettingsImportHelper
 			assetVocabularySettingsImportHelper =
