@@ -19,6 +19,7 @@ import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskThreadLocal;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.AccountNameException;
 import com.liferay.portal.kernel.exception.CompanyMxException;
@@ -79,6 +80,7 @@ import com.liferay.sites.kernel.util.SitesUtil;
 import java.io.File;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +113,22 @@ public class CompanyLocalServiceTest {
 			new LiferayIntegrationTestRule(),
 			SynchronousDestinationTestRule.INSTANCE);
 
+	public void resetBackgroundTaskThreadLocal() throws Exception {
+		Class<?> backgroundTaskThreadLocalClass =
+			BackgroundTaskThreadLocal.class;
+
+		Field backgroundTaskIdField =
+			backgroundTaskThreadLocalClass.getDeclaredField(
+				"_backgroundTaskId");
+
+		backgroundTaskIdField.setAccessible(true);
+
+		Method setMethod = ThreadLocal.class.getDeclaredMethod(
+			"set", Object.class);
+
+		setMethod.invoke(backgroundTaskIdField.get(null), 0L);
+	}
+
 	@Before
 	public void setUp() {
 		_companyId = CompanyThreadLocal.getCompanyId();
@@ -124,8 +142,10 @@ public class CompanyLocalServiceTest {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		CompanyThreadLocal.setCompanyId(_companyId);
+
+		resetBackgroundTaskThreadLocal();
 	}
 
 	@Test
