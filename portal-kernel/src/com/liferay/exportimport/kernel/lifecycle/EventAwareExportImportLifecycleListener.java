@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.StagedModel;
 public interface EventAwareExportImportLifecycleListener
 	extends ExportImportLifecycleListener {
 
+	@Override
 	public default void onExportImportLifecycleEvent(
 			ExportImportLifecycleEvent exportImportLifecycleEvent)
 		throws Exception {
