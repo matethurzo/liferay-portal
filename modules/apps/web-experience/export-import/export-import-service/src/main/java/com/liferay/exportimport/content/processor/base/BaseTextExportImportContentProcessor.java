@@ -1298,7 +1298,7 @@ public class BaseTextExportImportContentProcessor
 			}
 
 			if (Validator.isNull(url)) {
-				return;
+				continue;
 			}
 
 			Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
