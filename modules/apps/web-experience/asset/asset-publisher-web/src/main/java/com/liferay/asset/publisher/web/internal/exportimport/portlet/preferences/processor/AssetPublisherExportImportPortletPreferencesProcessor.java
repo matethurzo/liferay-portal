@@ -211,7 +211,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			assetEntries = baseModelSearchResult.getBaseModels();
 		}
 		else {
-			if (!AssetPublisherWebConfigurationValues.DYNAMIC_EXPORT_ENABLED) {
+			if (!AssetPublisherWebConfigurationValues.MANUAL_EXPORT_ENABLED) {
 				return;
 			}
 
