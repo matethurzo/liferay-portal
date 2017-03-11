@@ -920,6 +920,7 @@ public class FileSystemImporter extends BaseImporter {
 		String content = StringUtil.read(inputStream);
 
 		content = replaceFileEntryURL(content);
+		content = replaceLinksToLayouts(content);
 
 		Locale articleDefaultLocale = LocaleUtil.fromLanguageId(
 			LocalizationUtil.getDefaultLanguageId(content));
@@ -1402,9 +1403,10 @@ public class FileSystemImporter extends BaseImporter {
 		try {
 			indexStatusManager.setIndexReadOnly(true);
 
+			setUpSitemap("sitemap.json");
+
 			setUpAssets("assets.json");
 			setUpSettings("settings.json");
-			setUpSitemap("sitemap.json");
 
 			indexStatusManager.setIndexReadOnly(false);
 
@@ -1723,6 +1725,18 @@ public class FileSystemImporter extends BaseImporter {
 		return content;
 	}
 
+	protected String replaceLinksToLayouts(String content) throws Exception {
+		Matcher matcher = _groupIdPattern.matcher(content);
+
+		while (matcher.find()) {
+			content = matcher.replaceFirst(String.valueOf(groupId));
+
+			matcher.reset(content);
+		}
+
+		return content;
+	}
+
 	protected void resetLayoutColumns(Layout layout) {
 		UnicodeProperties typeSettings = layout.getTypeSettingsProperties();
 
@@ -2032,6 +2046,8 @@ public class FileSystemImporter extends BaseImporter {
 	private final Map<String, FileEntry> _fileEntries = new HashMap<>();
 	private final Pattern _fileEntryPattern = Pattern.compile(
 		"\\[\\$FILE=([^\\$]+)\\$\\]");
+	private final Pattern _groupIdPattern = Pattern.compile(
+		"\\[\\$GROUP_ID\\$\\]");
 	private final Map<String, Set<Long>> _primaryKeys = new HashMap<>();
 	private File _resourcesDir;
 
