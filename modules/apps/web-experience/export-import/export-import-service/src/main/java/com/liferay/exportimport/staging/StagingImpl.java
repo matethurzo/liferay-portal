@@ -845,53 +845,36 @@ public class StagingImpl implements Staging {
 					stagedModel);
 			}
 
+			String modelResource = ResourceActionsUtil.getModelResource(
+				locale, referrerClassName);
+
 			if (pde.getType() == PortletDataException.INVALID_GROUP) {
 				errorMessage = LanguageUtil.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-it-is-not-in-the-" +
 						"currently-exported-group",
-					new String[] {
-						ResourceActionsUtil.getModelResource(
-							locale, referrerClassName),
-						referrerDisplayName
-					},
-					false);
+					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else if (pde.getType() == PortletDataException.MISSING_DEPENDENCY) {
 				errorMessage = LanguageUtil.format(
 					locale,
 					"the-x-x-has-missing-references-that-could-not-be-found-" +
 						"during-the-process",
-					new String[] {
-						ResourceActionsUtil.getModelResource(
-							locale, referrerClassName),
-						referrerDisplayName
-					},
-					false);
+					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else if (pde.getType() == PortletDataException.STATUS_IN_TRASH) {
 				errorMessage = LanguageUtil.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-it-is-in-the-" +
 						"recycle-bin",
-					new String[] {
-						ResourceActionsUtil.getModelResource(
-							locale, referrerClassName),
-						referrerDisplayName
-					},
-					false);
+					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else if (pde.getType() == PortletDataException.STATUS_UNAVAILABLE) {
 				errorMessage = LanguageUtil.format(
 					locale,
 					"the-x-x-could-not-be-exported-because-its-workflow-" +
 						"status-is-not-exportable",
-					new String[] {
-						ResourceActionsUtil.getModelResource(
-							locale, referrerClassName),
-						referrerDisplayName
-					},
-					false);
+					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else {
 				errorMessage = e.getLocalizedMessage();
