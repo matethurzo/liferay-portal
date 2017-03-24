@@ -114,6 +114,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -877,7 +878,14 @@ public class StagingImpl implements Staging {
 					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else {
-				errorMessage = e.getLocalizedMessage();
+				errorMessage = LanguageUtil.format(
+					ResourceBundleUtil.getBundle(
+						"content.Language", locale, getClass()),
+					"the-following-error-occured-while-processing-the-x-x-x",
+					new String[] {
+						modelResource, referrerDisplayName,
+						e.getLocalizedMessage()
+					});
 			}
 
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
