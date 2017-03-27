@@ -156,11 +156,11 @@ public abstract class BaseStagedModelDataHandlerTestCase {
 
 		initExport();
 
-		Map<String, List<StagedModel>> dependentStagedModelsMap =
+		Map<String, List<StagedModel>> defaultDependentStagedModelsMap =
 			addDefaultDependentStagedModelsMap(stagingGroup);
 
 		StagedModel stagedModel = addDefaultStagedModel(
-			stagingGroup, dependentStagedModelsMap);
+			stagingGroup, defaultDependentStagedModelsMap);
 
 		if (stagedModel == null) {
 			return;
@@ -170,7 +170,7 @@ public abstract class BaseStagedModelDataHandlerTestCase {
 			portletDataContext, stagedModel);
 
 		validateExport(
-			portletDataContext, stagedModel, dependentStagedModelsMap);
+			portletDataContext, stagedModel, defaultDependentStagedModelsMap);
 
 		// Add default data to live site
 
