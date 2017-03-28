@@ -725,21 +725,23 @@ public class StagingImpl implements Staging {
 		else if (e instanceof LARTypeException) {
 			LARTypeException lte = (LARTypeException)e;
 
-			if (lte.getType() == LARTypeException.COMPANY_GROUP) {
+			if (lte.getType() == LARTypeException.TYPE_COMPANY_GROUP) {
 				errorMessage = LanguageUtil.format(
 					resourceBundle, "a-x-can-only-be-imported-to-a-x",
 					"global-site");
 			}
-			else if (lte.getType() == LARTypeException.LAYOUT_PROTOTYPE) {
+			else if (lte.getType() == LARTypeException.TYPE_LAYOUT_PROTOTYPE) {
 				errorMessage = LanguageUtil.format(
 					resourceBundle, "a-x-can-only-be-imported-to-a-x",
 					LanguageUtil.get(locale, "page-template"));
 			}
-			else if (lte.getType() == LARTypeException.LAYOUT_SET) {
+			else if (lte.getType() == LARTypeException.TYPE_LAYOUT_SET) {
 				errorMessage = LanguageUtil.format(
 					resourceBundle, "a-x-can-only-be-imported-to-a-x", "site");
 			}
-			else if (lte.getType() == LARTypeException.LAYOUT_SET_PROTOTYPE) {
+			else if (lte.getType() ==
+						LARTypeException.TYPE_LAYOUT_SET_PROTOTYPE) {
+
 				errorMessage = LanguageUtil.format(
 					resourceBundle, "a-x-can-only-be-imported-to-a-x",
 					LanguageUtil.get(locale, "site-template"));
@@ -760,11 +762,11 @@ public class StagingImpl implements Staging {
 		else if (e instanceof LARFileException) {
 			LARFileException lfe = (LARFileException)e;
 
-			if (lfe.getType() == LARFileException.MISSING_MANIFEST) {
+			if (lfe.getType() == LARFileException.TYPE_MISSING_MANIFEST) {
 				errorMessage = LanguageUtil.get(
 					resourceBundle, "missing-manifest.xml");
 			}
-			else if (lfe.getType() == LARFileException.INVALID_MANIFEST) {
+			else if (lfe.getType() == LARFileException.TYPE_INVALID_MANIFEST) {
 				errorMessage = LanguageUtil.format(
 					resourceBundle, "invalid-manifest.xml-x", lfe.getMessage());
 			}
@@ -778,14 +780,16 @@ public class StagingImpl implements Staging {
 		else if (e instanceof LayoutImportException) {
 			LayoutImportException lie = (LayoutImportException)e;
 
-			if (lie.getType() == LayoutImportException.WRONG_BUILD_NUMBER) {
+			if (lie.getType() ==
+					LayoutImportException.TYPE_WRONG_BUILD_NUMBER) {
+
 				errorMessage = LanguageUtil.format(
 					resourceBundle,
 					"lar-build-number-x-does-not-match-portal-build-number-x",
 					lie.getArguments());
 			}
 			else if (lie.getType() ==
-						LayoutImportException.WRONG_LAR_SCHEMA_VERSION) {
+						LayoutImportException.TYPE_WRONG_LAR_SCHEMA_VERSION) {
 
 				errorMessage = LanguageUtil.format(
 					resourceBundle,
@@ -794,7 +798,8 @@ public class StagingImpl implements Staging {
 					lie.getArguments());
 			}
 			else if (lie.getType() ==
-						LayoutImportException.WRONG_PORTLET_SCHEMA_VERSION) {
+						LayoutImportException.
+							TYPE_WRONG_PORTLET_SCHEMA_VERSION) {
 
 				Object[] arguments = lie.getArguments();
 
