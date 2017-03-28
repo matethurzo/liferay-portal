@@ -882,9 +882,9 @@ public class StagingImpl implements Staging {
 					errorMessage = LanguageUtil.format(
 						ResourceBundleUtil.getBundle(
 							"content.Language", locale, getClass()),
-						"the-following-error-occured-while-processing-the-x-x" +
-							"-x",
-						new String[]{
+						"the-following-error-occured-while-processing-the-x-" +
+							"x-x",
+						new String[] {
 							modelResource, referrerDisplayName,
 							e.getLocalizedMessage()
 						});
