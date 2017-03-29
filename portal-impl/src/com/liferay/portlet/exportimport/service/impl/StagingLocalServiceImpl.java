@@ -25,6 +25,8 @@ import com.liferay.exportimport.kernel.exception.RemoteExportException;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.MissingReferences;
+import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleConstants;
+import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleManagerUtil;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.staging.StagingConstants;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
@@ -431,6 +433,13 @@ public class StagingLocalServiceImpl extends StagingLocalServiceBaseImpl {
 			ExportImportThreadLocal.setLayoutImportInProcess(true);
 			ExportImportThreadLocal.setLayoutStagingInProcess(true);
 
+			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
+				ExportImportLifecycleConstants.
+					EVENT_PUBLICATION_LAYOUT_REMOTE_STARTED,
+				ExportImportLifecycleConstants.
+					PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS,
+				exportImportConfiguration);
+
 			Folder folder = PortletFileRepositoryUtil.getPortletFolder(
 				stagingRequestId);
 
@@ -461,9 +470,23 @@ public class StagingLocalServiceImpl extends StagingLocalServiceBaseImpl {
 			exportImportLocalService.importLayouts(
 				exportImportConfiguration, file);
 
+			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
+				ExportImportLifecycleConstants.
+					EVENT_PUBLICATION_LAYOUT_REMOTE_SUCCEEDED,
+				ExportImportLifecycleConstants.
+					PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS,
+				exportImportConfiguration);
+
 			return missingReferences;
 		}
 		catch (IOException ioe) {
+			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
+				ExportImportLifecycleConstants.
+					EVENT_PUBLICATION_LAYOUT_REMOTE_FAILED,
+				ExportImportLifecycleConstants.
+					PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS,
+				exportImportConfiguration);
+
 			throw new SystemException(ioe);
 		}
 		finally {
