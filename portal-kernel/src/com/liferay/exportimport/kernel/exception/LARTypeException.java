@@ -28,8 +28,6 @@ public class LARTypeException extends PortalException {
 
 	public static final int TYPE_DEFAULT = 0;
 
-	public static final int TYPE_GROUP = 4;
-
 	public static final int TYPE_LAYOUT_PROTOTYPE = 1;
 
 	public static final int TYPE_LAYOUT_SET = 2;
