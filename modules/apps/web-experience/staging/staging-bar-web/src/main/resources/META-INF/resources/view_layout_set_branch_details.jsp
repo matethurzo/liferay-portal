@@ -31,7 +31,7 @@ String stagingURL = (String)request.getAttribute("view.jsp-stagingURL");
 
 		<div class="dropdown">
 			<a class="dropdown-toggle layout-set-branch-selector staging-variation-selector" data-toggle="dropdown" href="#1">
-				<liferay-ui:message key="<%= HtmlUtil.escape(layoutSetBranch.getName()) %>" />
+				<liferay-ui:message key="<%= HtmlUtil.escape(layoutSetBranch.getName()) %>" localizeKey="<%= translateBranch(HtmlUtil.escape(layoutSetBranch.getName())) %>"/>
 
 				<aui:icon image="caret-double-l" markupView="lexicon" />
 			</a>
@@ -52,7 +52,7 @@ String stagingURL = (String)request.getAttribute("view.jsp-stagingURL");
 
 					<li>
 						<a class="<%= selected ? "disabled" : StringPool.BLANK %>" href="<%= selected ? "javascript:;" : "javascript:submitForm(document.hrefFm, '" + HtmlUtil.escapeJS(curLayoutSetBranchURL) + "');" %>">
-							<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" />
+							<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" localizeKey="<%= translateBranch(curLayoutSetBranch.getName())%>" />
 						</a>
 					</li>
 
@@ -64,3 +64,9 @@ String stagingURL = (String)request.getAttribute("view.jsp-stagingURL");
 		</div>
 	</li>
 </c:if>
+
+<%!
+	static boolean translateBranch(String branchName) {
+		return LayoutSetBranchConstants.MASTER_BRANCH_NAME.equals(branchName);
+	}
+%>

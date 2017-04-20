@@ -33,7 +33,7 @@ List<LayoutRevision> layoutRevisions = LayoutRevisionLocalServiceUtil.getChildLa
 
 	<div class="dropdown">
 		<a class="dropdown-toggle layout-branch-selector staging-variation-selector" data-toggle="dropdown" href="#1">
-			<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranch.getName()) %>" />
+			<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranch.getName()) %>" localizeKey="<%= translateBranch(HtmlUtil.escape(layoutBranch.getName()))%>"/>
 
 			<aui:icon image="caret-double-l" markupView="lexicon" />
 		</a>
@@ -56,7 +56,7 @@ List<LayoutRevision> layoutRevisions = LayoutRevisionLocalServiceUtil.getChildLa
 
 				<li>
 					<a class="<%= selected ? "disabled" : StringPool.BLANK %>" href="<%= selected ? "javascript:;" : curLayoutBranchURL %>">
-						<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutBranch.getName()) %>" />
+						<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutBranch.getName()) %>" localizeKey="<%= translateBranch(curLayoutBranch.getName())%>"/>
 					</a>
 				</li>
 
@@ -67,3 +67,9 @@ List<LayoutRevision> layoutRevisions = LayoutRevisionLocalServiceUtil.getChildLa
 		</ul>
 	</div>
 </li>
+
+<%!
+	static boolean translateBranch(String branchName) {
+		return LayoutBranchConstants.MASTER_BRANCH_NAME.equals(branchName);
+	}
+%>

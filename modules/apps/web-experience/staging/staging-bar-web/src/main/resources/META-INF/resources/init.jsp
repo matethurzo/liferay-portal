@@ -32,6 +32,7 @@ page import="com.liferay.exportimport.kernel.staging.LayoutStagingUtil" %><%@
 page import="com.liferay.exportimport.kernel.staging.StagingUtil" %><%@
 page import="com.liferay.portal.kernel.dao.orm.QueryUtil" %><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
+page import="com.liferay.portal.kernel.model.LayoutBranchConstants" %><%@
 page import="com.liferay.portal.kernel.exception.LayoutBranchNameException" %><%@
 page import="com.liferay.portal.kernel.exception.LayoutSetBranchNameException" %><%@
 page import="com.liferay.portal.kernel.exception.SystemException" %><%@

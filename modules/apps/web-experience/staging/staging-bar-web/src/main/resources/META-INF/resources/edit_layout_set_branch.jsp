@@ -96,7 +96,7 @@ if (layoutSetBranch != null) {
 					for (LayoutSetBranch curLayoutSetBranch : layoutSetBranches) {
 					%>
 
-						<aui:option label="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" value="<%= curLayoutSetBranch.getLayoutSetBranchId() %>" />
+						<aui:option label="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" value="<%= curLayoutSetBranch.getLayoutSetBranchId() %>" localizeLabel="<%= translateBranch(curLayoutSetBranch.getName()) %>"/>
 
 					<%
 					}
@@ -113,3 +113,9 @@ if (layoutSetBranch != null) {
 		</aui:button-row>
 	</aui:form>
 </div>
+
+<%!
+	static boolean translateBranch(String branchName) {
+		return LayoutSetBranchConstants.MASTER_BRANCH_NAME.equals(branchName);
+	}
+%>

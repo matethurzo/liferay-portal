@@ -68,7 +68,7 @@ request.setAttribute("view_layout_set_branches.jsp-currentLayoutSetBranchId", St
 						<strong>
 					</c:if>
 
-					<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" />
+					<liferay-ui:message key="<%= HtmlUtil.escape(curLayoutSetBranch.getName()) %>" localizeKey="<%= translateBranch(curLayoutSetBranch.getName())%>" />
 
 					<c:if test="<%= curLayoutSetBranch.isMaster() %>">
 						<i class="icon-asterisk"></i>
@@ -103,3 +103,9 @@ request.setAttribute("view_layout_set_branches.jsp-currentLayoutSetBranchId", St
 		}
 	);
 </aui:script>
+
+<%!
+	static boolean translateBranch(String branchName) {
+		return LayoutSetBranchConstants.MASTER_BRANCH_NAME.equals(branchName);
+	}
+%>
