@@ -68,7 +68,9 @@ public class TunnelUtil {
 
 		int responseCode = httpURLConnection.getResponseCode();
 
-		if ((responseCode == 401) || (responseCode == 403)) {
+		if ((responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) ||
+			(responseCode == HttpURLConnection.HTTP_FORBIDDEN)) {
+
 			throw new PrincipalException.MustBeAuthenticated(
 				httpPrincipal.getLogin());
 		}
