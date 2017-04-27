@@ -999,6 +999,20 @@ public class StagingImpl implements Staging {
 						false);
 				}
 			}
+			else if (pde.getType() == PortletDataException.INVALID_GROUP) {
+				errorMessage = LanguageUtil.format(
+					locale,
+					"the-x-x-could-not-be-exported-because-it-is-not-in-the-" +
+						"currently-exported-group",
+					new String[] {modelResource, referrerDisplayName}, false);
+			}
+			else if (pde.getType() == PortletDataException.MISSING_DEPENDENCY) {
+				errorMessage = LanguageUtil.format(
+					locale,
+					"the-x-x-has-missing-references-that-could-not-be-found-" +
+						"during-the-process",
+					new String[] {modelResource, referrerDisplayName}, false);
+			}
 			else if (pde.getType() ==
 						PortletDataException.PREPARE_MANIFEST_SUMMARY) {
 
@@ -1023,20 +1037,6 @@ public class StagingImpl implements Staging {
 						},
 						false);
 				}
-			}
-			else if (pde.getType() == PortletDataException.INVALID_GROUP) {
-				errorMessage = LanguageUtil.format(
-					locale,
-					"the-x-x-could-not-be-exported-because-it-is-not-in-the-" +
-						"currently-exported-group",
-					new String[] {modelResource, referrerDisplayName}, false);
-			}
-			else if (pde.getType() == PortletDataException.MISSING_DEPENDENCY) {
-				errorMessage = LanguageUtil.format(
-					locale,
-					"the-x-x-has-missing-references-that-could-not-be-found-" +
-						"during-the-process",
-					new String[] {modelResource, referrerDisplayName}, false);
 			}
 			else if (pde.getType() == PortletDataException.STATUS_IN_TRASH) {
 				errorMessage = LanguageUtil.format(
