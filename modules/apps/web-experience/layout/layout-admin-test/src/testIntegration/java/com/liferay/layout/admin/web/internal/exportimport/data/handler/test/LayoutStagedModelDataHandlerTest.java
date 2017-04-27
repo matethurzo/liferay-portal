@@ -98,7 +98,7 @@ public class LayoutStagedModelDataHandlerTest
 		ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
 			ExportImportLifecycleConstants.EVENT_LAYOUT_IMPORT_STARTED,
 			ExportImportLifecycleConstants.
-				PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS,
+				PROCESS_FLAG_LAYOUT_IMPORT_IN_PROCESS,
 			portletDataContext.getExportImportProcessId(),
 			PortletDataContextFactoryUtil.clonePortletDataContext(
 				portletDataContext));
@@ -117,7 +117,7 @@ public class LayoutStagedModelDataHandlerTest
 		ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
 			ExportImportLifecycleConstants.EVENT_LAYOUT_IMPORT_SUCCEEDED,
 			ExportImportLifecycleConstants.
-				PROCESS_FLAG_LAYOUT_STAGING_IN_PROCESS,
+				PROCESS_FLAG_LAYOUT_IMPORT_IN_PROCESS,
 			portletDataContext.getExportImportProcessId(),
 			PortletDataContextFactoryUtil.clonePortletDataContext(
 				portletDataContext));
