@@ -581,10 +581,6 @@ public class PortletExportController implements ExportController {
 		try {
 			data = portletDataHandler.exportData(
 				portletDataContext, portletId, jxPortletPreferences);
-
-			// Any exception should happen the BasePortletDataHandler populates
-			// it with the proper values
-
 		}
 		finally {
 			portletDataContext.setGroupId(groupId);
