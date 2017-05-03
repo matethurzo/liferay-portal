@@ -155,6 +155,14 @@ public class PortletDataContextFactoryImpl
 
 		readXML(portletDataContext);
 
+		Map<Long, Long> groupIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				Group.class);
+
+		groupIds.put(
+			portletDataContext.getSourceCompanyGroupId(),
+			portletDataContext.getCompanyGroupId());
+
 		return portletDataContext;
 	}
 
