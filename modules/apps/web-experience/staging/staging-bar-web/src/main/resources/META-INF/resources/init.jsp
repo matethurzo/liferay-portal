@@ -32,7 +32,6 @@ page import="com.liferay.exportimport.kernel.staging.LayoutStagingUtil" %><%@
 page import="com.liferay.exportimport.kernel.staging.StagingUtil" %><%@
 page import="com.liferay.portal.kernel.dao.orm.QueryUtil" %><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow" %><%@
-page import="com.liferay.portal.kernel.model.LayoutBranchConstants" %><%@
 page import="com.liferay.portal.kernel.exception.LayoutBranchNameException" %><%@
 page import="com.liferay.portal.kernel.exception.LayoutSetBranchNameException" %><%@
 page import="com.liferay.portal.kernel.exception.SystemException" %><%@
@@ -75,6 +74,8 @@ page import="com.liferay.portal.kernel.util.comparator.LayoutRevisionIdComparato
 page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %><%@
 page import="com.liferay.portal.kernel.workflow.WorkflowTask" %><%@
 page import="com.liferay.portal.util.PropsValues" %><%@
+page import="com.liferay.staging.bar.web.internal.display.context.LayoutBranchDisplayContext" %><%@
+page import="com.liferay.staging.bar.web.internal.display.context.LayoutSetBranchDisplayContext" %><%@
 page import="com.liferay.staging.constants.StagingProcessesWebKeys" %>
 
 <%@ page import="java.util.ArrayList" %><%@
@@ -108,6 +109,9 @@ if (selLayout != null) {
 
 	privateLayout = selLayout.isPrivateLayout();
 }
+
+LayoutBranchDisplayContext layoutBranchDisplayContext = new LayoutBranchDisplayContext(request);
+LayoutSetBranchDisplayContext layoutSetBranchDisplayContext = new LayoutSetBranchDisplayContext(request);
 %>
 
 <%@ include file="/init-ext.jsp" %>

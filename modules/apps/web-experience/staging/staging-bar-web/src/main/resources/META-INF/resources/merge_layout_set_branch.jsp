@@ -66,20 +66,18 @@ if (layoutSetBranches.contains(layoutSetBranch)) {
 			>
 
 				<%
-					long curLayoutSetBranchId = curLayoutSetBranch.getLayoutSetBranchId();
+				long curLayoutSetBranchId = curLayoutSetBranch.getLayoutSetBranchId();
 
-					boolean translateBranchName = LayoutSetBranchConstants.MASTER_BRANCH_NAME.equals(curLayoutSetBranch.getName());
+				String layoutSetBranchDisplayName = layoutSetBranchDisplayContext.layoutSetBranchDisplayName(curLayoutSetBranch);
 				%>
 
 				<liferay-ui:search-container-column-text
 					name="branch"
-					value="<%= curLayoutSetBranch.getName() %>"
-					translate="<%= translateBranchName %>"
+					value="<%= layoutSetBranchDisplayName %>"
 				/>
 
 				<liferay-ui:search-container-column-text>
-
-					<a class="layout-set-branch" data-layoutSetBranchId="<%= curLayoutSetBranchId %>" data-layoutSetBranchMessage="<%= HtmlUtil.escapeAttribute(LanguageUtil.format(request, "are-you-sure-you-want-to-merge-changes-from-x", curLayoutSetBranch.getName(), translateBranchName)) %>" data-layoutSetBranchName="<%= HtmlUtil.escapeAttribute(curLayoutSetBranch.getName()) %>" href="#" id="<portlet:namespace /><%= curLayoutSetBranchId %>" onClick="<portlet:namespace />selectLayoutSetBranch('<%= curLayoutSetBranchId %>');">
+					<a class="layout-set-branch" data-layoutSetBranchId="<%= curLayoutSetBranchId %>" data-layoutSetBranchMessage="<%= HtmlUtil.escapeAttribute(LanguageUtil.format(request, "are-you-sure-you-want-to-merge-changes-from-x", layoutSetBranchDisplayName, false)) %>" data-layoutSetBranchName="<%= HtmlUtil.escapeAttribute(curLayoutSetBranch.getName()) %>" href="#" id="<portlet:namespace /><%= curLayoutSetBranchId %>" onClick="<portlet:namespace />selectLayoutSetBranch('<%= curLayoutSetBranchId %>');">
 						<liferay-ui:message key="select" />
 					</a>
 				</liferay-ui:search-container-column-text>
