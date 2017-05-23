@@ -99,6 +99,7 @@ public class PageRatingsPortletDataHandler extends BasePortletDataHandler {
 		throws Exception {
 
 		ExportImportProcessCallbackRegistryUtil.registerCallback(
+			portletDataContext.getExportImportProcessId(),
 			new ImportRatingsCallable(portletDataContext));
 
 		return null;
