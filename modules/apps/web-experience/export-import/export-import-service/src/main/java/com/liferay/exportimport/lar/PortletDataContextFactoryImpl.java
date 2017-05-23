@@ -71,7 +71,11 @@ public class PortletDataContextFactoryImpl
 		clonePortletDataContext.setDataStrategy(
 			portletDataContext.getDataStrategy());
 		clonePortletDataContext.setEndDate(portletDataContext.getEndDate());
+		clonePortletDataContext.setExportDataRootElement(
+			portletDataContext.getExportDataRootElement());
 		clonePortletDataContext.setGroupId(portletDataContext.getGroupId());
+		clonePortletDataContext.setImportDataRootElement(
+			portletDataContext.getImportDataRootElement());
 
 		long[] layoutIds = portletDataContext.getLayoutIds();
 
@@ -110,6 +114,8 @@ public class PortletDataContextFactoryImpl
 			portletDataContext.getUserIdStrategy());
 		clonePortletDataContext.setUserPersonalSiteGroupId(
 			portletDataContext.getUserPersonalSiteGroupId());
+		clonePortletDataContext.setZipReader(portletDataContext.getZipReader());
+		clonePortletDataContext.setZipWriter(portletDataContext.getZipWriter());
 
 		return clonePortletDataContext;
 	}
