@@ -38,20 +38,20 @@ public class LayoutSetBranchDisplayContext {
 	}
 
 	public String getLayoutSetBranchDisplayName(String layoutSetBranchName) {
-		if (shouldTranslateLayoutSetBranchName(layoutSetBranchName)) {
+		if (_shouldTranslateLayoutSetBranchName(layoutSetBranchName)) {
 			return LanguageUtil.get(_httpServletRequest, layoutSetBranchName);
 		}
 
 		return layoutSetBranchName;
 	}
 
-	public boolean shouldTranslateLayoutSetBranchName(
+	private boolean _shouldTranslateLayoutSetBranchName(
 		LayoutSetBranch layoutSetBranch) {
 
-		return shouldTranslateLayoutSetBranchName(layoutSetBranch.getName());
+		return _shouldTranslateLayoutSetBranchName(layoutSetBranch.getName());
 	}
 
-	public boolean shouldTranslateLayoutSetBranchName(
+	private boolean _shouldTranslateLayoutSetBranchName(
 		String layoutSetBranchName) {
 
 		return LayoutSetBranchConstants.MASTER_BRANCH_NAME.equals(
