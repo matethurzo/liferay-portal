@@ -83,7 +83,7 @@ if (Validator.isNull(publisherName)) {
 	publisherName = typeSettingsProperties.getProperty("last-import-user-name");
 }
 
-String lastImportLayoutSetBranchDisplayName = HtmlUtil.escape(layoutSetBranchDisplayContext.layoutSetBranchDisplayName(lastImportLayoutSetBranchName));
+String lastImportLayoutSetBranchDisplayName = HtmlUtil.escape(layoutSetBranchDisplayContext.getLayoutSetBranchDisplayName(lastImportLayoutSetBranchName));
 %>
 
 <c:choose>
@@ -96,7 +96,7 @@ String lastImportLayoutSetBranchDisplayName = HtmlUtil.escape(layoutSetBranchDis
 					<span class="last-publication-variation-details">(
 						<c:if test="<%= Validator.isNotNull(lastImportLayoutBranchName) && (layoutRevisions.size() > 1) %>">
 							<span class="variation-name">
-								<liferay-ui:message key="variation" />: <strong><liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.layoutBranchDisplayName(lastImportLayoutBranchName)) %>" localizeKey="<%= false %>" /></strong>
+								<liferay-ui:message key="variation" />: <strong><liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.getLayoutBranchDisplayName(lastImportLayoutBranchName)) %>" localizeKey="<%= false %>" /></strong>
 							</span>
 						</c:if>
 

@@ -33,7 +33,7 @@ List<LayoutRevision> layoutRevisions = LayoutRevisionLocalServiceUtil.getChildLa
 
 	<div class="dropdown">
 		<a class="dropdown-toggle layout-branch-selector staging-variation-selector" data-toggle="dropdown" href="#1">
-			<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.layoutBranchDisplayName(layoutBranch)) %>" localizeKey="<%= false %>" />
+			<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.getLayoutBranchDisplayName(layoutBranch)) %>" localizeKey="<%= false %>" />
 
 			<aui:icon image="caret-double-l" markupView="lexicon" />
 		</a>
@@ -56,7 +56,7 @@ List<LayoutRevision> layoutRevisions = LayoutRevisionLocalServiceUtil.getChildLa
 
 				<li>
 					<a class="<%= selected ? "disabled" : StringPool.BLANK %>" href="<%= selected ? "javascript:;" : curLayoutBranchURL %>">
-						<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.layoutBranchDisplayName(curLayoutBranch)) %>" localizeKey="<%= false %>" />
+						<liferay-ui:message key="<%= HtmlUtil.escape(layoutBranchDisplayContext.getLayoutBranchDisplayName(curLayoutBranch)) %>" localizeKey="<%= false %>" />
 					</a>
 				</li>
 

@@ -31,11 +31,13 @@ public class LayoutSetBranchDisplayContext {
 		_httpServletRequest = httpServletRequest;
 	}
 
-	public String layoutSetBranchDisplayName(LayoutSetBranch layoutSetBranch) {
-		return layoutSetBranchDisplayName(layoutSetBranch.getName());
+	public String getLayoutSetBranchDisplayName(
+		LayoutSetBranch layoutSetBranch) {
+
+		return getLayoutSetBranchDisplayName(layoutSetBranch.getName());
 	}
 
-	public String layoutSetBranchDisplayName(String layoutSetBranchName) {
+	public String getLayoutSetBranchDisplayName(String layoutSetBranchName) {
 		if (shouldTranslateLayoutSetBranchName(layoutSetBranchName)) {
 			return LanguageUtil.get(_httpServletRequest, layoutSetBranchName);
 		}

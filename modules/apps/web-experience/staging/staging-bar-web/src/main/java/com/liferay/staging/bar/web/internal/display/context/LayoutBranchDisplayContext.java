@@ -29,11 +29,11 @@ public class LayoutBranchDisplayContext {
 		_httpServletRequest = httpServletRequest;
 	}
 
-	public String layoutBranchDisplayName(LayoutBranch layoutBranch) {
-		return layoutBranchDisplayName(layoutBranch.getName());
+	public String getLayoutBranchDisplayName(LayoutBranch layoutBranch) {
+		return getLayoutBranchDisplayName(layoutBranch.getName());
 	}
 
-	public String layoutBranchDisplayName(String layoutBranchName) {
+	public String getLayoutBranchDisplayName(String layoutBranchName) {
 		if (shouldTranslateLayoutBranchName(layoutBranchName)) {
 			return LanguageUtil.get(_httpServletRequest, layoutBranchName);
 		}

@@ -68,7 +68,7 @@ if (layoutSetBranches.contains(layoutSetBranch)) {
 				<%
 				long curLayoutSetBranchId = curLayoutSetBranch.getLayoutSetBranchId();
 
-				String layoutSetBranchDisplayName = layoutSetBranchDisplayContext.layoutSetBranchDisplayName(curLayoutSetBranch);
+				String layoutSetBranchDisplayName = layoutSetBranchDisplayContext.getLayoutSetBranchDisplayName(curLayoutSetBranch);
 				%>
 
 				<liferay-ui:search-container-column-text

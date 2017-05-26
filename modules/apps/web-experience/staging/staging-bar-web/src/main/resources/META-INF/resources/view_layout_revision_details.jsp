@@ -39,7 +39,7 @@ if (workflowEnabled) {
 
 String taglibHelpMessage = null;
 
-String layoutSetBranchName = HtmlUtil.escape(layoutSetBranchDisplayContext.layoutSetBranchDisplayName(layoutSetBranch));
+String layoutSetBranchName = HtmlUtil.escape(layoutSetBranchDisplayContext.getLayoutSetBranchDisplayName(layoutSetBranch));
 
 if (layoutRevision.isHead()) {
 	taglibHelpMessage = LanguageUtil.format(request, "this-version-will-be-published-when-x-is-published-to-live", layoutSetBranchName, false);
