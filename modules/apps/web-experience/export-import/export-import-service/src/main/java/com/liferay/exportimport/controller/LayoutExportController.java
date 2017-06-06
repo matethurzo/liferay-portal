@@ -420,6 +420,12 @@ public class LayoutExportController implements ExportController {
 			settingsMap, "privateLayout");
 		long[] layoutIds = GetterUtil.getLongValues(
 			settingsMap.get("layoutIds"));
+		boolean allPages = MapUtil.getBoolean(settingsMap, "allPages");
+
+		if (allPages) {
+			layoutIds = _exportImportHelper.getAllLayoutIds(
+				sourceGroupId, privateLayout);
+		}
 
 		portletDataContext.setExportImportProcessId(
 			String.valueOf(
