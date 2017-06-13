@@ -96,10 +96,13 @@ public class EventRemotePropagatorExportImportLifecycleListener
 				exportImportConfiguration ->
 					exportImportConfiguration.getSettingsMap());
 
-		long sourceGroupId = GetterUtil.getLong(
-			settingsMapOptional.map(
-				settingsMap -> settingsMap.get("sourceGroupId")).orElse(
-				GroupConstants.ANY_PARENT_GROUP_ID));
+		Serializable sourceGroupIdSerializable = settingsMapOptional.map(
+			settingsMap -> settingsMap.get("sourceGroupId")
+		).orElse(
+			GroupConstants.ANY_PARENT_GROUP_ID
+		);
+
+		long sourceGroupId = GetterUtil.getLong(sourceGroupIdSerializable);
 
 		Group sourceGroup = _groupLocalService.fetchGroup(sourceGroupId);
 
@@ -107,10 +110,13 @@ public class EventRemotePropagatorExportImportLifecycleListener
 			return false;
 		}
 
-		long targetGroupId = GetterUtil.getLong(
-			settingsMapOptional.map(
-				settingsMap -> settingsMap.get("targetGroupId")).orElse(
-				GroupConstants.ANY_PARENT_GROUP_ID));
+		Serializable targetGroupIdSerializable = settingsMapOptional.map(
+			settingsMap -> settingsMap.get("targetGroupId")
+		).orElse(
+			GroupConstants.ANY_PARENT_GROUP_ID
+		);
+
+		long targetGroupId = GetterUtil.getLong(targetGroupIdSerializable);
 
 		Group targetGroup = _groupLocalService.fetchGroup(targetGroupId);
 
@@ -151,11 +157,15 @@ public class EventRemotePropagatorExportImportLifecycleListener
 
 		return exportImportConfigurationOptional.map(
 			exportImportConfiguration ->
-				exportImportConfiguration.getSettingsMap()).map(
-				settingsMap -> MapUtil.getLong(settingsMap, "userId")).map(
-				userId -> _userLocalService.fetchUser(userId)).flatMap(
-				user -> _getHttpPrincipal(
-					user, _getRemoteURL(exportImportLifecycleEvent)));
+				exportImportConfiguration.getSettingsMap()
+		).map(
+			settingsMap -> MapUtil.getLong(settingsMap, "userId")
+		).map(
+			userId -> _userLocalService.fetchUser(userId)
+		).flatMap(
+			user -> _getHttpPrincipal(
+				user, _getRemoteURL(exportImportLifecycleEvent))
+		);
 	}
 
 	private Optional<HttpPrincipal> _getHttpPrincipal(
