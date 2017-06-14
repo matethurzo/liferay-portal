@@ -424,24 +424,13 @@ public class StagedAssetLinkStagedModelRepository
 		return uuid.substring(uuid.indexOf(StringPool.POUND) + 1);
 	}
 
-	@Reference(unbind = "-")
-	protected void setAssetEntryLocalService(
-		AssetEntryLocalService assetEntryLocalService) {
-
-		_assetEntryLocalService = assetEntryLocalService;
-	}
-
-	@Reference(unbind = "-")
-	protected void setAssetLinkLocalService(
-		AssetLinkLocalService assetLinkLocalService) {
-
-		_assetLinkLocalService = assetLinkLocalService;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagedAssetLinkStagedModelRepository.class);
 
+	@Reference
 	private AssetEntryLocalService _assetEntryLocalService;
+
+	@Reference
 	private AssetLinkLocalService _assetLinkLocalService;
 
 	@Reference
