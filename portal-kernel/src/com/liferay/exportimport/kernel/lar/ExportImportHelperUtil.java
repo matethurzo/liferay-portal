@@ -352,6 +352,14 @@ public class ExportImportHelperUtil {
 			userId, sourceGroupId, backgroundTask, file);
 	}
 
+	public static boolean isStagedPortletData(
+			long companyId, long groupId, String className)
+		throws Exception {
+
+		return _exportImportHelper.isStagedPortletData(
+			companyId, groupId, className);
+	}
+
 	/**
 	 * @deprecated As of Wilberforce (7.0.x), replaced by
 	 *             com.liferay.exportimport.content.processor.ExportImportContentProcessorr#replaceExportContentReferences(

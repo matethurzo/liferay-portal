@@ -310,6 +310,10 @@ public interface ExportImportHelper {
 			File file)
 		throws PortalException;
 
+	public boolean isStagedPortletData(
+			long companyId, long groupId, String className)
+		throws Exception;
+
 	/**
 	 * @deprecated As of Wilberforce (7.0.x), replaced by
 	 *             com.liferay.exportimport.content.processor.ExportImportContentProcessor#replaceExportContentReferences(

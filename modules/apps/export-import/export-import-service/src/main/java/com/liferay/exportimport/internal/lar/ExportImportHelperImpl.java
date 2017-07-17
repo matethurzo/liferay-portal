@@ -942,6 +942,26 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 		}
 	}
 
+	@Override
+	public boolean isStagedPortletData(
+		long companyId, long groupId, String className) throws Exception {
+
+		Group group = _groupLocalService.getGroup(groupId);
+
+		for (Portlet portlet : getDataSiteLevelPortlets(companyId, true)) {
+			PortletDataHandler portletDataHandler =
+				portlet.getPortletDataHandlerInstance();
+
+			String[] classNames = portletDataHandler.getClassNames();
+
+			if (ArrayUtil.contains(classNames, className)) {
+				return group.isStagedPortlet(portlet.getRootPortletId());
+			}
+		}
+
+		return true;
+	}
+
 	/**
 	 * @deprecated As of Judson (7.1.x), replaced by {@link
 	 *             com.liferay.exportimport.content.processor.ExportImportContentProcessor#replaceExportContentReferences(
