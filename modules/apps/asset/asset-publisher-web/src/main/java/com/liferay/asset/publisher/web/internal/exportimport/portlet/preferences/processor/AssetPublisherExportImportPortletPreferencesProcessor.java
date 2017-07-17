@@ -34,6 +34,7 @@ import com.liferay.dynamic.data.mapping.kernel.DDMStructureManager;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.util.DDMIndexer;
+import com.liferay.exportimport.kernel.lar.ExportImportHelper;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
@@ -361,7 +362,12 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			DDMStructure ddmStructure =
 				_ddmStructureLocalService.fetchStructure(primaryKeyLong);
 
-			if (ddmStructure != null) {
+			if ((ddmStructure != null) &&
+				_exportImportHelper.isStagedPortletData(
+					portletDataContext.getCompanyId(),
+					portletDataContext.getGroupId(),
+					ddmStructure.getClassName())) {
+
 				uuid = ddmStructure.getUuid();
 				groupId = ddmStructure.getGroupId();
 
@@ -373,7 +379,12 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			DLFileEntryType dlFileEntryType =
 				_dlFileEntryTypeLocalService.fetchFileEntryType(primaryKeyLong);
 
-			if (dlFileEntryType != null) {
+			if ((dlFileEntryType != null) &&
+				_exportImportHelper.isStagedPortletData(
+					portletDataContext.getCompanyId(),
+					portletDataContext.getGroupId(),
+					DLFileEntry.class.getName())) {
+
 				uuid = dlFileEntryType.getUuid();
 				groupId = dlFileEntryType.getGroupId();
 
@@ -1369,6 +1380,9 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 	@Reference
 	protected StagingGroupHelper stagingGroupHelper;
+
+	@Reference
+	private ExportImportHelper _exportImportHelper;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		AssetPublisherExportImportPortletPreferencesProcessor.class);
