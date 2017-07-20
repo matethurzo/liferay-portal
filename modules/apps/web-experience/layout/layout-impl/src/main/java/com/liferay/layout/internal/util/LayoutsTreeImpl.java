@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portlet.layoutsadmin.util;
+package com.liferay.layout.internal.util;
 
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
@@ -64,7 +64,7 @@ import javax.servlet.http.HttpSession;
  * @author Zsolt Szabó
  * @author Tibor Lipusz
  */
-public class LayoutsTreeUtil {
+public class LayoutsTreeImpl {
 
 	public static String getLayoutsJSON(
 			HttpServletRequest request, long groupId, boolean privateLayout,
