@@ -89,6 +89,7 @@ public interface ${entity.name}${sessionTypeName}Service
 		<#if entity.isPermissionedModel()>
 			, PermissionedModelLocalService
 		<#elseif entity.isResourcedModel()>
+			, PersistedModelLocalService
 			, PersistedResourcedModelLocalService
 		<#else>
 			, PersistedModelLocalService
