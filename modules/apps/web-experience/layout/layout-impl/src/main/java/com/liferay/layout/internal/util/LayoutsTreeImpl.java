@@ -45,7 +45,9 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
+import com.liferay.portlet.layoutsadmin.util.LayoutsTree;
 import com.liferay.sites.kernel.util.SitesUtil;
+import org.osgi.service.component.annotations.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,9 +66,11 @@ import javax.servlet.http.HttpSession;
  * @author Zsolt Szabó
  * @author Tibor Lipusz
  */
-public class LayoutsTreeImpl {
+@Component(immediate = true)
+public class LayoutsTreeImpl implements LayoutsTree {
 
-	public static String getLayoutsJSON(
+	@Override
+	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, boolean privateLayout,
 			long parentLayoutId, boolean incomplete, String treeId)
 		throws Exception {
@@ -76,7 +80,8 @@ public class LayoutsTreeImpl {
 			treeId);
 	}
 
-	public static String getLayoutsJSON(
+	@Override
+	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, boolean privateLayout,
 			long layoutId, int max)
 		throws Exception {
@@ -132,7 +137,8 @@ public class LayoutsTreeImpl {
 		return jsonObject.toString();
 	}
 
-	public static String getLayoutsJSON(
+	@Override
+	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, boolean privateLayout,
 			long parentLayoutId, long[] expandedLayoutIds, boolean incomplete,
 			String treeId)
@@ -165,7 +171,8 @@ public class LayoutsTreeImpl {
 		return _toJSON(request, groupId, layoutTreeNodes);
 	}
 
-	public static String getLayoutsJSON(
+	@Override
+	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, String treeId)
 		throws Exception {
 
@@ -195,7 +202,7 @@ public class LayoutsTreeImpl {
 		return _toJSON(request, groupId, layoutTreeNodes);
 	}
 
-	private static Layout _fetchCurrentLayout(HttpServletRequest request) {
+	private Layout _fetchCurrentLayout(HttpServletRequest request) {
 		long selPlid = ParamUtil.getLong(request, "selPlid");
 
 		if (selPlid > 0) {
@@ -214,7 +221,7 @@ public class LayoutsTreeImpl {
 		return null;
 	}
 
-	private static List<Layout> _getAncestorLayouts(HttpServletRequest request)
+	private List<Layout> _getAncestorLayouts(HttpServletRequest request)
 		throws Exception {
 
 		Layout layout = _fetchCurrentLayout(request);
@@ -245,7 +252,7 @@ public class LayoutsTreeImpl {
 		return ancestorLayouts;
 	}
 
-	private static LayoutTreeNodes _getLayoutTreeNodes(
+	private LayoutTreeNodes _getLayoutTreeNodes(
 			HttpServletRequest request, long groupId, boolean privateLayout,
 			long parentLayoutId, boolean incomplete, long[] expandedLayoutIds,
 			String treeId)
@@ -323,7 +330,7 @@ public class LayoutsTreeImpl {
 		return new LayoutTreeNodes(layoutTreeNodes, layouts.size());
 	}
 
-	private static int _getLoadedLayoutsCount(
+	private int _getLoadedLayoutsCount(
 			HttpSession session, long groupId, boolean privateLayout,
 			long layoutId, String treeId)
 		throws Exception {
@@ -365,7 +372,7 @@ public class LayoutsTreeImpl {
 		return paginationJSONObject.getInt(String.valueOf(layoutId), 0);
 	}
 
-	private static boolean _isDeleteable(
+	private boolean _isDeleteable(
 			Layout layout, ThemeDisplay themeDisplay)
 		throws PortalException {
 
@@ -389,7 +396,7 @@ public class LayoutsTreeImpl {
 		return true;
 	}
 
-	private static boolean _isExpandableLayout(
+	private boolean _isExpandableLayout(
 		HttpServletRequest request, List<Layout> ancestorLayouts,
 		long[] expandedLayoutIds, Layout layout) {
 
@@ -417,7 +424,7 @@ public class LayoutsTreeImpl {
 		return false;
 	}
 
-	private static List<Layout> _paginateLayouts(
+	private List<Layout> _paginateLayouts(
 			HttpServletRequest request, long groupId, boolean privateLayout,
 			long parentLayoutId, List<Layout> layouts, String treeId)
 		throws Exception {
@@ -462,7 +469,7 @@ public class LayoutsTreeImpl {
 		return layouts.subList(start, end);
 	}
 
-	private static String _toJSON(
+	private String _toJSON(
 			HttpServletRequest request, long groupId,
 			LayoutTreeNodes layoutTreeNodes)
 		throws Exception {
@@ -473,7 +480,7 @@ public class LayoutsTreeImpl {
 		return jsonObject.toString();
 	}
 
-	private static JSONObject _toJSONObject(
+	private JSONObject _toJSONObject(
 			HttpServletRequest request, long groupId,
 			LayoutTreeNodes layoutTreeNodes)
 		throws Exception {
@@ -591,7 +598,7 @@ public class LayoutsTreeImpl {
 		return responseJSONObject;
 	}
 
-	private static JSONObject _toJSONObject(
+	private JSONObject _toJSONObject(
 			HttpServletRequest request, long groupId, List<Layout> layouts,
 			int total)
 		throws Exception {
@@ -611,7 +618,7 @@ public class LayoutsTreeImpl {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		LayoutsTreeUtil.class);
+		LayoutsTreeImpl.class);
 
 	private static class LayoutTreeNode {
 
