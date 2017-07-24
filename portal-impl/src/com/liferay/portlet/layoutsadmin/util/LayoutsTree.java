@@ -14,6 +14,7 @@
 
 package com.liferay.portlet.layoutsadmin.util;
 
+import com.liferay.portal.kernel.model.LayoutSetBranch;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +30,18 @@ public interface LayoutsTree {
 
 	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, boolean privateLayout,
+			long parentLayoutId, boolean incomplete, String treeId,
+			LayoutSetBranch layoutSetBranch)
+		throws Exception;
+
+	public String getLayoutsJSON(
+			HttpServletRequest request, long groupId, boolean privateLayout,
 			long layoutId, int max)
+		throws Exception;
+
+	public String getLayoutsJSON(
+			HttpServletRequest request, long groupId, boolean privateLayout,
+			long layoutId, int max, LayoutSetBranch layoutSetBranch)
 		throws Exception;
 
 	public String getLayoutsJSON(
@@ -39,7 +51,18 @@ public interface LayoutsTree {
 		throws Exception;
 
 	public String getLayoutsJSON(
+			HttpServletRequest request, long groupId, boolean privateLayout,
+			long parentLayoutId, long[] expandedLayoutIds, boolean incomplete,
+			String treeId, LayoutSetBranch layoutSetBranch)
+		throws Exception;
+
+	public String getLayoutsJSON(
 			HttpServletRequest request, long groupId, String treeId)
+		throws Exception;
+
+	public String getLayoutsJSON(
+			HttpServletRequest request, long groupId, String treeId,
+			LayoutSetBranch layoutSetBranch)
 		throws Exception;
 
 }
