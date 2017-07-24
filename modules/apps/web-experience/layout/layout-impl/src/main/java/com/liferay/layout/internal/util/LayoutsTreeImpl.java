@@ -15,7 +15,7 @@
 package com.liferay.layout.internal.util;
 
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
-import com.liferay.exportimport.kernel.staging.StagingUtil;
+import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -31,16 +31,16 @@ import com.liferay.portal.kernel.model.LayoutRevision;
 import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.impl.VirtualLayout;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutRevisionLocalService;
-import com.liferay.portal.kernel.service.LayoutServiceUtil;
-import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutService;
+import com.liferay.portal.kernel.service.LayoutSetBranchLocalService;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SessionClicks;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -111,15 +111,15 @@ public class LayoutsTreeImpl implements LayoutsTree {
 			long layoutId, int max, LayoutSetBranch layoutSetBranch)
 		throws Exception {
 
-		Layout layout = LayoutLocalServiceUtil.getLayout(
+		Layout layout = _layoutLocalService.getLayout(
 			groupId, privateLayout, layoutId);
 
 		long parentLayoutId = layout.getParentLayoutId();
 
-		long includedLayoutIndex = LayoutServiceUtil.getLayoutsCount(
+		long includedLayoutIndex = _layoutService.getLayoutsCount(
 			groupId, privateLayout, parentLayoutId, layout.getPriority());
 
-		int total = LayoutServiceUtil.getLayoutsCount(
+		int total = _layoutService.getLayoutsCount(
 			groupId, privateLayout, parentLayoutId);
 
 		int start = (int)includedLayoutIndex - 1;
@@ -134,19 +134,19 @@ public class LayoutsTreeImpl implements LayoutsTree {
 			}
 		}
 
-		List<Layout> layouts = LayoutServiceUtil.getLayouts(
+		List<Layout> layouts = _layoutService.getLayouts(
 			groupId, privateLayout, parentLayoutId, true, start, end);
 
 		JSONObject jsonObject = _toJSONObject(
 			request, groupId, layouts, total, layoutSetBranch);
 
-		List<Layout> ancestorLayouts = LayoutServiceUtil.getAncestorLayouts(
+		List<Layout> ancestorLayouts = _layoutService.getAncestorLayouts(
 			layout.getPlid());
 
 		long[] ancestorLayoutIds = new long[ancestorLayouts.size()];
 		String[] ancestorLayoutNames = new String[ancestorLayouts.size()];
 
-		Locale locale = PortalUtil.getLocale(request);
+		Locale locale = _portal.getLocale(request);
 
 		for (int i = 0; i < ancestorLayouts.size(); i++) {
 			Layout ancestorLayout = ancestorLayouts.get(i);
@@ -253,7 +253,7 @@ public class LayoutsTreeImpl implements LayoutsTree {
 		long selPlid = ParamUtil.getLong(request, "selPlid");
 
 		if (selPlid > 0) {
-			return LayoutLocalServiceUtil.fetchLayout(selPlid);
+			return _layoutLocalService.fetchLayout(selPlid);
 		}
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
@@ -277,7 +277,7 @@ public class LayoutsTreeImpl implements LayoutsTree {
 			return Collections.emptyList();
 		}
 
-		List<Layout> ancestorLayouts = LayoutServiceUtil.getAncestorLayouts(
+		List<Layout> ancestorLayouts = _layoutService.getAncestorLayouts(
 			layout.getPlid());
 
 		if (_log.isDebugEnabled()) {
@@ -329,7 +329,7 @@ public class LayoutsTreeImpl implements LayoutsTree {
 
 		List<Layout> ancestorLayouts = _getAncestorLayouts(request);
 
-		List<Layout> layouts = LayoutServiceUtil.getLayouts(
+		List<Layout> layouts = _layoutService.getLayouts(
 			groupId, privateLayout, parentLayoutId, incomplete,
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
@@ -362,7 +362,7 @@ public class LayoutsTreeImpl implements LayoutsTree {
 				}
 			}
 			else {
-				int childLayoutsCount = LayoutServiceUtil.getLayoutsCount(
+				int childLayoutsCount = _layoutService.getLayoutsCount(
 					groupId, privateLayout, layout.getLayoutId());
 
 				childLayoutTreeNodes = new LayoutTreeNodes(
@@ -435,7 +435,7 @@ public class LayoutsTreeImpl implements LayoutsTree {
 
 		if (group.isGuest() && !layout.isPrivateLayout() &&
 			layout.isRootLayout() &&
-			(LayoutLocalServiceUtil.getLayoutsCount(
+			(_layoutLocalService.getLayoutsCount(
 				group, false, LayoutConstants.DEFAULT_PARENT_LAYOUT_ID) == 1)) {
 
 			return false;
@@ -625,12 +625,12 @@ public class LayoutsTreeImpl implements LayoutsTree {
 			if (layoutRevision != null) {
 				long layoutSetBranchId = layoutRevision.getLayoutSetBranchId();
 
-				if (StagingUtil.isIncomplete(layout, layoutSetBranchId)) {
+				if (_staging.isIncomplete(layout, layoutSetBranchId)) {
 					jsonObject.put("incomplete", true);
 				}
 
 				LayoutSetBranch boundLayoutSetBranch =
-					LayoutSetBranchLocalServiceUtil.getLayoutSetBranch(
+					_layoutSetBranchLocalService.getLayoutSetBranch(
 						layoutSetBranchId);
 
 				LayoutBranch layoutBranch = layoutRevision.getLayoutBranch();
@@ -687,7 +687,22 @@ public class LayoutsTreeImpl implements LayoutsTree {
 		LayoutsTreeImpl.class);
 
 	@Reference
+	private LayoutLocalService _layoutLocalService;
+
+	@Reference
 	private LayoutRevisionLocalService _layoutRevisionLocalService;
+
+	@Reference
+	private LayoutService _layoutService;
+
+	@Reference
+	private LayoutSetBranchLocalService _layoutSetBranchLocalService;
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private Staging _staging;
 
 	private static class LayoutTreeNode {
 
