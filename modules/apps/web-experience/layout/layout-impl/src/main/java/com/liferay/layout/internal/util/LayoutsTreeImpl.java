@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.impl.VirtualLayout;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutRevisionLocalService;
 import com.liferay.portal.kernel.service.LayoutServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
@@ -58,6 +59,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan
@@ -439,6 +441,20 @@ public class LayoutsTreeImpl implements LayoutsTree {
 			return false;
 		}
 
+		if (layoutSetBranch != null) {
+			List<LayoutRevision> layoutRevisions =
+				_layoutRevisionLocalService.getLayoutRevisions(
+					layoutSetBranch.getLayoutSetBranchId(), layout.getPlid());
+
+			if (layoutRevisions.size() == 1) {
+				LayoutRevision layoutRevision = layoutRevisions.get(0);
+
+				if (layoutRevision.isIncomplete()) {
+					return false;
+				}
+			}
+		}
+
 		return true;
 	}
 
@@ -669,6 +685,9 @@ public class LayoutsTreeImpl implements LayoutsTree {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutsTreeImpl.class);
+
+	@Reference
+	private LayoutRevisionLocalService _layoutRevisionLocalService;
 
 	private static class LayoutTreeNode {
 
