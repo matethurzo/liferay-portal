@@ -26,9 +26,6 @@ public interface PortletExportController extends ExportController {
 	public void exportAssetLinks(PortletDataContext portletDataContext)
 		throws Exception;
 
-	public void exportExpandoTables(PortletDataContext portletDataContext)
-		throws Exception;
-
 	public void exportLocks(PortletDataContext portletDataContext)
 		throws Exception;
 
