@@ -1363,7 +1363,7 @@ public class SitesImpl implements Sites {
 			sb.append(" and layout set ");
 			sb.append(layoutSet.getLayoutSetId());
 
-			_log.error(sb.toString(), e);
+			_log.warn(sb.toString(), e);
 
 			layoutSetPrototypeSettingsProperties.setProperty(
 				MERGE_FAIL_COUNT, String.valueOf(mergeFailCount));
