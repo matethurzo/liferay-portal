@@ -150,8 +150,7 @@ public class ExportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 						themeDisplay.getLocale(), themeDisplay.getTimeZone());
 		}
 
-		boolean allPages = GetterUtil.getBoolean(
-			actionRequest.getAttribute("allPages"));
+		boolean allPages = ParamUtil.getBoolean(actionRequest, "allPages");
 
 		exportLayoutSettingsMap.put("allPages", allPages);
 
