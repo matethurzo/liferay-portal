@@ -238,6 +238,7 @@ public class ExportLayoutsMVCActionCommand extends BaseMVCActionCommand {
 		for (int i = 0; i < selectedLayoutIds.length; i++) {
 			if (selectedLayoutIds[i] == LayoutConstants.DEFAULT_PLID) {
 				actionRequest.setAttribute("allPages", Boolean.TRUE);
+
 				break;
 			}
 		}
