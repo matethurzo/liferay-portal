@@ -690,9 +690,10 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 		List<Layout> layouts = _layoutLocalService.getLayouts(
 			groupId, privateLayout, LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
 
+		long[] selectedPlids = StringUtil.split(selectedNodes, 0L);
+
 		for (Layout layout : layouts) {
-			populateLayoutsJSON(
-				jsonArray, layout, StringUtil.split(selectedNodes, 0L));
+			populateLayoutsJSON(jsonArray, layout, selectedPlids);
 		}
 
 		return jsonArray.toString();
