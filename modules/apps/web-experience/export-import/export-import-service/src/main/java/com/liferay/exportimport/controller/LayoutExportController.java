@@ -62,6 +62,7 @@ import com.liferay.portal.kernel.service.LayoutSetPrototypeLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateRange;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -420,9 +421,10 @@ public class LayoutExportController implements ExportController {
 			settingsMap, "privateLayout");
 		long[] layoutIds = GetterUtil.getLongValues(
 			settingsMap.get("layoutIds"));
-		boolean allPages = MapUtil.getBoolean(settingsMap, "allPages");
 
-		if (allPages) {
+		// Need to export all
+
+		if (ArrayUtil.contains(layoutIds, 0L)) {
 			layoutIds = _exportImportHelper.getAllLayoutIds(
 				sourceGroupId, privateLayout);
 		}

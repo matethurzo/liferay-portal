@@ -17,7 +17,6 @@ package com.liferay.taglib.ui.util;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
@@ -127,10 +126,6 @@ public class SessionTreeJSClicks {
 				for (String nodeId : nodeIds) {
 					openNodesString = StringUtil.removeFromList(
 						openNodesString, nodeId);
-
-					openNodesString = StringUtil.removeFromList(
-						openNodesString,
-						Long.toString(LayoutConstants.DEFAULT_PLID));
 				}
 
 				portalPreferences.setValue(
