@@ -479,10 +479,6 @@ public class StagedLayoutSetStagedModelDataHandler
 
 		String logoPath = headerElement.attributeValue("logo-path");
 
-		if (Validator.isNull(logoPath)) {
-			return;
-		}
-
 		byte[] iconBytes = portletDataContext.getZipEntryAsByteArray(logoPath);
 
 		try {
