@@ -26,8 +26,14 @@
 			String description = (String)SessionMessages.get(liferayPortletRequest, portletDisplay.getId() + "description");
 			%>
 
+			<aui:input name="isNameRequired" type="hidden" value="1" />
+
 			<aui:input label="title" name="name" showRequiredLabel="<%= true %>" value="<%= HtmlUtil.escape(name) %>">
-				<aui:validator name="required" />
+				<aui:validator name="required">
+					function() {
+						return (AUI.$('#<portlet:namespace />isNameRequired').prop('value') === "1");
+					}
+				</aui:validator>
 			</aui:input>
 
 			<aui:input label="description" name="description" value="<%= HtmlUtil.escape(description) %>" />
@@ -35,8 +41,14 @@
 		<c:otherwise>
 			<aui:model-context bean="<%= exportImportConfiguration %>" model="<%= ExportImportConfiguration.class %>" />
 
+			<aui:input name="isNameRequired" type="hidden" value="1" />
+
 			<aui:input label="title" name="name" showRequiredLabel="<%= true %>">
-				<aui:validator name="required" />
+				<aui:validator name="required">
+					function() {
+						return (AUI.$('#<portlet:namespace />isNameRequired').prop('value') === "1");
+					}
+				</aui:validator>
 			</aui:input>
 
 			<aui:input label="description" name="description" />
