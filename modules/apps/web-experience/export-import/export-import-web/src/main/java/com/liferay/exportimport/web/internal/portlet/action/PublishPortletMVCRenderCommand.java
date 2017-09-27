@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
@@ -64,6 +66,11 @@ public class PublishPortletMVCRenderCommand implements MVCRenderCommand {
 
 			renderRequest = ActionUtil.getWrappedRenderRequest(
 				renderRequest, null);
+
+			SessionMessages.add(
+				renderRequest,
+				PortalUtil.getPortletId(
+					renderRequest) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 
 			return "/publish_portlet.jsp";
 		}
