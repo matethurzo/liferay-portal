@@ -312,6 +312,8 @@ renderResponse.setTitle(!configuredPublish ? LanguageUtil.get(request, "new-publ
 <aui:script>
 	function <portlet:namespace />publishPages() {
 		var exportImport = Liferay.component('<portlet:namespace />ExportImportComponent');
+		
+		var deletePortletDataBeforeImportingCheckbox = AUI.$('#<portlet:namespace />deletePortletDataBeforeImportingCheckbox');
 
 		var dateChecker = exportImport.getDateRangeChecker();
 
@@ -324,7 +326,11 @@ renderResponse.setTitle(!configuredPublish ? LanguageUtil.get(request, "new-publ
 				form.fm('<%= PortletDataHandlerKeys.PORTLET_DATA_CONTROL_DEFAULT %>').val(true);
 			}
 
-			submitForm(form);
+			if (deletePortletDataBeforeImportingCheckbox.length && deletePortletDataBeforeImportingCheckbox[0].checked) {
+				confirm('<%= LanguageUtil.get(request, "delete-portlet-data-before-importing-confirmation") %>') && submitForm(form);
+			} else {
+				submitForm(form);
+			}
 		}
 		else {
 			exportImport.showNotification(dateChecker);
