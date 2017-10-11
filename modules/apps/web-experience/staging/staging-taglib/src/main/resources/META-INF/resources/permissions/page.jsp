@@ -25,7 +25,7 @@
 	} else if (action.equals("export")) {
 		inputTitle = "export-permissions";
 	} else {
-		inputTitle = "import-help";
+		inputTitle = "import-permissions";
 	}
 
 	if (global) {
