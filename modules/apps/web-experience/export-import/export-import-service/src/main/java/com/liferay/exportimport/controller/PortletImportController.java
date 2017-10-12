@@ -1497,9 +1497,6 @@ public class PortletImportController implements ImportController {
 			throw new LARTypeException(larType, new String[] {"portlet"});
 		}
 
-		PortletDataHandler portletDataHandler =
-			_portletDataHandlerProvider.provide(companyId, portletId);
-
 		// Portlet compatibility
 
 		String rootPortletId = headerElement.attributeValue("root-portlet-id");
@@ -1513,6 +1510,9 @@ public class PortletImportController implements ImportController {
 
 		String schemaVersion = GetterUtil.getString(
 			portletElement.attributeValue("schema-version"), "1.0.0");
+
+		PortletDataHandler portletDataHandler =
+			_portletDataHandlerProvider.provide(companyId, portletId);
 
 		if (!portletDataHandler.validateSchemaVersion(schemaVersion)) {
 			throw new LayoutImportException(
