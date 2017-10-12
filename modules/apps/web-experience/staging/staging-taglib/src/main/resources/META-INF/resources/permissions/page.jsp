@@ -17,29 +17,33 @@
 <%@ include file="/permissions/init.jsp" %>
 
 <%
-	String inputTitle = StringPool.BLANK;
-	String inputDesc = StringPool.BLANK;
+String inputTitle = StringPool.BLANK;
+String inputDesc = StringPool.BLANK;
 
-	if (action.equals("publish")) {
-		inputTitle = "publish-permissions";
-	} else if (action.equals("export")) {
-		inputTitle = "export-permissions";
-	} else {
-		inputTitle = "import-permissions";
-	}
+if (action.equals("publish")) {
+	inputTitle = "publish-permissions";
+}
+else if (action.equals("export")) {
+	inputTitle = "export-permissions";
+}
+else {
+	inputTitle = "import-permissions";
+}
 
-	if (global) {
-		inputDesc = "publish-global-permissions-help";
-	} else {
-		inputDesc = "export-import-permissions-help";
-	}
+if (global) {
+	inputDesc = "publish-global-permissions-help";
+}
+else {
+	inputDesc = "export-import-permissions-help";
+}
 
-	String inputLabel = "<span style='font-weight: bold;'>" + LanguageUtil.get(request, inputTitle) + ":</span> " + LanguageUtil.get(request, inputDesc);
+String inputLabel = "<span style='font-weight: bold;'>" + LanguageUtil.get(request, inputTitle) + ":</span> " + LanguageUtil.get(request, inputDesc);
 %>
 
 <aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="permissions" markupView="lexicon">
 	<span class="<%= labelCSSClass %>">
 		<aui:input disabled="<%= disableInputs %>" name="<%= PortletDataHandlerKeys.PERMISSIONS %>" type="checkbox" label="<%= inputLabel %>"
-			value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.PERMISSIONS, false) %>" />
+			value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.PERMISSIONS, false) %>"
+		/>
 	</span>
 </aui:fieldset>

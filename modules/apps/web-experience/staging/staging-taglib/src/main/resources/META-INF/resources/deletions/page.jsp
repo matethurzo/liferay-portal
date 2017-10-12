@@ -17,34 +17,38 @@
 <%@ include file="/deletions/init.jsp" %>
 
 <%
-	String deleteApplicationDataBeforeImportingLabelTitle = LanguageUtil.get(request, "delete-application-data-before-importing");
-	String deleteApplicationDataBeforeImportingLabelWarning = LanguageUtil.get(request, "delete-content-before-importing-warning");
-	String deleteApplicationDataBeforeImportingLabelSuggestion = LanguageUtil.get(request, "delete-content-before-importing-suggestion");
-	
-	String individualDeletionsTitle = StringPool.BLANK;
-	String individualDeletionsDesc = StringPool.BLANK;
+String deleteApplicationDataBeforeImportingLabelTitle = LanguageUtil.get(request, "delete-application-data-before-importing");
+String deleteApplicationDataBeforeImportingLabelWarning = LanguageUtil.get(request, "delete-content-before-importing-warning");
+String deleteApplicationDataBeforeImportingLabelSuggestion = LanguageUtil.get(request, "delete-content-before-importing-suggestion");
 
-	if (cmd.equals(Constants.EXPORT)) {
-		individualDeletionsTitle = LanguageUtil.get(request, "export-individual-deletions");
-		individualDeletionsDesc = LanguageUtil.get(request, "deletions-help-export");
-	} else {
-		individualDeletionsTitle = LanguageUtil.get(request, "replicate-individual-deletions");
-		individualDeletionsDesc = LanguageUtil.get(request, "deletions-help");
-	}
-	
-	String deleteApplicationDataBeforeImportingLabel = "<span style='font-weight: bold;'>" + deleteApplicationDataBeforeImportingLabelTitle + ":</span> " +
+String individualDeletionsTitle = StringPool.BLANK;
+String individualDeletionsDesc = StringPool.BLANK;
+
+if (cmd.equals(Constants.EXPORT)) {
+	individualDeletionsTitle = LanguageUtil.get(request, "export-individual-deletions");
+	individualDeletionsDesc = LanguageUtil.get(request, "deletions-help-export");
+}
+else {
+	individualDeletionsTitle = LanguageUtil.get(request, "replicate-individual-deletions");
+	individualDeletionsDesc = LanguageUtil.get(request, "deletions-help");
+}
+
+String deleteApplicationDataBeforeImportingLabel =
+	"<span style='font-weight: bold;'>" + deleteApplicationDataBeforeImportingLabelTitle + ":</span> " +
 		deleteApplicationDataBeforeImportingLabelWarning + " " + deleteApplicationDataBeforeImportingLabelSuggestion;
-	String individualDeletionsLabel = "<span style='font-weight: bold;'>" + individualDeletionsTitle + ":</span> " + individualDeletionsDesc;
+String individualDeletionsLabel = "<span style='font-weight: bold;'>" + individualDeletionsTitle + ":</span> " + individualDeletionsDesc;
 %>
 
 <c:if test="<%= cmd.equals(Constants.EXPORT) || cmd.equals(Constants.IMPORT) || cmd.equals(Constants.PUBLISH) %>">
 	<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="deletions" markupView="lexicon">
 		<c:if test="<%= !cmd.equals(Constants.EXPORT) %>">
 			<aui:input disabled="<%= disableInputs %>" id="deletePortletDataBeforeImportingCheckbox" label="<%= deleteApplicationDataBeforeImportingLabel %>" name="<%= PortletDataHandlerKeys.DELETE_PORTLET_DATA %>"
-				type="checkbox" value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETE_PORTLET_DATA, false) %>" />
+				type="checkbox" value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETE_PORTLET_DATA, false) %>"
+			/>
 		</c:if>
 
-		<aui:input disabled="<%= disableInputs %>" label='<%= individualDeletionsLabel %>' name="<%= PortletDataHandlerKeys.DELETIONS %>"
-			type="checkbox" value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETIONS, false) %>" />
+		<aui:input disabled="<%= disableInputs %>" label="<%= individualDeletionsLabel %>" name="<%= PortletDataHandlerKeys.DELETIONS %>"
+			type="checkbox" value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETIONS, false) %>"
+		/>
 	</aui:fieldset>
 </c:if>
