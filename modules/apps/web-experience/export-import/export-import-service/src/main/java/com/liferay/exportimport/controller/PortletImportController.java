@@ -1511,16 +1511,14 @@ public class PortletImportController implements ImportController {
 			throw new PortletIdException(expectedRootPortletId);
 		}
 
-		String currentPortletSchemaVersion = GetterUtil.getString(
+		String schemaVersion = GetterUtil.getString(
 			portletElement.attributeValue("schema-version"), "1.0.0");
 
-		if (!portletDataHandler.validateSchemaVersion(
-				currentPortletSchemaVersion)) {
-
+		if (!portletDataHandler.validateSchemaVersion(schemaVersion)) {
 			throw new LayoutImportException(
 				LayoutImportException.TYPE_WRONG_PORTLET_SCHEMA_VERSION,
 				new Object[] {
-					currentPortletSchemaVersion, portletId,
+					schemaVersion, portletId,
 					portletDataHandler.getSchemaVersion()
 				});
 		}
