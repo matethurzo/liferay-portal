@@ -14,6 +14,7 @@
 
 package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 
+import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
 import com.liferay.layout.admin.web.internal.display.context.OrphanPortletsDisplayContext;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -31,16 +32,14 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.util.List;
-import java.util.ResourceBundle;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * @author Eudaldo Alonso
@@ -104,6 +103,10 @@ public class OrphanPortletsPortletConfigurationIcon
 			}
 
 			if (!layout.isSupportsEmbeddedPortlets()) {
+				return false;
+			}
+
+			if(StagingUtil.isLayoutIncomplete(layout)){
 				return false;
 			}
 

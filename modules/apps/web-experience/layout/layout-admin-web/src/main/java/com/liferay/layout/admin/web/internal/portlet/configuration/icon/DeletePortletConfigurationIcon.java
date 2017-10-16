@@ -14,6 +14,7 @@
 
 package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 
+import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -27,14 +28,12 @@ import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-
 import javax.servlet.ServletContext;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -81,6 +80,10 @@ public class DeletePortletConfigurationIcon
 			Layout layout = getLayout(portletRequest);
 
 			if (layout == null) {
+				return false;
+			}
+
+			if(StagingUtil.isLayoutIncomplete(layout)){
 				return false;
 			}
 
