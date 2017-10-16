@@ -44,6 +44,7 @@ import com.liferay.exportimport.kernel.service.StagingLocalService;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.exportimport.kernel.staging.StagingConstants;
+import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.exception.LayoutPrototypeException;
@@ -1519,6 +1520,22 @@ public class StagingImpl implements Staging {
 			return true;
 		}
 
+		return false;
+	}
+
+	@Override
+	public boolean isLayoutIncomplete(Layout layout){
+
+		LayoutRevision layoutRevision =
+			LayoutStagingUtil.getLayoutRevision(layout);
+
+		if (layoutRevision != null) {
+			long layoutSetBranchId = layoutRevision.getLayoutSetBranchId();
+
+			if(isIncomplete(layout, layoutSetBranchId)){
+				return true;
+			}
+		}
 		return false;
 	}
 

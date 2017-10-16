@@ -262,6 +262,8 @@ public interface Staging {
 
 	public boolean isIncomplete(Layout layout, long layoutSetBranchId);
 
+	public boolean isLayoutIncomplete(Layout layout);
+
 	/**
 	 * @deprecated As of 7.0.0, see {@link
 	 *             com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor#getIsolationLevel(

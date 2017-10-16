@@ -411,6 +411,10 @@ public class StagingUtil {
 		return _staging.isIncomplete(layout, layoutSetBranchId);
 	}
 
+	public static boolean isLayoutIncomplete(Layout layout) {
+		return  _staging.isLayoutIncomplete(layout);
+	}
+
 	/**
 	 * @deprecated As of 7.0.0, see {@link
 	 *             com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor#getIsolationLevel(
