@@ -14,7 +14,7 @@
 
 package com.liferay.layout.admin.web.internal.portlet.configuration.icon;
 
-import com.liferay.exportimport.kernel.staging.StagingUtil;
+import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.layout.admin.web.internal.constants.LayoutAdminPortletKeys;
 import com.liferay.layout.admin.web.internal.display.context.OrphanPortletsDisplayContext;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -32,14 +32,16 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+
+import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-import java.util.List;
-import java.util.ResourceBundle;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
@@ -106,7 +108,7 @@ public class OrphanPortletsPortletConfigurationIcon
 				return false;
 			}
 
-			if(StagingUtil.isLayoutIncomplete(layout)){
+			if (_staging.isLayoutIncomplete(layout)) {
 				return false;
 			}
 
@@ -150,5 +152,8 @@ public class OrphanPortletsPortletConfigurationIcon
 	}
 
 	private LayoutLocalService _layoutLocalService;
+
+	@Reference
+	private Staging _staging;
 
 }

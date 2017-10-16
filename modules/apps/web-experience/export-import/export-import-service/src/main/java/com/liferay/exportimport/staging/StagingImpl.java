@@ -44,7 +44,6 @@ import com.liferay.exportimport.kernel.service.StagingLocalService;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.exportimport.kernel.staging.StagingConstants;
-import com.liferay.exportimport.kernel.staging.StagingUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.exception.LayoutPrototypeException;
@@ -1495,47 +1494,25 @@ public class StagingImpl implements Staging {
 		LayoutRevision layoutRevision = LayoutStagingUtil.getLayoutRevision(
 			layout);
 
-		if (layoutRevision == null) {
-			List<LayoutRevision> layoutRevisions =
-				_layoutRevisionLocalService.getLayoutRevisions(
-					layoutSetBranchId, layout.getPlid(), true);
-
-			if (!layoutRevisions.isEmpty()) {
-				return false;
-			}
-		}
-
-		List<LayoutRevision> layoutRevisions =
-			_layoutRevisionLocalService.getLayoutRevisions(
-				layoutSetBranchId, layout.getPlid(), false);
-
-		if (!layoutRevisions.isEmpty()) {
-			layoutRevision = layoutRevisions.get(0);
-		}
-
-		if ((layoutRevision == null) ||
-			(layoutRevision.getStatus() ==
-				WorkflowConstants.STATUS_INCOMPLETE)) {
-
-			return true;
-		}
-
-		return false;
+		return isLayoutRevisionIncomplete(
+			layout.getPlid(), layoutRevision, layoutSetBranchId);
 	}
 
 	@Override
-	public boolean isLayoutIncomplete(Layout layout){
-
-		LayoutRevision layoutRevision =
-			LayoutStagingUtil.getLayoutRevision(layout);
+	public boolean isLayoutIncomplete(Layout layout) {
+		LayoutRevision layoutRevision = LayoutStagingUtil.getLayoutRevision(
+			layout);
 
 		if (layoutRevision != null) {
 			long layoutSetBranchId = layoutRevision.getLayoutSetBranchId();
 
-			if(isIncomplete(layout, layoutSetBranchId)){
+			if (isLayoutRevisionIncomplete(
+					layout.getPlid(), layoutRevision, layoutSetBranchId)) {
+
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -2864,6 +2841,37 @@ public class StagingImpl implements Staging {
 			httpPrincipal, group.getClassNameId());
 
 		if (Objects.equals(className.getClassName(), Company.class.getName())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected boolean isLayoutRevisionIncomplete(
+		long plid, LayoutRevision layoutRevision, long layoutSetBranchId) {
+
+		if (layoutRevision == null) {
+			List<LayoutRevision> layoutRevisions =
+				_layoutRevisionLocalService.getLayoutRevisions(
+					layoutSetBranchId, plid, true);
+
+			if (!layoutRevisions.isEmpty()) {
+				return false;
+			}
+		}
+
+		List<LayoutRevision> layoutRevisions =
+			_layoutRevisionLocalService.getLayoutRevisions(
+				layoutSetBranchId, plid, false);
+
+		if (!layoutRevisions.isEmpty()) {
+			layoutRevision = layoutRevisions.get(0);
+		}
+
+		if ((layoutRevision == null) ||
+			(layoutRevision.getStatus() ==
+				WorkflowConstants.STATUS_INCOMPLETE)) {
+
 			return true;
 		}
 

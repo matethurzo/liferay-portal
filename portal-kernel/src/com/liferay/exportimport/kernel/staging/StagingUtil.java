@@ -412,7 +412,7 @@ public class StagingUtil {
 	}
 
 	public static boolean isLayoutIncomplete(Layout layout) {
-		return  _staging.isLayoutIncomplete(layout);
+		return _staging.isLayoutIncomplete(layout);
 	}
 
 	/**
