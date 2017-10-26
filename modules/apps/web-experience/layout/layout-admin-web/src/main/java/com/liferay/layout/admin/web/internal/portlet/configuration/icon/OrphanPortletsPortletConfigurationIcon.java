@@ -108,7 +108,7 @@ public class OrphanPortletsPortletConfigurationIcon
 				return false;
 			}
 
-			if (_staging.isLayoutIncomplete(layout)) {
+			if (_staging.isIncomplete(layout)) {
 				return false;
 			}
 

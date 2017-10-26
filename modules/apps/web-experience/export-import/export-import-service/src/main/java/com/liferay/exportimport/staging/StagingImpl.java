@@ -1490,16 +1490,7 @@ public class StagingImpl implements Staging {
 	}
 
 	@Override
-	public boolean isIncomplete(Layout layout, long layoutSetBranchId) {
-		LayoutRevision layoutRevision = LayoutStagingUtil.getLayoutRevision(
-			layout);
-
-		return isLayoutRevisionIncomplete(
-			layout.getPlid(), layoutRevision, layoutSetBranchId);
-	}
-
-	@Override
-	public boolean isLayoutIncomplete(Layout layout) {
+	public boolean isIncomplete(Layout layout) {
 		LayoutRevision layoutRevision = LayoutStagingUtil.getLayoutRevision(
 			layout);
 
@@ -1514,6 +1505,15 @@ public class StagingImpl implements Staging {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean isIncomplete(Layout layout, long layoutSetBranchId) {
+		LayoutRevision layoutRevision = LayoutStagingUtil.getLayoutRevision(
+			layout);
+
+		return isLayoutRevisionIncomplete(
+			layout.getPlid(), layoutRevision, layoutSetBranchId);
 	}
 
 	/**

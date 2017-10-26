@@ -407,12 +407,12 @@ public class StagingUtil {
 		return _staging.isGroupAccessible(groupId, fromGroupId);
 	}
 
-	public static boolean isIncomplete(Layout layout, long layoutSetBranchId) {
-		return _staging.isIncomplete(layout, layoutSetBranchId);
+	public static boolean isIncomplete(Layout layout) {
+		return _staging.isIncomplete(layout);
 	}
 
-	public static boolean isLayoutIncomplete(Layout layout) {
-		return _staging.isLayoutIncomplete(layout);
+	public static boolean isIncomplete(Layout layout, long layoutSetBranchId) {
+		return _staging.isIncomplete(layout, layoutSetBranchId);
 	}
 
 	/**
