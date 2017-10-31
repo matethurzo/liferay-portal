@@ -631,7 +631,7 @@ public class FileEntryStagedModelDataHandler
 		}
 		finally {
 			try {
-				if(is != null){
+				if (is != null) {
 					is.close();
 				}
 			}
