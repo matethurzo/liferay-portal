@@ -1524,6 +1524,14 @@ public class ServicePreAction extends Action {
 			return new LayoutComposite(layout, layouts);
 		}
 
+		boolean hasViewLayoutPermission = false;
+
+		if (hasAccessPermission(
+				permissionChecker, layout, doAsGroupId, false)) {
+
+			hasViewLayoutPermission = true;
+		}
+
 		List<Layout> accessibleLayouts = new ArrayList<>();
 
 		for (int i = 0; i < layouts.size(); i++) {
@@ -1533,7 +1541,7 @@ public class ServicePreAction extends Action {
 				hasAccessPermission(
 					permissionChecker, curLayout, doAsGroupId, false)) {
 
-				if (accessibleLayouts.isEmpty()) {
+				if (accessibleLayouts.isEmpty() && !hasViewLayoutPermission) {
 					layout = curLayout;
 				}
 
@@ -1544,7 +1552,7 @@ public class ServicePreAction extends Action {
 		if (accessibleLayouts.isEmpty()) {
 			layouts = null;
 
-			if (!isLoginRequest(request)) {
+			if (!isLoginRequest(request) && !hasViewLayoutPermission) {
 				if (user.isDefaultUser() &&
 					PropsValues.AUTH_LOGIN_PROMPT_ENABLED) {
 
