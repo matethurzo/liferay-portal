@@ -20,6 +20,8 @@
 
 <%
 	String tabs3 = ParamUtil.getString(request, "tabs3", "new-publication-process");
+
+	boolean newPublication = tabs3.equals("new-publication-process");
 %>
 
 <portlet:actionURL name="publishPortlet" var="publishPortletURL">
@@ -127,7 +129,13 @@
 						Date startDate = dateRange.getStartDate();
 						Date endDate = dateRange.getEndDate();
 
-						PortletDataContext portletDataContext = PortletDataContextFactoryUtil.createPreparePortletDataContext(themeDisplay, startDate, endDate);
+						long workingGroupId = liveGroupId;
+						if (newPublication) {
+							workingGroupId = stagingGroupId;
+						}
+
+
+						PortletDataContext portletDataContext = PortletDataContextFactoryUtil.createPreparePortletDataContext(themeDisplay.getCompanyId(), workingGroupId, startDate, endDate);
 
 						portletDataHandler.prepareManifestSummary(portletDataContext, portletPreferences);
 
@@ -148,13 +156,15 @@
 												<aui:input data-name='<%= LanguageUtil.get(request, "all") %>' id="rangeAll" label="all" name="range" type="radio" value="all" />
 											</div>
 
-											<div class="flex-item-center range-options">
-												<aui:input checked="<%= true %>" data-name='<%= LanguageUtil.get(request, "from-last-publish-date") %>' id="rangeLastPublish" label="from-last-publish-date" name="range" type="radio" value="fromLastPublishDate" />
-											</div>
+											<c:if test="<%= newPublication %>">
+												<div class="flex-item-center range-options">
+													<aui:input checked="<%= true %>" data-name='<%= LanguageUtil.get(request, "from-last-publish-date") %>' id="rangeLastPublish" label="from-last-publish-date" name="range" type="radio" value="fromLastPublishDate" />
+												</div>
+											</c:if>
 
-											<div class="flex-item-center range-options">
-												<aui:input data-name='<%= LanguageUtil.get(request, "date-range") %>' helpMessage="export-date-range-help" id="rangeDateRange" label="date-range" name="range" type="radio" value="dateRange" />
-											</div>
+												<div class="flex-item-center range-options">
+													<aui:input data-name='<%= LanguageUtil.get(request, "date-range") %>' helpMessage="export-date-range-help" id="rangeDateRange" label="date-range" name="range" type="radio" value="dateRange" />
+												</div>
 
 											<div class="flex-item-center range-options">
 												<aui:input id="rangeLast" label='<%= LanguageUtil.get(request, "last") + StringPool.TRIPLE_PERIOD %>' name="range" type="radio" value="last" />
@@ -397,8 +407,13 @@
 	</div>
 
 	<aui:button-row>
-		<aui:button cssClass="btn-lg" type="submit" value="publish-to-live" />
-
-		<aui:button cssClass="btn-lg" onClick='<%= renderResponse.getNamespace() + "copyFromLive();" %>' value="copy-from-live" />
+		<c:choose>
+			<c:when test="<%= newPublication %>">
+				<aui:button cssClass="btn-lg" type="submit" value="publish-to-live" />
+			</c:when>
+			<c:otherwise>
+				<aui:button cssClass="btn-lg" onClick='<%= renderResponse.getNamespace() + "copyFromLive();" %>' value="copy-from-live" />
+			</c:otherwise>
+		</c:choose>
 	</aui:button-row>
 </aui:form>
