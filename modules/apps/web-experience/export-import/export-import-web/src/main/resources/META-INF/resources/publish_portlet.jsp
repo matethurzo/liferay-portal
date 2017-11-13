@@ -85,11 +85,8 @@ portletURL.setParameter("tabs3", "current-and-previous");
 		</c:when>
 		<c:when test="<%= (themeDisplay.getURLPublishToLive() != null) || layout.isTypeControlPanel() %>">
 			<c:choose>
-				<c:when test='<%= tabs3.equals("copy-from-live") %>'>
-					<liferay-util:include page="/publish_portlet_publish.jsp" servletContext="<%= application %>" />
-				</c:when>
-				<c:when test='<%= tabs3.equals("new-publication-process") %>'>
-					<liferay-util:include page="/publish_portlet_publish.jsp" servletContext="<%= application %>" />
+				<c:when test='<%= tabs3.equals("copy-from-live") || tabs3.equals("new-publication-process") %>'>
+					<liferay-util:include page="/publish_portlet_publish_or_copy.jsp" servletContext="<%= application %>" />
 				</c:when>
 				<c:when test='<%= tabs3.equals("current-and-previous") %>'>
 					<div class="portlet-export-import-publish-processes process-list" id="<portlet:namespace />publishProcesses">
