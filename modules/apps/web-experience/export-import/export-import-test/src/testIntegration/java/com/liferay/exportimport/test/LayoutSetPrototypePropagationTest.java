@@ -135,6 +135,7 @@ public class LayoutSetPrototypePropagationTest
 		doTestIsLayoutUpdateable();
 	}
 
+	@Ignore
 	@Test
 	public void testLayoutPermissionPropagationWithLinkEnabled()
 		throws Exception {

@@ -106,6 +106,7 @@ public abstract class BasePrototypePropagationTestCase {
 		doTestPortletPreferencesPropagation(false);
 	}
 
+	@Ignore
 	@Test
 	public void testPortletPreferencesPropagationWithLinkEnabled()
 		throws Exception {
