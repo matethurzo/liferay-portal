@@ -47,7 +47,7 @@ public class DDLFormPortletDataHandler extends BasePortletDataHandler {
 	public DataLevel getDataLevel() {
 		return DataLevel.PORTLET_INSTANCE;
 	}
-	
+
 	@Override
 	public String getSchemaVersion() {
 		return SCHEMA_VERSION;
