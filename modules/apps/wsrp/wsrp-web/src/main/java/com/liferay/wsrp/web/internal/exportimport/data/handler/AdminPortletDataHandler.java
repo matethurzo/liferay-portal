@@ -45,8 +45,12 @@ public class AdminPortletDataHandler extends BasePortletDataHandler {
 
 	public static final String NAMESPACE = "wsrp";
 
+	@Override
+	public DataLevel getDataLevel() {
+		return DataLevel.PORTAL;
+	}
+
 	public AdminPortletDataHandler() {
-		setDataLevel(DataLevel.PORTAL);
 		setDeletionSystemEventStagedModelTypes(
 			new StagedModelType(WSRPConsumer.class),
 			new StagedModelType(WSRPConsumerPortlet.class),
