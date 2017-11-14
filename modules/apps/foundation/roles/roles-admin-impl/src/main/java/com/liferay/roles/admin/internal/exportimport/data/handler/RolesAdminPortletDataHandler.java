@@ -64,6 +64,11 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 	public static final String SCHEMA_VERSION = "1.0.0";
 
 	@Override
+	public DataLevel getDataLevel() {
+		return DataLevel.PORTAL;
+	}
+
+	@Override
 	public String getSchemaVersion() {
 		return SCHEMA_VERSION;
 	}
@@ -75,7 +80,6 @@ public class RolesAdminPortletDataHandler extends BasePortletDataHandler {
 
 	@Activate
 	protected void activate() {
-		setDataLevel(DataLevel.PORTAL);
 		setDeletionSystemEventStagedModelTypes(new StagedModelType(Role.class));
 		setExportControls(
 			new PortletDataHandlerBoolean(
