@@ -64,7 +64,6 @@ public class AdminPortletDataHandler extends BasePortletDataHandler {
 	public static final String SCHEMA_VERSION = "2.0.0";
 
 	public AdminPortletDataHandler() {
-		setDataLevel(DataLevel.SITE);
 		setDeletionSystemEventStagedModelTypes(
 			new StagedModelType(KBArticle.class),
 			new StagedModelType(KBComment.class),
@@ -83,6 +82,11 @@ public class AdminPortletDataHandler extends BasePortletDataHandler {
 		XStreamAliasRegistryUtil.register(KBArticleImpl.class, "KBArticle");
 		XStreamAliasRegistryUtil.register(KBCommentImpl.class, "KBComment");
 		XStreamAliasRegistryUtil.register(KBTemplateImpl.class, "KBTemplate");
+	}
+
+	@Override
+	public DataLevel getDataLevel() {
+		return DataLevel.SITE;
 	}
 
 	@Override
