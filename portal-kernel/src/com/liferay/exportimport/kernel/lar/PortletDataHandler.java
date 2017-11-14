@@ -84,7 +84,9 @@ public interface PortletDataHandler {
 			PortletPreferences portletPreferences)
 		throws PortletDataException;
 
-	public DataLevel getDataLevel();
+	public default DataLevel getDataLevel() {
+		return DataLevel.SITE;
+	}
 
 	/**
 	 * Returns an array of the portlet preferences that reference data. These
