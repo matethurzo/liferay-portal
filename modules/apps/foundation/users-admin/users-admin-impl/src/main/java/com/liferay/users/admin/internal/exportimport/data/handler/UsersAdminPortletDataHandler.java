@@ -49,13 +49,17 @@ public class UsersAdminPortletDataHandler extends BasePortletDataHandler {
 	public static final String NAMESPACE = "users_admin";
 
 	@Override
+	public DataLevel getDataLevel() {
+		return DataLevel.PORTAL;
+	}
+
+	@Override
 	public boolean isSupportsDataStrategyCopyAsNew() {
 		return false;
 	}
 
 	@Activate
 	protected void activate() {
-		setDataLevel(DataLevel.PORTAL);
 		setDeletionSystemEventStagedModelTypes(
 			new StagedModelType(Organization.class));
 		setExportControls(
