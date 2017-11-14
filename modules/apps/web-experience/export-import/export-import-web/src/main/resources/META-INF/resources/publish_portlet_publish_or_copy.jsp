@@ -22,10 +22,20 @@
 	String tabs3 = ParamUtil.getString(request, "tabs3", "new-publication-process");
 
 	boolean newPublication = tabs3.equals("new-publication-process");
+
+	String javascriptOnSubmitFunction = "event.halt(); " + renderResponse.getNamespace();
+
+	if (newPublication) {
+		javascriptOnSubmitFunction += "publishToLive();";
+	}
+	else {
+		javascriptOnSubmitFunction += "copyFromLive();";
+	}
 %>
 
 <portlet:actionURL name="publishPortlet" var="publishPortletURL">
 	<portlet:param name="mvcRenderCommandName" value="publishPortlet" />
+	<portlet:param name="tabs3" value="<%= tabs3 %>" />
 </portlet:actionURL>
 
 <liferay-portlet:renderURL var="redirectURL">
@@ -34,7 +44,7 @@
 	<portlet:param name="portletResource" value="<%= portletResource %>" />
 </liferay-portlet:renderURL>
 
-<aui:form action="<%= publishPortletURL %>" cssClass="lfr-export-dialog" method="post" name="fm1" onSubmit='<%= "event.halt(); " + renderResponse.getNamespace() + "publishToLive();" %>'>
+<aui:form action="<%= publishPortletURL %>" cssClass="lfr-export-dialog" method="post" name="fm1" onSubmit="<%= javascriptOnSubmitFunction %>">
 	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.PUBLISH_TO_LIVE %>" />
 	<aui:input name="redirect" type="hidden" value="<%= redirectURL %>" />
 	<aui:input name="plid" type="hidden" value="<%= plid %>" />
@@ -412,7 +422,7 @@
 				<aui:button cssClass="btn-lg" type="submit" value="publish-to-live" />
 			</c:when>
 			<c:otherwise>
-				<aui:button cssClass="btn-lg" onClick='<%= renderResponse.getNamespace() + "copyFromLive();" %>' value="copy-from-live" />
+				<aui:button cssClass="btn-lg" type="submit" value="copy-from-live" />
 			</c:otherwise>
 		</c:choose>
 	</aui:button-row>
