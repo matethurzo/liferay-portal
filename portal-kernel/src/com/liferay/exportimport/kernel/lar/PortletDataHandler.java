@@ -221,11 +221,17 @@ public interface PortletDataHandler {
 
 	public boolean isDataLocalized();
 
-	public boolean isDataPortalLevel();
+	public default boolean isDataPortalLevel() {
+		return getDataLevel().equals(DataLevel.PORTAL);
+	}
 
-	public boolean isDataPortletInstanceLevel();
+	public default boolean isDataPortletInstanceLevel() {
+		return getDataLevel().equals(DataLevel.PORTLET_INSTANCE);
+	}
 
-	public boolean isDataSiteLevel();
+	public default boolean isDataSiteLevel() {
+		return getDataLevel().equals(DataLevel.SITE);
+	}
 
 	public boolean isDisplayPortlet();
 
