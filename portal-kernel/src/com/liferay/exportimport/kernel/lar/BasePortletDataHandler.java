@@ -415,17 +415,17 @@ public abstract class BasePortletDataHandler implements PortletDataHandler {
 
 	@Override
 	public boolean isDataPortalLevel() {
-		return _dataLevel.equals(DataLevel.PORTAL);
+		return getDataLevel().equals(DataLevel.PORTAL);
 	}
 
 	@Override
 	public boolean isDataPortletInstanceLevel() {
-		return _dataLevel.equals(DataLevel.PORTLET_INSTANCE);
+		return getDataLevel().equals(DataLevel.PORTLET_INSTANCE);
 	}
 
 	@Override
 	public boolean isDataSiteLevel() {
-		return _dataLevel.equals(DataLevel.SITE);
+		return getDataLevel().equals(DataLevel.SITE);
 	}
 
 	@Override
