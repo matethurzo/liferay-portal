@@ -23,10 +23,14 @@
 
 	boolean newPublication = tabs3.equals("new-publication-process");
 
+	String defaultRange = ExportImportDateUtil.RANGE_ALL;
 	String javascriptOnSubmitFunction = "event.halt(); " + renderResponse.getNamespace();
+	long workingGroupId = liveGroupId;
 
 	if (newPublication) {
+		defaultRange = ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE;
 		javascriptOnSubmitFunction += "publishToLive();";
+		workingGroupId = stagingGroupId;
 	}
 	else {
 		javascriptOnSubmitFunction += "copyFromLive();";
@@ -134,16 +138,10 @@
 				<c:if test="<%= !portletDataHandler.isDisplayPortlet() %>">
 
 					<%
-						DateRange dateRange = ExportImportDateUtil.getDateRange(renderRequest, themeDisplay.getScopeGroupId(), false, plid, selPortlet.getPortletId(), ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE);
+						DateRange dateRange = ExportImportDateUtil.getDateRange(renderRequest, themeDisplay.getScopeGroupId(), false, plid, selPortlet.getPortletId(), defaultRange);
 
 						Date startDate = dateRange.getStartDate();
 						Date endDate = dateRange.getEndDate();
-
-						long workingGroupId = liveGroupId;
-						if (newPublication) {
-							workingGroupId = stagingGroupId;
-						}
-
 
 						PortletDataContext portletDataContext = PortletDataContextFactoryUtil.createPreparePortletDataContext(themeDisplay.getCompanyId(), workingGroupId, startDate, endDate);
 
@@ -163,7 +161,7 @@
 									<div id="<portlet:namespace />range">
 										<div class="flex-container">
 											<div class="flex-item-center range-options">
-												<aui:input data-name='<%= LanguageUtil.get(request, "all") %>' id="rangeAll" label="all" name="range" type="radio" value="all" />
+												<aui:input checked="<%= !newPublication %>" data-name='<%= LanguageUtil.get(request, "all") %>' id="rangeAll" label="all" name="range" type="radio" value="all" />
 											</div>
 
 											<c:if test="<%= newPublication %>">
