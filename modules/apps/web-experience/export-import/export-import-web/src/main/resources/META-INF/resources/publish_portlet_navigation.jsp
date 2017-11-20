@@ -41,6 +41,16 @@
 			/>
 
 			<%
+				portletURL.setParameter("tabs3", "copy-from-live");
+			%>
+
+			<aui:nav-item
+				href="<%= portletURL.toString() %>"
+				label="copy-from-live"
+				selected='<%= tabs3.equals("copy-from-live") %>'
+			/>
+
+			<%
 				portletURL.setParameter("tabs3", "current-and-previous");
 			%>
 
@@ -50,15 +60,6 @@
 				selected='<%= tabs3.equals("current-and-previous") %>'
 			/>
 
-			<%
-				portletURL.setParameter("tabs3", "copy-from-live");
-			%>
-
-			<aui:nav-item
-				href="<%= portletURL.toString() %>"
-				label="copy-from-live"
-				selected='<%= tabs3.equals("copy-from-live") %>'
-			/>
 		</aui:nav>
 	</aui:nav-bar>
 </c:if>
