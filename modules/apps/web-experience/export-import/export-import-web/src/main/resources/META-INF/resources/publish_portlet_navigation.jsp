@@ -21,9 +21,9 @@
 <%
 	String tabs3 = ParamUtil.getString(request, "tabs3", "new-publication-process");
 
-	PortletURL portletURL = currentURLObj;
-
-	portletURL.setParameter("tabs3", "current-and-previous");
+	PortletURL portletURL = renderResponse.createRenderURL();
+	portletURL.setParameter("mvcRenderCommandName", "publishPortlet");
+	portletURL.setParameter("portletResource", portletResource);
 %>
 
 <c:if test="<%= (themeDisplay.getURLPublishToLive() != null) || layout.isTypeControlPanel() %>">
