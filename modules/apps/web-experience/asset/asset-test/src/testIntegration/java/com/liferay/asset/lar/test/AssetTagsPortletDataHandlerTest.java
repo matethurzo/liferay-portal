@@ -15,7 +15,7 @@
 package com.liferay.asset.lar.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.asset.tags.admin.web.internal.constants.AssetTagsAdminPortletKeys;
+import com.liferay.asset.tags.constants.AssetTagsAdminPortletKeys;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.Sync;
