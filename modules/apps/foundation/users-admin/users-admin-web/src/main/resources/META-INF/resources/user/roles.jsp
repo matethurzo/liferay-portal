@@ -424,7 +424,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 					cssClass="table-cell-content"
 					name="site"
 				>
-					<liferay-staging:staged-descriptive-name
+					<liferay-staging:descriptive-name
 						group="<%= userGroupRole.getGroup() %>"
 					/>
 				</liferay-ui:search-container-column-text>
@@ -605,7 +605,7 @@ String organizationRoleSyncEntitiesEventName = liferayPortletResponse.getNamespa
 				cssClass="table-cell-content"
 				name="site"
 			>
-				<liferay-staging:staged-descriptive-name
+				<liferay-staging:descriptive-name
 					group="<%= userGroupGroupRole.getGroup() %>"
 				/>
 			</liferay-ui:search-container-column-text>

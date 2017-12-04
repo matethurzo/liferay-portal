@@ -61,7 +61,7 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "sites"
 			cssClass="table-cell-content"
 			name="name"
 		>
-			<liferay-staging:staged-descriptive-name
+			<liferay-staging:descriptive-name
 				group="<%= group %>"
 			/>
 		</liferay-ui:search-container-column-text>
