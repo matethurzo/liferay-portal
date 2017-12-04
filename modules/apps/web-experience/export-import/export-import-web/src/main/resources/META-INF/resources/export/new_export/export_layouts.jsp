@@ -132,97 +132,91 @@ String[] disallowedCharacters = PropsValues.DL_CHAR_BLACKLIST;
 						<c:when test="<%= exportImportConfiguration == null %>">
 							<aui:input label="title" name="name" placeholder="process-name-placeholder">
 								<aui:validator errorMessage='<%= LanguageUtil.get(request, "the-following-are-invalid-characters") + Arrays.toString(disallowedCharacters) %>' name="custom">
-								function(val, fieldNode, ruleValue) {
-
-									var disallowedCharsInArray = [];
-
-										<%
-										for (int i = 0; i<disallowedCharacters.length; i++)
-											{
-
-												if ("\\".equals(disallowedCharacters[i])) {
-												%>
-
-												disallowedCharsInArray[<%= i %>] = "\\";
-
-												<%
+									function(val, fieldNode, ruleValue) {
+	
+										var disallowedCharsInArray = [];
+	
+											<%
+											for (int i = 0; i < disallowedCharacters.length; i++){
+													if ("\\".equals(disallowedCharacters[i])) {
+													%>
+	
+													disallowedCharsInArray[<%= i %>] = "\\";
+	
+													<%
 													}
 													else if ("\"".equals(disallowedCharacters[i])) {
 														%>
-
+	
 														disallowedCharsInArray[<%= i %>] = "\"";
-
+	
 														<%
-															}
-															else {
-															%>
-
-															disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
-
-															<%
-															}
-													}
-										%>
-
+														}
+														else {
+														%>
+	
+														disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
+	
+														<%
+														}
+												}
+											%>
+	
 											var index, len;
 											for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
 												if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
 													return false;
 												}
 											}
-
+	
 											return true;
-								}
-
-							</aui:validator>
+									}
+								</aui:validator>
 							</aui:input>
 						</c:when>
 						<c:otherwise>
 							<aui:input label="title" name="name" value="<%= exportImportConfiguration.getName() %>">
-							<aui:validator errorMessage='<%= LanguageUtil.get(request, "the-following-are-invalid-characters") + Arrays.toString(disallowedCharacters) %>' name="custom">
-							function(val, fieldNode, ruleValue) {
-
-								var disallowedCharsInArray = [];
-
-									<%
-									for (int i = 0; i<disallowedCharacters.length; i++)
-										{
-
-											if ("\\".equals(disallowedCharacters[i])) {
-											%>
-
-											disallowedCharsInArray[<%= i %>] = "\\";
-
+								<aui:validator errorMessage='<%= LanguageUtil.get(request, "the-following-are-invalid-characters") + Arrays.toString(disallowedCharacters) %>' name="custom">
+									function(val, fieldNode, ruleValue) {
+	
+										var disallowedCharsInArray = [];
+	
 											<%
-												}
-												else if ("\"".equals(disallowedCharacters[i])) {
+											for (int i = 0; i < disallowedCharacters.length; i++){
+													if ("\\".equals(disallowedCharacters[i])) {
 													%>
-
-													disallowedCharsInArray[<%= i %>] = "\"";
-
+	
+													disallowedCharsInArray[<%= i %>] = "\\";
+	
 													<%
+													}
+													else if ("\"".equals(disallowedCharacters[i])) {
+														%>
+	
+														disallowedCharsInArray[<%= i %>] = "\"";
+	
+														<%
 														}
 														else {
 														%>
-
+	
 														disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
-
+	
 														<%
 														}
 												}
-									%>
-
-										var index, len;
-										for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
-											if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
-												return false;
+											%>
+	
+											var index, len;
+											for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
+												if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
+													return false;
+												}
 											}
-										}
-
-										return true;
-							}
-						</aui:validator>
-
+	
+											return true;
+									}
+								</aui:validator>
 							</aui:input>
 						</c:otherwise>
 					</c:choose>
