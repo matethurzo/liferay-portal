@@ -127,6 +127,13 @@ public abstract class BasePortletDataHandlerTestCase {
 	}
 
 	@Test
+	public void testDeletionSystemEventStagedModelTypes() throws Exception {
+		Assert.assertArrayEquals(
+			getDeletionSystemEventStagedModelTypes(),
+			portletDataHandler.getDeletionSystemEventStagedModelTypes());
+	}
+
+	@Test
 	public void testExportImportData() throws Exception {
 		if (!isExportImportDataTested()) {
 			return;
@@ -389,9 +396,48 @@ public abstract class BasePortletDataHandlerTestCase {
 	}
 
 	@Test
+	public void testGetNamespace() {
+		Assert.assertEquals(getNamespace(), portletDataHandler.getNamespace());
+	}
+
+	@Test
+	public void testGetPortletId() {
+		Assert.assertEquals(getPortletId(), portletDataHandler.getPortletId());
+	}
+
+	@Test
+	public void testGetRank() {
+		Assert.assertEquals(getRank(), portletDataHandler.getRank());
+	}
+
+	@Test
+	public void testGetSchemaVersion() {
+		Assert.assertEquals(
+			getSchemaVersion(), portletDataHandler.getSchemaVersion());
+	}
+
+	@Test
+	public void testGetServiceName() {
+		Assert.assertEquals(
+			getServiceName(), portletDataHandler.getServiceName());
+	}
+
+	@Test
 	public void testGetStagingControls() throws Exception {
 		_assertControls(
 			getStagingControls(), portletDataHandler.getStagingControls());
+	}
+
+	@Test
+	public void testIsDataAlwaysStaged() {
+		Assert.assertEquals(
+			isDataAlwaysStaged(), portletDataHandler.isDataAlwaysStaged());
+	}
+
+	@Test
+	public void testIsDataLocalized() {
+		Assert.assertEquals(
+			isDataLocalized(), portletDataHandler.isDataLocalized());
 	}
 
 	@Test
@@ -417,6 +463,34 @@ public abstract class BasePortletDataHandlerTestCase {
 	public void testIsDisplayPortlet() throws Exception {
 		Assert.assertEquals(
 			isDisplayPortlet(), portletDataHandler.isDisplayPortlet());
+	}
+
+	@Test
+	public void testIsPublishToLiveByDefault() {
+		Assert.assertEquals(
+			isPublishToLiveByDefault(),
+			portletDataHandler.isPublishToLiveByDefault());
+	}
+
+	@Test
+	public void testIsRollbackOnException() {
+		Assert.assertEquals(
+			isRollbackOnException(),
+			portletDataHandler.isRollbackOnException());
+	}
+
+	@Test
+	public void testIsSupportsDataStrategyCopyAsNew() {
+		Assert.assertEquals(
+			isSupportsDataStrategyCopyAsNew(),
+			portletDataHandler.isSupportsDataStrategyCopyAsNew());
+	}
+
+	@Test
+	public void testIsSupportsDataStrategyMirrorWithOverwriting() {
+		Assert.assertEquals(
+			isSupportsDataStrategyMirrorWithOverwriting(),
+			portletDataHandler.isSupportsDataStrategyMirrorWithOverwriting());
 	}
 
 	@Test
@@ -526,6 +600,10 @@ public abstract class BasePortletDataHandlerTestCase {
 		return StringPool.EMPTY_ARRAY;
 	}
 
+	protected StagedModelType[] getDeletionSystemEventStagedModelTypes() {
+		return new StagedModelType[0];
+	}
+
 	protected Date getEndDate() {
 		return new Date();
 	}
@@ -569,6 +647,10 @@ public abstract class BasePortletDataHandlerTestCase {
 		return new PortletDataHandlerControl[0];
 	}
 
+	protected String getNamespace() {
+		return StringPool.BLANK;
+	}
+
 	protected PortletDataHandler getPortletDataHandler(String portletId) {
 		try {
 			Registry registry = RegistryUtil.getRegistry();
@@ -596,6 +678,18 @@ public abstract class BasePortletDataHandlerTestCase {
 
 	protected List<StagedModel> getStagedModels() {
 		return new ArrayList<>();
+	}
+
+	protected int getRank() {
+		return 100;
+	}
+
+	protected String getSchemaVersion() {
+		return "1.0.0";
+	}
+
+	protected String getServiceName() {
+		return null;
 	}
 
 	protected PortletDataHandlerControl[] getStagingControls() {
@@ -627,6 +721,14 @@ public abstract class BasePortletDataHandlerTestCase {
 
 		portletDataContext.setMissingReferencesElement(
 			missingReferencesElement);
+	}
+
+	protected boolean isDataAlwaysStaged() {
+		return false;
+	}
+
+	protected boolean isDataLocalized() {
+		return false;
 	}
 
 	protected boolean isDataPortalLevel() {
@@ -672,6 +774,22 @@ public abstract class BasePortletDataHandlerTestCase {
 
 	protected boolean isGetExportModelCountTested() {
 		return false;
+	}
+
+	protected boolean isPublishToLiveByDefault() {
+		return false;
+	}
+
+	protected boolean isRollbackOnException() {
+		return true;
+	}
+
+	protected boolean isSupportsDataStrategyCopyAsNew() {
+		return true;
+	}
+
+	protected boolean isSupportsDataStrategyMirrorWithOverwriting() {
+		return true;
 	}
 
 	protected void validateDefaultData(PortletPreferences portletPreferences)
