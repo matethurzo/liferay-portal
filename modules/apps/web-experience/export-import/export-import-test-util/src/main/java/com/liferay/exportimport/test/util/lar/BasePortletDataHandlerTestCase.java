@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.lar.test;
+package com.liferay.exportimport.test.util.lar;
 
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
@@ -67,6 +67,7 @@ import org.junit.Test;
 /**
  * @author Zsolt Berentey
  * @author Zoltan Csaszi
+ * @author Gergely Mathe
  */
 public abstract class BasePortletDataHandlerTestCase {
 
@@ -117,7 +118,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		Assert.assertEquals(stagedModels.toString(), 0, stagedModels.size());
 
 		for (String preferenceKey :
-				portletDataHandler.getDataPortletPreferences()) {
+			portletDataHandler.getDataPortletPreferences()) {
 
 			String portletPreference = portletPreferences.getValue(
 				preferenceKey, StringPool.BLANK);
@@ -549,7 +550,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		checkManifestSummaryReferrerClassNames(manifestSummary);
 
 		for (String manifestSummaryKey :
-				expectedManifestSummary.getManifestSummaryKeys()) {
+			expectedManifestSummary.getManifestSummaryKeys()) {
 
 			String[] keyParts = StringUtil.split(
 				manifestSummaryKey, StringPool.POUND);
@@ -581,7 +582,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		ManifestSummary manifestSummary) {
 
 		for (String manifestSummaryKey :
-				manifestSummary.getManifestSummaryKeys()) {
+			manifestSummary.getManifestSummaryKeys()) {
 
 			Assert.assertFalse(
 				manifestSummaryKey.endsWith(
@@ -808,8 +809,8 @@ public abstract class BasePortletDataHandlerTestCase {
 	protected ZipWriter zipWriter;
 
 	private void _assertControls(
-			PortletDataHandlerControl[] expectedControls,
-			PortletDataHandlerControl[] actualControls)
+		PortletDataHandlerControl[] expectedControls,
+		PortletDataHandlerControl[] actualControls)
 		throws Exception {
 
 		for (PortletDataHandlerControl expectedControl : expectedControls) {
@@ -823,7 +824,7 @@ public abstract class BasePortletDataHandlerTestCase {
 						expectedControl.getControlLabel(),
 						actualControl.getControlLabel()) &&
 					(expectedControl.isDisabled() ==
-						actualControl.isDisabled())) {
+					 	actualControl.isDisabled())) {
 
 					contains = true;
 
