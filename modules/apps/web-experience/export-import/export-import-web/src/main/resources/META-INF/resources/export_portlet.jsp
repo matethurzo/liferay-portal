@@ -97,40 +97,41 @@ String[] disallowedCharacters = PropsValues.DL_CHAR_BLACKLIST;
 
 										var disallowedCharsInArray = [];
 
+										<%
+										for (int i = 0; i < disallowedCharacters.length; i++) {
+											if ("\\".equals(disallowedCharacters[i])) {
+										%>
+
+												disallowedCharsInArray[<%= i %>] = "\\";
+
 											<%
-											for (int i = 0; i < disallowedCharacters.length; i++) {
-													if ("\\".equals(disallowedCharacters[i])) {
-													%>
-
-													disallowedCharsInArray[<%= i %>] = "\\";
-
-													<%
-													}
-													else if ("\"".equals(disallowedCharacters[i])) {
-														%>
-
-														disallowedCharsInArray[<%= i %>] = "\"";
-
-														<%
-														}
-														else {
-														%>
-
-														disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
-
-														<%
-														}
-												}
+											}
+											else if ("\"".equals(disallowedCharacters[i])) {
 											%>
 
-											var index, len;
-											for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
-												if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
-													return false;
-												}
-											}
+												disallowedCharsInArray[<%= i %>] = "\"";
 
-											return true;
+											<%
+											}
+											else {
+											%>
+
+												disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
+
+										<%
+											}
+										}
+										%>
+
+										var index, len;
+
+										for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
+											if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
+												return false;
+											}
+										}
+
+										return true;
 									}
 								</aui:validator>
 							</aui:input>
