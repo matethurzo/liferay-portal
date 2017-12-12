@@ -29,10 +29,12 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -260,12 +262,6 @@ public abstract class BasePortletDataHandlerTestCase {
 
 		initContext();
 
-		PortletDataHandlerControl[] portletDataHandlerControls = null;
-
-		if (portletDataHandler.isDisplayPortlet()) {
-			portletDataHandlerControls = portletDataHandler.getExportControls();
-		}
-
 		PortletDataHandlerControl[] testPortletDataHandlerControls =
 			portletDataHandler.getExportConfigurationControls(
 				portletDataContext.getCompanyId(),
@@ -274,8 +270,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		_assertControls(
 			getExportConfigurationControls(
 				portletDataContext.getCompanyId(),
-				portletDataContext.getGroupId(), portletDataHandlerControls, -1,
-				false),
+				portletDataContext.getGroupId(), portlet, -1, false),
 			testPortletDataHandlerControls);
 
 		testPortletDataHandlerControls =
@@ -286,8 +281,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		_assertControls(
 			getExportConfigurationControls(
 				portletDataContext.getCompanyId(),
-				portletDataContext.getGroupId(), portletDataHandlerControls, -1,
-				true),
+				portletDataContext.getGroupId(), portlet, -1, true),
 			testPortletDataHandlerControls);
 
 		testPortletDataHandlerControls =
@@ -299,7 +293,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		_assertControls(
 			getExportConfigurationControls(
 				portletDataContext.getCompanyId(),
-				portletDataContext.getGroupId(), portletDataHandlerControls,
+				portletDataContext.getGroupId(), portlet,
 				portletDataContext.getPlid(), false),
 			testPortletDataHandlerControls);
 
@@ -312,7 +306,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		_assertControls(
 			getExportConfigurationControls(
 				portletDataContext.getCompanyId(),
-				portletDataContext.getGroupId(), portletDataHandlerControls,
+				portletDataContext.getGroupId(), portlet,
 				portletDataContext.getPlid(), true),
 			testPortletDataHandlerControls);
 	}
@@ -618,20 +612,66 @@ public abstract class BasePortletDataHandlerTestCase {
 	}
 
 	protected PortletDataHandlerControl[] getExportConfigurationControls(
-		long companyId, long groupId,
-		PortletDataHandlerControl[] portletDataHandlerControls, long plid,
+		long companyId, long groupId, Portlet portlet, long plid,
 		boolean privateLayout) {
 
-		if (plid < 0) {
-			return new PortletDataHandlerControl[] {
+		List<PortletDataHandlerBoolean> configurationControls =
+			new ArrayList<>();
+
+		// Setup
+
+		if ((PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+			PortletKeys.PREFS_OWNER_ID_DEFAULT,
+			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, plid, portlet, false) >
+			 0) ||
+			(PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+				groupId, PortletKeys.PREFS_OWNER_TYPE_GROUP,
+				portlet.getRootPortletId(), false) > 0) ||
+			(PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+				companyId, PortletKeys.PREFS_OWNER_TYPE_COMPANY,
+				portlet.getRootPortletId(), false) > 0)) {
+
+			PortletDataHandlerControl[] portletDataHandlerControls = null;
+
+			if (isDisplayPortlet()) {
+				portletDataHandlerControls = getExportControls();
+			}
+
+			configurationControls.add(
 				new PortletDataHandlerBoolean(
 					null, PortletDataHandlerKeys.PORTLET_SETUP, "setup", true,
-					false, portletDataHandlerControls, null, null)
-			};
+					false, portletDataHandlerControls, null, null));
 		}
-		else {
-			return new PortletDataHandlerControl[0];
+
+		// Archived setups
+
+		if (PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+			-1, PortletKeys.PREFS_OWNER_TYPE_ARCHIVED,
+			portlet.getRootPortletId(), false) > 0) {
+
+			configurationControls.add(
+				new PortletDataHandlerBoolean(
+					null, PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS,
+					"configuration-templates", true, false, null, null, null));
 		}
+
+		// User preferences
+
+		if ((PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+			-1, PortletKeys.PREFS_OWNER_TYPE_USER, plid, portlet, false) >
+			 0) ||
+			(PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
+				groupId, PortletKeys.PREFS_OWNER_TYPE_USER,
+				PortletKeys.PREFS_PLID_SHARED, portlet, false) > 0)) {
+
+			configurationControls.add(
+				new PortletDataHandlerBoolean(
+					null, PortletDataHandlerKeys.PORTLET_USER_PREFERENCES,
+					"user-preferences", true, false, null, null, null));
+		}
+
+		return configurationControls.toArray(
+			new PortletDataHandlerBoolean[configurationControls.size()]);
 	}
 
 	protected PortletDataHandlerControl[] getExportControls() {
