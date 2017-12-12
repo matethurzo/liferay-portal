@@ -94,42 +94,42 @@ String[] disallowedCharacters = PropsValues.DL_CHAR_BLACKLIST;
 							<aui:input label="export-the-selected-data-to-the-given-lar-file-name" name="exportFileName" required="<%= true %>" showRequiredLabel="<%= false %>" size="50" value='<%= StringUtil.replace(selPortlet.getDisplayName(), ' ', '_') + "-" + Time.getShortTimestamp() + ".portlet.lar" %>'>
 								<aui:validator errorMessage='<%= LanguageUtil.get(request, "the-following-are-invalid-characters") + Arrays.toString(disallowedCharacters) %>' name="custom">
 									function(val, fieldNode, ruleValue) {
-	
+
 										var disallowedCharsInArray = [];
-	
+
 											<%
-											for (int i = 0; i < disallowedCharacters.length; i++){
+											for (int i = 0; i < disallowedCharacters.length; i++) {
 													if ("\\".equals(disallowedCharacters[i])) {
 													%>
-	
+
 													disallowedCharsInArray[<%= i %>] = "\\";
-	
+
 													<%
 													}
 													else if ("\"".equals(disallowedCharacters[i])) {
 														%>
-	
+
 														disallowedCharsInArray[<%= i %>] = "\"";
-	
+
 														<%
 														}
 														else {
 														%>
-	
+
 														disallowedCharsInArray[<%= i %>] = "<%= disallowedCharacters[i] %>";
-	
+
 														<%
 														}
 												}
 											%>
-	
+
 											var index, len;
 											for (index = 0, len = disallowedCharsInArray.length; index < len; ++index) {
 												if (val.indexOf(disallowedCharsInArray[index]) !== -1) {
 													return false;
 												}
 											}
-	
+
 											return true;
 									}
 								</aui:validator>
