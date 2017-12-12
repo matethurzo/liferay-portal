@@ -53,6 +53,7 @@ import com.liferay.registry.RegistryUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -124,7 +125,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		Assert.assertEquals(stagedModels.toString(), 0, stagedModels.size());
 
 		for (String preferenceKey :
-			portletDataHandler.getDataPortletPreferences()) {
+				portletDataHandler.getDataPortletPreferences()) {
 
 			String portletPreference = portletPreferences.getValue(
 				preferenceKey, StringPool.BLANK);
@@ -552,7 +553,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		checkManifestSummaryReferrerClassNames(manifestSummary);
 
 		for (String manifestSummaryKey :
-			expectedManifestSummary.getManifestSummaryKeys()) {
+				expectedManifestSummary.getManifestSummaryKeys()) {
 
 			String[] keyParts = StringUtil.split(
 				manifestSummaryKey, StringPool.POUND);
@@ -584,7 +585,7 @@ public abstract class BasePortletDataHandlerTestCase {
 		ManifestSummary manifestSummary) {
 
 		for (String manifestSummaryKey :
-			manifestSummary.getManifestSummaryKeys()) {
+				manifestSummary.getManifestSummaryKeys()) {
 
 			Assert.assertFalse(
 				manifestSummaryKey.endsWith(
@@ -621,9 +622,9 @@ public abstract class BasePortletDataHandlerTestCase {
 		// Setup
 
 		if ((PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
-			PortletKeys.PREFS_OWNER_ID_DEFAULT,
-			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, plid, portlet, false) >
-			 0) ||
+				PortletKeys.PREFS_OWNER_ID_DEFAULT,
+				PortletKeys.PREFS_OWNER_TYPE_LAYOUT, plid, portlet, false) >
+					0) ||
 			(PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
 				groupId, PortletKeys.PREFS_OWNER_TYPE_GROUP,
 				portlet.getRootPortletId(), false) > 0) ||
@@ -646,8 +647,8 @@ public abstract class BasePortletDataHandlerTestCase {
 		// Archived setups
 
 		if (PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
-			-1, PortletKeys.PREFS_OWNER_TYPE_ARCHIVED,
-			portlet.getRootPortletId(), false) > 0) {
+				-1, PortletKeys.PREFS_OWNER_TYPE_ARCHIVED,
+				portlet.getRootPortletId(), false) > 0) {
 
 			configurationControls.add(
 				new PortletDataHandlerBoolean(
@@ -658,8 +659,8 @@ public abstract class BasePortletDataHandlerTestCase {
 		// User preferences
 
 		if ((PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
-			-1, PortletKeys.PREFS_OWNER_TYPE_USER, plid, portlet, false) >
-			 0) ||
+				-1, PortletKeys.PREFS_OWNER_TYPE_USER, plid, portlet, false) >
+					0) ||
 			(PortletPreferencesLocalServiceUtil.getPortletPreferencesCount(
 				groupId, PortletKeys.PREFS_OWNER_TYPE_USER,
 				PortletKeys.PREFS_PLID_SHARED, portlet, false) > 0)) {
@@ -739,6 +740,10 @@ public abstract class BasePortletDataHandlerTestCase {
 
 	protected String getServiceName() {
 		return null;
+	}
+
+	protected List<StagedModel> getStagedModels() {
+		return new ArrayList<>();
 	}
 
 	protected PortletDataHandlerControl[] getStagingControls() {
@@ -857,8 +862,8 @@ public abstract class BasePortletDataHandlerTestCase {
 	protected ZipWriter zipWriter;
 
 	private void _assertControls(
-		PortletDataHandlerControl[] expectedControls,
-		PortletDataHandlerControl[] actualControls)
+			PortletDataHandlerControl[] expectedControls,
+			PortletDataHandlerControl[] actualControls)
 		throws Exception {
 
 		for (PortletDataHandlerControl expectedControl : expectedControls) {
