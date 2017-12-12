@@ -24,6 +24,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
+import com.liferay.exportimport.lar.PortletDataContextImpl;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.StagedModel;
@@ -32,6 +33,7 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
@@ -47,6 +49,8 @@ import com.liferay.portlet.PortletPreferencesImpl;
 import com.liferay.registry.Registry;
 import com.liferay.registry.RegistryUtil;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -185,6 +189,8 @@ public abstract class BasePortletDataHandlerTestCase {
 
 		ZipWriter exportZipWriter = portletDataContext.getZipWriter();
 
+		Set<String> missingReferences = _getMissingReferences();
+
 		initContext();
 
 		Group cleanGroup = GroupTestUtil.addGroup();
@@ -215,6 +221,8 @@ public abstract class BasePortletDataHandlerTestCase {
 		portletDataContext.setGroupId(cleanGroup.getGroupId());
 
 		portletDataContext.clearScopedPrimaryKeys();
+
+		_setMissingReferences(missingReferences);
 
 		portletDataHandler.importData(
 			portletDataContext, portletId, portletPreferences, exportData);
@@ -834,6 +842,31 @@ public abstract class BasePortletDataHandlerTestCase {
 
 			Assert.assertTrue(contains);
 		}
+	}
+
+	private Set<String> _getMissingReferences() throws Exception {
+		Field field = ReflectionUtil.getDeclaredField(
+			PortletDataContextImpl.class, "_missingReferences");
+
+		field.setAccessible(true);
+
+		return (Set<String>)field.get(portletDataContext);
+	}
+
+	private void _setMissingReferences(Set<String> missingReferences)
+		throws Exception {
+
+		Field field = ReflectionUtil.getDeclaredField(
+			PortletDataContextImpl.class, "_missingReferences");
+
+		field.setAccessible(true);
+
+		Field modifiersField = Field.class.getDeclaredField("modifiers");
+
+		modifiersField.setAccessible(true);
+		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+		field.set(portletDataContext, missingReferences);
 	}
 
 }
