@@ -1013,9 +1013,8 @@ public class DefaultTextExportImportContentProcessor
 					String exportedReference = content.substring(
 						beginPos, postfixPos + 2);
 
-					content = StringUtil.replaceFirst(
-						content, exportedReference, originalReference,
-						beginPos);
+					content = StringUtil.replace(
+						content, exportedReference, originalReference);
 				}
 
 				continue;
@@ -1029,20 +1028,15 @@ public class DefaultTextExportImportContentProcessor
 				content = StringUtil.replace(content, "$]?", "$]&");
 			}
 
+			String exportedReference = "[$dl-reference=" + path + "$]";
+
 			if (content.startsWith("[#dl-reference=", endPos)) {
-				int prefixPos = endPos;
+				endPos = content.indexOf("#]", beginPos) + 2;
 
-				int postfixPos = content.indexOf("#]", prefixPos);
-
-				String redundantDLURL = content.substring(
-					prefixPos, postfixPos + 2);
-
-				content = StringUtil.replaceFirst(
-					content, redundantDLURL, StringPool.BLANK, beginPos);
+				exportedReference = content.substring(beginPos, endPos);
 			}
 
-			content = StringUtil.replaceFirst(
-				content, "[$dl-reference=" + path + "$]", url, beginPos);
+			content = StringUtil.replace(content, exportedReference, url);
 		}
 
 		return content;
