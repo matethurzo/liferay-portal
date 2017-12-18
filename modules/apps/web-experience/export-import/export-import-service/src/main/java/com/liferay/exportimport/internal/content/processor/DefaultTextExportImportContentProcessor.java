@@ -400,9 +400,7 @@ public class DefaultTextExportImportContentProcessor
 				exportedReferenceSB.append("$]");
 
 				if (fileEntry.isInTrash()) {
-					String originalReference = DLUtil.getPreviewURL(
-						fileEntry, fileEntry.getFileVersion(), null,
-						StringPool.BLANK, false, false);
+					String originalReference = sb.substring(beginPos, endPos);
 
 					exportedReferenceSB.append("[#dl-reference=");
 					exportedReferenceSB.append(originalReference);
