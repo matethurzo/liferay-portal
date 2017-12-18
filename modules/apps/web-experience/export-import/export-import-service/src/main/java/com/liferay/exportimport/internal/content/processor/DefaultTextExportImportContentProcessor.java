@@ -409,7 +409,14 @@ public class DefaultTextExportImportContentProcessor
 
 				sb.replace(beginPos, endPos, exportedReferenceSB.toString());
 
-				deleteTimestampParameters(sb, beginPos);
+				int deleteTimestampParametersOffset = beginPos;
+
+				if (fileEntry.isInTrash()) {
+					deleteTimestampParametersOffset = sb.indexOf(
+						"[#dl-reference=", beginPos);
+				}
+
+				deleteTimestampParameters(sb, deleteTimestampParametersOffset);
 			}
 			catch (Exception e) {
 				if (_log.isDebugEnabled()) {
