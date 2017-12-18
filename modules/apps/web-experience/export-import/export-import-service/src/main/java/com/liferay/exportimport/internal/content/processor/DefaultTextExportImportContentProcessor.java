@@ -393,21 +393,23 @@ public class DefaultTextExportImportContentProcessor
 
 				String path = ExportImportPathUtil.getModelPath(fileEntry);
 
-				if (!fileEntry.isInTrash()) {
-					sb.replace(
-						beginPos, endPos, "[$dl-reference=" + path + "$]");
-				}
-				else {
-					String appendedURL = DLUtil.getPreviewURL(
+				StringBundler exportedReferenceSB = new StringBundler(6);
+
+				exportedReferenceSB.append("[$dl-reference=");
+				exportedReferenceSB.append(path);
+				exportedReferenceSB.append("$]");
+
+				if (fileEntry.isInTrash()) {
+					String originalReference = DLUtil.getPreviewURL(
 						fileEntry, fileEntry.getFileVersion(), null,
 						StringPool.BLANK, false, false);
 
-					sb.replace(
-						beginPos, endPos,
-						StringBundler.concat(
-							"[$dl-reference=", path, "$][#dl-reference=",
-							appendedURL, "#]"));
+					exportedReferenceSB.append("[#dl-reference=");
+					exportedReferenceSB.append(originalReference);
+					exportedReferenceSB.append("#]");
 				}
+
+				sb.replace(beginPos, endPos, exportedReferenceSB.toString());
 
 				deleteTimestampParameters(sb, beginPos);
 			}
@@ -977,14 +979,9 @@ public class DefaultTextExportImportContentProcessor
 			long fileEntryId = MapUtil.getLong(
 				dlFileEntryIds, classPK, classPK);
 
-			
 			int beginPos = content.indexOf("[$dl-reference=" + path);
 
-			int endPos = -1;
-
-			if (beginPos > 0) {
-				endPos = content.indexOf("$]", beginPos);
-			}
+			int endPos = content.indexOf("$]", beginPos) + 2;
 
 			FileEntry importedFileEntry = null;
 
@@ -1000,19 +997,20 @@ public class DefaultTextExportImportContentProcessor
 					_log.warn(pe.getMessage());
 				}
 
-				if (content.startsWith("[#dl-reference=", endPos + 2)) {
-					int prefixPos = endPos + 2;
+				if (content.startsWith("[#dl-reference=", endPos)) {
+					int prefixPos = endPos + "[#dl-reference=".length();
 
 					int postfixPos = content.indexOf("#]", prefixPos);
 
-					String alternativeURL = content.substring(
-						prefixPos + "[#dl-reference=".length(), postfixPos);
+					String originalReference = content.substring(
+						prefixPos, postfixPos);
 
-					String combinedURL = content.substring(
+					String exportedReference = content.substring(
 						beginPos, postfixPos + 2);
 
 					content = StringUtil.replaceFirst(
-						content, combinedURL, alternativeURL, beginPos);
+						content, exportedReference, originalReference,
+						beginPos);
 				}
 
 				continue;
@@ -1026,8 +1024,8 @@ public class DefaultTextExportImportContentProcessor
 				content = StringUtil.replace(content, "$]?", "$]&");
 			}
 
-			if (content.startsWith("[#dl-reference=", endPos + 2)) {
-				int prefixPos = endPos + 2;
+			if (content.startsWith("[#dl-reference=", endPos)) {
+				int prefixPos = endPos;
 
 				int postfixPos = content.indexOf("#]", prefixPos);
 
