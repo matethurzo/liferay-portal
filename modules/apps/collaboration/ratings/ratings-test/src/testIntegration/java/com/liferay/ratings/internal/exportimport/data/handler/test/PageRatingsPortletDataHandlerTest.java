@@ -62,7 +62,7 @@ public class PageRatingsPortletDataHandlerTest
 		ManifestSummary manifestSummary) {
 
 		for (String manifestSummaryKey :
-			manifestSummary.getManifestSummaryKeys()) {
+				manifestSummary.getManifestSummaryKeys()) {
 
 			Assert.assertTrue(
 				manifestSummaryKey.endsWith(
