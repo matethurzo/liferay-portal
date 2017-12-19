@@ -277,19 +277,10 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 	</liferay-ui:search-container>
 </aui:form>
 
-<%
-int incompleteBackgroundTaskCount = BackgroundTaskManagerUtil.getBackgroundTasksCount(groupId, taskExecutorClassName, false);
-
-if (localPublishing) {
-	incompleteBackgroundTaskCount += BackgroundTaskManagerUtil.getBackgroundTasksCount(liveGroupId, taskExecutorClassName, false);
-}
-%>
-
-<div class="hide incomplete-process-message">
-	<liferay-util:include page="/processes_list/incomplete_processes_message.jsp" servletContext="<%= application %>">
-		<liferay-util:param name="incompleteBackgroundTaskCount" value="<%= String.valueOf(incompleteBackgroundTaskCount) %>" />
-	</liferay-util:include>
-</div>
+<liferay-staging:incomplete-process-message
+	localPublishing="<%= localPublishing %>"
+	taskExecutorClassName="<%= taskExecutorClassName %>"
+/>
 
 <aui:script>
 	function <portlet:namespace />deleteEntries() {
