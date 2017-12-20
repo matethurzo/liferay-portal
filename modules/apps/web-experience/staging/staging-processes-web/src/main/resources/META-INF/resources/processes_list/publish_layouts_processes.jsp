@@ -209,17 +209,11 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 							<liferay-ui:message key="<%= backgroundTask.getStatusLabel() %>" />
 						</h6>
 
-						<c:if test="<%= Validator.isNotNull(backgroundTask.getStatusMessage()) %>">
-							<h6 class="background-task-status-row">
-								<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= backgroundTask.getBackgroundTaskId() %>', title: $('#<portlet:namespace />backgroundTaskName<%= backgroundTask.getBackgroundTaskId() %>').text()}); void(0);"><liferay-ui:message key="see-more-details" /></a>
-							</h6>
-
-							<div class="background-task-status-message hide" id="<portlet:namespace />backgroundTaskStatusMessage<%= backgroundTask.getBackgroundTaskId() %>">
-								<liferay-util:include page="/processes_list/publish_process_message_task_details.jsp" servletContext="<%= application %>">
-									<liferay-util:param name="backgroundTaskId" value="<%= String.valueOf(backgroundTask.getBackgroundTaskId()) %>" />
-								</liferay-util:include>
-							</div>
-						</c:if>
+						<liferay-staging:process-message-task-details
+							backgroundTaskId="<%= backgroundTask.getBackgroundTaskId() %>"
+							backgroundTaskStatusMessage="<%= backgroundTask.getStatusMessage() %>"
+							linkClass="background-task-status-row"
+						/>
 					</liferay-ui:search-container-column-text>
 				</c:when>
 				<c:when test='<%= displayStyle.equals("list") %>'>
