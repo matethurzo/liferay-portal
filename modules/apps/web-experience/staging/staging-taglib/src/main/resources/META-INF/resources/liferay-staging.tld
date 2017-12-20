@@ -347,6 +347,31 @@
 		</attribute>
 	</tag>
 	<tag>
+		<description>Renders the detailed process message</description>
+		<name>process-message-task-details</name>
+		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessMessageTaskDetailsTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The ID of the <![CDATA[<code>backgroundTask</code>]]></description>
+			<name>backgroundTaskId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+		</attribute>
+		<attribute>
+			<description>The backroundtask status message. Usually <![CDATA[<code>backgroundTask.getStatusMessage()</code>]]></description>
+			<name>backgroundTaskStatusMessage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The css class for the link to the detailed message.</description>
+			<name>linkClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<description>Renders the remote site options.</description>
 		<name>remote-options</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.RemoteOptionsTag</tag-class>
