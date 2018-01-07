@@ -722,14 +722,6 @@ public abstract class BasePortletDataHandlerTestCase {
 
 	protected abstract String getPortletId();
 
-	protected String getSchemaVersion() {
-		return "1.0.0";
-	}
-
-	protected List<StagedModel> getStagedModels() {
-		return new ArrayList<>();
-	}
-
 	protected int getRank() {
 		return 100;
 	}
