@@ -372,6 +372,31 @@
 		</attribute>
 	</tag>
 	<tag>
+		<description>Renders the short status information for a publishing process</description>
+		<name>process-status</name>
+		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessStatusTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The status of the backgroundtask. Usually <![CDATA[<code>backgroundTask.getStatus()</code>]]></description>
+			<name>backgroundTaskStatus</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+		<attribute>
+			<description>The backroundtask status label. Usually <![CDATA[<code>backgroundTask.getStatusLabel()</code>]]></description>
+			<name>backgroundTaskStatusLabel</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The css class for the link to the detailed message.</description>
+			<name>linkClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<description>Renders the remote site options.</description>
 		<name>remote-options</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.RemoteOptionsTag</tag-class>
