@@ -205,9 +205,10 @@ OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFa
 							</c:if>
 						</c:if>
 
-						<h6 class="background-task-status-row background-task-status-<%= BackgroundTaskConstants.getStatusLabel(backgroundTask.getStatus()) %> <%= BackgroundTaskConstants.getStatusCssClass(backgroundTask.getStatus()) %>">
-							<liferay-ui:message key="<%= backgroundTask.getStatusLabel() %>" />
-						</h6>
+						<liferay-staging:process-status
+							backgroundTaskStatus="<%= backgroundTask.getStatus() %>"
+							backgroundTaskStatusLabel="<%= backgroundTask.getStatusLabel() %>"
+						/>
 
 						<liferay-staging:process-message-task-details
 							backgroundTaskId="<%= backgroundTask.getBackgroundTaskId() %>"
