@@ -729,7 +729,7 @@ public class DefaultExportImportContentProcessorTest {
 		throws Exception {
 
 		Map<Locale, String> nameMap = new HashMap<>();
-		Map<Locale, String> firendlyUrlMap = new HashMap<>();
+		Map<Locale, String> firendlyURLMap = new HashMap<>();
 
 		for (Locale locale : new Locale[] {_defaultLocale, _nonDefaultLocale}) {
 			String name = RandomTestUtil.randomString(
@@ -742,11 +742,11 @@ public class DefaultExportImportContentProcessorTest {
 
 			nameMap.put(locale, name);
 
-			firendlyUrlMap.put(locale, friendlyURL);
+			firendlyURLMap.put(locale, friendlyURL);
 		}
 
 		return LayoutTestUtil.addLayout(
-			group.getGroupId(), privateLayout, nameMap, firendlyUrlMap);
+			group.getGroupId(), privateLayout, nameMap, firendlyURLMap);
 	}
 
 	protected void assertLinksToLayouts(
@@ -935,11 +935,11 @@ public class DefaultExportImportContentProcessorTest {
 
 		content = replaceMultiLocaleLayoutFriendlyURLs(content);
 
-		Map<Locale, String> livePublicLayoutFriendlyUrls =
+		Map<Locale, String> livePublicLayoutFriendlyURLMap =
 			_livePublicLayout.getFriendlyURLMap();
-		Map<Locale, String> stagingPrivateLayoutFriendlyUrls =
+		Map<Locale, String> stagingPrivateLayoutFriendlyURLMap =
 			_stagingPrivateLayout.getFriendlyURLMap();
-		Map<Locale, String> stagingPublicLayoutFriendlyUrls =
+		Map<Locale, String> stagingPublicLayoutFriendlyURLMap =
 			_stagingPublicLayout.getFriendlyURLMap();
 
 		content = StringUtil.replace(
@@ -970,9 +970,9 @@ public class DefaultExportImportContentProcessorTest {
 				_liveGroup.getFriendlyURL(),
 				String.valueOf(_liveGroup.getGroupId()),
 				_livePublicLayout.getFriendlyURL(),
-				livePublicLayoutFriendlyUrls.get(_nonDefaultLocale),
-				stagingPrivateLayoutFriendlyUrls.get(_nonDefaultLocale),
-				stagingPublicLayoutFriendlyUrls.get(_nonDefaultLocale),
+				livePublicLayoutFriendlyURLMap.get(_nonDefaultLocale),
+				stagingPrivateLayoutFriendlyURLMap.get(_nonDefaultLocale),
+				stagingPublicLayoutFriendlyURLMap.get(_nonDefaultLocale),
 				PortalUtil.getPathContext(),
 				PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_GROUP_SERVLET_MAPPING,
 				PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_USER_SERVLET_MAPPING,
