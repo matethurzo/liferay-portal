@@ -248,9 +248,6 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		String groupKey = StringPool.BLANK;
 		String friendlyName = StringPool.BLANK;
 
-		Locale defaultLocale = LocaleUtil.fromLanguageId(
-			serviceContext.getLanguageId());
-
 		if (nameMap != null) {
 			groupKey = nameMap.get(LocaleUtil.getDefault());
 			friendlyName = nameMap.get(LocaleUtil.getDefault());
@@ -389,8 +386,8 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 		group.setLiveGroupId(liveGroupId);
 		group.setTreePath(group.buildTreePath());
 		group.setGroupKey(groupKey);
-		group.setNameMap(nameMap, defaultLocale);
-		group.setDescriptionMap(descriptionMap, defaultLocale);
+		group.setNameMap(nameMap);
+		group.setDescriptionMap(descriptionMap);
 		group.setType(type);
 		group.setManualMembership(manualMembership);
 		group.setMembershipRestriction(membershipRestriction);
