@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-long backgroundTaskId = ((Long)request.getAttribute("liferay-staging:process-message-task-details:backgroundTaskId")).longValue();
-String backgroundTaskStatusMessage = (String)request.getAttribute("liferay-staging:process-message-task-details:backgroundTaskStatusMessage");
-String linkClass = (String)request.getAttribute("liferay-staging:process-message-task-details:linkClass");
+long backgroundTaskId = GetterUtil.getLong(request.getAttribute("liferay-staging:process-message-task-details:backgroundTaskId"));
+String backgroundTaskStatusMessage = GetterUtil.getString(request.getAttribute("liferay-staging:process-message-task-details:backgroundTaskStatusMessage"));
+String linkClass = GetterUtil.getString(request.getAttribute("liferay-staging:process-message-task-details:linkClass"));
 %>

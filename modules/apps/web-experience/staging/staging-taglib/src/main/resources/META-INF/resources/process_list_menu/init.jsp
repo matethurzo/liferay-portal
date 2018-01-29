@@ -18,7 +18,7 @@
 
 <%
 BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-list-menu:backgroundTask");
-boolean localPublishing = ((Boolean)request.getAttribute("liferay-staging:process-list-menu:localPublishing")).booleanValue();
+boolean localPublishing = GetterUtil.getBoolean(request.getAttribute("liferay-staging:process-list-menu:localPublishing"));
 long backgroundTaskId = backgroundTask.getBackgroundTaskId();
 long backgroundTaskGroupId = backgroundTask.getGroupId();
 Date completionDate = backgroundTask.getCompletionDate();

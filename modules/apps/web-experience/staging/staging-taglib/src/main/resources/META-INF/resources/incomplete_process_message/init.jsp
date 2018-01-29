@@ -17,8 +17,8 @@
 <%@ include file="/init.jsp" %>
 
 <%
-boolean localPublishing = ((Boolean)request.getAttribute("liferay-staging:incomplete-process-message:localPublishing")).booleanValue();
-String taskExecutorClassName = (String)request.getAttribute("liferay-staging:incomplete-process-message:taskExecutorClassName");
+boolean localPublishing = GetterUtil.getBoolean(request.getAttribute("liferay-staging:incomplete-process-message:localPublishing"));
+String taskExecutorClassName = GetterUtil.getString(request.getAttribute("liferay-staging:incomplete-process-message:taskExecutorClassName"));
 
 int incompleteBackgroundTaskCount = BackgroundTaskManagerUtil.getBackgroundTasksCount(groupId, taskExecutorClassName, false);
 

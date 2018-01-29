@@ -17,8 +17,8 @@
 <%@ include file="/init.jsp" %>
 
 <%
-int backgroundTaskStatus = ((Integer)request.getAttribute("liferay-staging:process-status:backgroundTaskStatus")).intValue();
-String backgroundTaskStatusLabel = (String)request.getAttribute("liferay-staging:process-status:backgroundTaskStatusLabel");
+int backgroundTaskStatus = GetterUtil.getInteger(request.getAttribute("liferay-staging:process-status:backgroundTaskStatus"));
+String backgroundTaskStatusLabel = GetterUtil.getString(request.getAttribute("liferay-staging:process-status:backgroundTaskStatusLabel"));
 String cssStatusLabel = BackgroundTaskConstants.getStatusLabel(backgroundTaskStatus);
 String cssStatusClass = BackgroundTaskConstants.getStatusCssClass(backgroundTaskStatus);
 %>
