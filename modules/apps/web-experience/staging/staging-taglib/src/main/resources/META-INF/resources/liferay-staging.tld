@@ -183,12 +183,12 @@
 		<body-content>JSP</body-content>
 	</tag>
 	<tag>
-		<description>Renders the incomplete processing message for publication</description>
+		<description>Renders the incomplete processing message for publication.</description>
 		<name>incomplete-process-message</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.IncompleteProcessMessageTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<description>Whether publishing is local or not</description>
+			<description>Whether publishing is local or not.</description>
 			<name>localPublishing</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -292,7 +292,7 @@
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.PortletListTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
-			<description>Whether to disable all the rendered inputs on the screen</description>
+			<description>Whether to disable all the rendered inputs on the screen.</description>
 			<name>disableInputs</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -327,19 +327,19 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>Renders the kebab menu for a staging process list item</description>
+		<description>Renders the kebab menu for a staging process list item.</description>
 		<name>process-list-menu</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessListMenuTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<description>The background task for the publishing process</description>
+			<description>The background task for the publishing process.</description>
 			<name>backgroundTask</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>com.liferay.portal.kernel.backgroundtask.BackgroundTask</type>
 		</attribute>
 		<attribute>
-			<description>Whether publishing is local or not</description>
+			<description>Whether publishing is local or not.</description>
 			<name>localPublishing</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -347,19 +347,19 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>Renders the detailed process message</description>
+		<description>Renders the detailed process message.</description>
 		<name>process-message-task-details</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessMessageTaskDetailsTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<description>The ID of the <![CDATA[<code>backgroundTask</code>]]></description>
+			<description>The ID of the <![CDATA[<code>backgroundTask</code>]]>.</description>
 			<name>backgroundTaskId</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>long</type>
 		</attribute>
 		<attribute>
-			<description>The backroundtask status message. Usually <![CDATA[<code>backgroundTask.getStatusMessage()</code>]]></description>
+			<description>The backroundtask status message. Usually <![CDATA[<code>backgroundTask.getStatusMessage()</code>]]>.</description>
 			<name>backgroundTaskStatusMessage</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -372,19 +372,19 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>Renders the short status information for a publishing process</description>
+		<description>Renders the short status information for a publishing process.</description>
 		<name>process-status</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessStatusTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<description>The status of the backgroundtask. Usually <![CDATA[<code>backgroundTask.getStatus()</code>]]></description>
+			<description>The status of the backgroundtask. Usually <![CDATA[<code>backgroundTask.getStatus()</code>]]>.</description>
 			<name>backgroundTaskStatus</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>int</type>
 		</attribute>
 		<attribute>
-			<description>The backroundtask status label. Usually <![CDATA[<code>backgroundTask.getStatusLabel()</code>]]></description>
+			<description>The backroundtask status label. Usually <![CDATA[<code>backgroundTask.getStatusLabel()</code>]]>.</description>
 			<name>backgroundTaskStatusLabel</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
