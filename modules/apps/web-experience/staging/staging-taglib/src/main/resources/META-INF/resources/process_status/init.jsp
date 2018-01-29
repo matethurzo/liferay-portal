@@ -19,6 +19,7 @@
 <%
 int backgroundTaskStatus = GetterUtil.getInteger(request.getAttribute("liferay-staging:process-status:backgroundTaskStatus"));
 String backgroundTaskStatusLabel = GetterUtil.getString(request.getAttribute("liferay-staging:process-status:backgroundTaskStatusLabel"));
+
 String cssStatusLabel = BackgroundTaskConstants.getStatusLabel(backgroundTaskStatus);
 String cssStatusClass = BackgroundTaskConstants.getStatusCssClass(backgroundTaskStatus);
 %>
