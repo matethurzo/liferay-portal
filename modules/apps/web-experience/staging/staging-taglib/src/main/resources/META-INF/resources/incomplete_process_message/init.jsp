@@ -27,6 +27,4 @@ int incompleteBackgroundTaskCount = BackgroundTaskManagerUtil.getBackgroundTasks
 if (localPublishing) {
 	incompleteBackgroundTaskCount += BackgroundTaskManagerUtil.getBackgroundTasksCount(liveGroupId, taskExecutorClassName, false);
 }
-
-	incompleteBackgroundTaskCount = 5;
 %>
