@@ -14,8 +14,6 @@
  */
 --%>
 
-<%@ page import="com.liferay.portal.kernel.backgroundtask.BackgroundTask" %>
-
 <%@ include file="/init.jsp" %>
 
 <%

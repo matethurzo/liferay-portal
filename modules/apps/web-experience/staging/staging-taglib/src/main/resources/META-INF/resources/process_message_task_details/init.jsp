@@ -14,13 +14,6 @@
  */
 --%>
 
-<%@ page import="com.liferay.portal.kernel.backgroundtask.BackgroundTask" %><%@
-page import="com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants" %><%@
-page import="com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil" %><%@
-page import="com.liferay.portal.kernel.json.JSONArray" %><%@
-page import="com.liferay.portal.kernel.json.JSONFactoryUtil" %><%@
-page import="com.liferay.portal.kernel.json.JSONObject" %>
-
 <%@ include file="/init.jsp" %>
 
 <%
