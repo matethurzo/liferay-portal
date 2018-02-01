@@ -932,6 +932,15 @@ public class LayoutImportController implements ImportController {
 			if (sourceCompanyGroupId == sourceGroupId) {
 				companySourceGroup = true;
 			}
+			else if ((group.isStaged() || group.hasStagingGroup()) &&
+					 !(group.isStagedRemotely() &&
+					   group.hasRemoteStagingGroup())) {
+
+				Group sourceGroup = _groupLocalService.fetchGroup(
+					sourceGroupId);
+
+				companySourceGroup = sourceGroup.isCompany();
+			}
 
 			if (group.isCompany() ^ companySourceGroup) {
 				throw new LARTypeException(LARTypeException.TYPE_COMPANY_GROUP);
