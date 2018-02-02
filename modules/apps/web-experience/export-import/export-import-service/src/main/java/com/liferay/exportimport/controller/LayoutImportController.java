@@ -932,7 +932,8 @@ public class LayoutImportController implements ImportController {
 			if (sourceCompanyGroupId == sourceGroupId) {
 				companySourceGroup = true;
 			}
-			else if ((group.isStaged() || group.hasStagingGroup()) &&
+			else if (ExportImportThreadLocal.isStagingInProcess() &&
+					 (group.isStaged() || group.hasStagingGroup()) &&
 					 !(group.isStagedRemotely() &&
 					   group.hasRemoteStagingGroup())) {
 
