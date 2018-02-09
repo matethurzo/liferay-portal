@@ -16,6 +16,11 @@
 
 <%@ include file="/init.jsp" %>
 
+<liferay-ui:error
+	exception="<%= GroupInheritContentException.class %>"
+	message="this-page-cannot-be-deleted-and-cannot-have-child-pages-because-it-is-associated-to-a-site-template"
+/>
+
 <c:choose>
 	<c:when test='<%= Objects.equals(layoutsAdminDisplayContext.getTabs1(), "pages") %>'>
 		<liferay-util:include page="/view_layouts.jsp" servletContext="<%= application %>" />
