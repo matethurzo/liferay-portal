@@ -3244,8 +3244,11 @@ public class StagingImpl implements Staging {
 						"Unable to set recent layout revision ID with layout ",
 						"set branch ", String.valueOf(layoutSetBranchId),
 						" and PLID ", String.valueOf(plid),
-						" and layout branch ", String.valueOf(layoutBranchId)),
-					pe);
+						" and layout branch ", String.valueOf(layoutBranchId)));
+
+				if (!(pe instanceof NoSuchLayoutRevisionException)) {
+					_log.warn(pe);
+				}
 			}
 		}
 
