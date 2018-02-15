@@ -3205,49 +3205,54 @@ public class StagingImpl implements Staging {
 
 		long layoutBranchId = 0;
 
-		try {
-			LayoutRevision layoutRevision =
-				_layoutRevisionLocalService.getLayoutRevision(layoutRevisionId);
+		if (layoutRevisionId > 0) {
+			try {
+				LayoutRevision layoutRevision =
+					_layoutRevisionLocalService.getLayoutRevision(
+						layoutRevisionId);
 
-			layoutBranchId = layoutRevision.getLayoutBranchId();
+				layoutBranchId = layoutRevision.getLayoutBranchId();
 
-			LayoutRevision lastLayoutRevision =
-				_layoutRevisionLocalService.getLayoutRevision(
-					layoutSetBranchId, layoutBranchId, plid);
+				LayoutRevision lastLayoutRevision =
+					_layoutRevisionLocalService.getLayoutRevision(
+						layoutSetBranchId, layoutBranchId, plid);
 
-			if (lastLayoutRevision.getLayoutRevisionId() == layoutRevisionId) {
-				deleteRecentLayoutRevisionId(userId, layoutSetBranchId, plid);
-			}
-			else {
-				RecentLayoutRevision recentLayoutRevision =
-					_recentLayoutRevisionLocalService.fetchRecentLayoutRevision(
+				if (lastLayoutRevision.getLayoutRevisionId() ==
+						layoutRevisionId) {
+
+					deleteRecentLayoutRevisionId(
 						userId, layoutSetBranchId, plid);
-
-				if (recentLayoutRevision == null) {
-					recentLayoutRevision =
-						_recentLayoutRevisionLocalService.
-							addRecentLayoutRevision(
-								userId, layoutRevisionId, layoutSetBranchId,
-								plid);
 				}
+				else {
+					RecentLayoutRevision recentLayoutRevision =
+						_recentLayoutRevisionLocalService.
+							fetchRecentLayoutRevision(
+								userId, layoutSetBranchId, plid);
 
-				recentLayoutRevision.setLayoutRevisionId(layoutRevisionId);
+					if (recentLayoutRevision == null) {
+						recentLayoutRevision =
+							_recentLayoutRevisionLocalService.
+								addRecentLayoutRevision(
+									userId, layoutRevisionId, layoutSetBranchId,
+									plid);
+					}
 
-				_recentLayoutRevisionLocalService.updateRecentLayoutRevision(
-					recentLayoutRevision);
+					recentLayoutRevision.setLayoutRevisionId(layoutRevisionId);
+
+					_recentLayoutRevisionLocalService.
+						updateRecentLayoutRevision(recentLayoutRevision);
+				}
 			}
-		}
-		catch (PortalException pe) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"Unable to set recent layout revision ID with layout ",
-						"set branch ", String.valueOf(layoutSetBranchId),
-						" and PLID ", String.valueOf(plid),
-						" and layout branch ", String.valueOf(layoutBranchId)));
-
-				if (!(pe instanceof NoSuchLayoutRevisionException)) {
-					_log.warn(pe);
+			catch (PortalException pe) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						StringBundler.concat(
+							"Unable to set recent layout revision ID",
+							"with layout set branch ",
+							String.valueOf(layoutSetBranchId), " and PLID ",
+							String.valueOf(plid), " and layout branch ",
+							String.valueOf(layoutBranchId)),
+						pe);
 				}
 			}
 		}
