@@ -51,6 +51,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ImageLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -838,6 +839,32 @@ public class JournalArticleStagedModelDataHandler
 					serviceContext);
 			}
 
+			// Initial Publication cleanup
+
+			Group articleGroup = _groupLocalService.fetchGroup(
+				article.getGroupId());
+
+			if (ExportImportThreadLocal.isStagingInProcess() &&
+				!articleGroup.isStagedRemotely() &&
+				!articleGroup.isStagingGroup()) {
+
+				JournalArticle journalArticle = article;
+
+				while (journalArticle != null) {
+					if (journalArticle.getStatus() ==
+							WorkflowConstants.STATUS_DRAFT) {
+
+						_journalArticleLocalService.deleteArticle(
+							journalArticle);
+					}
+
+					journalArticle =
+						_journalArticleLocalService.fetchLatestArticle(
+							article.getGroupId(), articleId,
+							WorkflowConstants.STATUS_DRAFT);
+				}
+			}
+
 			boolean exportVersionHistory =
 				portletDataContext.getBooleanParameter(
 					"journal", "version-history");
@@ -1017,6 +1044,11 @@ public class JournalArticleStagedModelDataHandler
 	}
 
 	@Reference(unbind = "-")
+	protected void setGroupLocalService(GroupLocalService groupLocalService) {
+		_groupLocalService = groupLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setImageLocalService(ImageLocalService imageLocalService) {
 		_imageLocalService = imageLocalService;
 	}
@@ -1124,6 +1156,7 @@ public class JournalArticleStagedModelDataHandler
 	private ConfigurationProvider _configurationProvider;
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DDMTemplateLocalService _ddmTemplateLocalService;
+	private GroupLocalService _groupLocalService;
 	private ImageLocalService _imageLocalService;
 	private ExportImportContentProcessor<String>
 		_journalArticleExportImportContentProcessor;
