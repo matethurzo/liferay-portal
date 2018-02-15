@@ -363,6 +363,19 @@
 		</attribute>
 	</tag>
 	<tag>
+		<description>Renders some information about the publishing process in descriptive mode.</description>
+		<name>process-infoline</name>
+		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessInfoLineTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The background task for the publishing process.</description>
+			<name>backgroundTask</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>com.liferay.portal.kernel.backgroundtask.BackgroundTask</type>
+		</attribute>
+	</tag>
+	<tag>
 		<description>Renders process list screen for staging publication.</description>
 		<name>process-list</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessListTag</tag-class>
