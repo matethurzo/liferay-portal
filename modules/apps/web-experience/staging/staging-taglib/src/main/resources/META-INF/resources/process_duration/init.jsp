@@ -18,11 +18,9 @@
 
 <%
 BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-duration:backgroundTask");
-
 boolean listView = GetterUtil.getBoolean(request.getAttribute("liferay-staging:process-duration:listView"));
 
 Date endDate = backgroundTask.getCompletionDate();
-
 Date startDate = backgroundTask.getCreateDate();
 
 long duration = 0;
