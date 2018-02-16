@@ -27,7 +27,7 @@ import javax.servlet.jsp.PageContext;
  * @author Peter Borkuti
  */
 @ProviderType
-public class ProcessInfoLineTag extends IncludeTag {
+public class ProcessInfoTag extends IncludeTag {
 
 	public void setBackgroundTask(BackgroundTask backgroundTask) {
 		_backgroundTask = backgroundTask;
@@ -53,10 +53,10 @@ public class ProcessInfoLineTag extends IncludeTag {
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
 		request.setAttribute(
-			"liferay-staging:process-infoline:backgroundTask", _backgroundTask);
+			"liferay-staging:process-info:backgroundTask", _backgroundTask);
 	}
 
-	private static final String _PAGE = "/process_infoline/page.jsp";
+	private static final String _PAGE = "/process_info/page.jsp";
 
 	private BackgroundTask _backgroundTask;
 

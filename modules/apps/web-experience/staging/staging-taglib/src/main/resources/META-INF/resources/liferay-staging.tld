@@ -364,8 +364,8 @@
 	</tag>
 	<tag>
 		<description>Renders some information about the publishing process in descriptive mode.</description>
-		<name>process-infoline</name>
-		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessInfoLineTag</tag-class>
+		<name>process-info</name>
+		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessInfoTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description>The background task for the publishing process.</description>

@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/process_infoline/init.jsp" %>
+<%@ include file="/process_info/init.jsp" %>
 
 <div class="container">
 	<div class="row">

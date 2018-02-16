@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-infoline:backgroundTask");
+BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-info:backgroundTask");
 
 User backgroundTaskUser = UserLocalServiceUtil.getUser(backgroundTask.getUserId());
 
