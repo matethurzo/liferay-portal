@@ -17,9 +17,9 @@
 <%@ include file="/init.jsp" %>
 
 <%
-BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-startdate:backgroundTask");
+BackgroundTask backgroundTask = (BackgroundTask)request.getAttribute("liferay-staging:process-start-date:backgroundTask");
 
-boolean listView = GetterUtil.getBoolean(request.getAttribute("liferay-staging:process-startdate:listView"));
+boolean listView = GetterUtil.getBoolean(request.getAttribute("liferay-staging:process-start-date:listView"));
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(FastDateFormatConstants.MEDIUM, FastDateFormatConstants.SHORT, locale, timeZone);
 %>

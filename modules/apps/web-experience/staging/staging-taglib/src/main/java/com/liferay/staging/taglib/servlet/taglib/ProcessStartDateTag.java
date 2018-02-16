@@ -58,13 +58,13 @@ public class ProcessStartDateTag extends IncludeTag {
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
 		request.setAttribute(
-			"liferay-staging:process-startdate:backgroundTask",
+			"liferay-staging:process-start-date:backgroundTask",
 			_backgroundTask);
 		request.setAttribute(
-			"liferay-staging:process-startdate:listView", _listView);
+			"liferay-staging:process-start-date:listView", _listView);
 	}
 
-	private static final String _PAGE = "/process_startdate/page.jsp";
+	private static final String _PAGE = "/process_start_date/page.jsp";
 
 	private BackgroundTask _backgroundTask;
 	private boolean _listView;

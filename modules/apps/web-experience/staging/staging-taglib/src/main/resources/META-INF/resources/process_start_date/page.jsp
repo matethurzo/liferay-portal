@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/process_startdate/init.jsp" %>
+<%@ include file="/process_start_date/init.jsp" %>
 
 <c:choose>
 	<c:when test="<%= listView %>">

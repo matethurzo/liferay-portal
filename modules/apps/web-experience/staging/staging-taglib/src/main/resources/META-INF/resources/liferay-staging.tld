@@ -435,7 +435,7 @@
 	</tag>
 	<tag>
 		<description>Renders the start date of a publishing process.</description>
-		<name>process-startdate</name>
+		<name>process-start-date</name>
 		<tag-class>com.liferay.staging.taglib.servlet.taglib.ProcessStartDateTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
