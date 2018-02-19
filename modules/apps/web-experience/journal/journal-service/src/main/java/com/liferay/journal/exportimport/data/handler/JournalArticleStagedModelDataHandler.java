@@ -841,28 +841,10 @@ public class JournalArticleStagedModelDataHandler
 
 			// Initial publication cleanup
 
-			Group articleGroup = _groupLocalService.fetchGroup(
-				article.getGroupId());
+			if (ExportImportThreadLocal.isInitialLayoutStagingInProcess() &&
+				(article.getStatus() == WorkflowConstants.STATUS_DRAFT)) {
 
-			if (ExportImportThreadLocal.isStagingInProcess() &&
-				!articleGroup.isStagedRemotely() &&
-				!articleGroup.isStagingGroup()) {
-
-				JournalArticle journalArticle = article;
-
-				while (journalArticle != null) {
-					if (journalArticle.getStatus() ==
-							WorkflowConstants.STATUS_DRAFT) {
-
-						_journalArticleLocalService.deleteArticle(
-							journalArticle);
-					}
-
-					journalArticle =
-						_journalArticleLocalService.fetchLatestArticle(
-							article.getGroupId(), articleId,
-							WorkflowConstants.STATUS_DRAFT);
-				}
+				_journalArticleLocalService.deleteArticle(article);
 			}
 
 			boolean exportVersionHistory =
