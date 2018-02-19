@@ -839,7 +839,7 @@ public class JournalArticleStagedModelDataHandler
 					serviceContext);
 			}
 
-			// Initial Publication cleanup
+			// Initial publication cleanup
 
 			Group articleGroup = _groupLocalService.fetchGroup(
 				article.getGroupId());
