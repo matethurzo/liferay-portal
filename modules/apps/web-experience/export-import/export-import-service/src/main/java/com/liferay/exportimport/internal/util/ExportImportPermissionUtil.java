@@ -132,6 +132,7 @@ public class ExportImportPermissionUtil {
 		ResourcePermissionLocalServiceUtil.deleteResourcePermissions(
 			companyId, resourceName, ResourceConstants.SCOPE_INDIVIDUAL,
 			resourcePK);
+
 		ResourcePermissionLocalServiceUtil.setResourcePermissions(
 			companyId, resourceName, ResourceConstants.SCOPE_INDIVIDUAL,
 			resourcePK, roleIdsToActionIds);
