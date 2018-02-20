@@ -42,10 +42,6 @@ public class BackgroundTaskComparatorFactoryUtil {
 			orderByComparator = new BackgroundTaskCreateDateComparator(
 				orderByAsc);
 		}
-		else if (orderByCol.equals("duration")) {
-			orderByComparator = new BackgroundTaskDurationComparator(
-				orderByAsc);
-		}
 		else if (orderByCol.equals("name")) {
 			orderByComparator = new BackgroundTaskNameComparator(orderByAsc);
 		}
