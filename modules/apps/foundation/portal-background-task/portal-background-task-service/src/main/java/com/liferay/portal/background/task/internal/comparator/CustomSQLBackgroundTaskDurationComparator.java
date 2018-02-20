@@ -20,9 +20,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import java.util.Date;
 
 /**
- * @author Eduardo Garcia
+ * @author Zoltan Csaszi
  */
-public class BackgroundTaskDurationComparator
+public class CustomSQLBackgroundTaskDurationComparator
 	extends OrderByComparator<BackgroundTask> {
 
 	public static final String ORDER_BY_ASC = "duration ASC";
@@ -31,11 +31,11 @@ public class BackgroundTaskDurationComparator
 
 	public static final String[] ORDER_BY_FIELDS = {"duration"};
 
-	public BackgroundTaskDurationComparator() {
+	public CustomSQLBackgroundTaskDurationComparator() {
 		this(false);
 	}
 
-	public BackgroundTaskDurationComparator(boolean ascending) {
+	public CustomSQLBackgroundTaskDurationComparator(boolean ascending) {
 		_ascending = ascending;
 	}
 
