@@ -27,6 +27,5 @@ public interface BackgroundTaskFinder {
 
 	public java.util.List<com.liferay.portal.background.task.model.BackgroundTask> findByG_T_C(
 		long[] groupIds, java.lang.String[] taskExecutorClassNames,
-		java.lang.Boolean completed, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.background.task.model.BackgroundTask> orderByComparator);
+		java.lang.Boolean completed, int start, int end, boolean orderByType);
 }
