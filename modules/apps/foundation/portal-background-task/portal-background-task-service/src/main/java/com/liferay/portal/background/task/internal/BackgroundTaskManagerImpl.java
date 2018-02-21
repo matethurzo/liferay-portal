@@ -16,7 +16,6 @@ package com.liferay.portal.background.task.internal;
 
 import com.liferay.background.task.kernel.util.comparator.BackgroundTaskCompletionDateComparator;
 import com.liferay.background.task.kernel.util.comparator.BackgroundTaskCreateDateComparator;
-import com.liferay.background.task.kernel.util.comparator.BackgroundTaskDurationComparator;
 import com.liferay.background.task.kernel.util.comparator.BackgroundTaskNameComparator;
 import com.liferay.portal.background.task.internal.messaging.BackgroundTaskMessageListener;
 import com.liferay.portal.background.task.internal.messaging.BackgroundTaskQueuingMessageListener;
@@ -466,6 +465,34 @@ public class BackgroundTaskManagerImpl implements BackgroundTaskManager {
 	}
 
 	@Override
+	public List<BackgroundTask> getBackgroundTasksByDuration(
+		long[] groupIds, String taskExecutorClassName, boolean completed,
+		int start, int end, boolean orderByType) {
+
+		List<com.liferay.portal.background.task.model.BackgroundTask>
+			backgroundTasks =
+				_backgroundTaskLocalService.getBackgroundTasksByDuration(
+					groupIds, new String[] {taskExecutorClassName}, completed,
+					start, end, orderByType);
+
+		return translate(backgroundTasks);
+	}
+
+	@Override
+	public List<BackgroundTask> getBackgroundTasksByDuration(
+		long[] groupIds, String taskExecutorClassName, int start, int end,
+		boolean orderByType) {
+
+		List<com.liferay.portal.background.task.model.BackgroundTask>
+			backgroundTasks =
+				_backgroundTaskLocalService.getBackgroundTasksByDuration(
+					groupIds, new String[] {taskExecutorClassName}, start, end,
+					orderByType);
+
+		return translate(backgroundTasks);
+	}
+
+	@Override
 	public int getBackgroundTasksCount(
 		long groupId, String taskExecutorClassName) {
 
@@ -692,13 +719,6 @@ public class BackgroundTaskManagerImpl implements BackgroundTaskManager {
 
 			return new com.liferay.portal.background.task.internal.comparator.
 				BackgroundTaskCreateDateComparator(
-					orderByComparator.isAscending());
-		}
-		else if (orderByComparator instanceof
-					BackgroundTaskDurationComparator) {
-
-			return new com.liferay.portal.background.task.internal.comparator.
-				BackgroundTaskDurationComparator(
 					orderByComparator.isAscending());
 		}
 		else if (orderByComparator instanceof BackgroundTaskNameComparator) {
