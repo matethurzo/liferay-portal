@@ -26,6 +26,8 @@
 			FROM
 				BackgroundTask
 			[$WHERE_CONDITIONS$]
+			ORDER BY
+				duration [$ORDER_BY_TYPE$]
 
 		]]>
 	</sql>

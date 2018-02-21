@@ -469,7 +469,7 @@ public class BackgroundTaskLocalServiceImpl
 		int start, int end,
 		OrderByComparator<BackgroundTask> orderByComparator) {
 
-		return backgroundTaskFinder.findByG_T_C(
+		return backgroundTaskPersistence.findByG_T_C(
 			groupIds, taskExecutorClassNames, completed, start, end,
 			orderByComparator);
 	}
@@ -479,9 +479,8 @@ public class BackgroundTaskLocalServiceImpl
 		long[] groupIds, String[] taskExecutorClassNames, int start, int end,
 		OrderByComparator<BackgroundTask> orderByComparator) {
 
-		return backgroundTaskFinder.findByG_T_C(
-			groupIds, taskExecutorClassNames, null, start, end,
-			orderByComparator);
+		return backgroundTaskPersistence.findByG_T(
+			groupIds, taskExecutorClassNames, start, end, orderByComparator);
 	}
 
 	@Override
@@ -516,6 +515,25 @@ public class BackgroundTaskLocalServiceImpl
 
 		return backgroundTaskPersistence.findByT_S(
 			taskExecutorClassNames, status, start, end, orderByComparator);
+	}
+
+	@Override
+	public List<BackgroundTask> getBackgroundTasksByDuration(
+		long[] groupIds, String[] taskExecutorClassNames, boolean completed,
+		int start, int end, boolean orderByType) {
+
+		return backgroundTaskFinder.findByG_T_C(
+			groupIds, taskExecutorClassNames, completed, start, end,
+			orderByType);
+	}
+
+	@Override
+	public List<BackgroundTask> getBackgroundTasksByDuration(
+		long[] groupIds, String[] taskExecutorClassNames, int start, int end,
+		boolean orderByType) {
+
+		return backgroundTaskFinder.findByG_T_C(
+			groupIds, taskExecutorClassNames, null, start, end, orderByType);
 	}
 
 	@Override
