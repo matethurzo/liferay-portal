@@ -46,9 +46,9 @@ String taskExecutorClassName = localPublishing ? BackgroundTaskExecutorNames.LAY
 
 OrderByComparator<BackgroundTask> orderByComparator = BackgroundTaskComparatorFactoryUtil.getBackgroundTaskOrderByComparator(orderByCol, orderByType);
 
-String processListListviewCss = "process-list";
+String processListListViewCss = "process-list";
 
 if ("list".equals(displayStyle)) {
-	processListListviewCss += " process-list-listview";
+	processListListViewCss += " process-list-list-view";
 };
 %>

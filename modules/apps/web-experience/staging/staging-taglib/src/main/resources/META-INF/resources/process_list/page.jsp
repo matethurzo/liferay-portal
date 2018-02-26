@@ -22,7 +22,7 @@
 
 <aui:form
 	action="<%= deleteBackgroundTasksURL %>"
-	cssClass="<%= processListListviewCss %>"
+	cssClass="<%= processListListViewCss %>"
 	method="get"
 	name="fm"
 >
@@ -104,7 +104,7 @@
 						name="title"
 					>
 						<liferay-ui:user-portrait
-							cssClass="process-portrait-listview"
+							cssClass="process-portrait-list-view"
 							userId="<%= backgroundTask.getUserId() %>"
 						/>
 
