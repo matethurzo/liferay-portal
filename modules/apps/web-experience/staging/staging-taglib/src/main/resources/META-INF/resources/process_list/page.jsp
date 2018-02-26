@@ -104,7 +104,6 @@
 						name="title"
 					>
 						<liferay-ui:user-portrait
-							cssClass="process-portrait-list-view"
 							userId="<%= backgroundTask.getUserId() %>"
 						/>
 
