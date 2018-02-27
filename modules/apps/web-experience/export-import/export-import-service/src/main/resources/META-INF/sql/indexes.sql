@@ -1,0 +1,1 @@
+create unique index IX_F247CC4 on EntityPublication (classNameId, classPK);

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.liferay.exportimport.service.impl.EntityPublicationLocalServiceImpl" id="com.liferay.exportimport.service.EntityPublicationLocalService" />
+	<bean class="com.liferay.exportimport.service.impl.EntityPublicationServiceImpl" id="com.liferay.exportimport.service.EntityPublicationService" />
+	<bean class="com.liferay.exportimport.service.persistence.impl.EntityPublicationPersistenceImpl" id="com.liferay.exportimport.service.persistence.EntityPublicationPersistence" parent="basePersistence" />
+</beans>
