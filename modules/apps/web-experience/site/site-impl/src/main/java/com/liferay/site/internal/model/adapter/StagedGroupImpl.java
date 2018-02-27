@@ -311,12 +311,12 @@ public class StagedGroupImpl implements StagedGroup {
 
 	@Override
 	public Class<?> getModelClass() {
-		return StagedGroup.class;
+		return _group.getModelClass();
 	}
 
 	@Override
 	public String getModelClassName() {
-		return StagedGroup.class.getName();
+		return _group.getModelClassName();
 	}
 
 	@Override
