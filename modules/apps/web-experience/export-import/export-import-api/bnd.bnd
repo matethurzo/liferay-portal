@@ -6,13 +6,17 @@ Export-Package:\
 	com.liferay.exportimport.content.processor,\
 	com.liferay.exportimport.controller,\
 	com.liferay.exportimport.data.handler.base,\
+	com.liferay.exportimport.exception,\
 	com.liferay.exportimport.lar,\
+	com.liferay.exportimport.model,\
 	com.liferay.exportimport.portlet.data.handler.helper,\
 	com.liferay.exportimport.portlet.data.handler.provider,\
 	com.liferay.exportimport.portlet.preferences.processor,\
 	com.liferay.exportimport.portlet.preferences.processor.base,\
 	com.liferay.exportimport.resources.importer.portlet.preferences,\
 	com.liferay.exportimport.resources.importer.provider,\
+	com.liferay.exportimport.service,\
+	com.liferay.exportimport.service.persistence,\
 	com.liferay.exportimport.staged.model.repository,\
 	com.liferay.exportimport.util.comparator
 Liferay-Releng-Module-Group-Description:
