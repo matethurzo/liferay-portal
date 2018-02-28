@@ -101,7 +101,7 @@ public class LayoutReferencesExportImportContentProcessor
 	}
 
 	protected String replaceExportHostname(
-			long groupId, String url, StringBundler urlSB)
+			Group group, String url, StringBundler urlSB)
 		throws PortalException {
 
 		if (!_http.hasProtocol(url)) {
@@ -115,8 +115,6 @@ public class LayoutReferencesExportImportContentProcessor
 		if (serverPort == -1) {
 			return url;
 		}
-
-		Group group = _groupLocalService.getGroup(groupId);
 
 		LayoutSet publicLayoutSet = group.getPublicLayoutSet();
 
@@ -189,6 +187,15 @@ public class LayoutReferencesExportImportContentProcessor
 		}
 
 		return url;
+	}
+
+	protected String replaceExportHostname(
+			long groupId, String url, StringBundler urlSB)
+		throws PortalException {
+
+		Group group = _groupLocalService.getGroup(groupId);
+
+		return replaceExportHostname(group, url, urlSB);
 	}
 
 	protected String replaceExportLayoutReferences(
@@ -718,7 +725,7 @@ public class LayoutReferencesExportImportContentProcessor
 
 			StringBundler urlSB = new StringBundler(1);
 
-			url = replaceExportHostname(groupId, url, urlSB);
+			url = replaceExportHostname(group, url, urlSB);
 
 			if (!url.startsWith(StringPool.SLASH)) {
 				continue;
