@@ -552,10 +552,16 @@ public class LayoutReferencesExportImportContentProcessor
 				privateLayoutSetPortalURL = _portal.getPortalURL(
 					privateLayoutSet.getVirtualHostname(), serverPort, false);
 			}
+			else {
+				privateLayoutSetPortalURL = companyPortalURL;
+			}
 
 			if (Validator.isNotNull(publicLayoutSet.getVirtualHostname())) {
 				publicLayoutSetPortalURL = _portal.getPortalURL(
 					publicLayoutSet.getVirtualHostname(), serverPort, false);
+			}
+			else {
+				publicLayoutSetPortalURL = companyPortalURL;
 			}
 		}
 
