@@ -206,6 +206,16 @@ public class LayoutReferencesExportImportContentProcessor
 		Group group = _groupLocalService.getGroup(
 			portletDataContext.getScopeGroupId());
 
+		StringBundler hostNameSB = new StringBundler(2);
+
+		content = replaceExportHostname(group, content, hostNameSB);
+
+		if (hostNameSB.index() > 0) {
+			hostNameSB.append(content);
+
+			content = hostNameSB.toString();
+		}
+
 		StringBuilder sb = new StringBuilder(content);
 
 		String[] patterns = {"href=", "[["};
