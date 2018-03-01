@@ -29,7 +29,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.service.http.GroupServiceHttp;
-import com.liferay.staging.StagingGroup;
+import com.liferay.staging.StagingGroupHelper;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,7 +39,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true)
 @ProviderType
-public class StagingGroupImpl implements StagingGroup {
+public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public Group getLiveGroup(Group group) throws PortalException {

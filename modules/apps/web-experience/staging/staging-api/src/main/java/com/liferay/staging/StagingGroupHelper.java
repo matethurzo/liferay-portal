@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.model.Group;
  * @author Akos Thurzo
  */
 @ProviderType
-public interface StagingGroup {
+public interface StagingGroupHelper {
 
 	public Group getLiveGroup(Group group) throws PortalException;
 
