@@ -246,6 +246,22 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
+	public boolean isStagedPortlet(Group group, String portletId) {
+		if (!isLiveGroup(group)) {
+			return false;
+		}
+
+		return group.isStagedPortlet(portletId);
+	}
+
+	@Override
+	public boolean isStagedPortlet(long groupId, String portletId) {
+		Group group = _getGroup(groupId);
+
+		return isStagedPortlet(group, portletId);
+	}
+
+	@Override
 	public boolean isStagingGroup(Group group) {
 		if (isLocalStagingGroup(group) || isRemoteStagingGroup(group)) {
 			return true;
@@ -271,6 +287,22 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	@Override
 	public boolean isStagingOrLiveGroup(long groupId) throws PortalException {
 		return isStagingOrLiveGroup(_getGroup(groupId));
+	}
+
+	@Override
+	public boolean isStagingPortlet(Group group, String portletId) {
+		if (!isStagingGroup(group)) {
+			return false;
+		}
+
+		return group.isStagedPortlet(portletId);
+	}
+
+	@Override
+	public boolean isStagingPortlet(long groupId, String portletId) {
+		Group group = _getGroup(groupId);
+
+		return isStagingPortlet(group, portletId);
 	}
 
 	private Group _getGroup(long groupId) throws PortalException {

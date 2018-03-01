@@ -71,6 +71,10 @@ public interface StagingGroupHelper {
 	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId)
 		throws PortalException;
 
+	public boolean isStagedPortlet(Group group, String portletId);
+
+	public boolean isStagedPortlet(long groupId, String portletId);
+
 	public boolean isStagingGroup(Group group);
 
 	public boolean isStagingGroup(long groupId) throws PortalException;
@@ -78,5 +82,9 @@ public interface StagingGroupHelper {
 	public boolean isStagingOrLiveGroup(Group group);
 
 	public boolean isStagingOrLiveGroup(long groupId) throws PortalException;
+
+	public boolean isStagingPortlet(Group group, String portletId);
+
+	public boolean isStagingPortlet(long groupId, String portletId);
 
 }
