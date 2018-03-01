@@ -16,7 +16,6 @@ package com.liferay.staging.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
-import com.liferay.exportimport.kernel.staging.StagingGroupUtil;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
@@ -33,9 +32,11 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.service.test.ServiceTestUtil;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.test.LayoutTestUtil;
+import com.liferay.staging.StagingGroupHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -57,7 +58,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Arquillian.class)
 @Sync(cleanTransaction = true)
-public class StagingGroupTest {
+public class StagingGroupHelperTest {
 
 	@ClassRule
 	@Rule
@@ -114,333 +115,360 @@ public class StagingGroupTest {
 	}
 
 	@Test
-	public void testGetLiveGroup() throws Exception {
-		Assert.assertEquals(
-			_localLiveGroup, StagingGroupUtil.getLiveGroup(_localStagingGroup));
+	public void testFetchLiveGroup() throws Exception {
 		Assert.assertEquals(
 			_localLiveGroup,
-			StagingGroupUtil.getLiveGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.fetchLiveGroup(_localStagingGroup));
+		Assert.assertEquals(
+			_localLiveGroup,
+			_stagingGroupHelper.fetchLiveGroup(_localStagingScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLiveGroup(_localLiveGroup));
-		Assert.assertNull(StagingGroupUtil.getLiveGroup(_localLiveScopeGroup));
+		Assert.assertNull(_stagingGroupHelper.fetchLiveGroup(_localLiveGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLiveGroup(_localLiveScopeGroup));
 
 		Assert.assertEquals(
 			_remoteLiveGroup,
-			StagingGroupUtil.getLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.fetchLiveGroup(_remoteStagingGroup));
 		Assert.assertEquals(
 			_remoteLiveGroup,
-			StagingGroupUtil.getLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.fetchLiveGroup(_remoteStagingScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLiveGroup(_remoteLiveGroup));
-		Assert.assertNull(StagingGroupUtil.getLiveGroup(_remoteLiveScopeGroup));
+		Assert.assertNull(_stagingGroupHelper.fetchLiveGroup(_remoteLiveGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLiveGroup(_remoteLiveScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLiveGroup(_regularGroup));
+		Assert.assertNull(_stagingGroupHelper.fetchLiveGroup(_regularGroup));
 	}
 
 	@Test
-	public void testGetLocalLiveGroup() throws Exception {
+	public void testFetchLocalLiveGroup() throws Exception {
 		Assert.assertEquals(
 			_localLiveGroup,
-			StagingGroupUtil.getLocalLiveGroup(_localStagingGroup));
+			_stagingGroupHelper.fetchLocalLiveGroup(_localStagingGroup));
 		Assert.assertEquals(
 			_localLiveGroup,
-			StagingGroupUtil.getLocalLiveGroup(_localStagingScopeGroup));
-
-		Assert.assertNull(StagingGroupUtil.getLocalLiveGroup(_localLiveGroup));
-		Assert.assertNull(
-			StagingGroupUtil.getLocalLiveGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.fetchLocalLiveGroup(_localStagingScopeGroup));
 
 		Assert.assertNull(
-			StagingGroupUtil.getLocalLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.fetchLocalLiveGroup(_localLiveGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getLocalLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.fetchLocalLiveGroup(_localLiveScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLocalLiveGroup(_remoteLiveGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getLocalLiveGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.fetchLocalLiveGroup(_remoteStagingGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLocalLiveGroup(_remoteStagingScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLocalLiveGroup(_regularGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLocalLiveGroup(_remoteLiveGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLocalLiveGroup(_remoteLiveScopeGroup));
+
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLocalLiveGroup(_regularGroup));
 	}
 
 	@Test
-	public void testGetLocalStagingGroup() throws Exception {
+	public void testFetchLocalStagingGroup() throws Exception {
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_localStagingGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_localStagingGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(
+				_localStagingScopeGroup));
 
 		Assert.assertEquals(
 			_localStagingGroup,
-			StagingGroupUtil.getLocalStagingGroup(_localLiveGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_localLiveGroup));
 		Assert.assertEquals(
 			_localStagingGroup,
-			StagingGroupUtil.getLocalStagingGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_localLiveScopeGroup));
 
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_remoteStagingGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_remoteStagingGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(
+				_remoteStagingScopeGroup));
 
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_remoteLiveGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_remoteLiveGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getLocalStagingGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.fetchLocalStagingGroup(_remoteLiveScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getLocalStagingGroup(_regularGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchLocalStagingGroup(_regularGroup));
 	}
 
 	@Test
-	public void testGetRemoteLiveGroup() throws Exception {
+	public void testFetchRemoteLiveGroup() throws Exception {
 		Assert.assertNull(
-			StagingGroupUtil.getRemoteLiveGroup(_localStagingGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_localStagingGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getRemoteLiveGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_localStagingScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getRemoteLiveGroup(_localLiveGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getRemoteLiveGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_localLiveGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchRemoteLiveGroup(_localLiveScopeGroup));
 
 		Assert.assertEquals(
 			_remoteLiveGroup,
-			StagingGroupUtil.getRemoteLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_remoteStagingGroup));
 		Assert.assertEquals(
 			_remoteLiveGroup,
-			StagingGroupUtil.getRemoteLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_remoteStagingScopeGroup));
 
 		Assert.assertNull(
-			StagingGroupUtil.getRemoteLiveGroup(_remoteLiveGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_remoteLiveGroup));
 		Assert.assertNull(
-			StagingGroupUtil.getRemoteLiveGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.fetchRemoteLiveGroup(_remoteLiveScopeGroup));
 
-		Assert.assertNull(StagingGroupUtil.getRemoteLiveGroup(_regularGroup));
+		Assert.assertNull(
+			_stagingGroupHelper.fetchRemoteLiveGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsLiveGroup() {
-		Assert.assertFalse(StagingGroupUtil.isLiveGroup(_localStagingGroup));
+		Assert.assertFalse(_stagingGroupHelper.isLiveGroup(_localStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLiveGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.isLiveGroup(_localStagingScopeGroup));
 
-		Assert.assertTrue(StagingGroupUtil.isLiveGroup(_localLiveGroup));
-		Assert.assertTrue(StagingGroupUtil.isLiveGroup(_localLiveScopeGroup));
+		Assert.assertTrue(_stagingGroupHelper.isLiveGroup(_localLiveGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isLiveGroup(_localLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isLiveGroup(_remoteStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isLiveGroup(_remoteStagingGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isLiveGroup(_remoteStagingScopeGroup));
 
-		Assert.assertTrue(StagingGroupUtil.isLiveGroup(_remoteLiveGroup));
-		Assert.assertTrue(StagingGroupUtil.isLiveGroup(_remoteLiveScopeGroup));
+		Assert.assertTrue(_stagingGroupHelper.isLiveGroup(_remoteLiveGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isLiveGroup(_remoteLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isLiveGroup(_regularGroup));
+		Assert.assertFalse(_stagingGroupHelper.isLiveGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsLocalLiveGroup() {
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalLiveGroup(_localStagingGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_localStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalLiveGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_localStagingScopeGroup));
 
-		Assert.assertTrue(StagingGroupUtil.isLocalLiveGroup(_localLiveGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalLiveGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_localLiveGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isLocalLiveGroup(_localLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_remoteStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_remoteStagingScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isLocalLiveGroup(_remoteLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalLiveGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isLocalLiveGroup(_remoteLiveGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isLocalLiveGroup(_remoteLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isLocalLiveGroup(_regularGroup));
+		Assert.assertFalse(_stagingGroupHelper.isLocalLiveGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsLocalStagingGroup() {
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingGroup(_localStagingGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_localStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_localStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_localLiveGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_localLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_localLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_remoteStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_remoteStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_remoteLiveGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_remoteLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isLocalStagingGroup(_remoteLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isLocalStagingGroup(_regularGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isLocalStagingGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsLocalStagingOrLocalLiveGroup() {
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_localStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_localStagingScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(_localLiveGroup));
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
+				_localLiveGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_localLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_remoteStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_remoteStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(_remoteLiveGroup));
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
+				_remoteLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(
 				_remoteLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isLocalStagingOrLocalLiveGroup(_regularGroup));
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsRemoteLiveGroup() {
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteLiveGroup(_localStagingGroup));
+			_stagingGroupHelper.isRemoteLiveGroup(_localStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteLiveGroup(_localStagingScopeGroup));
-
-		Assert.assertFalse(StagingGroupUtil.isRemoteLiveGroup(_localLiveGroup));
-		Assert.assertFalse(
-			StagingGroupUtil.isRemoteLiveGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.isRemoteLiveGroup(_localStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isRemoteLiveGroup(_localLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isRemoteLiveGroup(_localLiveScopeGroup));
 
-		Assert.assertTrue(StagingGroupUtil.isRemoteLiveGroup(_remoteLiveGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isRemoteLiveGroup(_remoteStagingGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isRemoteLiveGroup(_remoteStagingScopeGroup));
+
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteLiveGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isRemoteLiveGroup(_remoteLiveGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isRemoteLiveGroup(_remoteLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isRemoteLiveGroup(_regularGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isRemoteLiveGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsRemoteStagingGroup() {
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_localStagingGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_localStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_localStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_localLiveGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_localLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_localLiveScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_remoteStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_remoteStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_remoteLiveGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_remoteLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_remoteLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingGroup(_regularGroup));
+			_stagingGroupHelper.isRemoteStagingGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsRemoteStagingOrRemoteLiveGroup() {
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_localStagingGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_localStagingScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(_localLiveGroup));
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
+				_localLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_localLiveScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_remoteStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_remoteStagingScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_remoteLiveGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_remoteLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isRemoteStagingOrRemoteLiveGroup(_regularGroup));
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
+				_regularGroup));
 	}
 
 	@Test
 	public void testIsStagingGroup() {
-		Assert.assertTrue(StagingGroupUtil.isStagingGroup(_localStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingGroup(_localStagingScopeGroup));
-
-		Assert.assertFalse(StagingGroupUtil.isStagingGroup(_localLiveGroup));
-		Assert.assertFalse(
-			StagingGroupUtil.isStagingGroup(_localLiveScopeGroup));
-
-		Assert.assertTrue(StagingGroupUtil.isStagingGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isStagingGroup(_localStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isStagingGroup(_localStagingScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isStagingGroup(_remoteLiveGroup));
+		Assert.assertFalse(_stagingGroupHelper.isStagingGroup(_localLiveGroup));
 		Assert.assertFalse(
-			StagingGroupUtil.isStagingGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isStagingGroup(_localLiveScopeGroup));
 
-		Assert.assertFalse(StagingGroupUtil.isStagingGroup(_regularGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isStagingGroup(_remoteStagingGroup));
+		Assert.assertTrue(
+			_stagingGroupHelper.isStagingGroup(_remoteStagingScopeGroup));
+
+		Assert.assertFalse(
+			_stagingGroupHelper.isStagingGroup(_remoteLiveGroup));
+		Assert.assertFalse(
+			_stagingGroupHelper.isStagingGroup(_remoteLiveScopeGroup));
+
+		Assert.assertFalse(_stagingGroupHelper.isStagingGroup(_regularGroup));
 	}
 
 	@Test
 	public void testIsStagingOrLiveGroup() {
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_localStagingGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_localStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_localStagingScopeGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_localStagingScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_localLiveGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_localLiveGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_localLiveScopeGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_localLiveScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_remoteStagingGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_remoteStagingGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_remoteStagingScopeGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_remoteStagingScopeGroup));
 
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_remoteLiveGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_remoteLiveGroup));
 		Assert.assertTrue(
-			StagingGroupUtil.isStagingOrLiveGroup(_remoteLiveScopeGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_remoteLiveScopeGroup));
 
 		Assert.assertFalse(
-			StagingGroupUtil.isStagingOrLiveGroup(_regularGroup));
+			_stagingGroupHelper.isStagingOrLiveGroup(_regularGroup));
 	}
 
 	private void _addLocalStagingGroups() throws Exception {
@@ -522,5 +550,8 @@ public class StagingGroupTest {
 	private Group _remoteLiveScopeGroup;
 	private Group _remoteStagingGroup;
 	private Group _remoteStagingScopeGroup;
+
+	@Inject
+	private StagingGroupHelper _stagingGroupHelper;
 
 }
