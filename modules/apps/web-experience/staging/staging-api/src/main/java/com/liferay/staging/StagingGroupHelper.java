@@ -16,7 +16,6 @@ package com.liferay.staging;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 
 /**
@@ -25,51 +24,49 @@ import com.liferay.portal.kernel.model.Group;
 @ProviderType
 public interface StagingGroupHelper {
 
-	public Group getLiveGroup(Group group) throws PortalException;
+	public Group fetchLiveGroup(Group group);
 
-	public Group getLiveGroup(long groupId) throws PortalException;
+	public Group fetchLiveGroup(long groupId);
 
-	public Group getLocalLiveGroup(Group group) throws PortalException;
+	public Group fetchLocalLiveGroup(Group group);
 
-	public Group getLocalLiveGroup(long groupId) throws PortalException;
+	public Group fetchLocalLiveGroup(long groupId);
 
-	public Group getLocalStagingGroup(Group group) throws PortalException;
+	public Group fetchLocalStagingGroup(Group group);
 
-	public Group getLocalStagingGroup(long groupId) throws PortalException;
+	public Group fetchLocalStagingGroup(long groupId);
 
-	public Group getRemoteLiveGroup(Group group) throws PortalException;
+	public Group fetchRemoteLiveGroup(Group group);
 
-	public Group getRemoteLiveGroup(long groupId) throws PortalException;
+	public Group fetchRemoteLiveGroup(long groupId);
 
 	public boolean isLiveGroup(Group group);
 
-	public boolean isLiveGroup(long groupId) throws PortalException;
+	public boolean isLiveGroup(long groupId);
 
 	public boolean isLocalLiveGroup(Group group);
 
-	public boolean isLocalLiveGroup(long groupId) throws PortalException;
+	public boolean isLocalLiveGroup(long groupId);
 
 	public boolean isLocalStagingGroup(Group group);
 
-	public boolean isLocalStagingGroup(long groupId) throws PortalException;
+	public boolean isLocalStagingGroup(long groupId);
 
 	public boolean isLocalStagingOrLocalLiveGroup(Group group);
 
-	public boolean isLocalStagingOrLocalLiveGroup(long groupId)
-		throws PortalException;
+	public boolean isLocalStagingOrLocalLiveGroup(long groupId);
 
 	public boolean isRemoteLiveGroup(Group group);
 
-	public boolean isRemoteLiveGroup(long groupId) throws PortalException;
+	public boolean isRemoteLiveGroup(long groupId);
 
 	public boolean isRemoteStagingGroup(Group group);
 
-	public boolean isRemoteStagingGroup(long groupId) throws PortalException;
+	public boolean isRemoteStagingGroup(long groupId);
 
 	public boolean isRemoteStagingOrRemoteLiveGroup(Group group);
 
-	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId)
-		throws PortalException;
+	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId);
 
 	public boolean isStagedPortlet(Group group, String portletId);
 
@@ -77,11 +74,11 @@ public interface StagingGroupHelper {
 
 	public boolean isStagingGroup(Group group);
 
-	public boolean isStagingGroup(long groupId) throws PortalException;
+	public boolean isStagingGroup(long groupId);
 
 	public boolean isStagingOrLiveGroup(Group group);
 
-	public boolean isStagingOrLiveGroup(long groupId) throws PortalException;
+	public boolean isStagingOrLiveGroup(long groupId);
 
 	public boolean isStagingPortlet(Group group, String portletId);
 

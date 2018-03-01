@@ -18,6 +18,8 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.User;
@@ -42,87 +44,95 @@ import org.osgi.service.component.annotations.Reference;
 public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
-	public Group getLiveGroup(Group group) throws PortalException {
+	public Group fetchLiveGroup(Group group) {
 		if (isLocalStagingGroup(group)) {
-			return getLocalLiveGroup(group);
+			return fetchLocalLiveGroup(group);
 		}
 
 		if (isRemoteStagingGroup(group)) {
-			return getRemoteLiveGroup(group);
+			return fetchRemoteLiveGroup(group);
 		}
 
 		return null;
 	}
 
 	@Override
-	public Group getLiveGroup(long groupId) throws PortalException {
-		return getLiveGroup(_getGroup(groupId));
+	public Group fetchLiveGroup(long groupId) {
+		return fetchLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
-	public Group getLocalLiveGroup(Group group) throws PortalException {
+	public Group fetchLocalLiveGroup(Group group) {
 		if (!isLocalStagingGroup(group)) {
 			return null;
 		}
 
 		group = _getParentGroupForScopeGroup(group);
 
-		return _groupLocalService.getGroup(group.getLiveGroupId());
+		return _groupLocalService.fetchGroup(group.getLiveGroupId());
 	}
 
 	@Override
-	public Group getLocalLiveGroup(long groupId) throws PortalException {
-		return getLocalLiveGroup(_getGroup(groupId));
+	public Group fetchLocalLiveGroup(long groupId) {
+		return fetchLocalLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
-	public Group getLocalStagingGroup(Group group) throws PortalException {
+	public Group fetchLocalStagingGroup(Group group) {
 		if (!isLocalLiveGroup(group)) {
 			return null;
 		}
 
 		group = _getParentGroupForScopeGroup(group);
 
-		return _groupLocalService.getStagingGroup(group.getGroupId());
+		return _groupLocalService.fetchStagingGroup(group.getGroupId());
 	}
 
 	@Override
-	public Group getLocalStagingGroup(long groupId) throws PortalException {
-		return getLocalStagingGroup(_getGroup(groupId));
+	public Group fetchLocalStagingGroup(long groupId) {
+		return fetchLocalStagingGroup(_fetchGroup(groupId));
 	}
 
 	@Override
-	public Group getRemoteLiveGroup(Group group) throws PortalException {
+	public Group fetchRemoteLiveGroup(Group group) {
 		if (!isRemoteStagingGroup(group)) {
 			return null;
 		}
 
 		group = _getParentGroupForScopeGroup(group);
 
-		PermissionChecker permissionChecker =
-			PermissionThreadLocal.getPermissionChecker();
-
-		User user = permissionChecker.getUser();
-
-		String remoteURL = _staging.buildRemoteURL(
-			group.getTypeSettingsProperties());
-
-		HttpPrincipal httpPrincipal = new HttpPrincipal(
-			remoteURL, user.getLogin(), user.getPassword(),
-			user.getPasswordEncrypted());
-
-		long remoteGroupId = GetterUtil.getLong(
-			_getTypeSettingsProperty(group, "remoteGroupId"));
-
 		Thread currentThread = Thread.currentThread();
 
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
 
 		try {
+			PermissionChecker permissionChecker =
+				PermissionThreadLocal.getPermissionChecker();
+
+			User user = permissionChecker.getUser();
+
+			String remoteURL = _staging.buildRemoteURL(
+				group.getTypeSettingsProperties());
+
+			HttpPrincipal httpPrincipal = new HttpPrincipal(
+				remoteURL, user.getLogin(), user.getPassword(),
+				user.getPasswordEncrypted());
+
+			long remoteGroupId = GetterUtil.getLong(
+				_getTypeSettingsProperty(group, "remoteGroupId"));
+
 			currentThread.setContextClassLoader(
 				PortalClassLoaderUtil.getClassLoader());
 
 			return GroupServiceHttp.getGroup(httpPrincipal, remoteGroupId);
+		}
+		catch (PortalException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Cannot retrieve remove live group: " + pe.getMessage());
+			}
+
+			return null;
 		}
 		finally {
 			currentThread.setContextClassLoader(contextClassLoader);
@@ -130,8 +140,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public Group getRemoteLiveGroup(long groupId) throws PortalException {
-		return getRemoteLiveGroup(_getGroup(groupId));
+	public Group fetchRemoteLiveGroup(long groupId) {
+		return fetchRemoteLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -144,8 +154,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isLiveGroup(long groupId) throws PortalException {
-		return isLiveGroup(_getGroup(groupId));
+	public boolean isLiveGroup(long groupId) {
+		return isLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -163,8 +173,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isLocalLiveGroup(long groupId) throws PortalException {
-		return isLocalLiveGroup(_getGroup(groupId));
+	public boolean isLocalLiveGroup(long groupId) {
+		return isLocalLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -180,8 +190,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isLocalStagingGroup(long groupId) throws PortalException {
-		return isLocalStagingGroup(_getGroup(groupId));
+	public boolean isLocalStagingGroup(long groupId) {
+		return isLocalStagingGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -194,10 +204,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isLocalStagingOrLocalLiveGroup(long groupId)
-		throws PortalException {
-
-		return isLocalStagingOrLocalLiveGroup(_getGroup(groupId));
+	public boolean isLocalStagingOrLocalLiveGroup(long groupId) {
+		return isLocalStagingOrLocalLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -212,8 +220,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isRemoteLiveGroup(long groupId) throws PortalException {
-		return isRemoteLiveGroup(_getGroup(groupId));
+	public boolean isRemoteLiveGroup(long groupId) {
+		return isRemoteLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -225,8 +233,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isRemoteStagingGroup(long groupId) throws PortalException {
-		return isRemoteStagingGroup(_getGroup(groupId));
+	public boolean isRemoteStagingGroup(long groupId) {
+		return isRemoteStagingGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -239,10 +247,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId)
-		throws PortalException {
-
-		return isRemoteStagingOrRemoteLiveGroup(_getGroup(groupId));
+	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId) {
+		return isRemoteStagingOrRemoteLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -256,7 +262,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagedPortlet(long groupId, String portletId) {
-		Group group = _getGroup(groupId);
+		Group group = _fetchGroup(groupId);
 
 		return isStagedPortlet(group, portletId);
 	}
@@ -271,8 +277,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isStagingGroup(long groupId) throws PortalException {
-		return isStagingGroup(_getGroup(groupId));
+	public boolean isStagingGroup(long groupId) {
+		return isStagingGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -285,8 +291,8 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isStagingOrLiveGroup(long groupId) throws PortalException {
-		return isStagingOrLiveGroup(_getGroup(groupId));
+	public boolean isStagingOrLiveGroup(long groupId) {
+		return isStagingOrLiveGroup(_fetchGroup(groupId));
 	}
 
 	@Override
@@ -300,13 +306,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagingPortlet(long groupId, String portletId) {
-		Group group = _getGroup(groupId);
+		Group group = _fetchGroup(groupId);
 
 		return isStagingPortlet(group, portletId);
 	}
 
-	private Group _getGroup(long groupId) throws PortalException {
-		return _groupLocalService.getGroup(groupId);
+	private Group _fetchGroup(long groupId) {
+		return _groupLocalService.fetchGroup(groupId);
 	}
 
 	private Group _getParentGroupForScopeGroup(Group group) {
@@ -323,6 +329,9 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 		return typeSettingsProperties.getProperty(key);
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		StagingGroupHelperImpl.class);
 
 	@Reference
 	private GroupLocalService _groupLocalService;
