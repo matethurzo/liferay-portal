@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.exportimport.kernel.staging;
+package com.liferay.staging;
 
 import aQute.bnd.annotation.ProviderType;
 
