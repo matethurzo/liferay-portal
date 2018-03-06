@@ -36,7 +36,7 @@ if (stagingType == StagingConstants.TYPE_REMOTE_STAGING) {
 
 		<%@ include file="/error_remote_options_exception.jspf" %>
 
-		<liferay-staging:alert type="info">
+		<liferay-staging:alert type="INFO">
 			<liferay-ui:message key="remote-publish-help" />
 		</liferay-staging:alert>
 

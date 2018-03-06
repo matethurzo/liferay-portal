@@ -29,10 +29,10 @@
 			<type>boolean</type>
 		</attribute>
 		<attribute>
-			<description>Specifies the <![CDATA[<code>alert</code>]]>s type. It can be: info, warning, error, success. Defaults to info.</description>
+			<description>Specifies the <![CDATA[<code>alert</code>]]>s type. It can be: <![CDATA[<code>INFO, WARNING, ERROR, SUCCESS</code>]]>. Defaults to <![CDATA[<code>INFO</code>]]>.</description>
 			<name>type</name>
 			<required>true</required>
-			<type>com.liferay.staging.taglib.servlet.taglib.AlertTypeEnum</type>
+			<type>com.liferay.staging.taglib.servlet.taglib.AlertType</type>
 		</attribute>
 	</tag>
 	<tag>
