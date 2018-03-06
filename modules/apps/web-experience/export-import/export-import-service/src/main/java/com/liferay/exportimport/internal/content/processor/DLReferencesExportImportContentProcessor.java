@@ -103,7 +103,7 @@ public class DLReferencesExportImportContentProcessor
 		}
 
 		int endPos = StringUtil.indexOfAny(
-			sb.toString(), _DL_REFERENCE_LEGACY_STOP_CHARS, beginPos + 2);
+			sb.toString(), _DL_REFERENCE_LEGACY_STOP_STRINGS, beginPos + 2);
 
 		if (endPos == -1) {
 			return;
@@ -120,11 +120,11 @@ public class DLReferencesExportImportContentProcessor
 		long groupId, String content, int beginPos, int endPos) {
 
 		boolean legacyURL = true;
-		String[] stopStrings = _DL_REFERENCE_LEGACY_STOP_CHARS;
+		String[] stopStrings = _DL_REFERENCE_LEGACY_STOP_STRINGS;
 
 		if (content.startsWith("/documents/", beginPos)) {
 			legacyURL = false;
-			stopStrings = _DL_REFERENCE_STOP_CHARS;
+			stopStrings = _DL_REFERENCE_STOP_STRINGS;
 		}
 
 		endPos = StringUtil.indexOfAny(content, stopStrings, beginPos, endPos);
@@ -593,7 +593,7 @@ public class DLReferencesExportImportContentProcessor
 		}
 	}
 
-	private static final String[] _DL_REFERENCE_LEGACY_STOP_CHARS = {
+	private static final String[] _DL_REFERENCE_LEGACY_STOP_STRINGS = {
 		StringPool.APOSTROPHE, StringPool.APOSTROPHE_ENCODED,
 		StringPool.CLOSE_BRACKET, StringPool.CLOSE_CURLY_BRACE,
 		StringPool.CLOSE_PARENTHESIS, StringPool.GREATER_THAN,
@@ -601,7 +601,7 @@ public class DLReferencesExportImportContentProcessor
 		StringPool.QUOTE_ENCODED, StringPool.SPACE
 	};
 
-	private static final String[] _DL_REFERENCE_STOP_CHARS = {
+	private static final String[] _DL_REFERENCE_STOP_STRINGS = {
 		StringPool.APOSTROPHE, StringPool.APOSTROPHE_ENCODED,
 		StringPool.CLOSE_BRACKET, StringPool.CLOSE_CURLY_BRACE,
 		StringPool.CLOSE_PARENTHESIS, StringPool.GREATER_THAN,
