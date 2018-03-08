@@ -153,43 +153,40 @@ public class BackgroundTaskFinderImpl
 	}
 
 	private String _getGroupCriteria(long[] groupIds) {
-		StringBundler groupCriteriasSB = new StringBundler();
+		StringBundler sb = new StringBundler();
 
 		String result = StringPool.BLANK;
 
 		if (groupIds.length > 0) {
-			groupCriteriasSB.append(StringPool.OPEN_PARENTHESIS);
+			sb.append(StringPool.OPEN_PARENTHESIS);
 
 			for (long groupId : groupIds) {
-				groupCriteriasSB.append("(BackgroundTask.groupId = ? ) OR ");
+				sb.append("(BackgroundTask.groupId = ?) OR ");
 			}
 
-			groupCriteriasSB.append(StringPool.CLOSE_PARENTHESIS);
+			sb.append(StringPool.CLOSE_PARENTHESIS);
 
-			result = groupCriteriasSB.toString();
-
-			result = StringUtil.replaceLast(result, " OR ", StringPool.BLANK);
+			result = StringUtil.replaceLast(sb.toString(), " OR ", StringPool.BLANK);
 		}
 
 		return result;
 	}
 
 	private String _getTaskExecutorClassNameCriteria(String[] classNames) {
-		StringBundler taskExecutorCriteriasSB = new StringBundler();
+		StringBundler sb = new StringBundler();
 
 		String result = StringPool.BLANK;
 
 		if (classNames.length > 0) {
-			taskExecutorCriteriasSB.append(StringPool.OPEN_PARENTHESIS);
+			sb.append(StringPool.OPEN_PARENTHESIS);
 
 			for (String className : classNames) {
-				taskExecutorCriteriasSB.append(
-					"(BackgroundTask.taskExecutorClassName = ? ) OR ");
+				sb.append("(BackgroundTask.taskExecutorClassName = ?) OR ");
 			}
 
-			taskExecutorCriteriasSB.append(StringPool.CLOSE_PARENTHESIS);
+			sb.append(StringPool.CLOSE_PARENTHESIS);
 
-			result = taskExecutorCriteriasSB.toString();
+			result = sb.toString();
 
 			result = StringUtil.replaceLast(result, " OR ", StringPool.BLANK);
 		}
@@ -201,32 +198,32 @@ public class BackgroundTaskFinderImpl
 		long[] groupIds, String[] taskExecutorClassNames, String sql,
 		Boolean completed) {
 
-		StringBundler innerSqlSB = new StringBundler(5);
+		StringBundler sb = new StringBundler(5);
 
 		String groupCriteria = GetterUtil.getString(
 			_getGroupCriteria(groupIds));
 		String taskExecutorCriteria = GetterUtil.getString(
 			_getTaskExecutorClassNameCriteria(taskExecutorClassNames));
 
-		innerSqlSB.append(groupCriteria);
+		sb.append(groupCriteria);
 
 		_appendIfTrue(
-			!groupCriteria.isEmpty() && !taskExecutorCriteria.isEmpty(),
-			innerSqlSB, " AND ");
+			!groupCriteria.isEmpty() && !taskExecutorCriteria.isEmpty(), sb,
+			" AND ");
 
-		innerSqlSB.append(taskExecutorCriteria);
+		sb.append(taskExecutorCriteria);
 
 		if (completed != null) {
 			_appendIfTrue(
-				Validator.isNotNull(groupCriteria + taskExecutorCriteria),
-				innerSqlSB, " AND ");
+				Validator.isNotNull(groupCriteria + taskExecutorCriteria), sb,
+				" AND ");
 
-			innerSqlSB.append("(BackgroundTask.completed = ?)");
+			sb.append("(BackgroundTask.completed = ?)");
 		}
 
-		if (Validator.isNotNull(innerSqlSB.toString())) {
+		if (Validator.isNotNull(sb.toString())) {
 			sql = StringUtil.replace(
-				sql, "[$WHERE_CONDITIONS$]", "WHERE " + innerSqlSB.toString());
+				sql, "[$WHERE_CONDITIONS$]", "WHERE " + sb.toString());
 		}
 		else {
 			sql = StringUtil.replace(
