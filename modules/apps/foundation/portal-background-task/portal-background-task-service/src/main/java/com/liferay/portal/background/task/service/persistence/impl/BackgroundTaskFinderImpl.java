@@ -166,7 +166,8 @@ public class BackgroundTaskFinderImpl
 
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
-			result = StringUtil.replaceLast(sb.toString(), " OR ", StringPool.BLANK);
+			result = StringUtil.replaceLast(
+				sb.toString(), " OR ", StringPool.BLANK);
 		}
 
 		return result;
@@ -186,9 +187,8 @@ public class BackgroundTaskFinderImpl
 
 			sb.append(StringPool.CLOSE_PARENTHESIS);
 
-			result = sb.toString();
-
-			result = StringUtil.replaceLast(result, " OR ", StringPool.BLANK);
+			result = StringUtil.replaceLast(
+				sb.toString(), " OR ", StringPool.BLANK);
 		}
 
 		return result;
