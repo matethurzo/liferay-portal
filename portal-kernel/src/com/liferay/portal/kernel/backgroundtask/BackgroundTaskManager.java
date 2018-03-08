@@ -161,11 +161,11 @@ public interface BackgroundTaskManager {
 		OrderByComparator<BackgroundTask> orderByComparator);
 
 	public List<BackgroundTask> getBackgroundTasksByDuration(
-		long[] groupIds, String taskExecutorClassName, boolean completed,
+		long[] groupIds, String[] taskExecutorClassName, boolean completed,
 		int start, int end, boolean orderByType);
 
 	public List<BackgroundTask> getBackgroundTasksByDuration(
-		long[] groupIds, String taskExecutorClassName, int start, int end,
+		long[] groupIds, String[] taskExecutorClassName, int start, int end,
 		boolean orderByType);
 
 	public int getBackgroundTasksCount(
