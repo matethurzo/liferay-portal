@@ -160,7 +160,7 @@ public class BackgroundTaskFinderImpl
 		if (groupIds.length > 0) {
 			sb.append(StringPool.OPEN_PARENTHESIS);
 
-			for (long groupId : groupIds) {
+			for (int i = 0; i < groupIds.length; i++) {
 				sb.append("(BackgroundTask.groupId = ?) OR ");
 			}
 
@@ -180,7 +180,7 @@ public class BackgroundTaskFinderImpl
 		if (classNames.length > 0) {
 			sb.append(StringPool.OPEN_PARENTHESIS);
 
-			for (String className : classNames) {
+			for (int i = 0; i < classNames.length; i++) {
 				sb.append("(BackgroundTask.taskExecutorClassName = ?) OR ");
 			}
 
