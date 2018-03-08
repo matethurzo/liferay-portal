@@ -144,14 +144,6 @@ public class BackgroundTaskFinderImpl
 		}
 	}
 
-	private void _appendIfTrue(
-		boolean condition, StringBundler sb, String text) {
-
-		if (condition) {
-			sb.append(text);
-		}
-	}
-
 	private String _getGroupCriteria(long[] groupIds) {
 		StringBundler sb = new StringBundler();
 
@@ -207,16 +199,18 @@ public class BackgroundTaskFinderImpl
 
 		sb.append(groupCriteria);
 
-		_appendIfTrue(
-			!groupCriteria.isEmpty() && !taskExecutorCriteria.isEmpty(), sb,
-			" AND ");
+		if (!groupCriteria.isEmpty() && !taskExecutorCriteria.isEmpty()) {
+			sb.append(" AND ");
+		}
 
 		sb.append(taskExecutorCriteria);
 
 		if (completed != null) {
-			_appendIfTrue(
-				Validator.isNotNull(groupCriteria + taskExecutorCriteria), sb,
-				" AND ");
+			if (Validator.isNotNull(groupCriteria) &&
+				Validator.isNotNull(taskExecutorCriteria)) {
+
+				sb.append(" AND ");
+			}
 
 			sb.append("(BackgroundTask.completed = ?)");
 		}
