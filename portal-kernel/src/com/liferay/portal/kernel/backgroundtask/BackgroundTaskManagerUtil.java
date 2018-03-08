@@ -285,7 +285,7 @@ public class BackgroundTaskManagerUtil {
 	}
 
 	public static List<BackgroundTask> getBackgroundTasksByDuration(
-		long[] groupIds, String taskExecutorClassName, boolean completed,
+		long[] groupIds, String[] taskExecutorClassName, boolean completed,
 		int start, int end, boolean orderByType) {
 
 		return _backgroundTaskManager.getBackgroundTasksByDuration(
@@ -294,7 +294,7 @@ public class BackgroundTaskManagerUtil {
 	}
 
 	public static List<BackgroundTask> getBackgroundTasksByDuration(
-		long[] groupIds, String taskExecutorClassName, int start, int end,
+		long[] groupIds, String[] taskExecutorClassName, int start, int end,
 		boolean orderByType) {
 
 		return _backgroundTaskManager.getBackgroundTasksByDuration(
