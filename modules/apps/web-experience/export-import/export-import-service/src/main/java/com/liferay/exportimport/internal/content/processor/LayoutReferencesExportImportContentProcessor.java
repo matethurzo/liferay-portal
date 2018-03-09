@@ -189,15 +189,6 @@ public class LayoutReferencesExportImportContentProcessor
 		return url;
 	}
 
-	protected String replaceExportHostname(
-			long groupId, String url, StringBundler urlSB)
-		throws PortalException {
-
-		Group group = _groupLocalService.getGroup(groupId);
-
-		return replaceExportHostname(group, url, urlSB);
-	}
-
 	protected String replaceExportLayoutReferences(
 			PortletDataContext portletDataContext, StagedModel stagedModel,
 			String content)
@@ -265,8 +256,7 @@ public class LayoutReferencesExportImportContentProcessor
 			StringBundler urlSB = new StringBundler(6);
 
 			try {
-				url = replaceExportHostname(
-					portletDataContext.getScopeGroupId(), url, urlSB);
+				url = replaceExportHostname(group, url, urlSB);
 
 				if (!url.startsWith(StringPool.SLASH)) {
 					continue;
