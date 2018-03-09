@@ -18,6 +18,9 @@ import com.liferay.exportimport.kernel.exception.RemoteExportException;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.LayoutBranchNameException;
 import com.liferay.portal.kernel.exception.LayoutSetBranchNameException;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
@@ -117,6 +120,8 @@ public class StagingBarPortlet extends MVCPortlet {
 			_layoutRevisionLocalService.getLayoutRevision(layoutRevisionId);
 
 		_layoutRevisionLocalService.deleteLayoutRevision(layoutRevision);
+
+		_deleteUnusedLayoutIconImage(layoutRevision);
 
 		boolean updateRecentLayoutRevisionId = ParamUtil.getBoolean(
 			actionRequest, "updateRecentLayoutRevisionId");
@@ -515,6 +520,52 @@ public class StagingBarPortlet extends MVCPortlet {
 		LayoutSetLocalService layoutSetLocalService) {
 
 		_layoutSetLocalService = null;
+	}
+
+	private void _deleteUnusedLayoutIconImage(LayoutRevision layoutRevision)
+		throws PortalException {
+
+		Layout layout = _layoutLocalService.fetchLayout(
+			layoutRevision.getPlid());
+
+		if (layout != null) {
+			long layoutImageId = BeanPropertiesUtil.getLong(
+				layout, "iconImageId");
+
+			long imageId = BeanPropertiesUtil.getLong(
+				layoutRevision, "iconImageId");
+
+			if (imageId == GetterUtil.DEFAULT_LONG) {
+				imageId = layoutImageId;
+			}
+
+			DynamicQuery revisionDynamicQuery =
+				_layoutRevisionLocalService.dynamicQuery();
+
+			revisionDynamicQuery.add(
+				RestrictionsFactoryUtil.eq("iconImageId", imageId));
+
+			long sameImageCount = _layoutRevisionLocalService.dynamicQueryCount(
+				revisionDynamicQuery);
+
+			DynamicQuery layoutDynamicQuery =
+				_layoutLocalService.dynamicQuery();
+
+			layoutDynamicQuery.add(
+				RestrictionsFactoryUtil.eq("iconImageId", imageId));
+			layoutDynamicQuery.add(
+				RestrictionsFactoryUtil.ne("plid", layout.getPlid()));
+
+			sameImageCount += _layoutLocalService.dynamicQueryCount(
+				layoutDynamicQuery);
+
+			if ((imageId > 0) && (sameImageCount < 1)) {
+				layout.setIconImageId(imageId);
+
+				_portal.updateImageId(
+					layout, false, null, "iconImageId", 0, 0, 0);
+			}
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
