@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -107,13 +105,6 @@ public class LayoutImportBackgroundTaskExecutor
 				throw new SystemException(sb.toString(), ioe);
 			}
 			catch (Throwable t) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(t, t);
-				}
-				else if (_log.isWarnEnabled()) {
-					_log.warn("Unable to import layouts: " + t.getMessage());
-				}
-
 				throw new SystemException(t);
 			}
 			finally {
@@ -123,9 +114,6 @@ public class LayoutImportBackgroundTaskExecutor
 
 		return BackgroundTaskResult.SUCCESS;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		LayoutImportBackgroundTaskExecutor.class);
 
 	private static class LayoutImportCallable implements Callable<Void> {
 

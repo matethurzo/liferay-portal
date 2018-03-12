@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
 import com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplay;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -89,13 +87,6 @@ public class PortletImportBackgroundTaskExecutor
 					new PortletImportCallable(exportImportConfiguration, file));
 			}
 			catch (Throwable t) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(t, t);
-				}
-				else if (_log.isWarnEnabled()) {
-					_log.warn("Unable to import portlet: " + t.getMessage());
-				}
-
 				throw new SystemException(t);
 			}
 			finally {
@@ -112,9 +103,6 @@ public class PortletImportBackgroundTaskExecutor
 
 		return new PortletExportImportBackgroundTaskDisplay(backgroundTask);
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		PortletImportBackgroundTaskExecutor.class);
 
 	private static class PortletImportCallable implements Callable<Void> {
 
