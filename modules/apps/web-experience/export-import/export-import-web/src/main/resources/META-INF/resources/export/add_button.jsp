@@ -25,7 +25,7 @@ String displayStyle = ParamUtil.getString(request, "displayStyle");
 List<ExportImportConfiguration> exportImportConfigurations = ExportImportConfigurationLocalServiceUtil.getExportImportConfigurations(liveGroupId, ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT);
 %>
 
-<liferay-frontend:add-menu>
+<liferay-frontend:add-menu inline="<%= true %>">
 
 	<%
 	for (ExportImportConfiguration exportImportConfiguration : exportImportConfigurations) {
