@@ -16,8 +16,7 @@
 
 <%@ include file="/export/init.jsp" %>
 
-<aui:nav-bar markupView="lexicon">
-	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item label="processes" selected="<%= true %>" />
-	</aui:nav>
-</aui:nav-bar>
+<clay:navigation-bar
+	inverted="<%= true %>"
+	items="<%= ExportDisplayContext.exportJSPNavigationItemList(renderResponse, request, pageContext) %>"
+/>
