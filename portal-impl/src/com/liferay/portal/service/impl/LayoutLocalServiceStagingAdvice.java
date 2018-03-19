@@ -304,8 +304,8 @@ public class LayoutLocalServiceStagingAdvice implements MethodInterceptor {
 		layout.setFriendlyURL(friendlyURL);
 
 		if (!iconImage) {
-			layoutRevision.setIconImageId(0);
 			layout.setIconImageId(0);
+			layoutRevision.setIconImageId(0);
 		}
 		else {
 			PortalUtil.updateImageId(

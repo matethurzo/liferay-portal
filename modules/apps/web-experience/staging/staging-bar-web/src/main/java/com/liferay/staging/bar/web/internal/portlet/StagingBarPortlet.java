@@ -528,43 +528,45 @@ public class StagingBarPortlet extends MVCPortlet {
 		Layout layout = _layoutLocalService.fetchLayout(
 			layoutRevision.getPlid());
 
-		if (layout != null) {
-			long layoutImageId = BeanPropertiesUtil.getLong(
-				layout, "iconImageId");
+		if (layout == null) {
+			return;
+		}
 
-			long imageId = BeanPropertiesUtil.getLong(
-				layoutRevision, "iconImageId");
+		long layoutIconImageId = BeanPropertiesUtil.getLong(
+			layout, "iconImageId");
 
-			if (imageId == GetterUtil.DEFAULT_LONG) {
-				imageId = layoutImageId;
-			}
+		long layoutRevisionIconImageId = BeanPropertiesUtil.getLong(
+			layoutRevision, "iconImageId");
 
-			DynamicQuery revisionDynamicQuery =
-				_layoutRevisionLocalService.dynamicQuery();
+		if (layoutRevisionIconImageId == GetterUtil.DEFAULT_LONG) {
+			layoutRevisionIconImageId = layoutIconImageId;
+		}
 
-			revisionDynamicQuery.add(
-				RestrictionsFactoryUtil.eq("iconImageId", imageId));
+		DynamicQuery layoutRevisionDynamicQuery =
+			_layoutRevisionLocalService.dynamicQuery();
 
-			long sameImageCount = _layoutRevisionLocalService.dynamicQueryCount(
-				revisionDynamicQuery);
+		layoutRevisionDynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"iconImageId", layoutRevisionIconImageId));
 
-			DynamicQuery layoutDynamicQuery =
-				_layoutLocalService.dynamicQuery();
+		long sameImageCount = _layoutRevisionLocalService.dynamicQueryCount(
+			layoutRevisionDynamicQuery);
 
-			layoutDynamicQuery.add(
-				RestrictionsFactoryUtil.eq("iconImageId", imageId));
-			layoutDynamicQuery.add(
-				RestrictionsFactoryUtil.ne("plid", layout.getPlid()));
+		DynamicQuery layoutDynamicQuery = _layoutLocalService.dynamicQuery();
 
-			sameImageCount += _layoutLocalService.dynamicQueryCount(
-				layoutDynamicQuery);
+		layoutDynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"iconImageId", layoutRevisionIconImageId));
+		layoutDynamicQuery.add(
+			RestrictionsFactoryUtil.ne("plid", layout.getPlid()));
 
-			if ((imageId > 0) && (sameImageCount < 1)) {
-				layout.setIconImageId(imageId);
+		sameImageCount += _layoutLocalService.dynamicQueryCount(
+			layoutDynamicQuery);
 
-				_portal.updateImageId(
-					layout, false, null, "iconImageId", 0, 0, 0);
-			}
+		if ((layoutRevisionIconImageId > 0) && (sameImageCount < 1)) {
+			layout.setIconImageId(layoutRevisionIconImageId);
+
+			_portal.updateImageId(layout, false, null, "iconImageId", 0, 0, 0);
 		}
 	}
 
