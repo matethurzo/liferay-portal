@@ -156,12 +156,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<type>boolean</type>
 		</attribute>
-		<attribute>
-			<description>The task executor class name.</description>
-			<name>taskExecutorClassName</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
 	</tag>
 	<tag>
 		<description>Renders a <![CDATA[<code>Navbar</code>]]> containing a staging menu with page versioning information, if available.</description>
