@@ -347,8 +347,22 @@
 			<type>boolean</type>
 		</attribute>
 		<attribute>
+			<description>Whether DuplicateLockException should be displayed.</description>
+			<name>duplicateLockException</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>boolean</type>
+		</attribute>
+		<attribute>
 			<description>Whether IllegalArgumentException should be displayed.</description>
 			<name>illegalArgumentException</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>boolean</type>
+		</attribute>
+		<attribute>
+			<description>Whether LayoutPrototypeException should be displayed.</description>
+			<name>layoutPrototypeException</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>boolean</type>
@@ -370,6 +384,13 @@
 		<attribute>
 			<description>Whether RemoteOptionsException should be displayed.</description>
 			<name>remoteOptionsException</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>boolean</type>
+		</attribute>
+		<attribute>
+			<description>Whether SystemException should be displayed.</description>
+			<name>systemException</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>boolean</type>
