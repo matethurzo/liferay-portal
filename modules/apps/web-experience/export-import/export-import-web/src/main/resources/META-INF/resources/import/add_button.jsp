@@ -21,7 +21,9 @@ long groupId = ParamUtil.getLong(request, "groupId");
 boolean privateLayout = ParamUtil.getBoolean(request, "privateLayout");
 %>
 
-<liferay-frontend:add-menu inline="<%= true %>">
+<liferay-frontend:add-menu
+	inline="<%= true %>"
+>
 	<liferay-portlet:renderURL copyCurrentRenderParameters="<%= false %>" var="addNewImportProcessURL">
 		<portlet:param name="mvcPath" value="/import/new_import/import_layouts.jsp" />
 		<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
@@ -29,5 +31,8 @@ boolean privateLayout = ParamUtil.getBoolean(request, "privateLayout");
 		<portlet:param name="validate" value="<%= String.valueOf(Boolean.TRUE) %>" />
 	</liferay-portlet:renderURL>
 
-	<liferay-frontend:add-menu-item title='<%= LanguageUtil.get(request, "import") %>' url="<%= addNewImportProcessURL %>" />
+	<liferay-frontend:add-menu-item
+		title='<%= LanguageUtil.get(request, "import") %>'
+		url="<%= addNewImportProcessURL %>"
+	/>
 </liferay-frontend:add-menu>

@@ -68,7 +68,9 @@ if (liveGroup == null) {
 				<liferay-portlet:renderURLParams varImpl="searchURL" />
 				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 
-				<liferay-ui:input-search markupView="lexicon" />
+				<liferay-ui:input-search
+					markupView="lexicon"
+				/>
 			</aui:form>
 		</li>
 	</liferay-frontend:management-bar-filters>
@@ -82,8 +84,13 @@ if (liveGroup == null) {
 			<portlet:param name="privateLayout" value="<%= Boolean.FALSE.toString() %>" />
 		</portlet:renderURL>
 
-		<liferay-frontend:add-menu inline="<%= true %>">
-			<liferay-frontend:add-menu-item title='<%= LanguageUtil.get(request, "new") %>' url="<%= addExportConfigurationURL %>" />
+		<liferay-frontend:add-menu
+			inline="<%= true %>"
+		>
+			<liferay-frontend:add-menu-item
+				title='<%= LanguageUtil.get(request, "new") %>'
+				url="<%= addExportConfigurationURL %>"
+			/>
 		</liferay-frontend:add-menu>
 	</liferay-frontend:management-bar-buttons>
 </liferay-frontend:management-bar>
@@ -178,5 +185,4 @@ if (liveGroup == null) {
 			/>
 		</liferay-ui:search-container>
 	</aui:form>
-
 </div>
