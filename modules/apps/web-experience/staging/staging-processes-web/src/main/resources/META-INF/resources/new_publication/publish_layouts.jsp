@@ -52,54 +52,15 @@
 	<aui:input name="<%= PortletDataHandlerKeys.PORTLET_SETUP_ALL %>" type="hidden" value="<%= true %>" />
 	<aui:input name="<%= PortletDataHandlerKeys.PORTLET_USER_PREFERENCES_ALL %>" type="hidden" value="<%= true %>" />
 
-	<liferay-ui:error exception="<%= DuplicateLockException.class %>" message="another-publishing-process-is-in-progress,-please-try-again-later" />
-
-	<liferay-ui:error exception="<%= LayoutPrototypeException.class %>">
-
-		<%
-		LayoutPrototypeException lpe = (LayoutPrototypeException)errorException;
-		%>
-
-		<liferay-ui:message key="the-pages-could-not-be-published-because-one-or-more-required-page-templates-could-not-be-found-on-the-remote-system.-please-import-the-following-templates-manually" />
-
-		<ul>
-
-			<%
-			List<Tuple> missingLayoutPrototypes = lpe.getMissingLayoutPrototypes();
-
-			for (Tuple missingLayoutPrototype : missingLayoutPrototypes) {
-				String layoutPrototypeClassName = (String)missingLayoutPrototype.getObject(0);
-				String layoutPrototypeUuid = (String)missingLayoutPrototype.getObject(1);
-				String layoutPrototypeName = (String)missingLayoutPrototype.getObject(2);
-			%>
-
-				<li>
-					<%= ResourceActionsUtil.getModelResource(locale, layoutPrototypeClassName) %>: <strong><%= HtmlUtil.escape(layoutPrototypeName) %></strong> (<%= HtmlUtil.escape(layoutPrototypeUuid) %>)
-				</li>
-
-			<%
-			}
-			%>
-
-		</ul>
-	</liferay-ui:error>
-
-	<%@ include file="/error/error_auth_exception.jspf" %>
-
-	<%@ include file="/error/error_illegal_argument_exception.jspf" %>
-
-	<%@ include file="/error/error_remote_export_exception.jspf" %>
-
-	<%@ include file="/error/error_remote_options_exception.jspf" %>
-
-	<liferay-ui:error exception="<%= SystemException.class %>">
-
-		<%
-		SystemException se = (SystemException)errorException;
-		%>
-
-		<liferay-ui:message key="<%= se.getMessage() %>" />
-	</liferay-ui:error>
+	<liferay-staging:process-error
+		authException="true"
+		duplicateLockException="true"
+		illegalArgumentException="true"
+		layoutPrototypeException="true"
+		remoteExportException="true"
+		remoteOptionsException="true"
+		systemException="true"
+	/>
 
 	<div id="<portlet:namespace />publishOptions">
 		<div class="export-dialog-tree">
