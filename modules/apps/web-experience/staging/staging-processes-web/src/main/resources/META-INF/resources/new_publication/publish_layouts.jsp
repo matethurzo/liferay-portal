@@ -64,20 +64,9 @@
 
 	<div id="<portlet:namespace />publishOptions">
 		<div class="export-dialog-tree">
-
-			<%
-			String taskExecutorClassName = localPublishing ? BackgroundTaskExecutorNames.LAYOUT_STAGING_BACKGROUND_TASK_EXECUTOR : BackgroundTaskExecutorNames.LAYOUT_REMOTE_STAGING_BACKGROUND_TASK_EXECUTOR;
-
-			int incompleteBackgroundTaskCount = BackgroundTaskManagerUtil.getBackgroundTasksCount(stagingGroupId, taskExecutorClassName, false);
-
-			incompleteBackgroundTaskCount += BackgroundTaskManagerUtil.getBackgroundTasksCount(liveGroupId, taskExecutorClassName, false);
-			%>
-
-			<div class="<%= incompleteBackgroundTaskCount == 0 ? "hide" : "in-progress" %>" id="<portlet:namespace />incompleteProcessMessage">
-				<liferay-util:include page="/processes_list/incomplete_processes_message.jsp" servletContext="<%= application %>">
-					<liferay-util:param name="incompleteBackgroundTaskCount" value="<%= String.valueOf(incompleteBackgroundTaskCount) %>" />
-				</liferay-util:include>
-			</div>
+			<liferay-staging:incomplete-process-message
+				localPublishing="<%= localPublishing %>"
+			/>
 
 			<aui:fieldset-group markupView="lexicon">
 				<aui:fieldset>
