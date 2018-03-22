@@ -118,20 +118,6 @@
 				</liferay-util:include>
 			</div>
 
-			<%
-			String scheduleCMD = StringPool.BLANK;
-
-			if (cmd.equals(Constants.PUBLISH_TO_LIVE)) {
-				scheduleCMD = "schedule_publish_to_live";
-			}
-			else if (cmd.equals(Constants.PUBLISH_TO_REMOTE)) {
-				scheduleCMD = "schedule_publish_to_remote";
-			}
-			else if (cmd.equals("copy_from_live")) {
-				scheduleCMD = "schedule_copy_from_live";
-			}
-			%>
-
 			<aui:fieldset-group markupView="lexicon">
 				<aui:fieldset>
 					<c:choose>
