@@ -18,19 +18,6 @@
 
 <%@ include file="/new_publication/publish_layouts_setup.jspf" %>
 
-<c:if test='<%= SessionMessages.contains(renderRequest, "requestProcessed") %>'>
-
-	<%
-	String successMessage = (String)SessionMessages.get(renderRequest, "requestProcessed");
-	%>
-
-	<c:if test='<%= Validator.isNotNull(successMessage) && !successMessage.equals("request_processed") %>'>
-		<div class="alert alert-success">
-			<%= HtmlUtil.escape(successMessage) %>
-		</div>
-	</c:if>
-</c:if>
-
 <portlet:renderURL var="basePortletURL">
 	<portlet:param name="mvcRenderCommandName" value="processesList" />
 </portlet:renderURL>
