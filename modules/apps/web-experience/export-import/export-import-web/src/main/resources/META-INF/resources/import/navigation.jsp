@@ -18,5 +18,16 @@
 
 <clay:navigation-bar
 	inverted="<%= true %>"
-	items="<%= ImportDisplayContext.importJSPNavigationItemList(renderResponse, request, pageContext) %>"
+	items="<%=
+		new JSPNavigationItemList(pageContext) {
+			{
+				add(
+					navigationItem -> {
+						navigationItem.setActive(true);
+						navigationItem.setHref(renderResponse.createRenderURL());
+						navigationItem.setLabel(LanguageUtil.get(request, "processes"));
+					});
+			}
+		}
+	%>"
 />
