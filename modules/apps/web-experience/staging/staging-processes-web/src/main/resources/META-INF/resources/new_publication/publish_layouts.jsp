@@ -40,13 +40,13 @@
 	<aui:input name="<%= PortletDataHandlerKeys.PORTLET_USER_PREFERENCES_ALL %>" type="hidden" value="<%= true %>" />
 
 	<liferay-staging:process-error
-		authException="true"
-		duplicateLockException="true"
-		illegalArgumentException="true"
-		layoutPrototypeException="true"
-		remoteExportException="true"
-		remoteOptionsException="true"
-		systemException="true"
+		authException="<%= true %>"
+		duplicateLockException="<%= true %>"
+		illegalArgumentException="<%= true %>"
+		layoutPrototypeException="<%= true %>"
+		remoteExportException="<%= true %>"
+		remoteOptionsException="<%= true %>"
+		systemException="<%= true %>"
 	/>
 
 	<div id="<portlet:namespace />publishOptions">
