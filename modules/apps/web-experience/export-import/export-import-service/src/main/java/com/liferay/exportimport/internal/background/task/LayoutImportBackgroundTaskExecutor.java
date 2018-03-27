@@ -14,6 +14,7 @@
 
 package com.liferay.exportimport.internal.background.task;
 
+import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
@@ -25,14 +26,12 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Callable;
 
 /**
@@ -88,21 +87,18 @@ public class LayoutImportBackgroundTaskExecutor
 					new LayoutImportCallable(exportImportConfiguration, file));
 			}
 			catch (IOException ioe) {
-				StringBundler sb = new StringBundler(3);
+				ExportImportIOException eiioe = new ExportImportIOException(
+					LayoutImportBackgroundTaskExecutor.class.getName(), ioe);
 
-				sb.append("Unable to process LAR file while executing ");
-				sb.append("LayoutImportBackgroundTaskExecutor: ");
-
-				if (!Objects.isNull(attachmentsFileEntry) &&
-					Validator.isNotNull(attachmentsFileEntry.getFileName())) {
-
-					sb.append(attachmentsFileEntry.getFileName());
+				if (Validator.isNotNull(attachmentsFileEntry.getFileName())) {
+					eiioe.setFileName(attachmentsFileEntry.getFileName());
+					eiioe.setType(ExportImportIOException.LAYOUT_IMPORT_FILE);
 				}
 				else {
-					sb.append("unknown file name");
+					eiioe.setType(ExportImportIOException.LAYOUT_IMPORT);
 				}
 
-				throw new SystemException(sb.toString(), ioe);
+				throw eiioe;
 			}
 			catch (Throwable t) {
 				throw new SystemException(t);

@@ -20,6 +20,7 @@ import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationFa
 import com.liferay.exportimport.kernel.controller.ExportController;
 import com.liferay.exportimport.kernel.controller.ExportImportControllerRegistryUtil;
 import com.liferay.exportimport.kernel.controller.ImportController;
+import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.exception.LARFileNameException;
 import com.liferay.exportimport.kernel.lar.MissingReferences;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
@@ -238,10 +239,18 @@ public class ExportImportLocalServiceImpl
 			importLayouts(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for layout import due to a file " +
-					"system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.LAYOUT_IMPORT_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.LAYOUT_IMPORT);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);
@@ -339,10 +348,18 @@ public class ExportImportLocalServiceImpl
 				userId, exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for layout import due to a file " +
-					"system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.LAYOUT_IMPORT_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.LAYOUT_IMPORT);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);
@@ -464,10 +481,18 @@ public class ExportImportLocalServiceImpl
 			importPortletInfo(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for layout import due to a file " +
-					"system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.PORTLET_IMPORT_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.PORTLET_IMPORT);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);
@@ -516,10 +541,18 @@ public class ExportImportLocalServiceImpl
 				userId, exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for portlet import due to a file " +
-					"system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.PORTLET_IMPORT_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.PORTLET_IMPORT);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);
@@ -599,10 +632,18 @@ public class ExportImportLocalServiceImpl
 			return validateImportLayoutsFile(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for layout import validation due " +
-					"to a file system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.LAYOUT_VALIDATE_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.LAYOUT_VALIDATE);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);
@@ -655,10 +696,18 @@ public class ExportImportLocalServiceImpl
 			return validateImportPortletInfo(exportImportConfiguration, file);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to process LAR file for portlet import validation " +
-					"due to a file system error",
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				ExportImportLocalServiceImpl.class.getName(), ioe);
+
+			if (file != null) {
+				eiioe.setFileName(file.getName());
+				eiioe.setType(ExportImportIOException.PORTLET_VALIDATE_FILE);
+			}
+			else {
+				eiioe.setType(ExportImportIOException.PORTLET_VALIDATE);
+			}
+
+			throw eiioe;
 		}
 		finally {
 			FileUtil.delete(file);

@@ -15,6 +15,7 @@
 package com.liferay.exportimport.internal.background.task;
 
 import com.liferay.exportimport.internal.background.task.display.PortletExportImportBackgroundTaskDisplay;
+import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
@@ -27,8 +28,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -85,6 +88,20 @@ public class PortletImportBackgroundTaskExecutor
 				TransactionInvokerUtil.invoke(
 					transactionConfig,
 					new PortletImportCallable(exportImportConfiguration, file));
+			}
+			catch (IOException ioe) {
+				ExportImportIOException eiioe = new ExportImportIOException(
+					LayoutImportBackgroundTaskExecutor.class.getName(), ioe);
+
+				if (Validator.isNotNull(attachmentsFileEntry.getFileName())) {
+					eiioe.setFileName(attachmentsFileEntry.getFileName());
+					eiioe.setType(ExportImportIOException.PORTLET_IMPORT_FILE);
+				}
+				else {
+					eiioe.setType(ExportImportIOException.PORTLET_IMPORT);
+				}
+
+				throw eiioe;
 			}
 			catch (Throwable t) {
 				throw new SystemException(t);

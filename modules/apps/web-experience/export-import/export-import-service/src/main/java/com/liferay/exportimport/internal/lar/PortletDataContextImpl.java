@@ -28,6 +28,7 @@ import com.liferay.exportimport.internal.util.ExportImportPermissionUtil;
 import com.liferay.exportimport.internal.xstream.ConverterAdapter;
 import com.liferay.exportimport.internal.xstream.XStreamStagedModelTypeHierarchyPermission;
 import com.liferay.exportimport.internal.xstream.converter.TimestampConverter;
+import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.lar.ExportImportClassedModelUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
@@ -556,9 +557,13 @@ public class PortletDataContextImpl implements PortletDataContext {
 			zipWriter.addEntry(path, bytes);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to add data bytes to the LAR file with path: " + path,
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				PortletDataContextImpl.class.getName(), ioe);
+
+			eiioe.setFileName(path);
+			eiioe.setType(ExportImportIOException.ADD_ZIP_ENTRY_BYTES);
+
+			throw new SystemException(eiioe);
 		}
 	}
 
@@ -574,9 +579,13 @@ public class PortletDataContextImpl implements PortletDataContext {
 			zipWriter.addEntry(path, is);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to add data stream to the LAR file with path: " + path,
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				PortletDataContextImpl.class.getName(), ioe);
+
+			eiioe.setFileName(path);
+			eiioe.setType(ExportImportIOException.ADD_ZIP_ENTRY_STREAM);
+
+			throw new SystemException(eiioe);
 		}
 	}
 
@@ -597,9 +606,13 @@ public class PortletDataContextImpl implements PortletDataContext {
 			zipWriter.addEntry(path, s);
 		}
 		catch (IOException ioe) {
-			throw new SystemException(
-				"Unable to add data string to the LAR file with path: " + path,
-				ioe);
+			ExportImportIOException eiioe = new ExportImportIOException(
+				PortletDataContextImpl.class.getName(), ioe);
+
+			eiioe.setFileName(path);
+			eiioe.setType(ExportImportIOException.ADD_ZIP_ENTRY_STRING);
+
+			throw new SystemException(eiioe);
 		}
 	}
 

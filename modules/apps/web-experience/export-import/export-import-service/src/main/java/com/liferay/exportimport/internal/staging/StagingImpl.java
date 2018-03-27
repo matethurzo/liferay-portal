@@ -31,6 +31,7 @@ import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.exportimport.kernel.background.task.BackgroundTaskExecutorNames;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSettingsMapFactory;
+import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.exception.LARFileException;
 import com.liferay.exportimport.kernel.exception.LARFileSizeException;
 import com.liferay.exportimport.kernel.exception.LARTypeException;
@@ -684,6 +685,159 @@ public class StagingImpl implements Staging {
 			errorMessage = LanguageUtil.get(
 				locale, "please-enter-a-unique-document-name");
 			errorType = ServletResponseConstants.SC_DUPLICATE_FILE_EXCEPTION;
+		}
+		else if (e instanceof ExportImportIOException ||
+				 (cause instanceof SystemException &&
+				  cause.getCause() instanceof ExportImportIOException)) {
+
+			ExportImportIOException eiioe = null;
+
+			if (e instanceof ExportImportIOException) {
+				eiioe = (ExportImportIOException)e;
+			}
+			else {
+				eiioe = (ExportImportIOException)cause.getCause();
+			}
+
+			if (eiioe.getType() ==
+					ExportImportIOException.ADD_ZIP_ENTRY_BYTES) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-add-data-bytes-to-the-lar-file-with-path-x",
+					eiioe.getFileName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.ADD_ZIP_ENTRY_STREAM) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-add-data-stream-to-the-lar-file-with-path-x",
+					eiioe.getFileName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.ADD_ZIP_ENTRY_STRING) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-add-data-string-to-the-lar-file-with-path-x",
+					eiioe.getFileName());
+			}
+			else if (eiioe.getType() == ExportImportIOException.LAYOUT_IMPORT) {
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-for-layout-import-while-" +
+						"executing-x-due-to-a-file-system-error",
+					eiioe.getClassName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.LAYOUT_IMPORT_FILE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-x-for-layout-import-while-" +
+						"executing-x-due-to-a-file-system-error",
+					new String[] {eiioe.getFileName(), eiioe.getClassName()});
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.LAYOUT_VALIDATE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-for-layout-import-validation-" +
+						"while-executing-x-due-to-a-file-system-error",
+					eiioe.getClassName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.LAYOUT_VALIDATE_FILE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-x-for-layout-import-" +
+						"validation-while-executing-x-due-to-a-file-system-" +
+							"error",
+					new String[] {eiioe.getFileName(), eiioe.getClassName()});
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PORTLET_EXPORT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-create-the-export-lar-manifest-file-for-" +
+						"portlet-x",
+					eiioe.getPortletId());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PORTLET_IMPORT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-for-portlet-import-while-" +
+						"executing-x-due-to-a-file-system-error",
+					eiioe.getClassName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PORTLET_IMPORT_FILE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-x-for-portlet-import-while-" +
+						"executing-x-due-to-a-file-system-error",
+					new String[] {eiioe.getFileName(), eiioe.getClassName()});
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PORTLET_VALIDATE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-for-portlet-import-" +
+						"validation-while-executing-x-due-to-a-file-system-" +
+							"error",
+					eiioe.getClassName());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PORTLET_VALIDATE_FILE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-x-for-portlet-import-" +
+						"validation-while-executing-x-due-to-a-file-system-" +
+							"error",
+					new String[] {eiioe.getFileName(), eiioe.getClassName()});
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.PUBLISH_STAGING_REQUEST) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-complete-remote-staging-publication-request-x-" +
+						"due-to-a-file-system-error",
+					eiioe.getStagingRequestId());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.STAGING_REQUEST_CHECKSUM) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-process-lar-file-pieces-for-remote-staging-" +
+						"publication-because-lar-file-checksum-is-not-x",
+					eiioe.getChecksum());
+			}
+			else if (eiioe.getType() ==
+						ExportImportIOException.
+							STAGING_REQUEST_REASSEMBLE_FILE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-reassemble-lar-file-for-remote-staging-" +
+						"publication-request-x",
+					eiioe.getStagingRequestId());
+			}
+			else {
+				errorMessage = LanguageUtil.format(
+					resourceBundle, "x-failed-due-to-a-file-system-error",
+					eiioe.getClassName());
+			}
 		}
 		else if (e instanceof FileExtensionException) {
 			errorMessage = LanguageUtil.format(
