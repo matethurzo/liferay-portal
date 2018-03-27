@@ -30,7 +30,7 @@
 		<%@ include file="/process_error/error/error_layout_prototype_exception.jspf" %>
 	</c:when>
 	<c:when test="<%= noSuchExceptions %>">
-		<%@ include file="/process_error/error/error_nosuch_exception.jspf" %>
+		<%@ include file="/process_error/error/error_no_such_exceptions.jspf" %>
 	</c:when>
 	<c:when test="<%= remoteExportException %>">
 		<%@ include file="/process_error/error/error_remote_export_exception.jspf" %>
