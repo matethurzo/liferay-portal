@@ -31,6 +31,7 @@ import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.exportimport.kernel.background.task.BackgroundTaskExecutorNames;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSettingsMapFactory;
+import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
 import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.exception.LARFileException;
 import com.liferay.exportimport.kernel.exception.LARFileSizeException;
@@ -686,6 +687,131 @@ public class StagingImpl implements Staging {
 				locale, "please-enter-a-unique-document-name");
 			errorType = ServletResponseConstants.SC_DUPLICATE_FILE_EXCEPTION;
 		}
+		else if (e instanceof ExportImportContentValidationException) {
+			ExportImportContentValidationException eicve =
+				(ExportImportContentValidationException)e;
+
+			if (eicve.getType() ==
+					ExportImportContentValidationException.
+						FILE_ENTRY_NOT_FOUND) {
+
+				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-file-entry-because-it-" +
+							"cannot-be-found-with-the-following-parameters-x-" +
+								"within-the-content-of-x-with-primary-key-x",
+						new String[] {
+							MapUtil.toString(eicve.getDlReferenceParameters()),
+							eicve.getStagedModelClassName(),
+							String.valueOf(eicve.getStagedModelClassPK())
+						});
+				}
+				else {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-file-entry-because-it-" +
+							"cannot-be-found-with-the-following-parameters-x",
+						eicve.getDlReferenceParameters());
+				}
+			}
+			else if (eicve.getType() ==
+						ExportImportContentValidationException.
+							LAYOUT_GROUP_NOT_FOUND) {
+
+				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						StringBundler.concat(
+							"unable-to-validate-referenced-page-with-url-x-",
+							"because-the-page-group-with-url-x-cannot-be-",
+							"found-within-the-content-of-x-with-primary-key-x"),
+						new String[] {
+							eicve.getLayoutURL(), eicve.getGroupFriendlyURL(),
+							eicve.getStagedModelClassName(),
+							String.valueOf(eicve.getStagedModelClassPK())
+						});
+				}
+				else {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-page-with-url-x-" +
+							"because-the-page-group-with-url-x-cannot-be-found",
+						new String[] {
+							eicve.getLayoutURL(), eicve.getGroupFriendlyURL()
+						});
+				}
+			}
+			else if (eicve.getType() ==
+						ExportImportContentValidationException.
+							LAYOUT_NOT_FOUND) {
+
+				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-page-because-it-" +
+							"cannot-be-found-with-the-following-parameters-x-" +
+								"within-the-content-of-x-with-primary-key-x",
+						new String[] {
+							MapUtil.toString(
+								eicve.getLayoutReferenceParameters()),
+							eicve.getStagedModelClassName(),
+							String.valueOf(eicve.getStagedModelClassPK())
+						});
+				}
+				else {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-page-because-it-" +
+							"cannot-be-found-with-the-following-parameters-x",
+						eicve.getLayoutReferenceParameters());
+				}
+			}
+			else if (eicve.getType() ==
+						ExportImportContentValidationException.
+							LAYOUT_WITH_URL_NOT_FOUND) {
+
+				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-page-because-it-" +
+							"cannot-be-found-with-url-x-within-the-content-" +
+								"of-x-with-primary-key-x",
+						new String[] {
+							eicve.getLayoutURL(),
+							eicve.getStagedModelClassName(),
+							String.valueOf(eicve.getStagedModelClassPK())
+						});
+				}
+				else {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-page-because-it-" +
+							"cannot-be-found-with-url-x",
+						eicve.getLayoutURL());
+				}
+			}
+			else {
+				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-content-of-x-with-primary-key-x-" +
+							"in-x",
+						new String[] {
+							eicve.getClassName(),
+							eicve.getStagedModelClassName(),
+							String.valueOf(eicve.getStagedModelClassPK())
+						});
+				}
+				else {
+					errorMessage = LanguageUtil.format(
+						resourceBundle, "unable-to-validate-content-in-x",
+						eicve.getClassName());
+				}
+			}
+
+			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
+		}
 		else if (e instanceof ExportImportIOException ||
 				 (cause instanceof SystemException &&
 				  cause.getCause() instanceof ExportImportIOException)) {
@@ -838,6 +964,8 @@ public class StagingImpl implements Staging {
 					resourceBundle, "x-failed-due-to-a-file-system-error",
 					eiioe.getClassName());
 			}
+
+			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else if (e instanceof FileExtensionException) {
 			errorMessage = LanguageUtil.format(
