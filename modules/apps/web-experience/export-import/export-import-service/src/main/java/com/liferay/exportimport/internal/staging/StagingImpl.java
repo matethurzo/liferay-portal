@@ -114,6 +114,8 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseConstants;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.upload.UploadRequestSizeException;
+import com.liferay.portal.kernel.upload.UploadServletRequestConfigurationHelperUtil;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Http;
@@ -1372,6 +1374,15 @@ public class StagingImpl implements Staging {
 				portlet.getDisplayName() + " Portlet");
 
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
+		}
+		else if (e instanceof UploadRequestSizeException) {
+			errorMessage = LanguageUtil.format(
+				resourceBundle,
+				"upload-request-reached-the-maximum-permitted-size-of-x-bytes",
+				String.valueOf(
+					UploadServletRequestConfigurationHelperUtil.getMaxSize()));
+
+			errorType = ServletResponseConstants.SC_FILE_SIZE_EXCEPTION;
 		}
 		else {
 			errorMessage = e.getLocalizedMessage();
