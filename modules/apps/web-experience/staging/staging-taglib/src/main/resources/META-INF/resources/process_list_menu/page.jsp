@@ -60,6 +60,8 @@
 	%>
 
 	<c:if test="<%= backgroundTask.isCompleted() && Validator.isNotNull(processCmd) %>">
-		<liferay-staging:process-summary-link backgroundTaskId="<%= backgroundTask.getBackgroundTaskId() %>" />
+		<liferay-staging:process-summary-link
+			backgroundTaskId="<%= backgroundTask.getBackgroundTaskId() %>"
+		/>
 	</c:if>
 </liferay-ui:icon-menu>
