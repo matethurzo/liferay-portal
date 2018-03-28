@@ -14,13 +14,17 @@
 
 package com.liferay.exportimport.changeset.taglib.servlet.taglib;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.exportimport.changeset.Changeset;
 import com.liferay.exportimport.changeset.ChangesetManager;
 import com.liferay.exportimport.changeset.ChangesetManagerUtil;
 import com.liferay.exportimport.changeset.taglib.internal.servlet.ServletContextUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.model.StagedGroupedModel;
-import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.taglib.util.IncludeTag;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +34,26 @@ import javax.servlet.jsp.PageContext;
 /**
  * @author Mate Thurzo
  */
-public class PublishModelMenuItemTag extends IncludeTag {
+@ProviderType
+public class PublishEntityMenuItemTag extends IncludeTag {
 
 	@Override
 	public int doStartTag() throws JspException {
-		Changeset.Builder builder = Changeset.create();
+		Changeset.RawBuilder rawBuilder = Changeset.createRaw();
 
-		Changeset changeset = builder.addStagedModel(
-			() -> _stagedModel
+		String className = _className;
+
+		if (Validator.isNull(className)) {
+			className = PortalUtil.getClassName(_classNameId);
+		}
+
+		StagedModelDataHandler<?> stagedModelDataHandler =
+			StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
+				className);
+
+		Changeset changeset = rawBuilder.addStagedModel(
+			stagedModelDataHandler.fetchStagedModelByUuidAndGroupId(
+				_uuid, _groupId)
 		).build();
 
 		ChangesetManager changesetManager =
@@ -45,7 +61,21 @@ public class PublishModelMenuItemTag extends IncludeTag {
 
 		changesetManager.addChangeset(changeset);
 
+		_changesetUuid = changeset.getUuid();
+
 		return EVAL_BODY_INCLUDE;
+	}
+
+	public void setClassName(String className) {
+		_className = className;
+	}
+
+	public void setClassNameId(long classNameId) {
+		_classNameId = classNameId;
+	}
+
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
 	}
 
 	@Override
@@ -55,16 +85,19 @@ public class PublishModelMenuItemTag extends IncludeTag {
 		servletContext = ServletContextUtil.getServletContext();
 	}
 
-	public void setStagedModel(StagedModel stagedModel) {
-		_stagedModel = stagedModel;
+	public void setUuid(String uuid) {
+		_uuid = uuid;
 	}
 
 	@Override
 	protected void cleanUp() {
 		super.cleanUp();
 
+		_className = StringPool.BLANK;
+		_classNameId = 0;
+		_groupId = 0;
+		_uuid = StringPool.BLANK;
 		_changesetUuid = StringPool.BLANK;
-		_stagedModel = null;
 	}
 
 	@Override
@@ -75,39 +108,27 @@ public class PublishModelMenuItemTag extends IncludeTag {
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
 		request.setAttribute(
-			"liferay-export-import-changeset:publish-model-menu-item:" +
+			"liferay-export-import-changeset:publish-entity-menu-item:" +
 				"changesetUuid",
 			_changesetUuid);
-
-		if (_stagedModel != null) {
-			Class<?> clazz = _stagedModel.getClass();
-
-			String className = clazz.getName();
-
-			request.setAttribute(
-				"liferay-export-import-changeset:publish-model-menu-item:" +
-					"className",
-				className);
-
-			request.setAttribute(
-				"liferay-export-import-changeset:publish-model-menu-item:uuid",
-				_stagedModel.getUuid());
-
-			if (_stagedModel instanceof StagedGroupedModel) {
-				StagedGroupedModel stagedGroupedModel =
-					(StagedGroupedModel)_stagedModel;
-
-				request.setAttribute(
-					"liferay-export-import-changeset:" +
-						"publish-model-menu-item:groupId",
-					stagedGroupedModel.getGroupId());
-			}
-		}
+		request.setAttribute(
+			"liferay-export-import-changeset:publish-entity-menu-item:" +
+				"className",
+			_className);
+		request.setAttribute(
+			"liferay-export-import-changeset:publish-entity-menu-item:groupId",
+			_groupId);
+		request.setAttribute(
+			"liferay-export-import-changeset:publish-entity-menu-item:uuid",
+			_uuid);
 	}
 
-	private static final String _PAGE = "/publish_model_menu_item/page.jsp";
+	private static final String _PAGE = "/publish_entity_menu_item/page.jsp";
 
 	private String _changesetUuid = StringPool.BLANK;
-	private StagedModel _stagedModel;
+	private String _className = StringPool.BLANK;
+	private long _classNameId;
+	private long _groupId;
+	private String _uuid = StringPool.BLANK;
 
 }

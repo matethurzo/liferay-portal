@@ -18,21 +18,9 @@
 
 <%
 String changesetUuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:changesetUuid"));
-long entityGroupId = GetterUtil.getLong(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:groupId"));
 String className = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:className"));
 String uuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:uuid"));
 long modelGroupId = GetterUtil.getLong(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:groupId"));
 
 boolean showMenuItem = ChangesetTaglibDisplayContext.isShowPublishMenuItem(group, portletDisplay.getId(), className, uuid, modelGroupId);
-boolean showMenuItem = false;
-
-if (entityGroupId != 0) {
-	Group entityGroup = GroupLocalServiceUtil.fetchGroup(entityGroupId);
-
-	showMenuItem = ChangesetTaglibDisplayContext.isShowPublishMenuItem(entityGroup, portletDisplay.getId(), className, uuid, modelGroupId);
-}
-else {
-	showMenuItem = ChangesetTaglibDisplayContext.isShowPublishMenuItem(group, portletDisplay.getId());
-	showMenuItem = ChangesetTaglibDisplayContext.isShowPublishMenuItem(group, portletDisplay.getId(), className, uuid, modelGroupId);
-}
 %>
