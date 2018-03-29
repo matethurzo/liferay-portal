@@ -57,8 +57,7 @@ public class ChangesetTaglibDisplayContext {
 	}
 
 	public static boolean isShowPublishMenuItem(
-		Group group, String portletId, String className, String uuid,
-		long groupId) {
+		Group group, String portletId, String className, String uuid) {
 
 		try {
 			StagedModelDataHandler stagedModelDataHandler =
@@ -67,7 +66,11 @@ public class ChangesetTaglibDisplayContext {
 
 			StagedModel stagedModel =
 				stagedModelDataHandler.fetchStagedModelByUuidAndGroupId(
-					uuid, groupId);
+					uuid, group.getGroupId());
+
+			if (stagedModel == null) {
+				return false;
+			}
 
 			if (stagedModel instanceof WorkflowedModel) {
 				WorkflowedModel workflowedModel = (WorkflowedModel)stagedModel;

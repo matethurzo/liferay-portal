@@ -20,7 +20,6 @@ import com.liferay.exportimport.changeset.ChangesetManagerUtil;
 import com.liferay.exportimport.changeset.taglib.internal.servlet.ServletContextUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportClassedModelUtil;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.taglib.util.IncludeTag;
 
@@ -88,23 +87,12 @@ public class PublishModelMenuItemTag extends IncludeTag {
 			_stagedModel);
 
 		request.setAttribute(
-			"liferay-export-import-changeset:publish-model-menu-item:" +
-				"className",
+			"liferay-export-import-changeset:publish-model-menu-item:className",
 			className);
 
 		request.setAttribute(
 			"liferay-export-import-changeset:publish-model-menu-item:uuid",
 			_stagedModel.getUuid());
-
-		if (_stagedModel instanceof StagedGroupedModel) {
-			StagedGroupedModel stagedGroupedModel =
-				(StagedGroupedModel)_stagedModel;
-
-			request.setAttribute(
-				"liferay-export-import-changeset:" +
-					"publish-model-menu-item:groupId",
-				stagedGroupedModel.getGroupId());
-		}
 	}
 
 	private static final String _PAGE = "/publish_model_menu_item/page.jsp";
