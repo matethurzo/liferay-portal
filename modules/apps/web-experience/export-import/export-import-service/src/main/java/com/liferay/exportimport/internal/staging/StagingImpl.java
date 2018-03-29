@@ -32,6 +32,7 @@ import com.liferay.exportimport.kernel.background.task.BackgroundTaskExecutorNam
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSettingsMapFactory;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
+import com.liferay.exportimport.kernel.exception.ExportImportDocumentException;
 import com.liferay.exportimport.kernel.exception.ExportImportIOException;
 import com.liferay.exportimport.kernel.exception.LARFileException;
 import com.liferay.exportimport.kernel.exception.LARFileSizeException;
@@ -810,6 +811,35 @@ public class StagingImpl implements Staging {
 						resourceBundle, "unable-to-validate-content-in-x",
 						eicve.getClassName());
 				}
+			}
+
+			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
+		}
+		else if (e instanceof ExportImportDocumentException) {
+			ExportImportDocumentException eide =
+				(ExportImportDocumentException)e;
+
+			if (eide.getType() ==
+					ExportImportDocumentException.PORTLET_DATA_IMPORT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-parse-xml-document-for-portlet-x-during-import",
+					eide.getPortletId());
+			}
+			else if (eide.getType() ==
+						ExportImportDocumentException.
+							PORTLET_PREFERENCES_IMPORT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-parse-xml-portlet-preferences-for-portlet-x-" +
+						"while-importing-portlet-preferences",
+					eide.getPortletId());
+			}
+			else {
+				errorMessage = LanguageUtil.get(
+					resourceBundle, "unable-to-parse-xml-document");
 			}
 
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
