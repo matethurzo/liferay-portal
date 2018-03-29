@@ -18,6 +18,7 @@ import com.liferay.exportimport.changeset.Changeset;
 import com.liferay.exportimport.changeset.ChangesetManager;
 import com.liferay.exportimport.changeset.ChangesetManagerUtil;
 import com.liferay.exportimport.changeset.taglib.internal.servlet.ServletContextUtil;
+import com.liferay.exportimport.kernel.lar.ExportImportClassedModelUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.StagedModel;
@@ -79,29 +80,30 @@ public class PublishModelMenuItemTag extends IncludeTag {
 				"changesetUuid",
 			_changesetUuid);
 
-		if (_stagedModel != null) {
-			Class<?> clazz = _stagedModel.getClass();
+		if (_stagedModel == null) {
+			return;
+		}
 
-			String className = clazz.getName();
+		String className = ExportImportClassedModelUtil.getClassName(
+			_stagedModel);
+
+		request.setAttribute(
+			"liferay-export-import-changeset:publish-model-menu-item:" +
+				"className",
+			className);
+
+		request.setAttribute(
+			"liferay-export-import-changeset:publish-model-menu-item:uuid",
+			_stagedModel.getUuid());
+
+		if (_stagedModel instanceof StagedGroupedModel) {
+			StagedGroupedModel stagedGroupedModel =
+				(StagedGroupedModel)_stagedModel;
 
 			request.setAttribute(
-				"liferay-export-import-changeset:publish-model-menu-item:" +
-					"className",
-				className);
-
-			request.setAttribute(
-				"liferay-export-import-changeset:publish-model-menu-item:uuid",
-				_stagedModel.getUuid());
-
-			if (_stagedModel instanceof StagedGroupedModel) {
-				StagedGroupedModel stagedGroupedModel =
-					(StagedGroupedModel)_stagedModel;
-
-				request.setAttribute(
-					"liferay-export-import-changeset:" +
-						"publish-model-menu-item:groupId",
-					stagedGroupedModel.getGroupId());
-			}
+				"liferay-export-import-changeset:" +
+					"publish-model-menu-item:groupId",
+				stagedGroupedModel.getGroupId());
 		}
 	}
 
