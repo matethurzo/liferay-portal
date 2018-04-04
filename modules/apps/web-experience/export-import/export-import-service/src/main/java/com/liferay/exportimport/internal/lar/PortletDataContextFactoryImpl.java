@@ -215,7 +215,7 @@ public class PortletDataContextFactoryImpl
 			}
 		}
 		catch (Exception e) {
-			if (!CompanyThreadLocal.isDeleteInProcess()) {
+			if (CompanyThreadLocal.isDeleteInProcess()) {
 				throw new IllegalStateException(
 					"Unable to create a portlet data context for company " +
 						companyId + " because it is being deleted",
@@ -237,7 +237,7 @@ public class PortletDataContextFactoryImpl
 			}
 		}
 		catch (Exception e) {
-			if (!CompanyThreadLocal.isDeleteInProcess()) {
+			if (CompanyThreadLocal.isDeleteInProcess()) {
 				throw new IllegalStateException(
 					"Unable to create a portlet data context for company " +
 						companyId + " because it is being deleted",
