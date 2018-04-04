@@ -21,6 +21,7 @@ import com.liferay.exportimport.kernel.controller.ExportController;
 import com.liferay.exportimport.kernel.controller.ExportImportControllerRegistryUtil;
 import com.liferay.exportimport.kernel.controller.ImportController;
 import com.liferay.exportimport.kernel.exception.ExportImportIOException;
+import com.liferay.exportimport.kernel.exception.ExportImportRuntimeException;
 import com.liferay.exportimport.kernel.exception.LARFileNameException;
 import com.liferay.exportimport.kernel.lar.MissingReferences;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
@@ -68,7 +69,12 @@ public class ExportImportLocalServiceImpl
 			throw pe;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -146,7 +152,12 @@ public class ExportImportLocalServiceImpl
 			throw pe;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -219,7 +230,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -302,7 +318,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -419,7 +440,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -461,7 +487,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -612,7 +643,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
@@ -676,7 +712,12 @@ public class ExportImportLocalServiceImpl
 			throw se;
 		}
 		catch (Exception e) {
-			throw new SystemException(e);
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(e.getLocalizedMessage(), e);
+
+			eire.setClassName(ExportImportLocalServiceImpl.class.getName());
+
+			throw eire;
 		}
 	}
 
