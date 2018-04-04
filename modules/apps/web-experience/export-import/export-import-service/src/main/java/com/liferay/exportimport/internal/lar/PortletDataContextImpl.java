@@ -35,6 +35,7 @@ import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataContextListener;
+import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
@@ -2474,9 +2475,12 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	protected Element getExportDataGroupElement(String name) {
 		if (_exportDataRootElement == null) {
-			throw new IllegalStateException(
-				"Unable to return the export data group element for group " +
-					name + " because the root data element is not initialized");
+			PortletDataException pde = new PortletDataException(
+				PortletDataException.EXPORT_DATA_GROUP_ELEMENT);
+
+			pde.setStagedModelClassName(name);
+
+			throw new SystemException(pde);
 		}
 
 		Element groupElement = _exportDataRootElement.element(name);
@@ -2490,9 +2494,12 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	protected Element getImportDataGroupElement(String name) {
 		if (_importDataRootElement == null) {
-			throw new IllegalStateException(
-				"Unable to return the import data group element for group " +
-					name + " because the root data element is not initialized");
+			PortletDataException pde = new PortletDataException(
+				PortletDataException.IMPORT_DATA_GROUP_ELEMENT);
+
+			pde.setStagedModelClassName(name);
+
+			throw new SystemException(pde);
 		}
 
 		if (Validator.isNull(name)) {

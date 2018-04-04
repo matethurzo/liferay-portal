@@ -22,6 +22,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataContextFactory;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.lock.LockManager;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
@@ -216,10 +217,12 @@ public class PortletDataContextFactoryImpl
 		}
 		catch (Exception e) {
 			if (CompanyThreadLocal.isDeleteInProcess()) {
-				throw new IllegalStateException(
-					"Unable to create a portlet data context for company " +
-						companyId + " because it is being deleted",
-					e);
+				PortletDataException pde = new PortletDataException(
+					PortletDataException.COMPANY_BEING_DELETED, e);
+
+				pde.setCompanyId(companyId);
+
+				throw new SystemException(pde);
 			}
 		}
 
@@ -238,10 +241,12 @@ public class PortletDataContextFactoryImpl
 		}
 		catch (Exception e) {
 			if (CompanyThreadLocal.isDeleteInProcess()) {
-				throw new IllegalStateException(
-					"Unable to create a portlet data context for company " +
-						companyId + " because it is being deleted",
-					e);
+				PortletDataException pde = new PortletDataException(
+					PortletDataException.COMPANY_BEING_DELETED, e);
+
+				pde.setCompanyId(companyId);
+
+				throw new SystemException(pde);
 			}
 		}
 

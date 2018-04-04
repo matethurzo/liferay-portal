@@ -1252,7 +1252,16 @@ public class StagingImpl implements Staging {
 			String modelResource = ResourceActionsUtil.getModelResource(
 				locale, referrerClassName);
 
-			if (pde.getType() == PortletDataException.DELETE_PORTLET_DATA) {
+			if (pde.getType() == PortletDataException.COMPANY_BEING_DELETED) {
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-create-a-portlet-data-context-for-company-x-" +
+						"because-it-is-being-deleted",
+					String.valueOf(pde.getCompanyId()));
+			}
+			else if (pde.getType() ==
+						PortletDataException.DELETE_PORTLET_DATA) {
+
 				if (Validator.isNotNull(pde.getLocalizedMessage())) {
 					errorMessage = LanguageUtil.format(
 						locale,
@@ -1274,6 +1283,16 @@ public class StagingImpl implements Staging {
 						},
 						false);
 				}
+			}
+			else if (pde.getType() ==
+						PortletDataException.EXPORT_DATA_GROUP_ELEMENT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-return-the-export-data-group-element-for-" +
+						"group-x-because-the-root-data-element-is-not-" +
+							"initialized",
+					pde.getStagedModelClassName());
 			}
 			else if (pde.getType() ==
 						PortletDataException.EXPORT_PORTLET_DATA) {
@@ -1299,6 +1318,16 @@ public class StagingImpl implements Staging {
 						},
 						false);
 				}
+			}
+			else if (pde.getType() ==
+						PortletDataException.IMPORT_DATA_GROUP_ELEMENT) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-return-the-import-data-group-element-for-" +
+						"group-x-because-the-root-data-element-is-not-" +
+							"initialized",
+					pde.getStagedModelClassName());
 			}
 			else if (pde.getType() ==
 						PortletDataException.IMPORT_PORTLET_DATA) {
