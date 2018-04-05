@@ -357,6 +357,13 @@ public class LayoutStagedModelDataHandler
 
 		existingLayout = fetchMissingReference(uuid, groupId, privateLayout);
 
+		if ((existingLayout.getGroupId() != portletDataContext.getGroupId()) ||
+			(existingLayout.isPrivateLayout() !=
+				portletDataContext.isPrivateLayout())) {
+
+			return;
+		}
+
 		Map<Long, Layout> layouts =
 			(Map<Long, Layout>)portletDataContext.getNewPrimaryKeysMap(
 				Layout.class + ".layout");
