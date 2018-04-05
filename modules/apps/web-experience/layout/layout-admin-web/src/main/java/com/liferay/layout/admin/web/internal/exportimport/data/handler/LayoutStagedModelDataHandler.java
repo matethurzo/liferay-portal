@@ -353,11 +353,11 @@ public class LayoutStagedModelDataHandler
 		boolean privateLayout = GetterUtil.getBoolean(
 			referenceElement.attributeValue("private-layout"));
 
-		Layout existingLayout = null;
+		Layout existingLayout = _layoutLocalService.fetchLayoutByUuidAndGroupId(
+			uuid, groupId, privateLayout);
 
-		existingLayout = fetchMissingReference(uuid, groupId, privateLayout);
-
-		if ((existingLayout.getGroupId() != portletDataContext.getGroupId()) ||
+		if ((existingLayout == null) ||
+			(existingLayout.getGroupId() != portletDataContext.getGroupId()) ||
 			(existingLayout.isPrivateLayout() !=
 				portletDataContext.isPrivateLayout())) {
 
