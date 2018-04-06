@@ -36,12 +36,18 @@ if (global) {
 else {
 	inputDescription = "export-import-permissions-help";
 }
-
-String inputLabel = LanguageUtil.get(request, inputTitle) + ": <span style='font-weight: normal;'>" + LanguageUtil.get(request, inputDescription) + "</span> ";
 %>
 
-<aui:fieldset collapsed="<%= true %>" collapsible="<%= true %>" cssClass="options-group" label="permissions" markupView="lexicon">
-	<span class="<%= labelCSSClass %>">
-		<aui:input disabled="<%= disableInputs %>" label="<%= inputLabel %>" name="<%= PortletDataHandlerKeys.PERMISSIONS %>" type="checkbox" value="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.PERMISSIONS, false) %>" />
-	</span>
+<aui:fieldset cssClass="options-group" markupView="lexicon">
+	<div class="sheet-section">
+		<h3 class="sheet-subtitle"><liferay-ui:message key="permissions" /></h3>
+
+		<liferay-staging:checkbox
+			checked="<%= MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.PERMISSIONS, false) %>"
+			description="<%= inputDescription %>"
+			disabled="<%= disableInputs %>"
+			label="<%= inputTitle %>"
+			name="<%= PortletDataHandlerKeys.PERMISSIONS %>"
+		/>
+	</div>
 </aui:fieldset>
