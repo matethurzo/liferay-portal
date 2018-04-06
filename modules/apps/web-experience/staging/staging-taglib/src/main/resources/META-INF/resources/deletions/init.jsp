@@ -31,4 +31,16 @@ if (exportImportConfiguration != null) {
 
 	parameterMap = (Map<String, String[]>)settingsMap.get("parameterMap");
 }
+
+String individualDeletionsTitle = StringPool.BLANK;
+String individualDeletionsDescription = StringPool.BLANK;
+
+if (cmd.equals(Constants.EXPORT)) {
+	individualDeletionsTitle = "export-individual-deletions";
+	individualDeletionsDescription = "deletions-help-export";
+}
+else {
+	individualDeletionsTitle = "replicate-individual-deletions";
+	individualDeletionsDescription = "deletions-help";
+}
 %>

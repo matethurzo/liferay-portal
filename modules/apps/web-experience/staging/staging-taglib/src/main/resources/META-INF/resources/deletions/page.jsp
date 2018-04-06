@@ -16,20 +16,6 @@
 
 <%@ include file="/deletions/init.jsp" %>
 
-<%
-String individualDeletionsTitle = StringPool.BLANK;
-String individualDeletionsDescription = StringPool.BLANK;
-
-if (cmd.equals(Constants.EXPORT)) {
-	individualDeletionsTitle = "export-individual-deletions";
-	individualDeletionsDescription = "deletions-help-export";
-}
-else {
-	individualDeletionsTitle = "replicate-individual-deletions";
-	individualDeletionsDescription = "deletions-help";
-}
-%>
-
 <c:if test="<%= cmd.equals(Constants.EXPORT) || cmd.equals(Constants.IMPORT) || cmd.equals(Constants.PUBLISH) %>">
 	<aui:fieldset cssClass="options-group" markupView="lexicon">
 		<div class="sheet-section">

@@ -16,28 +16,6 @@
 
 <%@ include file="/permissions/init.jsp" %>
 
-<%
-String inputTitle = StringPool.BLANK;
-String inputDescription = StringPool.BLANK;
-
-if (action.equals("publish")) {
-	inputTitle = "publish-permissions";
-}
-else if (action.equals("export")) {
-	inputTitle = "export-permissions";
-}
-else {
-	inputTitle = "import-permissions";
-}
-
-if (global) {
-	inputDescription = "publish-global-permissions-help";
-}
-else {
-	inputDescription = "export-import-permissions-help";
-}
-%>
-
 <aui:fieldset cssClass="options-group" markupView="lexicon">
 	<div class="sheet-section">
 		<h3 class="sheet-subtitle"><liferay-ui:message key="permissions" /></h3>
