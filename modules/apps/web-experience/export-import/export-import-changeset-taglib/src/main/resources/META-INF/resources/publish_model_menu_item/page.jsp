@@ -26,6 +26,7 @@
 	portletURL.setParameter("cmd", Constants.PUBLISH);
 	portletURL.setParameter("changesetUuid", changesetUuid);
 	portletURL.setParameter("portletId", portletDisplay.getId());
+	portletURL.setParameter("backURL", currentURL);
 	%>
 
 	<liferay-ui:icon
