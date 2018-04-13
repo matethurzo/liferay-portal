@@ -507,6 +507,10 @@ public class JournalArticleExportImportContentProcessor
 			return fields;
 		}
 		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(e, e);
+			}
+
 			return null;
 		}
 	}
