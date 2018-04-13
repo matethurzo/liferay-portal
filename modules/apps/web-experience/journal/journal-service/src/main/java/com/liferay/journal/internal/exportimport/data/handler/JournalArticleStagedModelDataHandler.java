@@ -22,6 +22,7 @@ import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
+import com.liferay.exportimport.kernel.exception.ExportImportRuntimeException;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -181,10 +182,19 @@ public class JournalArticleStagedModelDataHandler
 			articleResourceUuid = article.getArticleResourceUuid();
 		}
 		catch (Exception e) {
-			throw new IllegalStateException(
-				"Unable to find article resource for article " +
-					article.getArticleId(),
-				e);
+			StringBundler sb = new StringBundler(3);
+
+			sb.append("Unable to find article resource for article with ID ");
+			sb.append(article.getArticleId());
+			sb.append(" while gathering it's reference attributes.");
+
+			ExportImportRuntimeException eire =
+				new ExportImportRuntimeException(sb.toString(), e);
+
+			eire.setClassName(
+				JournalArticleStagedModelDataHandler.class.getName());
+
+			throw eire;
 		}
 
 		referenceAttributes.put("article-resource-uuid", articleResourceUuid);
