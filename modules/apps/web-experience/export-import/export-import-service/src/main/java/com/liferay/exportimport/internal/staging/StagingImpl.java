@@ -31,6 +31,7 @@ import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.exportimport.kernel.background.task.BackgroundTaskExecutorNames;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSettingsMapFactory;
+import com.liferay.exportimport.kernel.exception.ExportImportContentProcessorException;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
 import com.liferay.exportimport.kernel.exception.ExportImportDocumentException;
 import com.liferay.exportimport.kernel.exception.ExportImportIOException;
@@ -690,6 +691,30 @@ public class StagingImpl implements Staging {
 			errorMessage = LanguageUtil.get(
 				locale, "please-enter-a-unique-document-name");
 			errorType = ServletResponseConstants.SC_DUPLICATE_FILE_EXCEPTION;
+		}
+		else if (e instanceof ExportImportContentProcessorException) {
+			ExportImportContentProcessorException eicpe =
+				(ExportImportContentProcessorException)e;
+
+			if (eicpe.getType() ==
+					ExportImportContentProcessorException.ARTICLE_NOT_FOUND) {
+
+				if (Validator.isNotNull(eicpe.getStagedModelClassName())) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-process-referenced-article-because-it-" +
+							"cannot-be-found-with-key-x",
+						String.valueOf(eicpe.getStagedModelClassPK()));
+				}
+				else {
+					errorMessage = LanguageUtil.get(
+						resourceBundle,
+						"unable-to-process-referenced-article-because-it-" +
+							"cannot-be-found");
+				}
+			}
+
+			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else if (e instanceof ExportImportContentValidationException) {
 			ExportImportContentValidationException eicve =

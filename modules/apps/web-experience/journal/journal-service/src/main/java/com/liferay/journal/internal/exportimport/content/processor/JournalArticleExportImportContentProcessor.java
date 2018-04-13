@@ -21,6 +21,7 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesTransformer;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
+import com.liferay.exportimport.kernel.exception.ExportImportContentProcessorException;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -367,9 +368,18 @@ public class JournalArticleExportImportContentProcessor
 							articlePrimaryKey);
 				}
 
-				throw new NoSuchArticleException(
-					"No JournalArticle exists with the key {id= " +
-						articlePrimaryKey + "}");
+				ExportImportContentProcessorException eicpe =
+					new ExportImportContentProcessorException(
+						new NoSuchArticleException());
+
+				eicpe.setClassName(
+					JournalArticleExportImportContentProcessor.class.getName());
+				eicpe.setStagedModelClassName(JournalArticle.class.getName());
+				eicpe.setStagedModelClassPK(articlePrimaryKey);
+				eicpe.setType(
+					ExportImportContentProcessorException.ARTICLE_NOT_FOUND);
+
+				throw eicpe;
 			}
 			else {
 				String journalArticleReference =
