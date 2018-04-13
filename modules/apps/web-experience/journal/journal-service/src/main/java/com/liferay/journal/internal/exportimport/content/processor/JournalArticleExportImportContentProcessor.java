@@ -471,8 +471,15 @@ public class JournalArticleExportImportContentProcessor
 		}
 
 		if (throwable != null) {
-			throw new PortalException(
-				"Unable to validate journal article references", throwable);
+			ExportImportContentValidationException eicve =
+				new ExportImportContentValidationException(
+					JournalArticleExportImportContentProcessor.class.getName(),
+					throwable);
+
+			eicve.setType(
+				ExportImportContentValidationException.ARTICLE_NOT_FOUND);
+
+			throw eicve;
 		}
 	}
 

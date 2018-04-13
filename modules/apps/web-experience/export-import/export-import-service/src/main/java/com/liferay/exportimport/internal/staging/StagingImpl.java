@@ -696,8 +696,23 @@ public class StagingImpl implements Staging {
 				(ExportImportContentValidationException)e;
 
 			if (eicve.getType() ==
-					ExportImportContentValidationException.
-						FILE_ENTRY_NOT_FOUND) {
+					ExportImportContentValidationException.ARTICLE_NOT_FOUND) {
+
+				if ((cause != null) && (cause.getLocalizedMessage() != null)) {
+					errorMessage = LanguageUtil.format(
+						resourceBundle,
+						"unable-to-validate-referenced-journal-article-x",
+						cause.getLocalizedMessage());
+				}
+				else {
+					errorMessage = LanguageUtil.get(
+						resourceBundle,
+						"unable-to-validate-referenced-journal-article");
+				}
+			}
+			else if (eicve.getType() ==
+						ExportImportContentValidationException.
+							FILE_ENTRY_NOT_FOUND) {
 
 				if (Validator.isNotNull(eicve.getStagedModelClassName())) {
 					errorMessage = LanguageUtil.format(
