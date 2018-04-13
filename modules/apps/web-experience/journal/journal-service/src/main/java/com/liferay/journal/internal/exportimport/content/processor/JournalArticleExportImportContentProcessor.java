@@ -21,6 +21,7 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesTransformer;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
+import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
@@ -168,7 +169,9 @@ public class JournalArticleExportImportContentProcessor
 			_defaultTextExportImportContentProcessor.validateContentReferences(
 				groupId, content);
 		}
-		catch (NoSuchFileEntryException | NoSuchLayoutException e) {
+		catch (ExportImportContentValidationException |
+			   NoSuchFileEntryException | NoSuchLayoutException e) {
+
 			if (ExportImportThreadLocal.isImportInProcess()) {
 				if (_log.isDebugEnabled()) {
 					StringBundler sb = new StringBundler(8);
@@ -177,7 +180,9 @@ public class JournalArticleExportImportContentProcessor
 
 					String type = "page";
 
-					if (e instanceof NoSuchFileEntryException) {
+					if (e instanceof NoSuchFileEntryException ||
+						e.getCause() instanceof NoSuchFileEntryException) {
+
 						type = "file entry";
 					}
 
