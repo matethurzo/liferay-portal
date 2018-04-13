@@ -16,10 +16,12 @@ package com.liferay.exportimport.internal.configuration;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.portal.kernel.util.Validator;
+import org.osgi.service.component.annotations.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,10 +31,12 @@ import javax.portlet.PortletRequest;
 /**
  * @author Akos Thurzo
  */
+@Component(immediate = true)
 @ProviderType
-public class ExportImportConfigurationParameterMapFactoryImpl {
+public class ExportImportConfigurationParameterMapFactoryImpl
+	implements ExportImportConfigurationParameterMapFactory {
 
-	public static Map<String, String[]> buildParameterMap() {
+	public Map<String, String[]> buildParameterMap() {
 		return buildParameterMap(
 			PortletDataHandlerKeys.DATA_STRATEGY_MIRROR_OVERWRITE, true, false,
 			false, false, false, false, true, true, true, true, true, true,
@@ -40,7 +44,7 @@ public class ExportImportConfigurationParameterMapFactoryImpl {
 			UserIdStrategy.CURRENT_USER_ID);
 	}
 
-	public static Map<String, String[]> buildParameterMap(
+	public Map<String, String[]> buildParameterMap(
 		PortletRequest portletRequest) {
 
 		Map<String, String[]> parameterMap = new LinkedHashMap<>(
@@ -147,7 +151,7 @@ public class ExportImportConfigurationParameterMapFactoryImpl {
 		return parameterMap;
 	}
 
-	public static Map<String, String[]> buildParameterMap(
+	public Map<String, String[]> buildParameterMap(
 		String dataStrategy, Boolean deleteMissingLayouts,
 		Boolean deletePortletData, Boolean ignoreLastPublishDate,
 		Boolean layoutSetPrototypeLinkEnabled, Boolean layoutSetSettings,
