@@ -34,25 +34,25 @@ public class Relationship<T extends ClassedModel> {
 	public Stream<? extends ClassedModel> getInboundRelatedModelStream(
 		long primKey) {
 
-		T relationshipBase = _relationshipBaseSupplier.supply(primKey);
+		T model = _modelSupplier.supply(primKey);
 
-		return _getInboundRelatedModelStream(relationshipBase);
+		return _getInboundRelatedModelStream(model);
 	}
 
 	public Stream<? extends ClassedModel> getOutboundRelatedModelStream(
 		long primKey) {
 
-		T relationshipBase = _relationshipBaseSupplier.supply(primKey);
+		T model = _modelSupplier.supply(primKey);
 
-		return _getOutboundRelatedModelStream(relationshipBase);
+		return _getOutboundRelatedModelStream(model);
 	}
 
 	public Stream<? extends ClassedModel> getRelatedModelStream(long primKey) {
-		T relationshipBase = _relationshipBaseSupplier.supply(primKey);
+		T model = _modelSupplier.supply(primKey);
 
 		return Stream.concat(
-			_getInboundRelatedModelStream(relationshipBase),
-			_getOutboundRelatedModelStream(relationshipBase));
+			_getInboundRelatedModelStream(model),
+			_getOutboundRelatedModelStream(model));
 	}
 
 	public static class Builder<T extends ClassedModel> {
@@ -65,10 +65,10 @@ public class Relationship<T extends ClassedModel> {
 			_relationship = relationship;
 		}
 
-		public RelationshipStep relationshipBaseSupplier(
-			RelationshipBaseSupplier<Long, T> relationshipBaseSupplier) {
+		public RelationshipStep modelSupplier(
+			ModelSupplier<Long, T> modelSupplier) {
 
-			_relationship._relationshipBaseSupplier = relationshipBaseSupplier;
+			_relationship._modelSupplier = modelSupplier;
 
 			return new RelationshipStep();
 		}
@@ -134,75 +134,73 @@ public class Relationship<T extends ClassedModel> {
 	}
 
 	private Stream<? extends ClassedModel> _getInboundMultiRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		Stream<MultiRelationshipFunction<T, ? extends ClassedModel>> stream =
 			_inboundMultiRelationshipFunctions.stream();
 
 		return stream.map(
-			multiRelationshipFunction -> multiRelationshipFunction.apply(
-				relationshipBase)
+			multiRelationshipFunction -> multiRelationshipFunction.apply(model)
 		).flatMap(
 			Collection::stream
 		);
 	}
 
 	private Stream<? extends ClassedModel> _getInboundRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		return Stream.concat(
-			_getInboundMultiRelatedModelStream(relationshipBase),
-			_getSingleInboundRelatedModelStream(relationshipBase));
+			_getInboundMultiRelatedModelStream(model),
+			_getSingleInboundRelatedModelStream(model));
 	}
 
 	private Stream<? extends ClassedModel> _getOutboundMultiRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		Stream<MultiRelationshipFunction<T, ? extends ClassedModel>> stream =
 			_outboundMultiRelationshipFunctions.stream();
 
 		return stream.map(
-			multiRelationshipFunction -> multiRelationshipFunction.apply(
-				relationshipBase)
+			multiRelationshipFunction -> multiRelationshipFunction.apply(model)
 		).flatMap(
 			Collection::stream
 		);
 	}
 
 	private Stream<? extends ClassedModel> _getOutboundRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		return Stream.concat(
-			_getOutboundMultiRelatedModelStream(relationshipBase),
-			_getSingleOutboudRelatedModelStream(relationshipBase));
+			_getOutboundMultiRelatedModelStream(model),
+			_getSingleOutboudRelatedModelStream(model));
 	}
 
 	private Stream<? extends ClassedModel> _getSingleInboundRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		Stream<Function<T, ? extends ClassedModel>> stream =
 			_inboundSingleRelationshipFunctions.stream();
 
-		return stream.map(function -> function.apply(relationshipBase));
+		return stream.map(function -> function.apply(model));
 	}
 
 	private Stream<? extends ClassedModel> _getSingleOutboudRelatedModelStream(
-		T relationshipBase) {
+		T model) {
 
 		Stream<Function<T, ? extends ClassedModel>> stream =
 			_outboundSingleRelationshipFunctions.stream();
 
-		return stream.map(function -> function.apply(relationshipBase));
+		return stream.map(function -> function.apply(model));
 	}
 
 	private final Set<MultiRelationshipFunction<T, ? extends ClassedModel>>
 		_inboundMultiRelationshipFunctions = new HashSet<>();
 	private final Set<Function<T, ? extends ClassedModel>>
 		_inboundSingleRelationshipFunctions = new HashSet<>();
+	private ModelSupplier<Long, T> _modelSupplier;
 	private final Set<MultiRelationshipFunction<T, ? extends ClassedModel>>
 		_outboundMultiRelationshipFunctions = new HashSet<>();
 	private final Set<Function<T, ? extends ClassedModel>>
 		_outboundSingleRelationshipFunctions = new HashSet<>();
-	private RelationshipBaseSupplier<Long, T> _relationshipBaseSupplier;
 
 }
