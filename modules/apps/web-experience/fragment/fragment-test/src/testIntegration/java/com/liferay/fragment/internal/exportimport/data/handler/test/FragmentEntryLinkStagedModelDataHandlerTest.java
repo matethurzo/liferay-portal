@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -54,14 +53,13 @@ public class FragmentEntryLinkStagedModelDataHandlerTest
 		throws Exception {
 
 		FragmentCollection fragmentCollection =
-			FragmentTestUtil.addFragmentCollection(
-				group.getGroupId(), RandomTestUtil.randomString(64));
+			FragmentTestUtil.addFragmentCollection(group.getGroupId());
 
 		FragmentEntry fragmentEntry = FragmentTestUtil.addFragmentEntry(
 			fragmentCollection.getFragmentCollectionId());
 
 		return FragmentTestUtil.addFragmentEntryLink(
-			fragmentEntry, 0, PortalUtil.getClassNameId(Layout.class),
+			fragmentEntry, PortalUtil.getClassNameId(Layout.class),
 			group.getDefaultPublicPlid());
 	}
 
