@@ -73,9 +73,8 @@ public class FragmentEntryLinkStagedModelDataHandler
 
 	@Override
 	protected void doImportMissingReference(
-			PortletDataContext portletDataContext, String uuid, long groupId,
-			long fragmentEntryLinkId)
-		throws Exception {
+		PortletDataContext portletDataContext, String uuid, long groupId,
+		long fragmentEntryLinkId) {
 
 		FragmentEntryLink existingFragmentEntryLink = fetchMissingReference(
 			uuid, groupId);

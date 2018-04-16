@@ -23,8 +23,6 @@ import com.liferay.fragment.service.FragmentEntryLinkLocalService;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.util.List;
@@ -70,17 +68,14 @@ public class FragmentEntryLinkStagedModelRepository
 	}
 
 	@Override
-	public void deleteStagedModel(FragmentEntryLink fragmentEntryLink)
-		throws PortalException {
-
+	public void deleteStagedModel(FragmentEntryLink fragmentEntryLink) {
 		_fragmentEntryLinkLocalService.deleteFragmentEntryLink(
 			fragmentEntryLink);
 	}
 
 	@Override
 	public void deleteStagedModel(
-			String uuid, long groupId, String className, String extraData)
-		throws PortalException {
+		String uuid, long groupId, String className, String extraData) {
 
 		FragmentEntryLink fragmentEntry = fetchStagedModelByUuidAndGroupId(
 			uuid, groupId);
@@ -91,9 +86,7 @@ public class FragmentEntryLinkStagedModelRepository
 	}
 
 	@Override
-	public void deleteStagedModels(PortletDataContext portletDataContext)
-		throws PortalException {
-
+	public void deleteStagedModels(PortletDataContext portletDataContext) {
 		_fragmentEntryLinkLocalService.deleteFragmentEntryLinks(
 			portletDataContext.getScopeGroupId());
 	}
@@ -119,7 +112,7 @@ public class FragmentEntryLinkStagedModelRepository
 		return _fragmentEntryLinkLocalService.
 			getFragmentEntryLinksByUuidAndCompanyId(
 				uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				new StagedModelModifiedDateComparator<FragmentEntryLink>());
+				new StagedModelModifiedDateComparator<>());
 	}
 
 	@Override
@@ -132,8 +125,7 @@ public class FragmentEntryLinkStagedModelRepository
 
 	@Override
 	public FragmentEntryLink saveStagedModel(
-			FragmentEntryLink fragmentEntryLink)
-		throws PortalException {
+		FragmentEntryLink fragmentEntryLink) {
 
 		return _fragmentEntryLinkLocalService.updateFragmentEntryLink(
 			fragmentEntryLink);
@@ -160,9 +152,6 @@ public class FragmentEntryLinkStagedModelRepository
 			fragmentEntryLink.getJs(), fragmentEntryLink.getEditableValues(),
 			fragmentEntryLink.getPosition(), serviceContext);
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		FragmentEntryLinkStagedModelRepository.class);
 
 	@Reference
 	private FragmentEntryLinkLocalService _fragmentEntryLinkLocalService;
