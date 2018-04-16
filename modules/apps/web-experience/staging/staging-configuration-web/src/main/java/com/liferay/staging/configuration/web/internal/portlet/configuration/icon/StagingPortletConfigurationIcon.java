@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.staging.constants.StagingConfigurationPortletKeys;
 import com.liferay.staging.constants.StagingProcessesPortletKeys;
@@ -147,9 +146,7 @@ public class StagingPortletConfigurationIcon
 		PortletDataHandler portletDataHandler =
 			portlet.getPortletDataHandlerInstance();
 
-		if ((portletDataHandler == null) ||
-			Validator.isNull(portletDataHandler.getServiceName())) {
-
+		if (portletDataHandler == null) {
 			return false;
 		}
 
