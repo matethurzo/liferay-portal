@@ -1377,6 +1377,24 @@ public class StagingImpl implements Staging {
 				}
 			}
 			else if (pde.getType() ==
+						PortletDataException.EXPORT_PORTLET_PERMISSIONS) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-export-portlet-permissions-for-x-while-" +
+						"processing-portlet-preferences-during-export",
+					pde.getPortletId());
+			}
+			else if (pde.getType() ==
+						PortletDataException.EXPORT_REFERENCED_TEMPLATE) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-export-referenced-article-template-for-x-" +
+						"while-processing-portlet-preferences-during-export",
+					pde.getPortletId());
+			}
+			else if (pde.getType() ==
 						PortletDataException.IMPORT_DATA_GROUP_ELEMENT) {
 
 				errorMessage = LanguageUtil.format(
@@ -1410,6 +1428,15 @@ public class StagingImpl implements Staging {
 						},
 						false);
 				}
+			}
+			else if (pde.getType() ==
+						PortletDataException.IMPORT_PORTLET_PERMISSIONS) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-import-portlet-permissions-for-x-while-" +
+						"processing-portlet-preferences-during-import",
+					pde.getPortletId());
 			}
 			else if (pde.getType() == PortletDataException.INVALID_GROUP) {
 				errorMessage = LanguageUtil.format(
@@ -1463,6 +1490,24 @@ public class StagingImpl implements Staging {
 					"the-x-x-could-not-be-exported-because-its-workflow-" +
 						"status-is-not-exportable",
 					new String[] {modelResource, referrerDisplayName}, false);
+			}
+			else if (pde.getType() ==
+						PortletDataException.
+							UPDATE_JOURNAL_CONTENT_SEARCH_DATA) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-update-journal-content-search-data-for-x-" +
+						"while-processing-portlet-preferences-during-import",
+					pde.getPortletId());
+			}
+			else if (pde.getType() ==
+						PortletDataException.UPDATE_PORTLET_PREFERENCES) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"unable-to-update-portlet-preferences-for-x-during-import",
+					pde.getPortletId());
 			}
 			else if (Validator.isNotNull(referrerDisplayName)) {
 				errorMessage = LanguageUtil.format(
