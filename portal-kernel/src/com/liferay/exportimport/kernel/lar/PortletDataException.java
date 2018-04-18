@@ -42,6 +42,8 @@ public class PortletDataException extends PortalException {
 
 	public static final int EXPORT_REFERENCED_TEMPLATE = 19;
 
+	public static final int EXPORT_STAGED_MODEL = 23;
+
 	public static final int FUTURE_END_DATE = 2;
 
 	public static final int FUTURE_START_DATE = 3;
@@ -51,6 +53,8 @@ public class PortletDataException extends PortalException {
 	public static final int IMPORT_PORTLET_DATA = 12;
 
 	public static final int IMPORT_PORTLET_PERMISSIONS = 20;
+
+	public static final int IMPORT_STAGED_MODEL = 24;
 
 	public static final int INVALID_GROUP = 4;
 

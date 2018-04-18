@@ -1395,6 +1395,19 @@ public class StagingImpl implements Staging {
 					pde.getPortletId());
 			}
 			else if (pde.getType() ==
+						PortletDataException.EXPORT_STAGED_MODEL) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"the-x-x-could-not-be-exported-because-of-the-following-" +
+						"error-x",
+					new String[] {
+						modelResource, referrerDisplayName,
+						pde.getLocalizedMessage()
+					},
+					false);
+			}
+			else if (pde.getType() ==
 						PortletDataException.IMPORT_DATA_GROUP_ELEMENT) {
 
 				errorMessage = LanguageUtil.format(
@@ -1437,6 +1450,19 @@ public class StagingImpl implements Staging {
 					"unable-to-import-portlet-permissions-for-x-while-" +
 						"processing-portlet-preferences-during-import",
 					pde.getPortletId());
+			}
+			else if (pde.getType() ==
+						PortletDataException.IMPORT_STAGED_MODEL) {
+
+				errorMessage = LanguageUtil.format(
+					resourceBundle,
+					"the-x-x-could-not-be-imported-because-of-the-following-" +
+						"error-x",
+					new String[] {
+						modelResource, referrerDisplayName,
+						pde.getLocalizedMessage()
+					},
+					false);
 			}
 			else if (pde.getType() == PortletDataException.INVALID_GROUP) {
 				errorMessage = LanguageUtil.format(
