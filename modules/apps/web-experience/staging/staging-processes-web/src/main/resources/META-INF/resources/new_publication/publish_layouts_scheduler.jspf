@@ -50,7 +50,7 @@
 		PortletURL scheduledPublicationRedirectURL = renderResponse.createRenderURL();
 
 		scheduledPublicationRedirectURL.setParameter("mvcPath", "/view.jsp");
-		scheduledPublicationRedirectURL.setParameter("tabs1", StagingProcessesWebKeys.SCHEDULED_TAB);
+		scheduledPublicationRedirectURL.setParameter("tabs1", "scheduled");
 		%>
 
 		form.fm('<%= Constants.CMD %>').val('<%= scheduleCMD %>');

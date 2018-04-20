@@ -18,7 +18,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.JSPNavigationItemLis
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.staging.constants.StagingProcessesWebKeys;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderResponse;
@@ -41,21 +40,20 @@ public class StagingProcessesWebDisplayContext {
 	}
 
 	public JSPNavigationItemList getJSPNavigationItemList() {
-		String activeTab = ParamUtil.getString(
-			_request, "tabs1", StagingProcessesWebKeys.PROCESSES_TAB);
+		String activeTab = ParamUtil.getString(_request, "tabs1", "processes");
 
 		PortletURL renderURL = _renderResponse.createRenderURL();
 
-		renderURL.setParameter("tabs1", StagingProcessesWebKeys.PROCESSES_TAB);
+		renderURL.setParameter("tabs1", "processes");
 
 		NavigationItem processesNavigationItem = _createNavigationItem(
-			activeTab.equals(StagingProcessesWebKeys.PROCESSES_TAB), renderURL,
+			activeTab.equals("processes"), renderURL,
 			LanguageUtil.get(_request, "processes"));
 
-		renderURL.setParameter("tabs1", StagingProcessesWebKeys.SCHEDULED_TAB);
+		renderURL.setParameter("tabs1", "scheduled");
 
 		NavigationItem scheduledProcessesNavigationItem = _createNavigationItem(
-			activeTab.equals(StagingProcessesWebKeys.SCHEDULED_TAB), renderURL,
+			activeTab.equals("scheduled"), renderURL,
 			LanguageUtil.get(_request, "scheduled"));
 
 		JSPNavigationItemList navigationItemList = new JSPNavigationItemList(

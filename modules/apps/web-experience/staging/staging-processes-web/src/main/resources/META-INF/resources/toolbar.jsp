@@ -64,7 +64,7 @@ portletURL.setParameter("searchContainerId", String.valueOf(searchContainerId));
 			selectedDisplayStyle="<%= displayStyle %>"
 		/>
 
-		<c:if test="<%= tabs1.equals(StagingProcessesWebKeys.PROCESSES_TAB) %>">
+		<c:if test='<%= tabs1.equals("processes") %>'>
 			<liferay-util:include page="/add_button.jsp" servletContext="<%= application %>" />
 		</c:if>
 	</liferay-frontend:management-bar-buttons>

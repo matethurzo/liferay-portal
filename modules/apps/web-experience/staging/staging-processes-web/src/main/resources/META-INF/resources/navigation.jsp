@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String tabs1 = ParamUtil.getString(request, "tabs1", StagingProcessesWebKeys.PROCESSES_TAB);
+String tabs1 = ParamUtil.getString(request, "tabs1", "processes");
 
 String displayStyle = ParamUtil.getString(request, "displayStyle", "descriptive");
 String navigation = ParamUtil.getString(request, "navigation", "all");
@@ -43,7 +43,7 @@ String searchContainerId = "publishLayoutProcesses";
 />
 
 <c:choose>
-	<c:when test="<%= tabs1.equals(StagingProcessesWebKeys.PROCESSES_TAB) %>">
+	<c:when test='<%= tabs1.equals("processes") %>'>
 		<liferay-util:include page="/processes_list/view.jsp" servletContext="<%= application %>">
 			<liferay-util:param name="tabs1" value="<%= tabs1 %>" />
 			<liferay-util:param name="displayStyle" value="<%= displayStyle %>" />
@@ -53,7 +53,7 @@ String searchContainerId = "publishLayoutProcesses";
 			<liferay-util:param name="searchContainerId" value="<%= searchContainerId %>" />
 		</liferay-util:include>
 	</c:when>
-	<c:when test="<%= tabs1.equals(StagingProcessesWebKeys.SCHEDULED_TAB) %>">
+	<c:when test='<%= tabs1.equals("scheduled") %>'>
 		<liferay-util:include page="/scheduled_list/view.jsp" servletContext="<%= application %>" />
 	</c:when>
 </c:choose>
