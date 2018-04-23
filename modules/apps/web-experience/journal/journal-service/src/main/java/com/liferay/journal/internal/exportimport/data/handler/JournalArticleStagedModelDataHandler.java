@@ -182,14 +182,13 @@ public class JournalArticleStagedModelDataHandler
 			articleResourceUuid = article.getArticleResourceUuid();
 		}
 		catch (Exception e) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append("Unable to find article resource for article with ID ");
-			sb.append(article.getArticleId());
-			sb.append(" while gathering it's reference attributes.");
-
 			ExportImportRuntimeException eire =
-				new ExportImportRuntimeException(sb.toString(), e);
+				new ExportImportRuntimeException(StringPool.BLANK, e);
+
+			eire.setMessageKey(
+				"unable-to-find-article-resource-x-while-gathering-reference-" +
+					"attributes");
+			eire.setData(String.valueOf(article.getArticleId()));
 
 			eire.setClassName(
 				JournalArticleStagedModelDataHandler.class.getName());
