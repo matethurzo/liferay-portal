@@ -1397,13 +1397,24 @@ public class StagingImpl implements Staging {
 			else if (pde.getType() ==
 						PortletDataException.EXPORT_STAGED_MODEL) {
 
+				String localizedMessage = pde.getLocalizedMessage();
+
+				if ((pde.getCause() instanceof ExportImportRuntimeException) &&
+					Validator.isNull(pde.getMessage())) {
+
+					ExportImportRuntimeException eire =
+						(ExportImportRuntimeException)pde.getCause();
+
+					localizedMessage = LanguageUtil.format(
+						resourceBundle, eire.getMessageKey(), eire.getData());
+				}
+
 				errorMessage = LanguageUtil.format(
 					resourceBundle,
 					"the-x-x-could-not-be-exported-because-of-the-following-" +
 						"error-x",
 					new String[] {
-						modelResource, referrerDisplayName,
-						pde.getLocalizedMessage()
+						modelResource, referrerDisplayName, localizedMessage
 					},
 					false);
 			}
