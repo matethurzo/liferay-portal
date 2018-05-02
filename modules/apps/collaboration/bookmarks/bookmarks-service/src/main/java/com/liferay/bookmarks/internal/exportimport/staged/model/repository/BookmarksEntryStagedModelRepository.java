@@ -133,8 +133,8 @@ public class BookmarksEntryStagedModelRepository
 	}
 
 	@Override
-	public BookmarksEntry getStagedModel(long classPK) throws PortalException {
-		return _bookmarksEntryLocalService.getBookmarksEntry(classPK);
+	public BookmarksEntry getStagedModel(long entryId) throws PortalException {
+		return _bookmarksEntryLocalService.getBookmarksEntry(entryId);
 	}
 
 	@Override
