@@ -15,15 +15,17 @@
 package com.liferay.exportimport.internal.configuration;
 
 import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationConstants;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactoryUtil;
-import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
-import com.liferay.exportimport.kernel.staging.StagingUtil;
+import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSettingsMapFactory;
+import com.liferay.exportimport.kernel.lar.ExportImportHelper;
+import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -33,12 +35,17 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import javax.portlet.PortletRequest;
 import java.io.Serializable;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
+import javax.portlet.PortletRequest;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * Provides a way to build a settings map for an {@link
@@ -49,10 +56,12 @@ import java.util.TimeZone;
  * @author Akos Thurzo
  * @since  7.0
  */
+@Component(immediate = true)
 @ProviderType
-public class ExportImportConfigurationSettingsMapFactoryImpl {
+public class ExportImportConfigurationSettingsMapFactoryImpl
+	implements ExportImportConfigurationSettingsMapFactory {
 
-	public static Map<String, Serializable> buildExportLayoutSettingsMap(
+	public Map<String, Serializable> buildExportLayoutSettingsMap(
 		long userId, long groupId, boolean privateLayout, long[] layoutIds,
 		Map<String, String[]> parameterMap, Locale locale, TimeZone timeZone) {
 
@@ -61,7 +70,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			timeZone);
 	}
 
-	public static Map<String, Serializable> buildExportLayoutSettingsMap(
+	public Map<String, Serializable> buildExportLayoutSettingsMap(
 		User user, long groupId, boolean privateLayout, long[] layoutIds,
 		Map<String, String[]> parameterMap) {
 
@@ -70,7 +79,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			user.getLocale(), user.getTimeZone());
 	}
 
-	public static Map<String, Serializable> buildExportPortletSettingsMap(
+	public Map<String, Serializable> buildExportPortletSettingsMap(
 		long userId, long sourcePlid, long sourceGroupId, String portletId,
 		Map<String, String[]> parameterMap, Locale locale, TimeZone timeZone,
 		String fileName) {
@@ -81,7 +90,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			null, locale, timeZone, fileName);
 	}
 
-	public static Map<String, Serializable> buildExportPortletSettingsMap(
+	public Map<String, Serializable> buildExportPortletSettingsMap(
 		User user, long sourcePlid, long sourceGroupId, String portletId,
 		Map<String, String[]> parameterMap, String fileName) {
 
@@ -90,7 +99,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			parameterMap, user.getLocale(), user.getTimeZone(), fileName);
 	}
 
-	public static Map<String, Serializable> buildImportLayoutSettingsMap(
+	public Map<String, Serializable> buildImportLayoutSettingsMap(
 		long userId, long targetGroupId, boolean privateLayout,
 		long[] layoutIds, Map<String, String[]> parameterMap, Locale locale,
 		TimeZone timeZone) {
@@ -101,7 +110,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			StringPool.BLANK, null, null, locale, timeZone, StringPool.BLANK);
 	}
 
-	public static Map<String, Serializable> buildImportLayoutSettingsMap(
+	public Map<String, Serializable> buildImportLayoutSettingsMap(
 		User user, long targetGroupId, boolean privateLayout, long[] layoutIds,
 		Map<String, String[]> parameterMap) {
 
@@ -110,7 +119,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			parameterMap, user.getLocale(), user.getTimeZone());
 	}
 
-	public static Map<String, Serializable> buildImportPortletSettingsMap(
+	public Map<String, Serializable> buildImportPortletSettingsMap(
 		long userId, long targetPlid, long targetGroupId, String portletId,
 		Map<String, String[]> parameterMap, Locale locale, TimeZone timeZone) {
 
@@ -120,7 +129,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			null, locale, timeZone, StringPool.BLANK);
 	}
 
-	public static Map<String, Serializable> buildImportPortletSettingsMap(
+	public Map<String, Serializable> buildImportPortletSettingsMap(
 		User user, long targetPlid, long targetGroupId, String portletId,
 		Map<String, String[]> parameterMap) {
 
@@ -129,7 +138,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			parameterMap, user.getLocale(), user.getTimeZone());
 	}
 
-	public static Map<String, Serializable> buildPublishLayoutLocalSettingsMap(
+	public Map<String, Serializable> buildPublishLayoutLocalSettingsMap(
 		long userId, long sourceGroupId, long targetGroupId,
 		boolean privateLayout, long[] layoutIds,
 		Map<String, String[]> parameterMap, Locale locale, TimeZone timeZone) {
@@ -140,7 +149,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			StringPool.BLANK, null, null, locale, timeZone, StringPool.BLANK);
 	}
 
-	public static Map<String, Serializable> buildPublishLayoutLocalSettingsMap(
+	public Map<String, Serializable> buildPublishLayoutLocalSettingsMap(
 		User user, long sourceGroupId, long targetGroupId,
 		boolean privateLayout, long[] layoutIds,
 		Map<String, String[]> parameterMap) {
@@ -150,7 +159,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			layoutIds, parameterMap, user.getLocale(), user.getTimeZone());
 	}
 
-	public static Map<String, Serializable> buildPublishLayoutRemoteSettingsMap(
+	public Map<String, Serializable> buildPublishLayoutRemoteSettingsMap(
 		long userId, long sourceGroupId, boolean privateLayout,
 		Map<Long, Boolean> layoutIdMap, Map<String, String[]> parameterMap,
 		String remoteAddress, int remotePort, String remotePathContext,
@@ -164,7 +173,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			remotePrivateLayout, locale, timeZone, StringPool.BLANK);
 	}
 
-	public static Map<String, Serializable> buildPublishLayoutRemoteSettingsMap(
+	public Map<String, Serializable> buildPublishLayoutRemoteSettingsMap(
 		User user, long sourceGroupId, boolean privateLayout,
 		Map<Long, Boolean> layoutIdMap, Map<String, String[]> parameterMap,
 		String remoteAddress, int remotePort, String remotePathContext,
@@ -178,7 +187,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			user.getLocale(), user.getTimeZone());
 	}
 
-	public static Map<String, Serializable> buildPublishPortletSettingsMap(
+	public Map<String, Serializable> buildPublishPortletSettingsMap(
 		long userId, long sourceGroupId, long sourcePlid, long targetGroupId,
 		long targetPlid, String portletId, Map<String, String[]> parameterMap,
 		Locale locale, TimeZone timeZone) {
@@ -189,7 +198,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			StringPool.BLANK, null, null, locale, timeZone, null);
 	}
 
-	public static Map<String, Serializable> buildPublishPortletSettingsMap(
+	public Map<String, Serializable> buildPublishPortletSettingsMap(
 		User user, long sourceGroupId, long sourcePlid, long targetGroupId,
 		long targetPlid, String portletId, Map<String, String[]> parameterMap) {
 
@@ -212,7 +221,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 	 *         otherwise, returns either a local or remote publish layout
 	 *         settings map, depending on the staging type
 	 */
-	public static Map<String, Serializable> buildSettingsMap(
+	public Map<String, Serializable> buildSettingsMap(
 			PortletRequest portletRequest, long groupId, int type)
 		throws PortalException {
 
@@ -222,11 +231,11 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 		boolean privateLayout = ParamUtil.getBoolean(
 			portletRequest, "privateLayout");
 
-		Map<Long, Boolean> layoutIdMap = ExportImportHelperUtil.getLayoutIdMap(
+		Map<Long, Boolean> layoutIdMap = _exportImportHelper.getLayoutIdMap(
 			portletRequest);
 
 		if (type == ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT) {
-			long[] layoutIds = ExportImportHelperUtil.getLayoutIds(layoutIdMap);
+			long[] layoutIds = _exportImportHelper.getLayoutIds(layoutIdMap);
 
 			return buildExportLayoutSettingsMap(
 				themeDisplay.getUserId(), groupId, privateLayout, layoutIds,
@@ -234,7 +243,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 				themeDisplay.getTimeZone());
 		}
 
-		Group stagingGroup = GroupLocalServiceUtil.getGroup(groupId);
+		Group stagingGroup = _groupLocalService.getGroup(groupId);
 
 		Group liveGroup = stagingGroup.getLiveGroup();
 
@@ -243,7 +252,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 				portletRequest);
 
 		if (liveGroup != null) {
-			long[] layoutIds = ExportImportHelperUtil.getLayoutIds(
+			long[] layoutIds = _exportImportHelper.getLayoutIds(
 				layoutIdMap, liveGroup.getGroupId());
 
 			return buildPublishLayoutLocalSettingsMap(
@@ -259,8 +268,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			portletRequest, "remoteAddress",
 			groupTypeSettingsProperties.getProperty("remoteAddress"));
 
-		remoteAddress = StagingUtil.stripProtocolFromRemoteAddress(
-			remoteAddress);
+		remoteAddress = _staging.stripProtocolFromRemoteAddress(remoteAddress);
 
 		int remotePort = ParamUtil.getInteger(
 			portletRequest, "remotePort",
@@ -280,7 +288,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 		boolean remotePrivateLayout = ParamUtil.getBoolean(
 			portletRequest, "remotePrivateLayout");
 
-		StagingUtil.validateRemote(
+		_staging.validateRemote(
 			groupId, remoteAddress, remotePort, remotePathContext,
 			secureConnection, remoteGroupId);
 
@@ -291,7 +299,7 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 			themeDisplay.getLocale(), themeDisplay.getTimeZone());
 	}
 
-	protected static Map<String, Serializable> buildSettingsMap(
+	protected Map<String, Serializable> buildSettingsMap(
 		long userId, long sourceGroupId, long sourcePlid, long targetGroupId,
 		long targetPlid, String portletId, Boolean privateLayout,
 		Map<Long, Boolean> layoutIdMap, long[] layoutIds,
@@ -384,5 +392,14 @@ public class ExportImportConfigurationSettingsMapFactoryImpl {
 
 		return settingsMap;
 	}
+
+	@Reference
+	private ExportImportHelper _exportImportHelper;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private Staging _staging;
 
 }
