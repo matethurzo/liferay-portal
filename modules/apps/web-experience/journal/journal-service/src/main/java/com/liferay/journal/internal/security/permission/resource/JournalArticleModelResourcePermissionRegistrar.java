@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.StagedModelPermissionLogic;
 import com.liferay.portal.kernel.security.permission.resource.WorkflowedModelPermissionLogic;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.workflow.permission.WorkflowPermission;
 
@@ -85,7 +86,7 @@ public class JournalArticleModelResourcePermissionRegistrar {
 					consumer.accept(
 						new WorkflowedModelPermissionLogic<>(
 							_workflowPermission, modelResourcePermission,
-							JournalArticle::getId));
+							_groupLocalService, JournalArticle::getId));
 					consumer.accept(new JournalArticleConfigurationLogic());
 					consumer.accept(
 						new DynamicInheritancePermissionLogic<>(
@@ -148,6 +149,9 @@ public class JournalArticleModelResourcePermissionRegistrar {
 
 	@Reference
 	private WorkflowPermission _workflowPermission;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
 
 	private class JournalArticleConfigurationLogic
 		implements ModelResourcePermissionLogic<JournalArticle> {
