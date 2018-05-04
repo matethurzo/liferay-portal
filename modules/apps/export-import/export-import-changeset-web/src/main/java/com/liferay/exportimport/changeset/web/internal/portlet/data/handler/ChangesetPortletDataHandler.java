@@ -194,15 +194,8 @@ public class ChangesetPortletDataHandler extends BasePortletDataHandler {
 
 		actionableDynamicQuery.setPerformActionMethod(
 			(ActionableDynamicQuery.PerformActionMethod<ChangesetEntry>)
-				changesetEntry -> {
-					boolean exported = _exportStagedModel(
-						portletDataContext, changesetEntry);
-
-					if (exported) {
-						_changesetEntryLocalService.deleteChangesetEntry(
-							changesetEntry);
-					}
-				});
+				changesetEntry -> _exportStagedModel(
+					portletDataContext, changesetEntry));
 
 		actionableDynamicQuery.performActions();
 	}
