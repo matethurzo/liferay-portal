@@ -441,7 +441,7 @@ public class LayoutReferencesExportImportContentProcessor
 					urlSB.append(liveGroup.getUuid());
 				}
 				else if (urlGroup.isControlPanel() ||
-						_stagingGroupHelper.isLiveGroup(urlGroup)) {
+						 _stagingGroupHelper.isLiveGroup(urlGroup)) {
 
 					urlSB.append(urlGroup.getUuid());
 				}
