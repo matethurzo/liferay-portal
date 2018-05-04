@@ -36,21 +36,50 @@
 											%>
 
 											<div class="flex-item-center range-options">
-												<aui:input checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_ALL) %>" disabled="<%= disableInputs %>" id="rangeAll" label="all" name="range" type="radio" value="<%= ExportImportDateUtil.RANGE_ALL %>" />
+												<liferay-staging:radio
+													checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_ALL) %>"
+													disabled="<%= disableInputs %>"
+													id="rangeAll"
+													label="all"
+													name="range"
+													value="<%= ExportImportDateUtil.RANGE_ALL %>"
+												/>
 											</div>
 
 											<c:if test="<%= !type.equals(Constants.EXPORT) %>">
 												<div class="flex-item-center range-options">
-													<aui:input checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE) %>" disabled="<%= disableInputs %>" id="rangeLastPublish" label="from-last-publish-date" name="range" type="radio" value="<%= ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE %>" />
+													<liferay-staging:radio
+														checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE) %>"
+														disabled="<%= disableInputs %>"
+														id="rangeLastPublish"
+														label="from-last-publish-date"
+														name="range"
+														value="<%= ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE %>"
+													/>
 												</div>
 											</c:if>
 
 											<div class="flex-item-center range-options">
-												<aui:input checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_DATE_RANGE) %>" disabled="<%= disableInputs %>" helpMessage="export-date-range-help" id="rangeDateRange" label="date-range" name="range" type="radio" value="<%= ExportImportDateUtil.RANGE_DATE_RANGE %>" />
+												<liferay-staging:radio
+													checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_DATE_RANGE) %>"
+													disabled="<%= disableInputs %>"
+													id="rangeDateRange"
+													label="date-range"
+													name="range"
+													popover="export-date-range-help"
+													value="<%= ExportImportDateUtil.RANGE_DATE_RANGE %>"
+												/>
 											</div>
 
 											<div class="flex-item-center range-options">
-												<aui:input checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_LAST) %>" disabled="<%= disableInputs %>" id="rangeLast" label='<%= LanguageUtil.get(request, "last") + StringPool.TRIPLE_PERIOD %>' name="range" type="radio" value="<%= ExportImportDateUtil.RANGE_LAST %>" />
+												<liferay-staging:radio
+													checked="<%= selectedRange.equals(ExportImportDateUtil.RANGE_LAST) %>"
+													disabled="<%= disableInputs %>"
+													id="rangeLast"
+													label='<%= LanguageUtil.get(request, "last") + StringPool.TRIPLE_PERIOD %>'
+													name="range"
+													value="<%= ExportImportDateUtil.RANGE_LAST %>"
+												/>
 											</div>
 
 											<div class="flex-item-center range-options <%= disableInputs ? "hide" : StringPool.BLANK %>">
