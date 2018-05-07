@@ -134,6 +134,9 @@ public class MBMessagePermissionRegistrar {
 	}
 
 	@Reference
+	private GroupLocalService _groupLocalService;
+
+	@Reference
 	private MBBanLocalService _mbBanLocalService;
 
 	@Reference
@@ -161,8 +164,5 @@ public class MBMessagePermissionRegistrar {
 
 	@Reference
 	private WorkflowPermission _workflowPermission;
-
-	@Reference
-	private GroupLocalService _groupLocalService;
 
 }

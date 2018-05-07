@@ -80,6 +80,9 @@ public class BlogsEntryModelResourcePermissionDefinition
 	@Reference
 	private BlogsEntryLocalService _blogsEntryLocalService;
 
+	@Reference
+	private GroupLocalService _groupLocalService;
+
 	@Reference(target = "(resource.name=" + BlogsConstants.RESOURCE_NAME + ")")
 	private PortletResourcePermission _portletResourcePermission;
 
@@ -88,8 +91,5 @@ public class BlogsEntryModelResourcePermissionDefinition
 
 	@Reference
 	private WorkflowPermission _workflowPermission;
-
-	@Reference
-	private GroupLocalService _groupLocalService;
 
 }

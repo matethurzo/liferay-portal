@@ -126,6 +126,9 @@ public class JournalArticleModelResourcePermissionRegistrar {
 	private ConfigurationProvider _configurationProvider;
 
 	@Reference
+	private GroupLocalService _groupLocalService;
+
+	@Reference
 	private JournalArticleLocalService _journalArticleLocalService;
 
 	@Reference
@@ -149,9 +152,6 @@ public class JournalArticleModelResourcePermissionRegistrar {
 
 	@Reference
 	private WorkflowPermission _workflowPermission;
-
-	@Reference
-	private GroupLocalService _groupLocalService;
 
 	private class JournalArticleConfigurationLogic
 		implements ModelResourcePermissionLogic<JournalArticle> {

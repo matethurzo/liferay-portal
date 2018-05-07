@@ -106,6 +106,9 @@ public class WikiPageModelResourcePermissionRegistrar {
 		_serviceRegistration.unregister();
 	}
 
+	@Reference
+	private GroupLocalService _groupLocalService;
+
 	@Reference(target = "(resource.name=" + WikiConstants.RESOURCE_NAME + ")")
 	private PortletResourcePermission _portletResourcePermission;
 
@@ -125,9 +128,6 @@ public class WikiPageModelResourcePermissionRegistrar {
 
 	@Reference
 	private WorkflowPermission _workflowPermission;
-
-	@Reference
-	private GroupLocalService _groupLocalService;
 
 	private class RedirectPageDynamicInheritanceLogic
 		implements ModelResourcePermissionLogic<WikiPage> {

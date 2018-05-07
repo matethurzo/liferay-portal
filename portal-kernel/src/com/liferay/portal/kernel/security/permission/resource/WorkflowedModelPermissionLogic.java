@@ -110,9 +110,9 @@ public class WorkflowedModelPermissionLogic<T extends GroupedModel>
 		return null;
 	}
 
+	private final GroupLocalService _groupLocalService;
 	private final ModelResourcePermission<T> _modelResourcePermission;
 	private final ToLongFunction<T> _primKeyToLongFunction;
 	private final WorkflowPermission _workflowPermission;
-	private final GroupLocalService _groupLocalService;
 
 }
