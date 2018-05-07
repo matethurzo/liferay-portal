@@ -239,6 +239,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 						<aui:fieldset cssClass="options-group">
 							<div class="sheet-section">
 								<h3 class="sheet-subtitle"><liferay-ui:message key="date" /></h3>
+
 								<%@ include file="/publish/publish_layouts_scheduler.jspf" %>
 							</div>
 						</aui:fieldset>
