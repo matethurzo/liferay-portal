@@ -33,12 +33,12 @@ public interface ExportImportConfigurationParameterMapFactory {
 
 	public Map<String, String[]> buildParameterMap(
 		String dataStrategy, Boolean deleteMissingLayouts,
-		Boolean deletePortletData, Boolean ignoreLastPublishDate,
-		Boolean layoutSetPrototypeLinkEnabled, Boolean layoutSetSettings,
-		Boolean logo, Boolean permissions, Boolean portletConfiguration,
-		Boolean portletConfigurationAll, Boolean portletData,
-		Boolean portletDataAll, Boolean portletSetupAll, String range,
-		Boolean themeReference, Boolean updateLastPublishDate,
+		Boolean deletePortletData, Boolean deletions,
+		Boolean ignoreLastPublishDate, Boolean layoutSetPrototypeLinkEnabled,
+		Boolean layoutSetSettings, Boolean logo, Boolean permissions,
+		Boolean portletConfiguration, Boolean portletConfigurationAll,
+		Boolean portletData, Boolean portletDataAll, Boolean portletSetupAll,
+		String range, Boolean themeReference, Boolean updateLastPublishDate,
 		String userIdStrategy);
 
 }

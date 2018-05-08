@@ -42,16 +42,16 @@ public class ExportImportConfigurationParameterMapFactoryUtil {
 
 	public static Map<String, String[]> buildParameterMap(
 		String dataStrategy, Boolean deleteMissingLayouts,
-		Boolean deletePortletData, Boolean ignoreLastPublishDate,
-		Boolean layoutSetPrototypeLinkEnabled, Boolean layoutSetSettings,
-		Boolean logo, Boolean permissions, Boolean portletConfiguration,
-		Boolean portletConfigurationAll, Boolean portletData,
-		Boolean portletDataAll, Boolean portletSetupAll, String range,
-		Boolean themeReference, Boolean updateLastPublishDate,
+		Boolean deletePortletData, Boolean deletions,
+		Boolean ignoreLastPublishDate, Boolean layoutSetPrototypeLinkEnabled,
+		Boolean layoutSetSettings, Boolean logo, Boolean permissions,
+		Boolean portletConfiguration, Boolean portletConfigurationAll,
+		Boolean portletData, Boolean portletDataAll, Boolean portletSetupAll,
+		String range, Boolean themeReference, Boolean updateLastPublishDate,
 		String userIdStrategy) {
 
 		return _exportImportConfigurationParameterMapFactory.buildParameterMap(
-			dataStrategy, deleteMissingLayouts, deletePortletData,
+			dataStrategy, deleteMissingLayouts, deletePortletData, deletions,
 			ignoreLastPublishDate, layoutSetPrototypeLinkEnabled,
 			layoutSetSettings, logo, permissions, portletConfiguration,
 			portletConfigurationAll, portletData, portletDataAll,
