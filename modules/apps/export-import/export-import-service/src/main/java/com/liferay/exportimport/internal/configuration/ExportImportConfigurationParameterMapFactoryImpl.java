@@ -37,8 +37,8 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 	public Map<String, String[]> buildParameterMap() {
 		return buildParameterMap(
 			PortletDataHandlerKeys.DATA_STRATEGY_MIRROR_OVERWRITE, true, false,
-			true, false, false, false, false, true, true, true, true, true,
-			true, ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE, true, true,
+			true, false, false, true, true, true, true, true, true, true, true,
+			ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE, true, true,
 			UserIdStrategy.CURRENT_USER_ID);
 	}
 
