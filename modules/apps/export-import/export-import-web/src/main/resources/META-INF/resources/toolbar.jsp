@@ -19,7 +19,7 @@
 <clay:management-toolbar
 	actionItems="<%= exportImportToolbarDisplayContext.getActionItems() %>"
 	creationMenu="<%= exportImportToolbarDisplayContext.getCreationMenu() %>"
-	filterItems="<%= exportImportToolbarDisplayContext.getFilterItems() %>"
+	filterItems="<%= exportImportToolbarDisplayContext.getFilterDropdownItems() %>"
 	id="<portlet:namespace/>exportLayoutProcessesToolbar"
 	showCreationMenu="<%= true %>"
 	showSearch="<%= false %>"
