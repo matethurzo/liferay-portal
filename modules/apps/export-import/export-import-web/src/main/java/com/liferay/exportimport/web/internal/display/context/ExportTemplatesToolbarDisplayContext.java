@@ -14,7 +14,7 @@
 
 package com.liferay.exportimport.web.internal.display.context;
 
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.JSPCreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.Constants;
@@ -37,32 +37,32 @@ public class ExportTemplatesToolbarDisplayContext {
 
 		_request = request;
 
-		_pageContext = pageContext;
-
 		_portletResponse = portletResponse;
 	}
 
-	public JSPCreationMenu getCreationMenu() {
-		JSPCreationMenu creationMenu = new JSPCreationMenu(_pageContext);
+	public CreationMenu getCreationMenu() {
+		return new CreationMenu() {
+			{
+				GroupDisplayContextHelper groupDisplayContextHelper =
+					new GroupDisplayContextHelper(_request);
 
-		GroupDisplayContextHelper groupDisplayContextHelper =
-			new GroupDisplayContextHelper(_request);
-
-		creationMenu.addPrimaryDropdownItem(
-			mainAddButton -> {
-				mainAddButton.setHref(
-					getRenderURL(), "mvcRenderCommandName",
-					"editExportConfiguration", Constants.CMD, Constants.ADD,
-					"groupId",
-					String.valueOf(ParamUtil.getLong(_request, "groupId")),
-					"liveGroupId",
-					String.valueOf(groupDisplayContextHelper.getLiveGroupId()),
-					"privateLayout", Boolean.FALSE.toString());
-
-				mainAddButton.setLabel(LanguageUtil.get(_request, "new"));
-			});
-
-		return creationMenu;
+				addPrimaryDropdownItem(
+					dropdownItem -> {
+						dropdownItem.setHref(
+							getRenderURL(), "mvcRenderCommandName",
+							"editExportConfiguration", Constants.CMD,
+							Constants.ADD, "groupId",
+							String.valueOf(
+								ParamUtil.getLong(_request, "groupId")),
+							"liveGroupId",
+							String.valueOf(
+								groupDisplayContextHelper.getLiveGroupId()),
+							"privateLayout", Boolean.FALSE.toString());
+						dropdownItem.setLabel(
+							LanguageUtil.get(_request, "new"));
+					});
+			}
+		};
 	}
 
 	public String getSearchActionURL() {
@@ -75,7 +75,6 @@ public class ExportTemplatesToolbarDisplayContext {
 		return _portletResponse.createRenderURL();
 	}
 
-	private final PageContext _pageContext;
 	private final LiferayPortletResponse _portletResponse;
 	private final HttpServletRequest _request;
 
