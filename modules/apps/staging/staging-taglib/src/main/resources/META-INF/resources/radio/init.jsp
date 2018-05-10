@@ -31,17 +31,17 @@ if (Validator.isNull(id)) {
 	id = name;
 }
 
-String valueString = String.valueOf(checked);
+String checkedStringValue = String.valueOf(checked);
 
 if (value != null) {
-	valueString = value;
+	checkedStringValue = value;
 }
 
 if (!ignoreRequestValue) {
 	String requestValue = ParamUtil.getString(request, name);
 
 	if (Validator.isNotNull(requestValue)) {
-		checked = valueString.equals(requestValue);
+		checked = checkedStringValue.equals(requestValue);
 	}
 }
 
