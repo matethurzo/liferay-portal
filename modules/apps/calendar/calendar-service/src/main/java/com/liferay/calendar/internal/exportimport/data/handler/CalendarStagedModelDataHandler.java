@@ -102,6 +102,37 @@ public class CalendarStagedModelDataHandler
 	}
 
 	@Override
+	public boolean validateReference(
+		PortletDataContext portletDataContext, Element referenceElement) {
+
+		validateMissingGroupReference(portletDataContext, referenceElement);
+
+		long companyId = GetterUtil.getLong(
+			referenceElement.attributeValue("company-id"));
+
+		String uuid = referenceElement.attributeValue("uuid");
+
+		String displayName = referenceElement.attributeValue("display-name");
+
+		Map<Long, Long> groupIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				Group.class);
+
+		long groupId = GetterUtil.getLong(
+			referenceElement.attributeValue("group-id"));
+
+		groupId = MapUtil.getLong(groupIds, groupId);
+
+		try {
+			return validateMissingReference(
+				uuid, displayName, companyId, groupId);
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
 	protected void doExportStagedModel(
 			PortletDataContext portletDataContext, Calendar calendar)
 		throws Exception {
@@ -209,6 +240,13 @@ public class CalendarStagedModelDataHandler
 		portletDataContext.importClassedModel(calendar, importedCalendar);
 	}
 
+	protected Calendar fetchExistingCalendar(
+		long companyId, long groupId, String name) {
+
+		return _calendarLocalService.fetchGroupCalendarByName(
+			companyId, groupId, name);
+	}
+
 	protected Map<Locale, String> getCalendarNameMap(
 			PortletDataContext portletDataContext, Calendar calendar)
 		throws Exception {
@@ -244,6 +282,23 @@ public class CalendarStagedModelDataHandler
 	@Reference(unbind = "-")
 	protected void setGroupLocalService(GroupLocalService groupLocalService) {
 		_groupLocalService = groupLocalService;
+	}
+
+	protected boolean validateMissingReference(
+		String uuid, String displayName, long companyId, long groupId) {
+
+		Calendar existingStagedModel = fetchMissingReference(uuid, groupId);
+
+		if (existingStagedModel == null) {
+			existingStagedModel = fetchExistingCalendar(
+				companyId, groupId, displayName);
+		}
+
+		if (existingStagedModel == null) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private CalendarLocalService _calendarLocalService;
