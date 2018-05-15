@@ -112,8 +112,6 @@ public class CalendarStagedModelDataHandler
 
 		String uuid = referenceElement.attributeValue("uuid");
 
-		String displayName = referenceElement.attributeValue("display-name");
-
 		Map<Long, Long> groupIds =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 				Group.class);
@@ -123,13 +121,9 @@ public class CalendarStagedModelDataHandler
 
 		groupId = MapUtil.getLong(groupIds, groupId);
 
-		try {
-			return validateMissingReference(
-				uuid, displayName, companyId, groupId);
-		}
-		catch (Exception e) {
-			return false;
-		}
+		String displayName = referenceElement.attributeValue("display-name");
+
+		return validateMissingReference(companyId, uuid, groupId, displayName);
 	}
 
 	@Override
@@ -285,13 +279,13 @@ public class CalendarStagedModelDataHandler
 	}
 
 	protected boolean validateMissingReference(
-		String uuid, String displayName, long companyId, long groupId) {
+		long companyId, String uuid, long groupId, String name) {
 
 		Calendar existingStagedModel = fetchMissingReference(uuid, groupId);
 
 		if (existingStagedModel == null) {
 			existingStagedModel = fetchExistingCalendar(
-				companyId, groupId, displayName);
+				companyId, groupId, name);
 		}
 
 		if (existingStagedModel == null) {
