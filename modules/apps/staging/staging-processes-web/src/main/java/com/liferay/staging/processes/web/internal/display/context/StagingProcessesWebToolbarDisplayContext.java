@@ -22,7 +22,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
@@ -78,7 +77,6 @@ public class StagingProcessesWebToolbarDisplayContext {
 		return new CreationMenu() {
 			{
 				int configurationType = 0;
-				String cmd = StringPool.BLANK;
 
 				Group stagingGroup = (Group)_pageContext.getAttribute(
 					"stagingGroup");
@@ -89,13 +87,11 @@ public class StagingProcessesWebToolbarDisplayContext {
 					configurationType =
 						ExportImportConfigurationConstants.
 							TYPE_PUBLISH_LAYOUT_REMOTE;
-					cmd = Constants.PUBLISH_TO_REMOTE;
 				}
 				else {
 					configurationType =
 						ExportImportConfigurationConstants.
 							TYPE_PUBLISH_LAYOUT_LOCAL;
-					cmd = Constants.PUBLISH_TO_LIVE;
 				}
 
 				List<ExportImportConfiguration> exportImportConfigurations =
@@ -109,6 +105,12 @@ public class StagingProcessesWebToolbarDisplayContext {
 
 						addRestDropdownItem(
 							dropdownItem -> {
+								String cmd = Constants.PUBLISH_TO_LIVE;
+
+								if (stagingGroup.isStagedRemotely()) {
+									cmd = Constants.PUBLISH_TO_REMOTE;
+								}
+
 								dropdownItem.setHref(
 									_portletResponse.createRenderURL(),
 									"mvcRenderCommandName", "publishLayouts",
@@ -125,6 +127,12 @@ public class StagingProcessesWebToolbarDisplayContext {
 
 					addPrimaryDropdownItem(
 						dropdownItem -> {
+							String cmd = Constants.PUBLISH_TO_LIVE;
+
+							if (stagingGroup.isStagedRemotely()) {
+								cmd = Constants.PUBLISH_TO_REMOTE;
+							}
+
 							dropdownItem.setHref(
 								_portletResponse.createRenderURL(),
 								"mvcRenderCommandName", "publishLayouts",
