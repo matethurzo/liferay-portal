@@ -28,6 +28,11 @@ import javax.portlet.PortletRequest;
 @ProviderType
 public class ExportImportConfigurationParameterMapFactoryUtil {
 
+	public static Map<String, String[]> buildFullPublicatonParameterMap() {
+		return _exportImportConfigurationParameterMapFactory.
+			buildFullPublicatonParameterMap();
+	}
+
 	public static Map<String, String[]> buildParameterMap() {
 		return
 			_exportImportConfigurationParameterMapFactory.buildParameterMap();
