@@ -35,9 +35,7 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
 		LiferayPortletResponse portletResponse) {
 
 		_request = request;
-
 		_pageContext = pageContext;
-
 		_portletResponse = portletResponse;
 	}
 
