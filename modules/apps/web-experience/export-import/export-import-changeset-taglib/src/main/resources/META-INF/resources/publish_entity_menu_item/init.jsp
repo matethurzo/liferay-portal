@@ -20,6 +20,4 @@
 String changesetUuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:changesetUuid"));
 String className = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:className"));
 String uuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:uuid"));
-
-boolean showMenuItem = ChangesetTaglibDisplayContext.isShowPublishMenuItem(group, portletDisplay.getId(), className, uuid);
 %>
