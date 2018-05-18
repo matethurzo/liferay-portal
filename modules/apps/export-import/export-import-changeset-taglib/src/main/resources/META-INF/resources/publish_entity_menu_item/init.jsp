@@ -19,8 +19,8 @@
 <%
 String changesetUuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:changesetUuid"));
 String className = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:className"));
-String uuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:uuid"));
 long entityGroupId = GetterUtil.getLong(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:groupId"));
+String uuid = GetterUtil.getString(request.getAttribute("liferay-export-import-changeset:publish-entity-menu-item:uuid"));
 
 boolean showMenuItem = false;
 
