@@ -116,6 +116,7 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
 import com.liferay.portal.kernel.service.permission.GroupPermissionUtil;
+import com.liferay.portal.kernel.service.persistence.LayoutRevisionUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseConstants;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequestSizeException;
@@ -3398,10 +3399,13 @@ public class StagingImpl implements Staging {
 		throws PortalException {
 
 		if (ExportImportThreadLocal.isLayoutStagingInProcess()) {
-			LayoutRevision layoutRevision =
-				_layoutRevisionLocalService.fetchLastLayoutRevision(plid, true);
+			List<LayoutRevision> layoutRevisions =
+				LayoutRevisionUtil.findByL_H_P_Collection(
+					layoutSetBranchId, true, plid, 0, 1);
 
-			if (layoutRevision != null) {
+			if (layoutRevisions != null) {
+				LayoutRevision layoutRevision = layoutRevisions.get(0);
+
 				return layoutRevision.getLayoutRevisionId();
 			}
 			else {
