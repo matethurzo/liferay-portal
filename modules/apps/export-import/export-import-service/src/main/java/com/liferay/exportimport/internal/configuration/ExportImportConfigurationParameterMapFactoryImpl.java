@@ -14,8 +14,6 @@
 
 package com.liferay.exportimport.internal.configuration;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactory;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
@@ -33,7 +31,6 @@ import org.osgi.service.component.annotations.Component;
  * @author Akos Thurzo
  */
 @Component(immediate = true)
-@ProviderType
 public class ExportImportConfigurationParameterMapFactoryImpl
 	implements ExportImportConfigurationParameterMapFactory {
 
