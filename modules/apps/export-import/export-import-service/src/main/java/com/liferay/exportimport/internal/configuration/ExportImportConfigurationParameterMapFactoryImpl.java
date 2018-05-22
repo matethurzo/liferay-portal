@@ -21,12 +21,13 @@ import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.portal.kernel.util.Validator;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.portlet.PortletRequest;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Akos Thurzo
