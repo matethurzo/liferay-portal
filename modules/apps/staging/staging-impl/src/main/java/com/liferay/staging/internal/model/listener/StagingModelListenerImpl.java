@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.staging.internal;
+package com.liferay.staging.internal.model.listener;
 
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.portal.kernel.exception.ModelListenerException;
