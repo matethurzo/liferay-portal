@@ -96,6 +96,10 @@ public class CheckboxTag extends BaseCssTag {
 		_suggestion = suggestion;
 	}
 
+	public void setValue(String value) {
+		_value = value;
+	}
+
 	public void setWarning(String warning) {
 		_warning = warning;
 	}
@@ -115,6 +119,7 @@ public class CheckboxTag extends BaseCssTag {
 		_name = StringPool.BLANK;
 		_popover = StringPool.BLANK;
 		_suggestion = StringPool.BLANK;
+		_value = StringPool.BLANK;
 		_warning = StringPool.BLANK;
 	}
 
@@ -139,6 +144,7 @@ public class CheckboxTag extends BaseCssTag {
 		request.setAttribute("liferay-staging:checkbox:popover", _popover);
 		request.setAttribute(
 			"liferay-staging:checkbox:suggestion", _suggestion);
+		request.setAttribute("liferay-staging:checkbox:value", _value);
 		request.setAttribute("liferay-staging:checkbox:warning", _warning);
 	}
 
@@ -155,6 +161,7 @@ public class CheckboxTag extends BaseCssTag {
 	private String _name = StringPool.BLANK;
 	private String _popover = StringPool.BLANK;
 	private String _suggestion = StringPool.BLANK;
+	private String _value = StringPool.BLANK;
 	private String _warning = StringPool.BLANK;
 
 }

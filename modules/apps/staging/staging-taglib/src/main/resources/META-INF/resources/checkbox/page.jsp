@@ -18,7 +18,7 @@
 
 <div class="custom-checkbox custom-control">
 	<label>
-		<input class="custom-control-input" data-qa-id="<%= name %>" id="<%= HtmlUtil.escape(domId) %>" <%= disabledString %> <%= checkedString %> type="checkbox" name="<%= HtmlUtil.escape(domName) %>">
+		<input class="custom-control-input" data-qa-id="<%= name %>" id="<%= HtmlUtil.escape(domId) %>" <%= disabledString %> <%= checkedString %> type="checkbox" name="<%= HtmlUtil.escape(domName) %>" value="<%= value %>">
 		<span class="custom-control-label">
 			<span class="custom-control-label-text">
 				<%= HtmlUtil.escape(label) %><%= separator %>
@@ -45,7 +45,7 @@
 					<span class="staging-taglib-checkbox-warning"><%= HtmlUtil.escape(warning) %></span>
 				</c:if>
 
-				<c:if test="<%= Validator.isNotNull(warning) %>">
+				<c:if test="<%= Validator.isNotNull(suggestion) %>">
 					<span class="staging-taglib-checkbox-suggestion"><%= HtmlUtil.escape(suggestion) %></span>
 				</c:if>
 			</span>
