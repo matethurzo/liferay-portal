@@ -40,14 +40,14 @@ public class AssetCategoryStagedModelRepository
 
 	@Override
 	public AssetCategory addStagedModel(
-			PortletDataContext portletDataContext, AssetCategory category)
+			PortletDataContext portletDataContext, AssetCategory assetCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(AssetCategory category)
+	public void deleteStagedModel(AssetCategory assetCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +103,14 @@ public class AssetCategoryStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, AssetCategory category)
+			PortletDataContext portletDataContext, AssetCategory assetCategory)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public AssetCategory saveStagedModel(AssetCategory category)
+	public AssetCategory saveStagedModel(AssetCategory assetCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +118,7 @@ public class AssetCategoryStagedModelRepository
 
 	@Override
 	public AssetCategory updateStagedModel(
-			PortletDataContext portletDataContext, AssetCategory category)
+			PortletDataContext portletDataContext, AssetCategory assetCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

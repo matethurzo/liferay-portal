@@ -40,14 +40,15 @@ public class AssetVocabularyStagedModelRepository
 
 	@Override
 	public AssetVocabulary addStagedModel(
-			PortletDataContext portletDataContext, AssetVocabulary vocabulary)
+			PortletDataContext portletDataContext,
+			AssetVocabulary assetVocabulary)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(AssetVocabulary vocabulary)
+	public void deleteStagedModel(AssetVocabulary assetVocabulary)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +104,15 @@ public class AssetVocabularyStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, AssetVocabulary vocabulary)
+			PortletDataContext portletDataContext,
+			AssetVocabulary assetVocabulary)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public AssetVocabulary saveStagedModel(AssetVocabulary vocabulary)
+	public AssetVocabulary saveStagedModel(AssetVocabulary assetVocabulary)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +120,8 @@ public class AssetVocabularyStagedModelRepository
 
 	@Override
 	public AssetVocabulary updateStagedModel(
-			PortletDataContext portletDataContext, AssetVocabulary vocabulary)
+			PortletDataContext portletDataContext,
+			AssetVocabulary assetVocabulary)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

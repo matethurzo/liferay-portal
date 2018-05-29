@@ -41,14 +41,14 @@ public class DLFileEntryTypeStagedModelRepository
 	@Override
 	public DLFileEntryType addStagedModel(
 			PortletDataContext portletDataContext,
-			DLFileEntryType fileEntryType)
+			DLFileEntryType dlFileEntryType)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(DLFileEntryType fileEntryType)
+	public void deleteStagedModel(DLFileEntryType dlFileEntryType)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -105,14 +105,14 @@ public class DLFileEntryTypeStagedModelRepository
 	@Override
 	public void restoreStagedModel(
 			PortletDataContext portletDataContext,
-			DLFileEntryType fileEntryType)
+			DLFileEntryType dlFileEntryType)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public DLFileEntryType saveStagedModel(DLFileEntryType fileEntryType)
+	public DLFileEntryType saveStagedModel(DLFileEntryType dlFileEntryType)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -121,7 +121,7 @@ public class DLFileEntryTypeStagedModelRepository
 	@Override
 	public DLFileEntryType updateStagedModel(
 			PortletDataContext portletDataContext,
-			DLFileEntryType fileEntryType)
+			DLFileEntryType dlFileEntryType)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

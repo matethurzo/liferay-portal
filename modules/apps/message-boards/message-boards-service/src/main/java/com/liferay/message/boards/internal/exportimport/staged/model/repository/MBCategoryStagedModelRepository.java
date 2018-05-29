@@ -40,14 +40,16 @@ public class MBCategoryStagedModelRepository
 
 	@Override
 	public MBCategory addStagedModel(
-			PortletDataContext portletDataContext, MBCategory category)
+			PortletDataContext portletDataContext, MBCategory mbCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBCategory category) throws PortalException {
+	public void deleteStagedModel(MBCategory mbCategory)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,14 +101,14 @@ public class MBCategoryStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBCategory category)
+			PortletDataContext portletDataContext, MBCategory mbCategory)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBCategory saveStagedModel(MBCategory category)
+	public MBCategory saveStagedModel(MBCategory mbCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -114,7 +116,7 @@ public class MBCategoryStagedModelRepository
 
 	@Override
 	public MBCategory updateStagedModel(
-			PortletDataContext portletDataContext, MBCategory category)
+			PortletDataContext portletDataContext, MBCategory mbCategory)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

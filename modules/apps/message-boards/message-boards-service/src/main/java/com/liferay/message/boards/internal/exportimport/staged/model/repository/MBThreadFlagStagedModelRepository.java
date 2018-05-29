@@ -40,14 +40,14 @@ public class MBThreadFlagStagedModelRepository
 
 	@Override
 	public MBThreadFlag addStagedModel(
-			PortletDataContext portletDataContext, MBThreadFlag threadFlag)
+			PortletDataContext portletDataContext, MBThreadFlag mbThreadFlag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBThreadFlag threadFlag)
+	public void deleteStagedModel(MBThreadFlag mbThreadFlag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +103,14 @@ public class MBThreadFlagStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBThreadFlag threadFlag)
+			PortletDataContext portletDataContext, MBThreadFlag mbThreadFlag)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBThreadFlag saveStagedModel(MBThreadFlag threadFlag)
+	public MBThreadFlag saveStagedModel(MBThreadFlag mbThreadFlag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +118,7 @@ public class MBThreadFlagStagedModelRepository
 
 	@Override
 	public MBThreadFlag updateStagedModel(
-			PortletDataContext portletDataContext, MBThreadFlag threadFlag)
+			PortletDataContext portletDataContext, MBThreadFlag mbThreadFlag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

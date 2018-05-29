@@ -40,14 +40,14 @@ public class MBBanStagedModelRepository
 
 	@Override
 	public MBBan addStagedModel(
-			PortletDataContext portletDataContext, MBBan ban)
+			PortletDataContext portletDataContext, MBBan mbBan)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBBan ban) throws PortalException {
+	public void deleteStagedModel(MBBan mbBan) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -97,20 +97,20 @@ public class MBBanStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBBan ban)
+			PortletDataContext portletDataContext, MBBan mbBan)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBBan saveStagedModel(MBBan ban) throws PortalException {
+	public MBBan saveStagedModel(MBBan mbBan) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MBBan updateStagedModel(
-			PortletDataContext portletDataContext, MBBan ban)
+			PortletDataContext portletDataContext, MBBan mbBan)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

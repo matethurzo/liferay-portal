@@ -40,14 +40,14 @@ public class MBThreadStagedModelRepository
 
 	@Override
 	public MBThread addStagedModel(
-			PortletDataContext portletDataContext, MBThread thread)
+			PortletDataContext portletDataContext, MBThread mbThread)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBThread thread) throws PortalException {
+	public void deleteStagedModel(MBThread mbThread) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +99,20 @@ public class MBThreadStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBThread thread)
+			PortletDataContext portletDataContext, MBThread mbThread)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBThread saveStagedModel(MBThread thread) throws PortalException {
+	public MBThread saveStagedModel(MBThread mbThread) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MBThread updateStagedModel(
-			PortletDataContext portletDataContext, MBThread thread)
+			PortletDataContext portletDataContext, MBThread mbThread)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

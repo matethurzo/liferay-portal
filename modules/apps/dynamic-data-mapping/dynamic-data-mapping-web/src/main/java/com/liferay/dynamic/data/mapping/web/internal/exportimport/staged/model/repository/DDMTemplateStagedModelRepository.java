@@ -40,14 +40,16 @@ public class DDMTemplateStagedModelRepository
 
 	@Override
 	public DDMTemplate addStagedModel(
-			PortletDataContext portletDataContext, DDMTemplate template)
+			PortletDataContext portletDataContext, DDMTemplate ddmTemplate)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(DDMTemplate template) throws PortalException {
+	public void deleteStagedModel(DDMTemplate ddmTemplate)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,14 +101,14 @@ public class DDMTemplateStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, DDMTemplate template)
+			PortletDataContext portletDataContext, DDMTemplate ddmTemplate)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public DDMTemplate saveStagedModel(DDMTemplate template)
+	public DDMTemplate saveStagedModel(DDMTemplate ddmTemplate)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -114,7 +116,7 @@ public class DDMTemplateStagedModelRepository
 
 	@Override
 	public DDMTemplate updateStagedModel(
-			PortletDataContext portletDataContext, DDMTemplate template)
+			PortletDataContext portletDataContext, DDMTemplate ddmTemplate)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

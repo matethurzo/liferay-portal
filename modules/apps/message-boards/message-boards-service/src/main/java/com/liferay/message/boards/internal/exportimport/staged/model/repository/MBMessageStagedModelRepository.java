@@ -40,14 +40,14 @@ public class MBMessageStagedModelRepository
 
 	@Override
 	public MBMessage addStagedModel(
-			PortletDataContext portletDataContext, MBMessage message)
+			PortletDataContext portletDataContext, MBMessage mbMessage)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBMessage message) throws PortalException {
+	public void deleteStagedModel(MBMessage mbMessage) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +99,22 @@ public class MBMessageStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBMessage message)
+			PortletDataContext portletDataContext, MBMessage mbMessage)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBMessage saveStagedModel(MBMessage message) throws PortalException {
+	public MBMessage saveStagedModel(MBMessage mbMessage)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MBMessage updateStagedModel(
-			PortletDataContext portletDataContext, MBMessage message)
+			PortletDataContext portletDataContext, MBMessage mbMessage)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

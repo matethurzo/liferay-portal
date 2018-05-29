@@ -40,14 +40,14 @@ public class MDRRuleGroupStagedModelRepository
 
 	@Override
 	public MDRRuleGroup addStagedModel(
-			PortletDataContext portletDataContext, MDRRuleGroup ruleGroup)
+			PortletDataContext portletDataContext, MDRRuleGroup mdrRuleGroup)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MDRRuleGroup ruleGroup)
+	public void deleteStagedModel(MDRRuleGroup mdrRuleGroup)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +103,14 @@ public class MDRRuleGroupStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MDRRuleGroup ruleGroup)
+			PortletDataContext portletDataContext, MDRRuleGroup mdrRuleGroup)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MDRRuleGroup saveStagedModel(MDRRuleGroup ruleGroup)
+	public MDRRuleGroup saveStagedModel(MDRRuleGroup mdrRuleGroup)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +118,7 @@ public class MDRRuleGroupStagedModelRepository
 
 	@Override
 	public MDRRuleGroup updateStagedModel(
-			PortletDataContext portletDataContext, MDRRuleGroup ruleGroup)
+			PortletDataContext portletDataContext, MDRRuleGroup mdrRuleGroup)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

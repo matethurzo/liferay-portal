@@ -40,14 +40,15 @@ public class JournalArticleStagedModelRepository
 
 	@Override
 	public JournalArticle addStagedModel(
-			PortletDataContext portletDataContext, JournalArticle article)
+			PortletDataContext portletDataContext,
+			JournalArticle journalArticle)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(JournalArticle article)
+	public void deleteStagedModel(JournalArticle journalArticle)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -101,14 +102,15 @@ public class JournalArticleStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, JournalArticle article)
+			PortletDataContext portletDataContext,
+			JournalArticle journalArticle)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public JournalArticle saveStagedModel(JournalArticle article)
+	public JournalArticle saveStagedModel(JournalArticle journalArticle)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -116,7 +118,8 @@ public class JournalArticleStagedModelRepository
 
 	@Override
 	public JournalArticle updateStagedModel(
-			PortletDataContext portletDataContext, JournalArticle article)
+			PortletDataContext portletDataContext,
+			JournalArticle journalArticle)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

@@ -40,14 +40,14 @@ public class MDRActionStagedModelRepository
 
 	@Override
 	public MDRAction addStagedModel(
-			PortletDataContext portletDataContext, MDRAction action)
+			PortletDataContext portletDataContext, MDRAction mdrAction)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MDRAction action) throws PortalException {
+	public void deleteStagedModel(MDRAction mdrAction) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +99,22 @@ public class MDRActionStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MDRAction action)
+			PortletDataContext portletDataContext, MDRAction mdrAction)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MDRAction saveStagedModel(MDRAction action) throws PortalException {
+	public MDRAction saveStagedModel(MDRAction mdrAction)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MDRAction updateStagedModel(
-			PortletDataContext portletDataContext, MDRAction action)
+			PortletDataContext portletDataContext, MDRAction mdrAction)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

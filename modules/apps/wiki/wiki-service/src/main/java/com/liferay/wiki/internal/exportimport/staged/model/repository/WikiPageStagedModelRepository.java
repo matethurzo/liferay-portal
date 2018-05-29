@@ -40,7 +40,7 @@ public class WikiPageStagedModelRepository
 
 	@Override
 	public WikiPage addStagedModel(
-			PortletDataContext portletDataContext, WikiPage page)
+			PortletDataContext portletDataContext, WikiPage wikiPage)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -55,7 +55,7 @@ public class WikiPageStagedModelRepository
 	}
 
 	@Override
-	public void deleteStagedModel(WikiPage page) throws PortalException {
+	public void deleteStagedModel(WikiPage wikiPage) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +99,20 @@ public class WikiPageStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, WikiPage page)
+			PortletDataContext portletDataContext, WikiPage wikiPage)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public WikiPage saveStagedModel(WikiPage page) throws PortalException {
+	public WikiPage saveStagedModel(WikiPage wikiPage) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public WikiPage updateStagedModel(
-			PortletDataContext portletDataContext, WikiPage page)
+			PortletDataContext portletDataContext, WikiPage wikiPage)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

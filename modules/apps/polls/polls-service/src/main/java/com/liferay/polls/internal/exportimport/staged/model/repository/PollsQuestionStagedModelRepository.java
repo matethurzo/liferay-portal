@@ -40,14 +40,14 @@ public class PollsQuestionStagedModelRepository
 
 	@Override
 	public PollsQuestion addStagedModel(
-			PortletDataContext portletDataContext, PollsQuestion question)
+			PortletDataContext portletDataContext, PollsQuestion pollsQuestion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(PollsQuestion question)
+	public void deleteStagedModel(PollsQuestion pollsQuestion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +103,14 @@ public class PollsQuestionStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, PollsQuestion question)
+			PortletDataContext portletDataContext, PollsQuestion pollsQuestion)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public PollsQuestion saveStagedModel(PollsQuestion question)
+	public PollsQuestion saveStagedModel(PollsQuestion pollsQuestion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +118,7 @@ public class PollsQuestionStagedModelRepository
 
 	@Override
 	public PollsQuestion updateStagedModel(
-			PortletDataContext portletDataContext, PollsQuestion question)
+			PortletDataContext portletDataContext, PollsQuestion pollsQuestion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

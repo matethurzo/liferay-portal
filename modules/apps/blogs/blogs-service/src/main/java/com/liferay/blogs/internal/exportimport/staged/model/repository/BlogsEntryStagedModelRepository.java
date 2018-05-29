@@ -40,14 +40,16 @@ public class BlogsEntryStagedModelRepository
 
 	@Override
 	public BlogsEntry addStagedModel(
-			PortletDataContext portletDataContext, BlogsEntry entry)
+			PortletDataContext portletDataContext, BlogsEntry blogsEntry)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(BlogsEntry entry) throws PortalException {
+	public void deleteStagedModel(BlogsEntry blogsEntry)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +101,22 @@ public class BlogsEntryStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, BlogsEntry entry)
+			PortletDataContext portletDataContext, BlogsEntry blogsEntry)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public BlogsEntry saveStagedModel(BlogsEntry entry) throws PortalException {
+	public BlogsEntry saveStagedModel(BlogsEntry blogsEntry)
+		throws PortalException {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public BlogsEntry updateStagedModel(
-			PortletDataContext portletDataContext, BlogsEntry entry)
+			PortletDataContext portletDataContext, BlogsEntry blogsEntry)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

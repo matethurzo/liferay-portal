@@ -40,14 +40,14 @@ public class AssetTagStagedModelRepository
 
 	@Override
 	public AssetTag addStagedModel(
-			PortletDataContext portletDataContext, AssetTag tag)
+			PortletDataContext portletDataContext, AssetTag assetTag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(AssetTag tag) throws PortalException {
+	public void deleteStagedModel(AssetTag assetTag) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,20 +99,20 @@ public class AssetTagStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, AssetTag tag)
+			PortletDataContext portletDataContext, AssetTag assetTag)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public AssetTag saveStagedModel(AssetTag tag) throws PortalException {
+	public AssetTag saveStagedModel(AssetTag assetTag) throws PortalException {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public AssetTag updateStagedModel(
-			PortletDataContext portletDataContext, AssetTag tag)
+			PortletDataContext portletDataContext, AssetTag assetTag)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();

@@ -40,14 +40,14 @@ public class MBDiscussionStagedModelRepository
 
 	@Override
 	public MBDiscussion addStagedModel(
-			PortletDataContext portletDataContext, MBDiscussion discussion)
+			PortletDataContext portletDataContext, MBDiscussion mbDiscussion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteStagedModel(MBDiscussion discussion)
+	public void deleteStagedModel(MBDiscussion mbDiscussion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -103,14 +103,14 @@ public class MBDiscussionStagedModelRepository
 
 	@Override
 	public void restoreStagedModel(
-			PortletDataContext portletDataContext, MBDiscussion discussion)
+			PortletDataContext portletDataContext, MBDiscussion mbDiscussion)
 		throws PortletDataException {
 
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public MBDiscussion saveStagedModel(MBDiscussion discussion)
+	public MBDiscussion saveStagedModel(MBDiscussion mbDiscussion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
@@ -118,7 +118,7 @@ public class MBDiscussionStagedModelRepository
 
 	@Override
 	public MBDiscussion updateStagedModel(
-			PortletDataContext portletDataContext, MBDiscussion discussion)
+			PortletDataContext portletDataContext, MBDiscussion mbDiscussion)
 		throws PortalException {
 
 		throw new UnsupportedOperationException();
