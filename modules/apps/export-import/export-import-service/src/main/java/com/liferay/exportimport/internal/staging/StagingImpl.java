@@ -2118,6 +2118,7 @@ public class StagingImpl implements Staging {
 			StagingConstants.LOCK_EXPIRATION_TIME);
 	}
 
+	@Override
 	public void populateLastPublishDateCounts(
 			PortletDataContext portletDataContext, String[] classNames)
 		throws PortalException {
