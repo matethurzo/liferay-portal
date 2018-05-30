@@ -1608,9 +1608,6 @@ public class LayoutStagedModelDataHandler
 			Element layoutElement, Layout layout)
 		throws Exception {
 
-		long defaultUserId = _userLocalService.getDefaultUserId(
-			layout.getCompanyId());
-
 		LayoutStagingHandler layoutStagingHandler =
 			LayoutStagingUtil.getLayoutStagingHandler(layout);
 
@@ -1647,6 +1644,9 @@ public class LayoutStagedModelDataHandler
 				_layoutPrototypeLocalService.
 					getLayoutPrototypeByUuidAndCompanyId(
 						layoutPrototypeUuid, layout.getCompanyId());
+
+			long defaultUserId = _userLocalService.getDefaultUserId(
+				layout.getCompanyId());
 
 			if (defaultUserId == layoutPrototype.getUserId()) {
 				layoutElement.addAttribute("preloaded", "true");
