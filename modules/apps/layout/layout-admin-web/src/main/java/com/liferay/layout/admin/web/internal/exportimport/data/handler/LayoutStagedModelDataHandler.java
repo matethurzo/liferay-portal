@@ -74,6 +74,7 @@ import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.settings.PortletInstanceSettingsLocator;
 import com.liferay.portal.kernel.settings.Settings;
@@ -1607,6 +1608,9 @@ public class LayoutStagedModelDataHandler
 			Element layoutElement, Layout layout)
 		throws Exception {
 
+		long defaultUserId = _userLocalService.getDefaultUserId(
+			layout.getCompanyId());
+
 		LayoutStagingHandler layoutStagingHandler =
 			LayoutStagingUtil.getLayoutStagingHandler(layout);
 
@@ -1643,6 +1647,10 @@ public class LayoutStagedModelDataHandler
 				_layoutPrototypeLocalService.
 					getLayoutPrototypeByUuidAndCompanyId(
 						layoutPrototypeUuid, layout.getCompanyId());
+
+			if (defaultUserId == layoutPrototype.getUserId()) {
+				layoutElement.addAttribute("preloaded", "true");
+			}
 
 			layoutElement.addAttribute(
 				"layout-prototype-uuid", layoutPrototypeUuid);
@@ -1835,6 +1843,9 @@ public class LayoutStagedModelDataHandler
 
 	@Reference
 	private Staging _staging;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 	private class ImportLinkedLayoutCallable implements Callable<Void> {
 
