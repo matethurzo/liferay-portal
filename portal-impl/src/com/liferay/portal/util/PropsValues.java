@@ -1665,6 +1665,8 @@ public class PropsValues {
 
 	public static boolean STAGING_LIVE_GROUP_REMOTE_STAGING_ENABLED = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.STAGING_LIVE_GROUP_REMOTE_STAGING_ENABLED));
 
+	public static boolean STAGING_PORTLET_MERGE_TAG_NAMES = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.STAGING_PORTLET_MERGE_TAG_NAMES));
+
 	public static final int STAGING_REMOTE_TRANSFER_BUFFER_SIZE = GetterUtil.getInteger(PropsUtil.get(PropsKeys.STAGING_REMOTE_TRANSFER_BUFFER_SIZE));
 
 	public static final int STAGING_SYSTEM_EVENT_CHECK_INTERVAL = GetterUtil.getInteger(PropsUtil.get(PropsKeys.STAGING_SYSTEM_EVENT_CHECK_INTERVAL));
