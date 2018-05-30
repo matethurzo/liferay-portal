@@ -1080,26 +1080,31 @@ public class LayoutImportController implements ImportController {
 				layoutElement.attributeValue("layout-prototype-uuid"));
 
 			if (Validator.isNotNull(layoutPrototypeUuid)) {
-				try {
-					_layoutPrototypeLocalService.
-						getLayoutPrototypeByUuidAndCompanyId(
-							layoutPrototypeUuid, companyId);
-				}
-				catch (NoSuchLayoutPrototypeException nslpe) {
+				String layoutPrototypeName = GetterUtil.getString(
+					layoutElement.attributeValue("layout-prototype-name"));
 
-					// LPS-52675
+				boolean preloaded = GetterUtil.getBoolean(
+					layoutElement.attributeValue("preloaded"));
 
-					if (_log.isDebugEnabled()) {
-						_log.debug(nslpe, nslpe);
+				if (!preloaded) {
+					try {
+						_layoutPrototypeLocalService.
+							getLayoutPrototypeByUuidAndCompanyId(
+								layoutPrototypeUuid, companyId);
 					}
+					catch (NoSuchLayoutPrototypeException nslpe) {
 
-					String layoutPrototypeName = GetterUtil.getString(
-						layoutElement.attributeValue("layout-prototype-name"));
+						// LPS-52675
 
-					missingLayoutPrototypes.add(
-						new Tuple(
-							LayoutPrototype.class.getName(),
-							layoutPrototypeUuid, layoutPrototypeName));
+						if (_log.isDebugEnabled()) {
+							_log.debug(nslpe, nslpe);
+						}
+
+						missingLayoutPrototypes.add(
+							new Tuple(
+								LayoutPrototype.class.getName(),
+								layoutPrototypeUuid, layoutPrototypeName));
+					}
 				}
 			}
 		}
