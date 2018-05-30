@@ -125,6 +125,8 @@ public class ChangesetPortletDataHandler extends BasePortletDataHandler {
 			}
 
 			_exportChangesetCollection(portletDataContext, changesetCollection);
+
+			return getExportDataRootElementString(rootElement);
 		}
 
 		Optional<Changeset> changesetOptional = _changesetManager.popChangeset(
