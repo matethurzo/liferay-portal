@@ -35,7 +35,6 @@
 					checked="<%= branchingPublic %>"
 					label="enabled-on-public-pages"
 					name="branchingPublic"
-					value="on"
 				/>
 			</div>
 
@@ -44,7 +43,6 @@
 					checked="<%= branchingPrivate %>"
 					label="enabled-on-private-pages"
 					name="branchingPrivate"
-					value="on"
 				/>
 			</div>
 		</div>
@@ -128,7 +126,6 @@
 						disabled="<%= (liveGroupRemoteStaging && liveGroup.isStagedRemotely()) || liveGroup.isStaged() %>"
 						label="<%= PortalUtil.getPortletTitle(curPortlet, application, locale) %>"
 						name="<%= StagingConstants.STAGED_PREFIX + StagingUtil.getStagedPortletId(curPortlet.getRootPortletId()) + StringPool.DOUBLE_DASH %>"
-						value="on"
 					/>
 				</div>
 
