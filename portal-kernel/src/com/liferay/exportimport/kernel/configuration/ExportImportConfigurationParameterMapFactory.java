@@ -26,7 +26,7 @@ import javax.portlet.PortletRequest;
 @ProviderType
 public interface ExportImportConfigurationParameterMapFactory {
 
-	public Map<String, String[]> buildFullPublicatonParameterMap();
+	public Map<String, String[]> buildFullPublishParameterMap();
 
 	public Map<String, String[]> buildParameterMap();
 
