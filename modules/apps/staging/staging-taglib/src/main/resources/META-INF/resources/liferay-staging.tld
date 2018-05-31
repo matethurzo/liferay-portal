@@ -108,12 +108,6 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>The checkbox's value given to the data submitted with the checkbox's name.</description>
-			<name>value</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<description>The language key of the checkbox's warning text. It is displayed after the suggestion.</description>
 			<name>warning</name>
 			<required>false</required>
