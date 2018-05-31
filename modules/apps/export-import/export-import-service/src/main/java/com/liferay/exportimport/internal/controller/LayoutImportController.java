@@ -1087,19 +1087,12 @@ public class LayoutImportController implements ImportController {
 					layoutElement.attributeValue("preloaded"));
 
 				if (!preloaded) {
-					try {
+					LayoutPrototype layoutPrototype =
 						_layoutPrototypeLocalService.
-							getLayoutPrototypeByUuidAndCompanyId(
+							fetchLayoutPrototypeByUuidAndCompanyId(
 								layoutPrototypeUuid, companyId);
-					}
-					catch (NoSuchLayoutPrototypeException nslpe) {
 
-						// LPS-52675
-
-						if (_log.isDebugEnabled()) {
-							_log.debug(nslpe, nslpe);
-						}
-
+					if (layoutPrototype == null) {
 						missingLayoutPrototypes.add(
 							new Tuple(
 								LayoutPrototype.class.getName(),
