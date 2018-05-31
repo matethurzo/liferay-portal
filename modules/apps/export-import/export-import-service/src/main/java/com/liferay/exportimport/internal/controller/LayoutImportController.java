@@ -1106,6 +1106,18 @@ public class LayoutImportController implements ImportController {
 								layoutPrototypeUuid, layoutPrototypeName));
 					}
 				}
+				else {
+					LayoutPrototype layoutPrototype =
+						_layoutPrototypeLocalService.fetchLayoutProtoype(
+							companyId, layoutPrototypeName);
+
+					if (layoutPrototype == null) {
+						missingLayoutPrototypes.add(
+							new Tuple(
+								LayoutPrototype.class.getName(),
+								layoutPrototypeUuid, layoutPrototypeName));
+					}
+				}
 			}
 		}
 
