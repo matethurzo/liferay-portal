@@ -19,6 +19,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.exportimport.changeset.constants.ChangesetPortletKeys;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactoryUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
@@ -260,6 +261,14 @@ public class StagingImplTest {
 		String portletData = portletDataContext.getZipEntryAsString(
 			journalPortletPath + StringPool.SLASH + _group.getGroupId() +
 				"/portlet-data.xml");
+
+		if (portletData == null) {
+			String changesetPortletPath = ExportImportPathUtil.getPortletPath(
+				portletDataContext, ChangesetPortletKeys.CHANGESET);
+
+			portletData = portletDataContext.getZipEntryAsString(
+				changesetPortletPath + "/0/portlet-data.xml");
+		}
 
 		Document document = SAXReaderUtil.read(portletData);
 
