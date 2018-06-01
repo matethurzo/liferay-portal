@@ -134,7 +134,7 @@ public class JournalArticleExportImportContentProcessor
 
 		JournalArticle article = (JournalArticle)stagedModel;
 
-		DDMStructure ddmStructure = _getDDMStructure(
+		DDMStructure ddmStructure = _fetchDDMStructure(
 			portletDataContext, article);
 
 		Fields fields = _getDDMStructureFields(ddmStructure, content);
@@ -143,7 +143,7 @@ public class JournalArticleExportImportContentProcessor
 			DDMFormValues ddmFormValues = _journalConverter.getDDMFormValues(
 				ddmStructure, fields);
 
-			List<String> originalContents = _getContentsFromDDMFormValues(
+			List<String> originalContents = _fetchContentsFromDDMFormValues(
 				ddmFormValues.getDDMFormFieldValues());
 
 			ddmFormValues =
@@ -151,7 +151,7 @@ public class JournalArticleExportImportContentProcessor
 					replaceImportContentReferences(
 						portletDataContext, stagedModel, ddmFormValues);
 
-			List<String> modifiedContents = _getContentsFromDDMFormValues(
+			List<String> modifiedContents = _fetchContentsFromDDMFormValues(
 				ddmFormValues.getDDMFormFieldValues());
 
 			for (int i = 0; i < originalContents.size(); i++) {
@@ -520,7 +520,7 @@ public class JournalArticleExportImportContentProcessor
 		}
 	}
 
-	private List<String> _getContentsFromDDMFormValues(
+	private List<String> _fetchContentsFromDDMFormValues(
 		List<DDMFormFieldValue> ddmFormFieldValues) {
 
 		List<String> contents = new ArrayList<>();
@@ -536,7 +536,7 @@ public class JournalArticleExportImportContentProcessor
 		return contents;
 	}
 
-	private DDMStructure _getDDMStructure(
+	private DDMStructure _fetchDDMStructure(
 		PortletDataContext portletDataContext, JournalArticle article) {
 
 		long formerGroupId = article.getGroupId();
