@@ -56,17 +56,17 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 	public Map<String, String[]> buildFullPublishParameterMap() {
 		return buildParameterMap(
 			PortletDataHandlerKeys.DATA_STRATEGY_MIRROR_OVERWRITE, true, false,
-			true, true, false, true, true, true, true, true, true, true, true,
-			ExportImportDateUtil.RANGE_ALL, true, true,
+			true, true, false, true, true, true, true, true, null, true, true,
+			null, true, null, ExportImportDateUtil.RANGE_ALL, true, true,
 			UserIdStrategy.CURRENT_USER_ID);
 	}
 
 	public Map<String, String[]> buildParameterMap() {
 		return buildParameterMap(
 			PortletDataHandlerKeys.DATA_STRATEGY_MIRROR_OVERWRITE, true, false,
-			true, false, false, true, true, true, true, true, true, true, true,
-			ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE, true, true,
-			UserIdStrategy.CURRENT_USER_ID);
+			true, false, false, true, true, true, true, true, null, true, true,
+			null, true, null, ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE,
+			true, true, UserIdStrategy.CURRENT_USER_ID);
 	}
 
 	public Map<String, String[]> buildParameterMap(
@@ -186,7 +186,9 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 		Boolean ignoreLastPublishDate, Boolean layoutSetPrototypeLinkEnabled,
 		Boolean layoutSetSettings, Boolean logo, Boolean permissions,
 		Boolean portletConfiguration, Boolean portletConfigurationAll,
-		Boolean portletData, Boolean portletDataAll, Boolean portletSetupAll,
+		List<String> portletConfigurationPortletIds, Boolean portletData,
+		Boolean portletDataAll, List<String> portletDataPortletIds,
+		Boolean portletSetupAll, List<String> portletSetupPortletIds,
 		String range, Boolean themeReference, Boolean updateLastPublishDate,
 		String userIdStrategy) {
 
@@ -340,6 +342,17 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION_ALL,
 			new String[] {String.valueOf(portletConfigurationAllParameter)});
 
+		// Portlet configuration portlet IDs
+
+		if (portletConfigurationPortletIds != null) {
+			for (String portletId : portletConfigurationPortletIds) {
+				parameterMap.put(
+					PortletDataHandlerKeys.PORTLET_CONFIGURATION +
+						StringPool.UNDERLINE + portletId,
+					new String[] {Boolean.TRUE.toString()});
+			}
+		}
+
 		// Portlet data
 
 		boolean portletDataParameter = false;
@@ -364,6 +377,17 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 			PortletDataHandlerKeys.PORTLET_DATA_ALL,
 			new String[] {String.valueOf(portletDataAllParameter)});
 
+		// Portlet data portlet IDs
+
+		if (portletDataPortletIds != null) {
+			for (String portletId : portletDataPortletIds) {
+				parameterMap.put(
+					PortletDataHandlerKeys.PORTLET_DATA + StringPool.UNDERLINE +
+						portletId,
+					new String[] {Boolean.TRUE.toString()});
+			}
+		}
+
 		// Portlet setup all
 
 		boolean portletSetupAllParameter = true;
@@ -375,6 +399,17 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_SETUP_ALL,
 			new String[] {String.valueOf(portletSetupAllParameter)});
+
+		// Portlet setup portlet IDs
+
+		if (portletSetupPortletIds != null) {
+			for (String portletId : portletSetupPortletIds) {
+				parameterMap.put(
+					PortletDataHandlerKeys.PORTLET_SETUP +
+						StringPool.UNDERLINE + portletId,
+					new String[] {Boolean.TRUE.toString()});
+			}
+		}
 
 		// Range
 
