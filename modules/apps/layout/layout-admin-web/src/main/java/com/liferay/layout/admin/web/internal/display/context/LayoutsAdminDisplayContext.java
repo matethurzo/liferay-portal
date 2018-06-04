@@ -438,7 +438,11 @@ public class LayoutsAdminDisplayContext {
 	}
 
 	public List<NavigationItem> getNavigationItems() {
-		Group group = getGroup();
+		Group group = _themeDisplay.getScopeGroup();
+
+		final boolean stagingGroup =
+			group.isStaged() && !group.isStagedRemotely() &&
+			group.isStagingGroup();
 
 		return new NavigationItemList() {
 			{
@@ -454,17 +458,19 @@ public class LayoutsAdminDisplayContext {
 						});
 				}
 
-				add(
-					navigationItem -> {
-						navigationItem.setActive(
-							Objects.equals(getTabs1(), "page-templates"));
-						navigationItem.setHref(
-							getPortletURL(), "tabs1", "page-templates");
-						navigationItem.setLabel(
-							LanguageUtil.get(_request, "page-templates"));
-					});
+				if (!stagingGroup) {
+					add(
+						navigationItem -> {
+							navigationItem.setActive(
+								Objects.equals(getTabs1(), "page-templates"));
+							navigationItem.setHref(
+								getPortletURL(), "tabs1", "page-templates");
+							navigationItem.setLabel(
+								LanguageUtil.get(_request, "page-templates"));
+						});
+				}
 
-				if (!group.isCompany()) {
+				if (!group.isCompany() && !stagingGroup) {
 					add(
 						navigationItem -> {
 							navigationItem.setActive(
