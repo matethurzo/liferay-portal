@@ -44,6 +44,7 @@ import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleEventListe
 import com.liferay.exportimport.kernel.lifecycle.ExportImportLifecycleListener;
 import com.liferay.exportimport.kernel.service.StagingLocalServiceUtil;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
+import com.liferay.exportimport.test.util.lar.BasePortletExportImportTestCase;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleConstants;
@@ -81,7 +82,6 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.kernel.zip.ZipWriter;
-import com.liferay.portal.lar.test.BasePortletExportImportTestCase;
 import com.liferay.portal.service.test.ServiceTestUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
