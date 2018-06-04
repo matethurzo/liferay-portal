@@ -105,6 +105,7 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -202,6 +203,7 @@ public class JournalExportImportTest extends BasePortletExportImportTestCase {
 		exportImportJournalArticle(false);
 	}
 
+	@Ignore
 	@Test
 	public void testReferenceSkipping() throws Exception {
 		setPortalProperty("STAGING_DELETE_TEMP_LAR_ON_SUCCESS", false);
