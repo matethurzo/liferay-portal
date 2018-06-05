@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.security.permission.resource.StagedPortletPermissionLogic;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.staging.StagingGroupHelper;
+import com.liferay.staging.StagingGroupHelperUtil;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -101,9 +103,10 @@ public class LayoutPageTemplatePortletResourcePermission
 			return groupId;
 		}
 
-		if (group.isStaged() && !group.isStagedRemotely() &&
-			!group.isStagingGroup()) {
+		StagingGroupHelper stagingGroupHelper =
+			StagingGroupHelperUtil.getStagingGroupHelper();
 
+		if (stagingGroupHelper.isLocalStagingGroup(groupId)) {
 			Group stagingGroup = group.getStagingGroup();
 
 			return stagingGroup.getGroupId();

@@ -57,6 +57,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.template.soy.utils.SoyContext;
+import com.liferay.staging.StagingGroupHelper;
+import com.liferay.staging.StagingGroupHelperUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -410,9 +412,10 @@ public class FragmentsEditorDisplayContext {
 
 		Group group = _themeDisplay.getScopeGroup();
 
-		if (group.isStaged() && !group.isStagedRemotely() &&
-			group.isStagingGroup()) {
+		StagingGroupHelper stagingGroupHelper =
+			StagingGroupHelperUtil.getStagingGroupHelper();
 
+		if (stagingGroupHelper.isLocalStagingGroup(group)) {
 			scopeGroupId = group.getLiveGroupId();
 		}
 
