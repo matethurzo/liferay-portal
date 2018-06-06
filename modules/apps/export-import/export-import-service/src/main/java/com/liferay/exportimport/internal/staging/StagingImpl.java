@@ -17,6 +17,7 @@ package com.liferay.exportimport.internal.staging;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.changeset.model.ChangesetCollection;
+import com.liferay.changeset.model.ChangesetEntry;
 import com.liferay.changeset.service.ChangesetCollectionLocalService;
 import com.liferay.changeset.service.ChangesetEntryLocalService;
 import com.liferay.document.library.kernel.exception.DuplicateFileEntryException;
@@ -2758,6 +2759,43 @@ public class StagingImpl implements Staging {
 		return doCopyRemoteLayouts(
 			exportImportConfiguration, remoteAddress, remotePort,
 			remotePathContext, secureConnection, remotePrivateLayout);
+	}
+
+	@Override
+	public <T extends BaseModel> void removeModelFromChangesetCollection(
+			T model)
+		throws PortalException {
+
+		if (!(model instanceof StagedGroupedModel)) {
+			return;
+		}
+
+		StagedGroupedModel stagedGroupedModel = (StagedGroupedModel)model;
+
+		ChangesetCollection changesetCollection =
+			_changesetCollectionLocalService.fetchChangesetCollection(
+				stagedGroupedModel.getGroupId(),
+				StagingConstants.RANGE_FROM_LAST_PUBLISH_DATE_CHANGESET_NAME);
+
+		if (changesetCollection == null) {
+			return;
+		}
+
+		long classNameId = _classNameLocalService.getClassNameId(
+			stagedGroupedModel.getModelClassName());
+		long classPK = (long)stagedGroupedModel.getPrimaryKeyObj();
+
+		ChangesetEntry changesetEntry =
+			_changesetEntryLocalService.fetchChangesetEntry(
+				changesetCollection.getChangesetCollectionId(), classNameId,
+				classPK);
+
+		if (changesetEntry == null) {
+			return;
+		}
+
+		_changesetEntryLocalService.deleteChangesetEntry(
+			changesetEntry.getChangesetEntryId());
 	}
 
 	@Override
