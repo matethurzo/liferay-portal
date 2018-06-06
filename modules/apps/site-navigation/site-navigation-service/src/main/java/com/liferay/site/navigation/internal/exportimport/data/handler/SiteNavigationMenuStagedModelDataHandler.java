@@ -14,31 +14,26 @@
 
 package com.liferay.site.navigation.internal.exportimport.data.handler;
 
-import com.liferay.bookmarks.model.BookmarksFolder;
-import com.liferay.bookmarks.model.BookmarksFolderConstants;
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
-import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.staged.model.repository.StagedModelRepository;
-import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.xml.Element;
+import com.liferay.site.navigation.model.SiteNavigationMenu;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import java.util.Map;
-
 /**
- * @author Mate Thurzo
- * @author Daniel Kocsis
+ * @author Pavel Savinov
  */
 @Component(immediate = true, service = StagedModelDataHandler.class)
 public class SiteNavigationMenuStagedModelDataHandler
-	extends BaseStagedModelDataHandler<BookmarksFolder> {
+	extends BaseStagedModelDataHandler<SiteNavigationMenu> {
 
 	public static final String[] CLASS_NAMES =
-		{BookmarksFolder.class.getName()};
+		{SiteNavigationMenu.class.getName()};
 
 	@Override
 	public String[] getClassNames() {
@@ -46,83 +41,78 @@ public class SiteNavigationMenuStagedModelDataHandler
 	}
 
 	@Override
-	public String getDisplayName(BookmarksFolder folder) {
-		return folder.getName();
+	public String getDisplayName(SiteNavigationMenu siteNavigationMenu) {
+		return siteNavigationMenu.getName();
 	}
 
 	@Override
 	protected void doExportStagedModel(
-			PortletDataContext portletDataContext, BookmarksFolder folder)
+			PortletDataContext portletDataContext,
+			SiteNavigationMenu siteNavigationMenu)
 		throws Exception {
 
-		if (folder.getParentFolderId() !=
-				BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
-
-			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, folder, folder.getParentFolder(),
-				PortletDataContext.REFERENCE_TYPE_PARENT);
-		}
-
-		Element folderElement = portletDataContext.getExportDataElement(folder);
+		Element siteNavigationMenuElement =
+			portletDataContext.getExportDataElement(siteNavigationMenu);
 
 		portletDataContext.addClassedModel(
-			folderElement, ExportImportPathUtil.getModelPath(folder), folder);
+			siteNavigationMenuElement,
+			ExportImportPathUtil.getModelPath(siteNavigationMenu),
+			siteNavigationMenu);
 	}
 
 	@Override
 	protected void doImportStagedModel(
-			PortletDataContext portletDataContext, BookmarksFolder folder)
+			PortletDataContext portletDataContext,
+			SiteNavigationMenu siteNavigationMenu)
 		throws Exception {
 
-		Map<Long, Long> folderIds =
-			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-				BookmarksFolder.class);
+		SiteNavigationMenu importedSiteNavigationMenu =
+			(SiteNavigationMenu)siteNavigationMenu.clone();
 
-		long parentFolderId = MapUtil.getLong(
-			folderIds, folder.getParentFolderId(), folder.getParentFolderId());
+		importedSiteNavigationMenu.setGroupId(
+			portletDataContext.getScopeGroupId());
 
-		BookmarksFolder importedFolder = (BookmarksFolder)folder.clone();
-
-		importedFolder.setGroupId(portletDataContext.getScopeGroupId());
-		importedFolder.setParentFolderId(parentFolderId);
-
-		BookmarksFolder existingFolder =
+		SiteNavigationMenu existingSiteNavigationMenu =
 			_stagedModelRepository.fetchStagedModelByUuidAndGroupId(
-				folder.getUuid(), portletDataContext.getScopeGroupId());
+				siteNavigationMenu.getUuid(),
+				portletDataContext.getScopeGroupId());
 
-		if ((existingFolder == null) ||
+		if ((existingSiteNavigationMenu == null) ||
 			!portletDataContext.isDataStrategyMirror()) {
 
-			importedFolder = _stagedModelRepository.addStagedModel(
-				portletDataContext, importedFolder);
+			importedSiteNavigationMenu = _stagedModelRepository.addStagedModel(
+				portletDataContext, importedSiteNavigationMenu);
 		}
 		else {
-			importedFolder.setFolderId(existingFolder.getFolderId());
+			importedSiteNavigationMenu.setSiteNavigationMenuId(
+				existingSiteNavigationMenu.getSiteNavigationMenuId());
 
-			importedFolder = _stagedModelRepository.updateStagedModel(
-				portletDataContext, importedFolder);
+			importedSiteNavigationMenu =
+				_stagedModelRepository.updateStagedModel(
+					portletDataContext, importedSiteNavigationMenu);
 		}
 
-		portletDataContext.importClassedModel(folder, importedFolder);
+		portletDataContext.importClassedModel(
+			siteNavigationMenu, importedSiteNavigationMenu);
 	}
 
 	@Override
-	protected StagedModelRepository<BookmarksFolder>
+	protected StagedModelRepository<SiteNavigationMenu>
 		getStagedModelRepository() {
 
 		return _stagedModelRepository;
 	}
 
 	@Reference(
-		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksFolder)",
+		target = "(model.class.name=com.liferay.site.navigation.model.SiteNavigationMenu)",
 		unbind = "-"
 	)
 	protected void setStagedModelRepository(
-		StagedModelRepository<BookmarksFolder> stagedModelRepository) {
+		StagedModelRepository<SiteNavigationMenu> stagedModelRepository) {
 
 		_stagedModelRepository = stagedModelRepository;
 	}
 
-	private StagedModelRepository<BookmarksFolder> _stagedModelRepository;
+	private StagedModelRepository<SiteNavigationMenu> _stagedModelRepository;
 
 }

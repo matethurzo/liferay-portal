@@ -14,11 +14,7 @@
 
 package com.liferay.site.navigation.internal.exportimport.staged.model.repository;
 
-import com.liferay.bookmarks.model.BookmarksFolder;
-import com.liferay.bookmarks.service.BookmarksEntryLocalService;
-import com.liferay.bookmarks.service.BookmarksFolderLocalService;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
 import com.liferay.exportimport.staged.model.repository.StagedModelRepository;
 import com.liferay.exportimport.staged.model.repository.StagedModelRepositoryHelper;
@@ -26,52 +22,53 @@ import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.trash.TrashHandler;
-import com.liferay.portal.kernel.trash.TrashHandlerRegistryUtil;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import com.liferay.site.navigation.model.SiteNavigationMenu;
+import com.liferay.site.navigation.service.SiteNavigationMenuLocalService;
 
 import java.util.List;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
- * @author Daniel Kocsis
- * @author Mate Thurzo
+ * @author Pavel Savinov
  */
 @Component(
 	immediate = true,
-	property = "model.class.name=com.liferay.bookmarks.model.BookmarksFolder",
+	property = "model.class.name=com.liferay.site.navigation.model.SiteNavigationMenu",
 	service = StagedModelRepository.class
 )
 public class SiteNavigationMenuStagedModelRepository
-	implements StagedModelRepository<BookmarksFolder> {
+	implements StagedModelRepository<SiteNavigationMenu> {
 
 	@Override
-	public BookmarksFolder addStagedModel(
+	public SiteNavigationMenu addStagedModel(
 			PortletDataContext portletDataContext,
-			BookmarksFolder bookmarksFolder)
+			SiteNavigationMenu siteNavigationMenu)
 		throws PortalException {
 
 		long userId = portletDataContext.getUserId(
-			bookmarksFolder.getUserUuid());
+			siteNavigationMenu.getUserUuid());
 
 		ServiceContext serviceContext = portletDataContext.createServiceContext(
-			bookmarksFolder);
+			siteNavigationMenu);
 
 		if (portletDataContext.isDataStrategyMirror()) {
-			serviceContext.setUuid(bookmarksFolder.getUuid());
+			serviceContext.setUuid(siteNavigationMenu.getUuid());
 		}
 
-		return _bookmarksFolderLocalService.addFolder(
-			userId, bookmarksFolder.getParentFolderId(),
-			bookmarksFolder.getName(), bookmarksFolder.getDescription(),
-			serviceContext);
+		return _siteNavigationMenuLocalService.addSiteNavigationMenu(
+			userId, siteNavigationMenu.getGroupId(),
+			siteNavigationMenu.getName(), siteNavigationMenu.getType(),
+			siteNavigationMenu.isAuto(), serviceContext);
 	}
 
 	@Override
-	public void deleteStagedModel(BookmarksFolder bookmarksFolder)
+	public void deleteStagedModel(SiteNavigationMenu siteNavigationMenu)
 		throws PortalException {
 
-		_bookmarksFolderLocalService.deleteFolder(bookmarksFolder);
+		_siteNavigationMenuLocalService.deleteSiteNavigationMenu(
+			siteNavigationMenu);
 	}
 
 	@Override
@@ -79,11 +76,11 @@ public class SiteNavigationMenuStagedModelRepository
 			String uuid, long groupId, String className, String extraData)
 		throws PortalException {
 
-		BookmarksFolder bookmarksFolder = fetchStagedModelByUuidAndGroupId(
-			uuid, groupId);
+		SiteNavigationMenu siteNavigationMenu =
+			fetchStagedModelByUuidAndGroupId(uuid, groupId);
 
-		if (bookmarksFolder != null) {
-			deleteStagedModel(bookmarksFolder);
+		if (siteNavigationMenu != null) {
+			deleteStagedModel(siteNavigationMenu);
 		}
 	}
 
@@ -91,111 +88,75 @@ public class SiteNavigationMenuStagedModelRepository
 	public void deleteStagedModels(PortletDataContext portletDataContext)
 		throws PortalException {
 
-		_bookmarksFolderLocalService.deleteFolders(
+		_siteNavigationMenuLocalService.deleteSiteNavigationMenus(
 			portletDataContext.getScopeGroupId());
 	}
 
 	@Override
-	public BookmarksFolder fetchMissingReference(String uuid, long groupId) {
+	public SiteNavigationMenu fetchMissingReference(String uuid, long groupId) {
 		return _stagedModelRepositoryHelper.fetchMissingReference(
 			uuid, groupId, this);
 	}
 
 	@Override
-	public BookmarksFolder fetchStagedModelByUuidAndGroupId(
+	public SiteNavigationMenu fetchStagedModelByUuidAndGroupId(
 		String uuid, long groupId) {
 
-		return _bookmarksFolderLocalService.
-			fetchBookmarksFolderByUuidAndGroupId(uuid, groupId);
+		return _siteNavigationMenuLocalService.
+			fetchSiteNavigationMenuByUuidAndGroupId(uuid, groupId);
 	}
 
 	@Override
-	public List<BookmarksFolder> fetchStagedModelsByUuidAndCompanyId(
+	public List<SiteNavigationMenu> fetchStagedModelsByUuidAndCompanyId(
 		String uuid, long companyId) {
 
-		return _bookmarksFolderLocalService.
-			getBookmarksFoldersByUuidAndCompanyId(
+		return _siteNavigationMenuLocalService.
+			getSiteNavigationMenusByUuidAndCompanyId(
 				uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				new StagedModelModifiedDateComparator<BookmarksFolder>());
+				new StagedModelModifiedDateComparator<>());
 	}
 
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext) {
 
-		return _bookmarksFolderLocalService.getExportActionableDynamicQuery(
+		return _siteNavigationMenuLocalService.getExportActionableDynamicQuery(
 			portletDataContext);
 	}
 
 	@Override
-	public BookmarksFolder getStagedModel(long folderId)
+	public SiteNavigationMenu getStagedModel(long siteNavigationMenuId)
 		throws PortalException {
 
-		return _bookmarksFolderLocalService.getBookmarksFolder(folderId);
+		return _siteNavigationMenuLocalService.getSiteNavigationMenu(
+			siteNavigationMenuId);
 	}
 
 	@Override
-	public void restoreStagedModel(
+	public SiteNavigationMenu saveStagedModel(
+		SiteNavigationMenu siteNavigationMenu) {
+
+		return _siteNavigationMenuLocalService.updateSiteNavigationMenu(
+			siteNavigationMenu);
+	}
+
+	@Override
+	public SiteNavigationMenu updateStagedModel(
 			PortletDataContext portletDataContext,
-			BookmarksFolder bookmarksFolder)
-		throws PortletDataException {
-
-		long userId = portletDataContext.getUserId(
-			bookmarksFolder.getUserUuid());
-
-		BookmarksFolder existingFolder = fetchStagedModelByUuidAndGroupId(
-			bookmarksFolder.getUuid(), portletDataContext.getScopeGroupId());
-
-		if ((existingFolder == null) ||
-			!_stagedModelRepositoryHelper.isStagedModelInTrash(
-				existingFolder)) {
-
-			return;
-		}
-
-		TrashHandler trashHandler = TrashHandlerRegistryUtil.getTrashHandler(
-			BookmarksFolder.class.getName());
-
-		try {
-			if (trashHandler.isRestorable(existingFolder.getFolderId())) {
-				trashHandler.restoreTrashEntry(
-					userId, existingFolder.getFolderId());
-			}
-		}
-		catch (PortalException pe) {
-			throw new PortletDataException(pe);
-		}
-	}
-
-	@Override
-	public BookmarksFolder saveStagedModel(BookmarksFolder bookmarksFolder) {
-		return _bookmarksFolderLocalService.updateBookmarksFolder(
-			bookmarksFolder);
-	}
-
-	@Override
-	public BookmarksFolder updateStagedModel(
-			PortletDataContext portletDataContext,
-			BookmarksFolder bookmarksFolder)
+			SiteNavigationMenu siteNavigationMenu)
 		throws PortalException {
 
 		long userId = portletDataContext.getUserId(
-			bookmarksFolder.getUserUuid());
+			siteNavigationMenu.getUserUuid());
 
-		ServiceContext serviceContext = portletDataContext.createServiceContext(
-			bookmarksFolder);
-
-		return _bookmarksFolderLocalService.updateFolder(
-			userId, bookmarksFolder.getFolderId(),
-			bookmarksFolder.getParentFolderId(), bookmarksFolder.getName(),
-			bookmarksFolder.getDescription(), serviceContext);
+		return _siteNavigationMenuLocalService.updateSiteNavigationMenu(
+			userId, siteNavigationMenu.getSiteNavigationMenuId(),
+			siteNavigationMenu.getGroupId(), siteNavigationMenu.getName(),
+			siteNavigationMenu.getType(), siteNavigationMenu.isAuto());
 	}
 
 	@Reference
-	private BookmarksEntryLocalService _bookmarksEntryLocalService;
-
-	@Reference
-	private BookmarksFolderLocalService _bookmarksFolderLocalService;
+	private SiteNavigationMenuLocalService _siteNavigationMenuLocalService;
 
 	@Reference
 	private StagedModelRepositoryHelper _stagedModelRepositoryHelper;

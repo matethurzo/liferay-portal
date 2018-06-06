@@ -14,9 +14,6 @@
 
 package com.liferay.site.navigation.internal.exportimport.data.handler;
 
-import com.liferay.bookmarks.model.BookmarksEntry;
-import com.liferay.bookmarks.model.BookmarksFolder;
-import com.liferay.bookmarks.model.BookmarksFolderConstants;
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -25,20 +22,27 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.staged.model.repository.StagedModelRepository;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.xml.Element;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import com.liferay.site.navigation.model.SiteNavigationMenu;
+import com.liferay.site.navigation.model.SiteNavigationMenuItem;
+import com.liferay.site.navigation.service.SiteNavigationMenuItemLocalService;
+import com.liferay.site.navigation.service.SiteNavigationMenuLocalService;
+import com.liferay.site.navigation.type.SiteNavigationMenuItemType;
+import com.liferay.site.navigation.type.SiteNavigationMenuItemTypeRegistry;
 
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
- * @author Mate Thurzo
- * @author Daniel Kocsis
+ * @author Pavel Savinov
  */
 @Component(immediate = true, service = StagedModelDataHandler.class)
 public class SiteNavigationMenuItemStagedModelDataHandler
-	extends BaseStagedModelDataHandler<BookmarksEntry> {
+	extends BaseStagedModelDataHandler<SiteNavigationMenuItem> {
 
-	public static final String[] CLASS_NAMES = {BookmarksEntry.class.getName()};
+	public static final String[] CLASS_NAMES =
+		{SiteNavigationMenuItem.class.getName()};
 
 	@Override
 	public String[] getClassNames() {
@@ -46,100 +50,161 @@ public class SiteNavigationMenuItemStagedModelDataHandler
 	}
 
 	@Override
-	public String getDisplayName(BookmarksEntry entry) {
-		return entry.getName();
+	public String getDisplayName(
+		SiteNavigationMenuItem siteNavigationMenuItem) {
+
+		return siteNavigationMenuItem.getName();
 	}
 
 	@Override
 	protected void doExportStagedModel(
-			PortletDataContext portletDataContext, BookmarksEntry entry)
+			PortletDataContext portletDataContext,
+			SiteNavigationMenuItem siteNavigationMenuItem)
 		throws Exception {
 
-		if (entry.getFolderId() !=
-				BookmarksFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
+		if (siteNavigationMenuItem.getSiteNavigationMenuId() > 0) {
+			SiteNavigationMenu siteNavigationMenu =
+				_siteNavigationMenuLocalService.getSiteNavigationMenu(
+					siteNavigationMenuItem.getSiteNavigationMenuId());
 
 			StagedModelDataHandlerUtil.exportReferenceStagedModel(
-				portletDataContext, entry, entry.getFolder(),
+				portletDataContext, siteNavigationMenuItem, siteNavigationMenu,
 				PortletDataContext.REFERENCE_TYPE_PARENT);
 		}
 
-		Element entryElement = portletDataContext.getExportDataElement(entry);
+		if (siteNavigationMenuItem.getParentSiteNavigationMenuItemId() > 0) {
+			SiteNavigationMenuItem parentSiteNavigationMenuItem =
+				_siteNavigationMenuItemLocalService.getSiteNavigationMenuItem(
+					siteNavigationMenuItem.getParentSiteNavigationMenuItemId());
+
+			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+				portletDataContext, siteNavigationMenuItem,
+				parentSiteNavigationMenuItem,
+				PortletDataContext.REFERENCE_TYPE_PARENT);
+		}
+
+		Element siteNavigationMenuItemElement =
+			portletDataContext.getExportDataElement(siteNavigationMenuItem);
+
+		SiteNavigationMenuItemType siteNavigationMenuItemType =
+			_siteNavigationMenuItemTypeRegistry.getSiteNavigationMenuItemType(
+				siteNavigationMenuItem.getType());
+
+		siteNavigationMenuItemType.exportData(
+			portletDataContext, siteNavigationMenuItemElement,
+			siteNavigationMenuItem);
 
 		portletDataContext.addClassedModel(
-			entryElement, ExportImportPathUtil.getModelPath(entry), entry);
+			siteNavigationMenuItemElement,
+			ExportImportPathUtil.getModelPath(siteNavigationMenuItem),
+			siteNavigationMenuItem);
 	}
 
 	@Override
 	protected void doImportMissingReference(
 			PortletDataContext portletDataContext, String uuid, long groupId,
-			long entryId)
+			long siteNavigationMenuItemId)
 		throws Exception {
 
-		BookmarksEntry existingEntry = fetchMissingReference(uuid, groupId);
+		SiteNavigationMenuItem existingSiteNavigationMenuItem =
+			fetchMissingReference(uuid, groupId);
 
-		if (existingEntry == null) {
+		if (existingSiteNavigationMenuItem == null) {
 			return;
 		}
 
-		Map<Long, Long> entryIds =
+		Map<Long, Long> siteNavigationMenuItemIds =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-				BookmarksEntry.class);
+				SiteNavigationMenuItem.class);
 
-		entryIds.put(entryId, existingEntry.getEntryId());
+		siteNavigationMenuItemIds.put(
+			siteNavigationMenuItemId,
+			existingSiteNavigationMenuItem.getSiteNavigationMenuItemId());
 	}
 
 	@Override
 	protected void doImportStagedModel(
-			PortletDataContext portletDataContext, BookmarksEntry entry)
+			PortletDataContext portletDataContext,
+			SiteNavigationMenuItem siteNavigationMenuItem)
 		throws Exception {
 
-		Map<Long, Long> folderIds =
+		Map<Long, Long> siteNavigationMenuIds =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-				BookmarksFolder.class);
+				SiteNavigationMenu.class);
 
-		long folderId = MapUtil.getLong(
-			folderIds, entry.getFolderId(), entry.getFolderId());
+		long siteNavigationMenuId = MapUtil.getLong(
+			siteNavigationMenuIds,
+			siteNavigationMenuItem.getSiteNavigationMenuId(),
+			siteNavigationMenuItem.getSiteNavigationMenuId());
 
-		BookmarksEntry importedEntry = (BookmarksEntry)entry.clone();
+		Map<Long, Long> siteNavigationMenuItemIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				SiteNavigationMenuItem.class);
 
-		importedEntry.setGroupId(portletDataContext.getScopeGroupId());
-		importedEntry.setFolderId(folderId);
+		long parentSiteNavigationMenuItemId = MapUtil.getLong(
+			siteNavigationMenuItemIds,
+			siteNavigationMenuItem.getParentSiteNavigationMenuItemId(),
+			siteNavigationMenuItem.getParentSiteNavigationMenuItemId());
 
-		BookmarksEntry existingEntry =
+		SiteNavigationMenuItem importedSiteNavigationMenuItem =
+			(SiteNavigationMenuItem)siteNavigationMenuItem.clone();
+
+		importedSiteNavigationMenuItem.setGroupId(
+			portletDataContext.getScopeGroupId());
+		importedSiteNavigationMenuItem.setParentSiteNavigationMenuItemId(
+			parentSiteNavigationMenuItemId);
+		importedSiteNavigationMenuItem.setSiteNavigationMenuId(
+			siteNavigationMenuId);
+
+		SiteNavigationMenuItem existingSiteNavigationMenuItem =
 			_stagedModelRepository.fetchStagedModelByUuidAndGroupId(
-				entry.getUuid(), portletDataContext.getScopeGroupId());
+				siteNavigationMenuItem.getUuid(),
+				portletDataContext.getScopeGroupId());
 
-		if ((existingEntry == null) ||
+		if ((existingSiteNavigationMenuItem == null) ||
 			!portletDataContext.isDataStrategyMirror()) {
 
-			importedEntry = _stagedModelRepository.addStagedModel(
-				portletDataContext, importedEntry);
+			importedSiteNavigationMenuItem =
+				_stagedModelRepository.addStagedModel(
+					portletDataContext, importedSiteNavigationMenuItem);
 		}
 		else {
-			importedEntry.setEntryId(existingEntry.getEntryId());
+			importedSiteNavigationMenuItem.setSiteNavigationMenuItemId(
+				existingSiteNavigationMenuItem.getSiteNavigationMenuItemId());
 
-			importedEntry = _stagedModelRepository.updateStagedModel(
-				portletDataContext, importedEntry);
+			importedSiteNavigationMenuItem =
+				_stagedModelRepository.updateStagedModel(
+					portletDataContext, importedSiteNavigationMenuItem);
 		}
 
-		portletDataContext.importClassedModel(entry, importedEntry);
+		SiteNavigationMenuItemType siteNavigationMenuItemType =
+			_siteNavigationMenuItemTypeRegistry.getSiteNavigationMenuItemType(
+				siteNavigationMenuItem.getType());
+
+		siteNavigationMenuItemType.importData(
+			portletDataContext, siteNavigationMenuItem,
+			importedSiteNavigationMenuItem);
+
+		portletDataContext.importClassedModel(
+			siteNavigationMenuItem, importedSiteNavigationMenuItem);
 	}
 
-	@Override
-	protected StagedModelRepository<BookmarksEntry> getStagedModelRepository() {
-		return _stagedModelRepository;
-	}
+	@Reference
+	private SiteNavigationMenuItemLocalService
+		_siteNavigationMenuItemLocalService;
+
+	@Reference
+	private SiteNavigationMenuItemTypeRegistry
+		_siteNavigationMenuItemTypeRegistry;
+
+	@Reference
+	private SiteNavigationMenuLocalService _siteNavigationMenuLocalService;
 
 	@Reference(
-		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksEntry)",
+		target = "(model.class.name=com.liferay.site.navigation.model.SiteNavigationMenuItem)",
 		unbind = "-"
 	)
-	protected void setStagedModelRepository(
-		StagedModelRepository<BookmarksEntry> stagedModelRepository) {
-
-		_stagedModelRepository = stagedModelRepository;
-	}
-
-	private StagedModelRepository<BookmarksEntry> _stagedModelRepository;
+	private StagedModelRepository<SiteNavigationMenuItem>
+		_stagedModelRepository;
 
 }

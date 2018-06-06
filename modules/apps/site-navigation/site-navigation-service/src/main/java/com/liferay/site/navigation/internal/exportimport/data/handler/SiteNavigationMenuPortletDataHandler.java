@@ -14,10 +14,6 @@
 
 package com.liferay.site.navigation.internal.exportimport.data.handler;
 
-import com.liferay.bookmarks.constants.BookmarksConstants;
-import com.liferay.bookmarks.constants.BookmarksPortletKeys;
-import com.liferay.bookmarks.model.BookmarksEntry;
-import com.liferay.bookmarks.model.BookmarksFolder;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -32,32 +28,31 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
 import com.liferay.portal.kernel.xml.Element;
+import com.liferay.site.navigation.admin.constants.SiteNavigationAdminPortletKeys;
+import com.liferay.site.navigation.constants.SiteNavigationConstants;
+import com.liferay.site.navigation.model.SiteNavigationMenu;
+import com.liferay.site.navigation.model.SiteNavigationMenuItem;
+
+import java.util.List;
+
+import javax.portlet.PortletPreferences;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.PortletPreferences;
-import java.util.List;
-
 /**
- * @author Jorge Ferrer
- * @author Bruno Farache
- * @author Raymond Augé
- * @author Juan Fernández
- * @author Mate Thurzo
- * @author Daniel Kocsis
+ * @author Pavel Savinov
  */
 @Component(
 	immediate = true,
-	property = {
-		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS,
-		"javax.portlet.name=" + BookmarksPortletKeys.BOOKMARKS_ADMIN
-	},
+	property = "javax.portlet.name=" + SiteNavigationAdminPortletKeys.SITE_NAVIGATION_ADMIN,
 	service = PortletDataHandler.class
 )
-public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler {
+public class SiteNavigationMenuPortletDataHandler
+	extends BasePortletDataHandler {
 
-	public static final String NAMESPACE = "bookmarks";
+	public static final String NAMESPACE = "navigation-menus";
 
 	public static final String SCHEMA_VERSION = "1.0.0";
 
@@ -68,7 +63,7 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 
 	@Override
 	public String getServiceName() {
-		return BookmarksConstants.SERVICE_NAME;
+		return SiteNavigationConstants.SERVICE_NAME;
 	}
 
 	@Override
@@ -79,17 +74,16 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 
 	@Activate
 	protected void activate() {
-		setDataPortletPreferences("rootFolderId");
 		setDeletionSystemEventStagedModelTypes(
-			new StagedModelType(BookmarksEntry.class),
-			new StagedModelType(BookmarksFolder.class));
+			new StagedModelType(SiteNavigationMenu.class),
+			new StagedModelType(SiteNavigationMenuItem.class));
 		setExportControls(
 			new PortletDataHandlerBoolean(
-				NAMESPACE, "folders", true, false, null,
-				BookmarksFolder.class.getName()),
+				NAMESPACE, "navigation-menus", true, false, null,
+				SiteNavigationMenu.class.getName()),
 			new PortletDataHandlerBoolean(
-				NAMESPACE, "entries", true, false, null,
-				BookmarksEntry.class.getName()));
+				NAMESPACE, "navigation-menu-items", true, false, null,
+				SiteNavigationMenuItem.class.getName()));
 		setImportControls(getExportControls());
 	}
 
@@ -100,14 +94,14 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 		throws Exception {
 
 		if (portletDataContext.addPrimaryKey(
-				BookmarksPortletDataHandler.class, "deleteData")) {
+				SiteNavigationMenuPortletDataHandler.class, "deleteData")) {
 
 			return portletPreferences;
 		}
 
-		_bookmarksEntryStagedModelRepository.deleteStagedModels(
+		_siteNavigationMenuItemStagedModelRepository.deleteStagedModels(
 			portletDataContext);
-		_bookmarksFolderStagedModelRepository.deleteStagedModels(
+		_siteNavigationMenuStagedModelRepository.deleteStagedModels(
 			portletDataContext);
 
 		return portletPreferences;
@@ -120,27 +114,33 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 		throws Exception {
 
 		portletDataContext.addPortletPermissions(
-			BookmarksConstants.RESOURCE_NAME);
+			SiteNavigationConstants.RESOURCE_NAME);
 
 		Element rootElement = addExportDataRootElement(portletDataContext);
 
 		rootElement.addAttribute(
 			"group-id", String.valueOf(portletDataContext.getScopeGroupId()));
 
-		if (portletDataContext.getBooleanParameter(NAMESPACE, "folders")) {
-			ExportActionableDynamicQuery folderActionableDynamicQuery =
-				_bookmarksFolderStagedModelRepository.
-					getExportActionableDynamicQuery(portletDataContext);
+		if (portletDataContext.getBooleanParameter(
+				NAMESPACE, "navigation-menus")) {
 
-			folderActionableDynamicQuery.performActions();
+			ExportActionableDynamicQuery
+				siteNavigationMenuExportActionableDynamicQuery =
+					_siteNavigationMenuStagedModelRepository.
+						getExportActionableDynamicQuery(portletDataContext);
+
+			siteNavigationMenuExportActionableDynamicQuery.performActions();
 		}
 
-		if (portletDataContext.getBooleanParameter(NAMESPACE, "entries")) {
-			ActionableDynamicQuery entryActionableDynamicQuery =
-				_bookmarksEntryStagedModelRepository.
-					getExportActionableDynamicQuery(portletDataContext);
+		if (portletDataContext.getBooleanParameter(
+				NAMESPACE, "navigation-menu-items")) {
 
-			entryActionableDynamicQuery.performActions();
+			ActionableDynamicQuery
+				siteNavigationMenuItemExportActionableDynamicQuery =
+					_siteNavigationMenuItemStagedModelRepository.
+						getExportActionableDynamicQuery(portletDataContext);
+
+			siteNavigationMenuItemExportActionableDynamicQuery.performActions();
 		}
 
 		return getExportDataRootElementString(rootElement);
@@ -153,31 +153,41 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 		throws Exception {
 
 		portletDataContext.importPortletPermissions(
-			BookmarksConstants.RESOURCE_NAME);
+			SiteNavigationConstants.RESOURCE_NAME);
 
-		if (portletDataContext.getBooleanParameter(NAMESPACE, "folders")) {
-			Element foldersElement =
+		if (portletDataContext.getBooleanParameter(
+				NAMESPACE, "navigation-menus")) {
+
+			Element siteNavigationMenusElement =
 				portletDataContext.getImportDataGroupElement(
-					BookmarksFolder.class);
+					SiteNavigationMenu.class);
 
-			List<Element> folderElements = foldersElement.elements();
+			List<Element> siteNavigationMenuElements =
+				siteNavigationMenusElement.elements();
 
-			for (Element folderElement : folderElements) {
+			for (Element siteNavigationMenuElement :
+					siteNavigationMenuElements) {
+
 				StagedModelDataHandlerUtil.importStagedModel(
-					portletDataContext, folderElement);
+					portletDataContext, siteNavigationMenuElement);
 			}
 		}
 
-		if (portletDataContext.getBooleanParameter(NAMESPACE, "entries")) {
-			Element entriesElement =
+		if (portletDataContext.getBooleanParameter(
+				NAMESPACE, "navigation-menu-items")) {
+
+			Element siteNavigationMenuItemsElement =
 				portletDataContext.getImportDataGroupElement(
-					BookmarksEntry.class);
+					SiteNavigationMenuItem.class);
 
-			List<Element> entryElements = entriesElement.elements();
+			List<Element> siteNavigationMenuItemElements =
+				siteNavigationMenuItemsElement.elements();
 
-			for (Element entryElement : entryElements) {
+			for (Element siteNavigationMenuItemElement :
+					siteNavigationMenuItemElements) {
+
 				StagedModelDataHandlerUtil.importStagedModel(
-					portletDataContext, entryElement);
+					portletDataContext, siteNavigationMenuItemElement);
 			}
 		}
 
@@ -196,24 +206,25 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 			_staging.populateLastPublishDateCounts(
 				portletDataContext,
 				new String[] {
-					BookmarksEntry.class.getName(),
-					BookmarksFolder.class.getName()
+					SiteNavigationMenuItem.class.getName(),
+					SiteNavigationMenu.class.getName()
 				});
 
 			return;
 		}
 
-		ActionableDynamicQuery entryExportActionableDynamicQuery =
-			_bookmarksEntryStagedModelRepository.
+		ActionableDynamicQuery
+			siteNavigationMenuItemExportActionableDynamicQuery =
+				_siteNavigationMenuItemStagedModelRepository.
+					getExportActionableDynamicQuery(portletDataContext);
+
+		siteNavigationMenuItemExportActionableDynamicQuery.performCount();
+
+		ActionableDynamicQuery siteNavigationMenuExportActionableDynamicQuery =
+			_siteNavigationMenuStagedModelRepository.
 				getExportActionableDynamicQuery(portletDataContext);
 
-		entryExportActionableDynamicQuery.performCount();
-
-		ActionableDynamicQuery folderExportActionableDynamicQuery =
-			_bookmarksFolderStagedModelRepository.
-				getExportActionableDynamicQuery(portletDataContext);
-
-		folderExportActionableDynamicQuery.performCount();
+		siteNavigationMenuExportActionableDynamicQuery.performCount();
 	}
 
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED, unbind = "-")
@@ -221,20 +232,20 @@ public class SiteNavigationMenuPortletDataHandler extends BasePortletDataHandler
 		ModuleServiceLifecycle moduleServiceLifecycle) {
 	}
 
-	@Reference(
-		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksEntry)"
-	)
-	private StagedModelRepository<BookmarksEntry>
-		_bookmarksEntryStagedModelRepository;
-
-	@Reference(
-		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksFolder)"
-	)
-	private StagedModelRepository<BookmarksFolder>
-		_bookmarksFolderStagedModelRepository;
-
 	@Reference
 	private PortletDataHandlerHelper _portletDataHandlerHelper;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.site.navigation.model.SiteNavigationMenuItem)"
+	)
+	private StagedModelRepository<SiteNavigationMenuItem>
+		_siteNavigationMenuItemStagedModelRepository;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.site.navigation.model.SiteNavigationMenu)"
+	)
+	private StagedModelRepository<SiteNavigationMenu>
+		_siteNavigationMenuStagedModelRepository;
 
 	@Reference
 	private Staging _staging;
