@@ -14,23 +14,25 @@
 
 package com.liferay.site.navigation.internal.xstream.configurator;
 
-import com.liferay.bookmarks.model.impl.BookmarksEntryImpl;
-import com.liferay.bookmarks.model.impl.BookmarksFolderImpl;
 import com.liferay.exportimport.kernel.xstream.XStreamAlias;
 import com.liferay.exportimport.kernel.xstream.XStreamConverter;
 import com.liferay.exportimport.kernel.xstream.XStreamType;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.site.navigation.model.impl.SiteNavigationMenuImpl;
+import com.liferay.site.navigation.model.impl.SiteNavigationMenuItemImpl;
 import com.liferay.xstream.configurator.XStreamConfigurator;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
 
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+
 /**
- * @author Mate Thurzo
+ * @author Pavel Savinov
  */
 @Component(immediate = true, service = XStreamConfigurator.class)
-public class SiteNavigationMenusXStreamConfigurator implements XStreamConfigurator {
+public class SiteNavigationMenusXStreamConfigurator
+	implements XStreamConfigurator {
 
 	@Override
 	public List<XStreamType> getAllowedXStreamTypes() {
@@ -50,8 +52,9 @@ public class SiteNavigationMenusXStreamConfigurator implements XStreamConfigurat
 	@Activate
 	protected void activate() {
 		_xStreamAliases = new XStreamAlias[] {
-			new XStreamAlias(BookmarksEntryImpl.class, "BookmarksEntry"),
-			new XStreamAlias(BookmarksFolderImpl.class, "BookmarksFolder")
+			new XStreamAlias(
+				SiteNavigationMenuItemImpl.class, "SiteNavigationMenuItem"),
+			new XStreamAlias(SiteNavigationMenuImpl.class, "SiteNavigationMenu")
 		};
 	}
 
