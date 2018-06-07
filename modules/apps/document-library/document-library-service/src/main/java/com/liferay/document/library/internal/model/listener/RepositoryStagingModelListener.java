@@ -58,6 +58,13 @@ public class RepositoryStagingModelListener
 	}
 
 	@Override
+	public void onAfterRemove(Repository repository)
+		throws ModelListenerException {
+
+		_stagingModelListener.onAfterRemove(repository);
+	}
+
+	@Override
 	public void onAfterUpdate(Repository repository)
 		throws ModelListenerException {
 

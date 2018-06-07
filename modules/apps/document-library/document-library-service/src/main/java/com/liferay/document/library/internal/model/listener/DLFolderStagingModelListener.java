@@ -35,6 +35,11 @@ public class DLFolderStagingModelListener extends BaseModelListener<DLFolder> {
 	}
 
 	@Override
+	public void onAfterRemove(DLFolder dlFolder) throws ModelListenerException {
+		_stagingModelListener.onAfterRemove(dlFolder);
+	}
+
+	@Override
 	public void onAfterUpdate(DLFolder dlFolder) throws ModelListenerException {
 		_stagingModelListener.onAfterUpdate(dlFolder);
 	}

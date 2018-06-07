@@ -38,6 +38,13 @@ public class DLFileEntryTypeStagingModelListener
 	}
 
 	@Override
+	public void onAfterRemove(DLFileEntryType dlFileEntryType)
+		throws ModelListenerException {
+
+		_stagingModelListener.onAfterRemove(dlFileEntryType);
+	}
+
+	@Override
 	public void onAfterUpdate(DLFileEntryType dlFileEntryType)
 		throws ModelListenerException {
 
