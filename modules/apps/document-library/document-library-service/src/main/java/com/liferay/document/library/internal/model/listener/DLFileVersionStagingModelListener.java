@@ -52,7 +52,7 @@ public class DLFileVersionStagingModelListener
 			return;
 		}
 
-		DLFileEntry dlFileEntry;
+		DLFileEntry dlFileEntry = null;
 
 		try {
 			dlFileEntry = dlFileVersion.getFileEntry();
@@ -81,7 +81,7 @@ public class DLFileVersionStagingModelListener
 			return;
 		}
 
-		DLFileEntry dlFileEntry;
+		DLFileEntry dlFileEntry = null;
 
 		try {
 			dlFileEntry = dlFileVersion.getFileEntry();
