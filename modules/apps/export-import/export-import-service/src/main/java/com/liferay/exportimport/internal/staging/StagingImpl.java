@@ -58,6 +58,7 @@ import com.liferay.exportimport.kernel.service.StagingLocalService;
 import com.liferay.exportimport.kernel.staging.LayoutStagingUtil;
 import com.liferay.exportimport.kernel.staging.Staging;
 import com.liferay.exportimport.kernel.staging.StagingConstants;
+import com.liferay.exportimport.staged.model.repository.StagedModelRepositoryHelper;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
@@ -214,6 +215,14 @@ public class StagingImpl implements Staging {
 
 				return;
 			}
+		}
+
+		if (_stagedModelRepositoryHelper.isStagedModelInTrash(
+				stagedGroupedModel)) {
+
+			removeModelFromChangesetCollection(model);
+
+			return;
 		}
 
 		long classNameId = _classNameLocalService.getClassNameId(
@@ -4045,6 +4054,9 @@ public class StagingImpl implements Staging {
 	@Reference
 	private RecentLayoutSetBranchLocalService
 		_recentLayoutSetBranchLocalService;
+
+	@Reference
+	private StagedModelRepositoryHelper _stagedModelRepositoryHelper;
 
 	@Reference
 	private StagingLocalService _stagingLocalService;
