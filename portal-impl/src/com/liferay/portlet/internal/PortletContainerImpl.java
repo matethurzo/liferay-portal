@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutType;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
@@ -52,6 +53,7 @@ import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
@@ -393,10 +395,27 @@ public class PortletContainerImpl implements PortletContainer {
 		}
 		finally {
 			if (themeDisplay != null) {
-				themeDisplay.setScopeGroupId(previousScopeGroupId);
-				themeDisplay.setSiteGroupId(previousSiteGroupId);
+
+				if (!_isGroupAlreadyDeleted(previousScopeGroupId)){
+					themeDisplay.setScopeGroupId(previousScopeGroupId);
+				}
+
+				if (!_isGroupAlreadyDeleted(previousSiteGroupId)){
+					themeDisplay.setSiteGroupId(previousSiteGroupId);
+				}
+
 			}
 		}
+	}
+
+	private boolean _isGroupAlreadyDeleted(long groupId){
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		if (group == null){
+			return true;
+		}
+
+		return false;
 	}
 
 	private ActionResult _processAction(
