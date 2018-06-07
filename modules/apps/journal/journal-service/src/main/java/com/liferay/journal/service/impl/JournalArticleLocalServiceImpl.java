@@ -1240,6 +1240,12 @@ public class JournalArticleLocalServiceImpl
 			}
 		}
 
+		// FriendlyURL
+
+		friendlyURLEntryLocalService.deleteFriendlyURLEntry(
+			article.getGroupId(), JournalArticle.class,
+			article.getResourcePrimKey());
+
 		// Article
 
 		journalArticlePersistence.remove(article);
