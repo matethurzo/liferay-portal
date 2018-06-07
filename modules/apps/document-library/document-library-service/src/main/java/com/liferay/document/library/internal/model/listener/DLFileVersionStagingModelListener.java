@@ -15,12 +15,17 @@
 package com.liferay.document.library.internal.model.listener;
 
 import com.liferay.document.library.exportimport.data.handler.DLExportableRepositoryPublisher;
-import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileVersion;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.staging.model.listener.StagingModelListener;
 
 import java.util.Collection;
@@ -36,35 +41,65 @@ import org.osgi.service.component.annotations.Reference;
  * @author Akos Thurzo
  */
 @Component(immediate = true, service = ModelListener.class)
-public class DLFolderStagingModelListener extends BaseModelListener<DLFolder> {
+public class DLFileVersionStagingModelListener
+	extends BaseModelListener<DLFileVersion> {
 
 	@Override
-	public void onAfterCreate(DLFolder dlFolder) throws ModelListenerException {
-		Collection<Long> exportableRepositoryIds = _getExportableRepositoryIds(
-			dlFolder.getGroupId());
+	public void onAfterCreate(DLFileVersion dlFileVersion)
+		throws ModelListenerException {
 
-		if (!exportableRepositoryIds.contains(dlFolder.getRepositoryId())) {
+		if (dlFileVersion.getStatus() != WorkflowConstants.STATUS_APPROVED) {
 			return;
 		}
 
-		_stagingModelListener.onAfterCreate(dlFolder);
-	}
+		DLFileEntry dlFileEntry;
 
-	@Override
-	public void onAfterRemove(DLFolder dlFolder) throws ModelListenerException {
-		_stagingModelListener.onAfterRemove(dlFolder);
-	}
+		try {
+			dlFileEntry = dlFileVersion.getFileEntry();
+		}
+		catch (PortalException pe) {
+			_log.error(pe);
 
-	@Override
-	public void onAfterUpdate(DLFolder dlFolder) throws ModelListenerException {
-		Collection<Long> exportableRepositoryIds = _getExportableRepositoryIds(
-			dlFolder.getGroupId());
-
-		if (!exportableRepositoryIds.contains(dlFolder.getRepositoryId())) {
 			return;
 		}
 
-		_stagingModelListener.onAfterUpdate(dlFolder);
+		Collection<Long> exportableRepositoryIds = _getExportableRepositoryIds(
+			dlFileEntry.getGroupId());
+
+		if (!exportableRepositoryIds.contains(dlFileEntry.getRepositoryId())) {
+			return;
+		}
+
+		_stagingModelListener.onAfterCreate(dlFileEntry);
+	}
+
+	@Override
+	public void onAfterUpdate(DLFileVersion dlFileVersion)
+		throws ModelListenerException {
+
+		if (dlFileVersion.getStatus() != WorkflowConstants.STATUS_APPROVED) {
+			return;
+		}
+
+		DLFileEntry dlFileEntry;
+
+		try {
+			dlFileEntry = dlFileVersion.getFileEntry();
+		}
+		catch (PortalException pe) {
+			_log.error(pe);
+
+			return;
+		}
+
+		Collection<Long> exportableRepositoryIds = _getExportableRepositoryIds(
+			dlFileEntry.getGroupId());
+
+		if (!exportableRepositoryIds.contains(dlFileEntry.getRepositoryId())) {
+			return;
+		}
+
+		_stagingModelListener.onAfterUpdate(dlFileEntry);
 	}
 
 	@Activate
@@ -95,11 +130,14 @@ public class DLFolderStagingModelListener extends BaseModelListener<DLFolder> {
 		return exportableRepositoryIds;
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileVersionStagingModelListener.class);
+
 	private ServiceTrackerList
 		<DLExportableRepositoryPublisher, DLExportableRepositoryPublisher>
 			_dlExportableRepositoryPublishers;
 
 	@Reference
-	private StagingModelListener<DLFolder> _stagingModelListener;
+	private StagingModelListener<DLFileEntry> _stagingModelListener;
 
 }

@@ -31,24 +31,10 @@ public class DLFileEntryStagingModelListener
 	extends BaseModelListener<DLFileEntry> {
 
 	@Override
-	public void onAfterCreate(DLFileEntry dlFileEntry)
-		throws ModelListenerException {
-
-		_stagingModelListener.onAfterCreate(dlFileEntry);
-	}
-
-	@Override
 	public void onAfterRemove(DLFileEntry dlFileEntry)
 		throws ModelListenerException {
 
 		_stagingModelListener.onAfterRemove(dlFileEntry);
-	}
-
-	@Override
-	public void onAfterUpdate(DLFileEntry dlFileEntry)
-		throws ModelListenerException {
-
-		_stagingModelListener.onAfterUpdate(dlFileEntry);
 	}
 
 	@Reference
