@@ -136,13 +136,10 @@ public class FragmentEntryStagedModelRepository
 
 		long userId = portletDataContext.getUserId(fragmentEntry.getUserUuid());
 
-		ServiceContext serviceContext = portletDataContext.createServiceContext(
-			fragmentEntry);
-
 		return _fragmentEntryLocalService.updateFragmentEntry(
 			userId, fragmentEntry.getFragmentEntryId(), fragmentEntry.getName(),
 			fragmentEntry.getCss(), fragmentEntry.getHtml(),
-			fragmentEntry.getJs(), fragmentEntry.getStatus(), serviceContext);
+			fragmentEntry.getJs(), fragmentEntry.getStatus());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
