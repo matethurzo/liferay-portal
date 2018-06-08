@@ -63,10 +63,12 @@ public class LayoutPageTemplateEntryStagedModelDataHandler
 			_layoutPageTemplateCollectionLocalService.fetchFragmentCollection(
 				layoutPageTemplateEntry.getLayoutPageTemplateCollectionId());
 
-		StagedModelDataHandlerUtil.exportReferenceStagedModel(
-			portletDataContext, layoutPageTemplateEntry,
-			layoutPageTemplateCollection,
-			PortletDataContext.REFERENCE_TYPE_PARENT);
+		if (layoutPageTemplateCollection != null) {
+			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+				portletDataContext, layoutPageTemplateEntry,
+				layoutPageTemplateCollection,
+				PortletDataContext.REFERENCE_TYPE_PARENT);
+		}
 
 		Element entryElement = portletDataContext.getExportDataElement(
 			layoutPageTemplateEntry);
