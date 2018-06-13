@@ -177,7 +177,7 @@ if (liveLayout != null) {
 
 			<li class="control-menu-nav-item staging-bar">
 				<div class="control-menu-level-2">
-					<div class="container-fluid-1280">
+					<div class="container-fluid container-fluid-max-xl">
 						<div class="control-menu-level-2-heading visible-xs">
 							<liferay-ui:message key="staging-options" />
 
