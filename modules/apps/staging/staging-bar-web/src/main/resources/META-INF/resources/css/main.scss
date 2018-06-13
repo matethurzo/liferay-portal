@@ -3,8 +3,12 @@
 
 .control-menu {
 	.staging-links {
-		padding-top: 3px;
 		position: static;
+
+		.live-link, .staging-link {
+			font-size: 16px;
+			padding: 0 8px;
+		}
 	}
 
 	.staging-message {
@@ -21,10 +25,6 @@
 			position: static;
 		}
 	}
-}
-
-.live-link {
-	margin-right: 24px;
 }
 
 .publish-btn-group {

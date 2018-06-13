@@ -95,7 +95,7 @@ if (liveLayout != null) {
 					<c:if test="<%= stagingGroup != null %>">
 						<li class="active control-menu-link control-menu-nav-item hidden-xs staging-link">
 							<a class="control-menu-icon" id="stagingLink" value="staging">
-								<aui:icon image="staging" label="staging" markupView="lexicon" />
+								<liferay-ui:message key="staging" />
 							</a>
 						</li>
 					</c:if>
@@ -103,17 +103,11 @@ if (liveLayout != null) {
 				<c:otherwise>
 					<li class="control-menu-link control-menu-nav-item hidden-xs staging-link">
 						<a class="control-menu-icon" href="<%= (layoutSetBranches != null) ? null : stagingURL %>" value="staging">
-							<aui:icon image="staging" label="staging" markupView="lexicon" />
+							<liferay-ui:message key="staging" />
 						</a>
 					</li>
 				</c:otherwise>
 			</c:choose>
-
-			<c:if test="<%= !group.isStagingGroup() || Validator.isNotNull(liveURL) %>">
-				<li class="control-menu-nav-item hidden-xs staging-divider">
-					<span> / </span>
-				</li>
-			</c:if>
 
 			<c:choose>
 				<c:when test="<%= group.isStagedRemotely() %>">
@@ -167,7 +161,7 @@ if (liveLayout != null) {
 					<c:if test="<%= Validator.isNotNull(liveURL) %>">
 						<li class="control-menu-link control-menu-nav-item hidden-xs live-link">
 							<a class="control-menu-icon" href="<%= HtmlUtil.escape(liveURL) %>" value="live">
-								<aui:icon image="live" label="live" markupView="lexicon" />
+								<liferay-ui:message key="live" />
 							</a>
 						</li>
 					</c:if>
@@ -175,7 +169,7 @@ if (liveLayout != null) {
 				<c:otherwise>
 					<li class="active control-menu-link control-menu-nav-item hidden-xs live-link">
 						<a class="control-menu-icon taglib-icon" id="liveLink" value="live">
-							<aui:icon image="live" label="live" markupView="lexicon" />
+							<liferay-ui:message key="live" />
 						</a>
 					</li>
 				</c:otherwise>
