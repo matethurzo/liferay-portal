@@ -325,7 +325,7 @@ public class PortletContainerImpl implements PortletContainer {
 		return new EventImpl(event.getName(), event.getQName(), value);
 	}
 
-	private boolean _isGroupAlreadyDeleted(long groupId) {
+	private boolean _isGroupExists(long groupId) {
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
 
 		if (group == null) {
@@ -405,11 +405,11 @@ public class PortletContainerImpl implements PortletContainer {
 		}
 		finally {
 			if (themeDisplay != null) {
-				if (!_isGroupAlreadyDeleted(previousScopeGroupId)) {
+				if (!_isGroupExists(previousScopeGroupId)) {
 					themeDisplay.setScopeGroupId(previousScopeGroupId);
 				}
 
-				if (!_isGroupAlreadyDeleted(previousSiteGroupId)) {
+				if (!_isGroupExists(previousSiteGroupId)) {
 					themeDisplay.setSiteGroupId(previousSiteGroupId);
 				}
 			}
