@@ -68,6 +68,9 @@ public class ExportTemplatesToolbarDisplayContext {
 	public String getSearchActionURL() {
 		PortletURL searchActionURL = getRenderURL();
 
+		searchActionURL.setParameter(
+			"mvcRenderCommandName", "viewExportConfigurations");
+
 		return searchActionURL.toString();
 	}
 
