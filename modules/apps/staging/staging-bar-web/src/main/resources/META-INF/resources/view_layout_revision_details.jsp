@@ -56,11 +56,6 @@ else {
 	<c:if test="<%= !hasWorkflowTask %>">
 		<c:if test="<%= !layoutRevision.isHead() && LayoutPermissionUtil.contains(permissionChecker, layoutRevision.getPlid(), ActionKeys.UPDATE) %>">
 			<li class="control-menu-nav-item">
-				<c:if test="<%= layoutRevision.isIncomplete() %>">
-					<p>
-						<liferay-ui:message arguments="<%= new Object[] {HtmlUtil.escape(layoutRevision.getName(locale)), layoutSetBranchName} %>" key="the-page-x-is-not-enabled-in-x,-but-is-available-in-other-pages-variations" translateArguments="<%= false %>" />
-					</p>
-				</c:if>
 
 				<%
 				List<LayoutRevision> pendingLayoutRevisions = LayoutRevisionLocalServiceUtil.getLayoutRevisions(layoutRevision.getLayoutSetBranchId(), layoutRevision.getPlid(), WorkflowConstants.STATUS_PENDING);
@@ -124,29 +119,11 @@ else {
 
 	<c:if test="<%= !layoutRevision.isIncomplete() %>">
 		<li class="control-menu-nav-item">
-			<c:choose>
-				<c:when test="<%= layoutRevision.isHead() %>">
-					<span class="staging-bar-control-toggle">
-						<aui:input disabled="<%= true %>" id="readyToggle" label="<%= StringPool.BLANK %>" labelOn="ready-for-publication" name="readyToggle" type="toggle-switch" value="<%= true %>" />
-					</span>
-				</c:when>
-				<c:otherwise>
-					<aui:model-context bean="<%= layoutRevision %>" model="<%= LayoutRevision.class %>" />
-
-					<span class="staging-bar-workflow-text">
-						<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= layoutRevision.getStatus() %>" statusMessage='<%= layoutRevision.isHead() ? "ready-for-publication" : null %>' />
-					</span>
-
-					<aui:script>
-						AUI.$('.layout-revision-info .taglib-workflow-status').on(
-							'mouseenter',
-							function(event) {
-								Liferay.Portal.ToolTip.show(event.currentTarget, '<liferay-ui:message key="<%= taglibHelpMessage %>" />');
-							}
-						);
-					</aui:script>
-				</c:otherwise>
-			</c:choose>
+			<c:if test="<%= layoutRevision.isHead() %>">
+				<span class="staging-bar-control-toggle">
+					<aui:input disabled="<%= true %>" id="readyToggle" label="<%= StringPool.BLANK %>" labelOn="ready-for-publication" name="readyToggle" type="toggle-switch" value="<%= true %>" />
+				</span>
+			</c:if>
 
 			<c:if test="<%= hasWorkflowTask %>">
 

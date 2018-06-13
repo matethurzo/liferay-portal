@@ -27,6 +27,11 @@
 	}
 }
 
+.custom-info-alert {
+	background: #FFF;
+	border: none;
+}
+
 .publish-btn-group {
 	vertical-align: middle;
 
@@ -75,6 +80,10 @@
 	padding-top: 10px;
 }
 
+.staging-alert-container {
+	padding: 1.09375rem 0;
+}
+
 .staging-bar-control-toggle {
 	div {
 		margin-bottom: 0;
@@ -99,8 +108,8 @@
 	}
 }
 
-.staging-bar-workflow-text span span span.status {
-	color: #869CAD;
+.staging-bar-workflow-text .status{
+	color: #2E5AAC;
 }
 
 .staging-layout-revision-details {
@@ -153,36 +162,47 @@
 .staging-variation-label {
 	display: block;
 	font-weight: 500;
-	margin-bottom: 10px;
+	margin-bottom: 4px;
 
 	&:hover {
 		text-decoration: none;
 	}
 
 	@include sm() {
-		font-size: 12px;
+		font-size: 14px;
 	}
 }
 
+.staging-bar-flex-column {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	padding-right: 16px;
+}
+
 .staging-variation-selector {
+	background: #F5F7F8;
+	border: 1px solid #E9E9EF;
+	border-radius: 4px;
+	color: #000000;
 	display: block;
-	font-weight: 500;
-	max-width: 250px;
+	font-size: 14px;
 	overflow: hidden;
-	padding-right: 20px;
+	padding: 4px 8px;
 	position: relative;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	width: 100%;
 
 	@include sm() {
 		font-size: 14px;
 	}
 
 	> span {
-		bottom: 0;
+		bottom: 4px;
 		display: block;
 		position: absolute;
-		right: 0;
+		right: 8px;
 	}
 }
 
@@ -199,5 +219,17 @@
 		&.nav-item-flex-end {
 			justify-content: flex-end !important;
 		}
+	}
+}
+
+.staging-bar-level-3-message {
+	display: inline-block;
+	position: static;
+
+	.staging-bar-level-3-message-container {
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 100%;
 	}
 }
