@@ -49,11 +49,11 @@ import com.liferay.portal.kernel.portlet.WindowStateFactory;
 import com.liferay.portal.kernel.portlet.configuration.icon.PortletConfigurationIconMenu;
 import com.liferay.portal.kernel.portlet.toolbar.PortletToolbar;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.BufferCacheServletResponse;
@@ -325,6 +325,16 @@ public class PortletContainerImpl implements PortletContainer {
 		return new EventImpl(event.getName(), event.getQName(), value);
 	}
 
+	private boolean _isGroupAlreadyDeleted(long groupId) {
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		if (group == null) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private void _preparePortlet(HttpServletRequest request, Portlet portlet)
 		throws Exception {
 
@@ -395,27 +405,15 @@ public class PortletContainerImpl implements PortletContainer {
 		}
 		finally {
 			if (themeDisplay != null) {
-
-				if (!_isGroupAlreadyDeleted(previousScopeGroupId)){
+				if (!_isGroupAlreadyDeleted(previousScopeGroupId)) {
 					themeDisplay.setScopeGroupId(previousScopeGroupId);
 				}
 
-				if (!_isGroupAlreadyDeleted(previousSiteGroupId)){
+				if (!_isGroupAlreadyDeleted(previousSiteGroupId)) {
 					themeDisplay.setSiteGroupId(previousSiteGroupId);
 				}
-
 			}
 		}
-	}
-
-	private boolean _isGroupAlreadyDeleted(long groupId){
-		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
-
-		if (group == null){
-			return true;
-		}
-
-		return false;
 	}
 
 	private ActionResult _processAction(
