@@ -108,9 +108,11 @@ else {
 						}
 						%>
 
-						<a href="javascript:Liferay.fire('<%= liferayPortletResponse.getNamespace() %>submit', {incomplete: <%= layoutRevision.isIncomplete() %>, publishURL: '<%= publishURL %>', currentURL: '<%= currentURL %>'}); void(0);" id="submitLink">
-							<liferay-ui:message key="<%= label %>" />
-						</a>
+						<div class="btn-group-item">
+							<a class="btn btn-secondary btn-sm" href="javascript:Liferay.fire('<%= liferayPortletResponse.getNamespace() %>submit', {incomplete: <%= layoutRevision.isIncomplete() %>, publishURL: '<%= publishURL %>', currentURL: '<%= currentURL %>'}); void(0);" id="submitLink">
+								<liferay-ui:message key="<%= label %>" />
+							</a>
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</li>
