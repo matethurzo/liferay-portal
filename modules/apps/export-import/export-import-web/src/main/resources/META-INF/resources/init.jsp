@@ -200,9 +200,6 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 ExportImportToolbarDisplayContext exportImportToolbarDisplayContext =
 	new ExportImportToolbarDisplayContext(request, pageContext, liferayPortletResponse);
-
-ExportTemplatesToolbarDisplayContext exportTemplatesToolbarDisplayContext =
-	new ExportTemplatesToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request);
 %>
 
 <%@ include file="/init-ext.jsp" %>

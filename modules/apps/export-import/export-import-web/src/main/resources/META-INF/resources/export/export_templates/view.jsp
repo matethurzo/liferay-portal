@@ -57,6 +57,11 @@ if (liveGroup == null) {
 	portletURL="<%= restoreTrashEntriesURL %>"
 />
 
+<%
+ExportTemplatesToolbarDisplayContext exportTemplatesToolbarDisplayContext =
+	new ExportTemplatesToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, liveGroupId, company, portletURL);
+%>
+
 <clay:management-toolbar
 	creationMenu="<%= exportTemplatesToolbarDisplayContext.getCreationMenu() %>"
 	searchActionURL="<%= exportTemplatesToolbarDisplayContext.getSearchActionURL() %>"
