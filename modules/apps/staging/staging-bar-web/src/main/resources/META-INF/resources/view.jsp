@@ -186,7 +186,7 @@ if (liveLayout != null) {
 							</button>
 						</div>
 
-						<ul class="control-menu-level-2-nav control-menu-nav">
+						<ul class="control-menu-level-2-nav control-menu-nav staging-bar-level-2-nav">
 							<c:choose>
 								<c:when test="<%= group.isStagingGroup() || group.isStagedRemotely() %>">
 									<c:if test="<%= stagingGroup != null %>">
@@ -198,13 +198,21 @@ if (liveLayout != null) {
 
 										<c:choose>
 											<c:when test="<%= branchingEnabled %>">
-												<liferay-util:include page="/view_layout_set_branch_details.jsp" servletContext="<%= application %>" />
+												<li class="control-menu-nav-item staging-bar-level-2-nav-item">
+													<div class="staging-bar-flex-column">
+														<liferay-util:include page="/view_layout_set_branch_details.jsp" servletContext="<%= application %>" />
+													</div>
 
-												<c:if test="<%= !layoutRevision.isIncomplete() %>">
-													<liferay-util:include page="/view_layout_branch_details.jsp" servletContext="<%= application %>" />
-												</c:if>
-
-												<li class="staging-layout-revision-details" id="<portlet:namespace />layoutRevisionDetails">
+													<div class="staging-bar-flex-column">
+														<c:if test="<%= !layoutRevision.isIncomplete() %>">
+															<liferay-util:include page="/view_layout_branch_details.jsp" servletContext="<%= application %>" />
+														</c:if>
+													</div>
+												</li>
+												<li class="control-menu-nav-item staging-bar-level-2-nav-item">
+													<!-- revision status block -->
+												</li>
+												<li class="control-menu-nav-item nav-item-flex-end staging-bar-level-2-nav-item staging-layout-revision-details" id="<portlet:namespace />layoutRevisionDetails">
 													<aui:model-context bean="<%= layoutRevision %>" model="<%= LayoutRevision.class %>" />
 
 													<liferay-util:include page="/view_layout_revision_details.jsp" servletContext="<%= application %>" />

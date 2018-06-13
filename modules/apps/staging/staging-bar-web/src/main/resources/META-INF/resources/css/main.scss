@@ -185,3 +185,19 @@
 		right: 0;
 	}
 }
+
+.staging-bar-level-2-nav {
+	display: flex;
+
+	.staging-bar-level-2-nav-item {
+		display: flex;
+		flex: 1;
+		font-size: 14px;
+		justify-content: center;
+		padding: 0 8px;
+
+		&.nav-item-flex-end {
+			justify-content: flex-end !important;
+		}
+	}
+}
