@@ -40,6 +40,15 @@ public class ExportTemplatesToolbarDisplayContext {
 		_portletResponse = portletResponse;
 	}
 
+	public String getClearResultsURL() {
+		PortletURL clearResultsURL = getRenderURL();
+
+		clearResultsURL.setParameter(
+			"mvcPath", "/export/export_templates/view.jsp");
+
+		return clearResultsURL.toString();
+	}
+
 	public CreationMenu getCreationMenu() {
 		return new CreationMenu() {
 			{
