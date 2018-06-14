@@ -27,6 +27,7 @@ import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
+import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
@@ -277,6 +278,28 @@ public class JournalArticleStagedModelDataHandler
 	protected void doExportStagedModel(
 			PortletDataContext portletDataContext, JournalArticle article)
 		throws Exception {
+
+		Map<String, String[]> parameterMap =
+			portletDataContext.getParameterMap();
+
+		String versionHistoryControlName =
+			PortletDataHandlerControl.getNamespacedControlName(
+				"journal", "version-history");
+
+		if ((parameterMap.get(versionHistoryControlName) != null) &&
+			!portletDataContext.getBooleanParameter(
+				"journal", "version-history")) {
+
+			JournalArticle latestArticle =
+				_journalArticleLocalService.fetchLatestArticle(
+					article.getResourcePrimKey(), getExportableStatuses());
+
+			if ((latestArticle != null) &&
+				(latestArticle.getId() != article.getId())) {
+
+				return;
+			}
+		}
 
 		Element articleElement = portletDataContext.getExportDataElement(
 			article);
