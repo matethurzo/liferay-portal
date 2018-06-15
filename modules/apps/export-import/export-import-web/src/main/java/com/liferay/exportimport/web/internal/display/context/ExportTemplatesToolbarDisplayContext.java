@@ -119,7 +119,7 @@ public class ExportTemplatesToolbarDisplayContext
 	private SearchContainer _createSearchContainer(
 		long liveGroupId, Company company, PortletURL iteratorURL) {
 
-		OrderByComparator comparator =
+		OrderByComparator orderByComparator =
 			new ExportImportConfigurationNameComparator(
 				"asc".equals(getOrderByType()));
 		ExportImportConfigurationSearchTerms searchTerms =
@@ -132,8 +132,8 @@ public class ExportTemplatesToolbarDisplayContext
 			SearchContainer.DEFAULT_DELTA, iteratorURL, null,
 			"there-are-no-saved-export-templates");
 
-		searchContainer.setOrderByComparator(comparator);
 		searchContainer.setOrderByCol("name");
+		searchContainer.setOrderByComparator(orderByComparator);
 		searchContainer.setOrderByType(getOrderByType());
 
 		int exportImportConfigurationType =
