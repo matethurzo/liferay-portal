@@ -147,8 +147,7 @@ public class AssetTagStagedModelDataHandler
 				AssetTagsPortletDataHandler.NAMESPACE, "merge-tags-by-name",
 				false) ||
 			(!hasMergeParameter &&
-			 AssetTagsServiceConfigurationValues.
-				 STAGING_PORTLET_MERGE_TAG_NAMES)) {
+			 AssetTagsServiceConfigurationValues.STAGING_MERGE_TAGS_BY_NAME)) {
 
 			existingAssetTag = Optional.ofNullable(
 				_assetTagLocalService.fetchTag(

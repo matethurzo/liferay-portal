@@ -21,10 +21,9 @@ import com.liferay.portal.kernel.util.GetterUtil;
  */
 public class AssetTagsServiceConfigurationValues {
 
-	public static final boolean STAGING_PORTLET_MERGE_TAG_NAMES =
+	public static final boolean STAGING_MERGE_TAGS_BY_NAME =
 		GetterUtil.getBoolean(
 			AssetTagsServiceConfigurationUtil.get(
-				AssetTagsServiceConfigurationKeys.
-					STAGING_PORTLET_MERGE_TAG_NAMES));
+				AssetTagsServiceConfigurationKeys.STAGING_MERGE_TAGS_BY_NAME));
 
 }

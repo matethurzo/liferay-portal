@@ -19,7 +19,7 @@ package com.liferay.asset.tags.internal.configuration;
  */
 public class AssetTagsServiceConfigurationKeys {
 
-	public static final String STAGING_PORTLET_MERGE_TAG_NAMES =
-		"staging.portlet.merge.tag.names";
+	public static final String STAGING_MERGE_TAGS_BY_NAME =
+		"staging.merge.tags.by.name";
 
 }
