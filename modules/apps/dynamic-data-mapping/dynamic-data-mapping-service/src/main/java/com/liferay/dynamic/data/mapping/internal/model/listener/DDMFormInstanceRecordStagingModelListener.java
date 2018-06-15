@@ -69,9 +69,6 @@ public class DDMFormInstanceRecordStagingModelListener
 
 	private boolean _skipEvent(DDMFormInstanceRecord ddmFormInstanceRecord) {
 		try {
-			DDMFormInstanceRecordVersion formInstanceRecordVersion =
-				ddmFormInstanceRecord.getFormInstanceRecordVersion();
-
 			StagedModelDataHandler stagedModelDataHandler =
 				StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
 					ExportImportClassedModelUtil.getClassName(
@@ -79,6 +76,9 @@ public class DDMFormInstanceRecordStagingModelListener
 
 			int[] exportableStatuses =
 				stagedModelDataHandler.getExportableStatuses();
+
+			DDMFormInstanceRecordVersion formInstanceRecordVersion =
+				ddmFormInstanceRecord.getFormInstanceRecordVersion();
 
 			if (!ArrayUtil.contains(
 					exportableStatuses,
