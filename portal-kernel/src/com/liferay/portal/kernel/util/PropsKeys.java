@@ -2344,8 +2344,6 @@ public interface PropsKeys {
 
 	public static final String STAGING_LIVE_GROUP_REMOTE_STAGING_ENABLED = "staging.live.group.remote.staging.enabled";
 
-	public static final String STAGING_PORTLET_MERGE_TAG_NAMES = "staging.portlet.merge.tag.names";
-
 	public static final String STAGING_REMOTE_TRANSFER_BUFFER_SIZE = "staging.remote.transfer.buffer.size";
 
 	public static final String STAGING_SYSTEM_EVENT_CHECK_INTERVAL = "staging.system.event.check.interval";
