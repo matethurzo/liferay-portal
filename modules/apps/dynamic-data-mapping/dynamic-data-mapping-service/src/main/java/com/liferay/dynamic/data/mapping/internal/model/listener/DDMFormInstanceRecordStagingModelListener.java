@@ -75,7 +75,7 @@ public class DDMFormInstanceRecordStagingModelListener
 			StagedModelDataHandler stagedModelDataHandler =
 				StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
 					ExportImportClassedModelUtil.getClassName(
-						formInstanceRecordVersion));
+						ddmFormInstanceRecord));
 
 			int[] exportableStatuses =
 				stagedModelDataHandler.getExportableStatuses();
