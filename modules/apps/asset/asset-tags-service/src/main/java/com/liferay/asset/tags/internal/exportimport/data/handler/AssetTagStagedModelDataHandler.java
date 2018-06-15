@@ -17,6 +17,7 @@ package com.liferay.asset.tags.internal.exportimport.data.handler;
 import com.liferay.asset.kernel.exception.DuplicateTagException;
 import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.service.AssetTagLocalService;
+import com.liferay.asset.tags.internal.configuration.AssetTagsServiceConfigurationValues;
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -27,7 +28,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.util.PropsValues;
 
 import java.util.List;
 import java.util.Map;
@@ -147,7 +147,8 @@ public class AssetTagStagedModelDataHandler
 				AssetTagsPortletDataHandler.NAMESPACE, "merge-tags-by-name",
 				false) ||
 			(!hasMergeParameter &&
-			 PropsValues.STAGING_PORTLET_MERGE_TAG_NAMES)) {
+			 AssetTagsServiceConfigurationValues.
+				 STAGING_PORTLET_MERGE_TAG_NAMES)) {
 
 			existingAssetTag = Optional.ofNullable(
 				_assetTagLocalService.fetchTag(
