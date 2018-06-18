@@ -56,7 +56,7 @@ public class JournalArticleStagingModelListener
 
 		_stagingModelListener.onAfterCreate(journalArticle);
 
-		_addResourceEntityToChangeset(journalArticle);
+		_addJournalArticleResourceToChangesetCollection(journalArticle);
 	}
 
 	@Override
@@ -65,28 +65,7 @@ public class JournalArticleStagingModelListener
 
 		_stagingModelListener.onAfterRemove(journalArticle);
 
-		long articleClassNameId = _classNameLocalService.getClassNameId(
-			journalArticle.getModelClass());
-
-		try {
-			ChangesetCollection changesetCollection =
-				_changesetCollectionLocalService.fetchOrAddChangesetCollection(
-					journalArticle.getGroupId(),
-					StagingConstants.
-						RANGE_FROM_LAST_PUBLISH_DATE_CHANGESET_NAME);
-
-			long articleResourceClassNameId =
-				_classNameLocalService.getClassNameId(
-					JournalArticleResource.class);
-
-			_deleteUnnecessaryResourceEntity(
-				changesetCollection, articleClassNameId,
-				journalArticle.getResourcePrimKey(),
-				articleResourceClassNameId);
-		}
-		catch (PortalException pe) {
-			_log.error(pe.getMessage(), pe);
-		}
+		_cleanupJournalArticleResourceFromChangesetCollection(journalArticle);
 	}
 
 	@Override
@@ -95,10 +74,21 @@ public class JournalArticleStagingModelListener
 
 		_stagingModelListener.onAfterUpdate(journalArticle);
 
-		_addResourceEntityToChangeset(journalArticle);
+		_addJournalArticleResourceToChangesetCollection(journalArticle);
+
+		// Updates are happening when moving to trash, need to clean up after
+		// add
+
+		_cleanupJournalArticleResourceFromChangesetCollection(journalArticle);
 	}
 
-	private void _addResourceEntityToChangeset(JournalArticle journalArticle) {
+	private void _addJournalArticleResourceToChangesetCollection(
+		JournalArticle journalArticle) {
+
+		if (journalArticle.getStatus() == WorkflowConstants.STATUS_IN_TRASH) {
+			return;
+		}
+
 		try {
 			ChangesetCollection changesetCollection =
 				_changesetCollectionLocalService.fetchOrAddChangesetCollection(
@@ -106,76 +96,99 @@ public class JournalArticleStagingModelListener
 					StagingConstants.
 						RANGE_FROM_LAST_PUBLISH_DATE_CHANGESET_NAME);
 
-			long articleClassNameId = _classNameLocalService.getClassNameId(
-				journalArticle.getModelClass());
+			long journalArticleClassNameId =
+				_classNameLocalService.getClassNameId(
+					journalArticle.getModelClass());
 
 			ChangesetEntry changesetEntry =
 				_changesetEntryLocalService.fetchChangesetEntry(
 					changesetCollection.getChangesetCollectionId(),
-					articleClassNameId, journalArticle.getId());
-
-			JournalArticleResource journalArticleResource =
-				journalArticle.getArticleResource();
-
-			long articleResourceClassNameId =
-				_classNameLocalService.getClassNameId(
-					journalArticleResource.getModelClass());
-
-			_deleteUnnecessaryResourceEntity(
-				changesetCollection, articleClassNameId,
-				journalArticleResource.getResourcePrimKey(),
-				articleResourceClassNameId);
+					journalArticleClassNameId, journalArticle.getId());
 
 			if (changesetEntry == null) {
 				return;
 			}
 
-			if (journalArticle.getStatus() !=
-					WorkflowConstants.STATUS_IN_TRASH) {
+			JournalArticleResource journalArticleResource =
+				journalArticle.getArticleResource();
 
-				_changesetEntryLocalService.fetchOrAddChangesetEntry(
-					changesetCollection.getChangesetCollectionId(),
-					articleResourceClassNameId,
-					journalArticleResource.getPrimaryKey());
-			}
+			long journalArticleResourceClassNameId =
+				_classNameLocalService.getClassNameId(
+					journalArticleResource.getModelClass());
+
+			_changesetEntryLocalService.fetchOrAddChangesetEntry(
+				changesetCollection.getChangesetCollectionId(),
+				journalArticleResourceClassNameId,
+				journalArticleResource.getPrimaryKey());
 		}
 		catch (PortalException pe) {
-			_log.error(pe.getMessage(), pe);
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to process journal article resource for article " +
+						journalArticle.getArticleId(),
+					pe);
+			}
 		}
 	}
 
-	private void _deleteUnnecessaryResourceEntity(
-		ChangesetCollection changesetCollection, long articleClassNameId,
-		long journalArticleResourcePrimKey, long articleResourceClassNameId) {
+	private void _cleanupJournalArticleResourceFromChangesetCollection(
+		JournalArticle journalArticle) {
 
-		List<JournalArticle> articlesVersions =
-			_journalArticleLocalService.getArticlesByResourcePrimKey(
-				journalArticleResourcePrimKey);
+		try {
+			ChangesetCollection changesetCollection =
+				_changesetCollectionLocalService.fetchOrAddChangesetCollection(
+					journalArticle.getGroupId(),
+					StagingConstants.
+						RANGE_FROM_LAST_PUBLISH_DATE_CHANGESET_NAME);
 
-		Set<Long> classPKs = new HashSet<>();
+			List<JournalArticle> journalArticleResourceArticles =
+				_journalArticleLocalService.getArticlesByResourcePrimKey(
+					journalArticle.getResourcePrimKey());
 
-		StagedModelDataHandler stagedModelDataHandler =
-			StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
-				JournalArticle.class.getName());
+			Set<Long> classPKs = new HashSet<>();
 
-		for (JournalArticle articleVersion : articlesVersions) {
-			if (ArrayUtil.contains(
-					stagedModelDataHandler.getExportableStatuses(),
-					articleVersion.getStatus())) {
+			StagedModelDataHandler stagedModelDataHandler =
+				StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
+					JournalArticle.class.getName());
 
-				classPKs.add(articleVersion.getId());
+			for (JournalArticle journalArticleResourceArticle :
+					journalArticleResourceArticles) {
+
+				if (ArrayUtil.contains(
+						stagedModelDataHandler.getExportableStatuses(),
+						journalArticleResourceArticle.getStatus())) {
+
+					classPKs.add(journalArticleResourceArticle.getId());
+				}
+			}
+
+			long journalArticleClassNameId =
+				_classNameLocalService.getClassNameId(
+					journalArticle.getModelClass());
+
+			long journalArticleChangetEntriesCount =
+				_changesetEntryLocalService.getChangesetEntriesCount(
+					changesetCollection.getChangesetCollectionId(),
+					journalArticleClassNameId, classPKs);
+
+			if (journalArticleChangetEntriesCount == 0) {
+				long journalArticleResourceClassNameId =
+					_classNameLocalService.getClassNameId(
+						JournalArticleResource.class);
+
+				_changesetEntryLocalService.deleteEntry(
+					changesetCollection.getChangesetCollectionId(),
+					journalArticleResourceClassNameId,
+					journalArticle.getResourcePrimKey());
 			}
 		}
-
-		long journalChangetEntriesCount =
-			_changesetEntryLocalService.getChangesetEntriesCount(
-				changesetCollection.getChangesetCollectionId(),
-				articleClassNameId, classPKs);
-
-		if (journalChangetEntriesCount == 0) {
-			_changesetEntryLocalService.deleteEntry(
-				changesetCollection.getChangesetCollectionId(),
-				articleResourceClassNameId, journalArticleResourcePrimKey);
+		catch (PortalException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to process journal article resource for article " +
+						journalArticle.getArticleId(),
+					pe);
+			}
 		}
 	}
 
