@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 
 import java.util.Set;
@@ -71,6 +72,31 @@ public class ChangesetEntryLocalServiceImpl
 			dynamicQuery -> dynamicQuery.add(
 				RestrictionsFactoryUtil.eq(
 					"changesetCollectionId", changesetCollectionId)));
+
+		actionableDynamicQuery.setPerformActionMethod(
+			(ActionableDynamicQuery.PerformActionMethod<ChangesetEntry>)
+				changesetEntry ->
+					changesetEntryLocalService.deleteChangesetEntry(
+						changesetEntry));
+
+		actionableDynamicQuery.performActions();
+	}
+
+	@Override
+	public void deleteChangesetEntries(Long[] changesetEntryIds)
+		throws PortalException {
+
+		if (ArrayUtil.isEmpty(changesetEntryIds)) {
+			return;
+		}
+
+		ActionableDynamicQuery actionableDynamicQuery =
+			getActionableDynamicQuery();
+
+		actionableDynamicQuery.setAddCriteriaMethod(
+			dynamicQuery -> dynamicQuery.add(
+				RestrictionsFactoryUtil.in(
+					"changesetEntryId", changesetEntryIds)));
 
 		actionableDynamicQuery.setPerformActionMethod(
 			(ActionableDynamicQuery.PerformActionMethod<ChangesetEntry>)
