@@ -80,7 +80,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 			Element importDataRootElement =
 				portletDataContext.getImportDataRootElement();
 
-			Element importDataElement;
+			Element importDataElement = null;
 
 			try {
 				portletDataContext.setImportDataRootElement(
