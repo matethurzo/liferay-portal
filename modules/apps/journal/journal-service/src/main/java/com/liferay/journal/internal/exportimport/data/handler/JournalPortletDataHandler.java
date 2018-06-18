@@ -396,7 +396,7 @@ public class JournalPortletDataHandler extends BasePortletDataHandler {
 					JournalFeed.class.getName(), JournalFolder.class.getName()
 				});
 
-			_populateJournalLastPublishDateCounts(portletDataContext);
+			_populateJournalArticleLastPublishDateCounts(portletDataContext);
 
 			return;
 		}
@@ -677,7 +677,7 @@ public class JournalPortletDataHandler extends BasePortletDataHandler {
 		return true;
 	}
 
-	private void _populateJournalLastPublishDateCounts(
+	private void _populateJournalArticleLastPublishDateCounts(
 			PortletDataContext portletDataContext)
 		throws PortalException {
 
