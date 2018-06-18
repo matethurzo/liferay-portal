@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.SetUtil;
 
 import java.util.Set;
 
@@ -149,7 +150,7 @@ public class ChangesetEntryLocalServiceImpl
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.eq("classNameId", classNameId));
 
-		if ((classPKs != null) && !classPKs.isEmpty()) {
+		if (SetUtil.isNotEmpty(classPKs)) {
 			dynamicQuery.add(RestrictionsFactoryUtil.in("classPK", classPKs));
 		}
 		else {
