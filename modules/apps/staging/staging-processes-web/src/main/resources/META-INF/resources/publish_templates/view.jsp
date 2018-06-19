@@ -48,6 +48,10 @@ renderResponse.setTitle(LanguageUtil.get(request, "publish-templates"));
 	<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
 </liferay-portlet:renderURL>
 
+<%
+StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPublishTemplatesToolbarDisplayContext = new StagingProcessesWebPublishTemplatesToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, stagingGroupId, groupId, company, portletURL, stagingGroup.isStagedRemotely());
+%>
+
 <clay:navigation-bar
 	inverted="<%= true %>"
 	navigationItems="<%= publishTemplatesDisplayContext.getNavigationItems() %>"
