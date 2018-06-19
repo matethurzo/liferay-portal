@@ -95,6 +95,8 @@ public class PortletStagingBackgroundTaskExecutor
 					backgroundTask.getBackgroundTaskId(),
 					exportImportConfiguration, file));
 
+			deleteExportedChangesetEntries();
+
 			ExportImportThreadLocal.setPortletStagingInProcess(false);
 
 			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(

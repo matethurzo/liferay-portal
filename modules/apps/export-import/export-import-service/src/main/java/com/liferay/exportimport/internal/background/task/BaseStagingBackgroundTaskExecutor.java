@@ -14,6 +14,8 @@
 
 package com.liferay.exportimport.internal.background.task;
 
+import com.liferay.changeset.service.ChangesetEntryLocalServiceUtil;
+import com.liferay.changeset.util.ChangesetThreadLocal;
 import com.liferay.exportimport.kernel.lar.MissingReference;
 import com.liferay.exportimport.kernel.lar.MissingReferences;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
@@ -32,6 +34,7 @@ import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -42,6 +45,7 @@ import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Mate Thurzo
@@ -64,6 +68,16 @@ public abstract class BaseStagingBackgroundTaskExecutor
 				backgroundTask.getBackgroundTaskId());
 
 		backgroundTaskStatus.clearAttributes();
+	}
+
+	protected void deleteExportedChangesetEntries() throws PortalException {
+		Set<Long> exportedChangesetEntryIds =
+			ChangesetThreadLocal.getExportedChangesetEntryIds();
+
+		ChangesetEntryLocalServiceUtil.deleteChangesetEntries(
+			ArrayUtil.toLongArray(exportedChangesetEntryIds.toArray()));
+
+		ChangesetThreadLocal.clearExportedChangesetEntryIds();
 	}
 
 	protected void deleteTempLarOnFailure(File file) {

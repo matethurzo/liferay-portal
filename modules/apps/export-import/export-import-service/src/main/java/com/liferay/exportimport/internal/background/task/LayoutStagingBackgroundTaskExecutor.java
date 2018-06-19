@@ -157,6 +157,8 @@ public class LayoutStagingBackgroundTaskExecutor
 					exportImportConfiguration, file, sourceGroupId,
 					targetGroupId, userId));
 
+			deleteExportedChangesetEntries();
+
 			ExportImportThreadLocal.setInitialLayoutStagingInProcess(false);
 			ExportImportThreadLocal.setLayoutStagingInProcess(false);
 

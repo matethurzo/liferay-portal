@@ -125,6 +125,8 @@ public class PortletRemoteStagingBackgroundTaskExecutor
 			missingReferences = StagingServiceHttp.publishStagingRequest(
 				httpPrincipal, stagingRequestId, exportImportConfiguration);
 
+			deleteExportedChangesetEntries();
+
 			ExportImportThreadLocal.setPortletStagingInProcess(false);
 
 			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(

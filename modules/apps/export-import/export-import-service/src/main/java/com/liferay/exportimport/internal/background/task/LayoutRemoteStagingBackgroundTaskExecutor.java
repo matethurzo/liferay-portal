@@ -139,6 +139,8 @@ public class LayoutRemoteStagingBackgroundTaskExecutor
 			missingReferences = StagingServiceHttp.publishStagingRequest(
 				httpPrincipal, stagingRequestId, exportImportConfiguration);
 
+			deleteExportedChangesetEntries();
+
 			ExportImportThreadLocal.setLayoutStagingInProcess(false);
 
 			ExportImportLifecycleManagerUtil.fireExportImportLifecycleEvent(
