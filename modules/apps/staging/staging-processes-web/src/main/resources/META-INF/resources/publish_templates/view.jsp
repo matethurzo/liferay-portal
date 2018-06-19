@@ -58,34 +58,18 @@ StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPubl
 />
 
 <clay:management-toolbar
-	creationMenu="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext.getCreationMenu() %>"
-	searchActionURL="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext.getSearchActionURL() %>"
+	displayContext="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext %>"
 	searchFormName="searchFm"
 	selectable="<%= false %>"
 	showCreationMenu="<%= true %>"
 	showSearch="<%= true %>"
 />
 
-<%
-int exportImportConfigurationType = stagingGroup.isStagedRemotely() ? ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_REMOTE : ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_LOCAL;
-%>
-
 <div class="closed container-fluid-1280 sidenav-container sidenav-right" id="<portlet:namespace />infoPanelId">
 	<aui:form action="<%= portletURL %>">
 		<liferay-ui:search-container
-			displayTerms="<%= new PublishConfigurationDisplayTerms(renderRequest) %>"
-			emptyResultsMessage="there-are-no-saved-publish-templates"
-			iteratorURL="<%= portletURL %>"
-			orderByCol="name"
-			orderByComparator="<%= new ExportImportConfigurationNameComparator(true) %>"
-			orderByType="asc"
-			searchTerms="<%= new PublishConfigurationSearchTerms(renderRequest) %>"
-			total="<%= ExportImportConfigurationLocalServiceUtil.getExportImportConfigurationsCount(groupId, exportImportConfigurationType) %>"
+			searchContainer="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext.getSearchContainer() %>"
 		>
-			<liferay-ui:search-container-results>
-				<%@ include file="/publish_templates/search_results.jspf" %>
-			</liferay-ui:search-container-results>
-
 			<liferay-ui:search-container-row
 				className="com.liferay.exportimport.kernel.model.ExportImportConfiguration"
 				keyProperty="exportImportConfigurationId"
