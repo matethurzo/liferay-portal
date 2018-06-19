@@ -113,6 +113,14 @@ public class StagingUtil {
 			serviceContext);
 	}
 
+	public static void checkRemoteLiveLayoutPlid(
+	public static void getRemoteLayoutPlid(
+			long userId, long stagingGroupId, long plid)
+		throws PortalException {
+
+		_staging.getRemoteLayoutPlid(userId, stagingGroupId, plid);
+	}
+
 	public static long copyFromLive(PortletRequest portletRequest)
 		throws PortalException {
 
