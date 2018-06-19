@@ -14,8 +14,10 @@
 
 package com.liferay.staging.processes.web.internal.display.context;
 
+import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.BaseManagementToolbarDisplayContext;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
 
@@ -25,16 +27,19 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Péter Alius
+ * @author Péter Borkuti
  */
-public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
+public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
+	extends BaseManagementToolbarDisplayContext {
 
 	public StagingProcessesWebPublishTemplatesToolbarDisplayContext(
-		HttpServletRequest request, long stagingGroupId,
-		LiferayPortletResponse portletResponse) {
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse,
+		HttpServletRequest request, long stagingGroupId) {
 
-		_request = request;
+		super(liferayPortletRequest, liferayPortletResponse, request);
+
 		_stagingGroupId = stagingGroupId;
-		_portletResponse = portletResponse;
 	}
 
 	public CreationMenu getCreationMenu() {
@@ -47,14 +52,12 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
 							"editPublishConfiguration", "groupId",
 							String.valueOf(_stagingGroupId),
 							"layoutSetBranchId",
-							ParamUtil.getString(_request, "layoutSetBranchId"),
+							ParamUtil.getString(request, "layoutSetBranchId"),
 							"layoutSetBranchName",
-							ParamUtil.getString(
-								_request, "layoutSetBranchName"),
+							ParamUtil.getString(request, "layoutSetBranchName"),
 							"privateLayout", Boolean.FALSE.toString());
 
-						dropdownItem.setLabel(
-							LanguageUtil.get(_request, "new"));
+						dropdownItem.setLabel(LanguageUtil.get(request, "new"));
 					});
 			}
 		};
@@ -67,11 +70,9 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
 	}
 
 	protected PortletURL getRenderURL() {
-		return _portletResponse.createRenderURL();
+		return liferayPortletResponse.createRenderURL();
 	}
 
-	private final LiferayPortletResponse _portletResponse;
-	private final HttpServletRequest _request;
 	private final long _stagingGroupId;
 
 }
