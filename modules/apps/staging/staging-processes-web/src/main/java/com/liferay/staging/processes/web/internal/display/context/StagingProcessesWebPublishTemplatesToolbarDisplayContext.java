@@ -16,14 +16,12 @@ package com.liferay.staging.processes.web.internal.display.context;
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
 
 /**
  * @author Péter Alius
@@ -31,28 +29,24 @@ import javax.servlet.jsp.PageContext;
 public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
 
 	public StagingProcessesWebPublishTemplatesToolbarDisplayContext(
-		HttpServletRequest request, PageContext pageContext,
+		HttpServletRequest request, long stagingGroupId,
 		LiferayPortletResponse portletResponse) {
 
 		_request = request;
-		_pageContext = pageContext;
+		_stagingGroupId = stagingGroupId;
 		_portletResponse = portletResponse;
 	}
 
 	public CreationMenu getCreationMenu() {
 		return new CreationMenu() {
 			{
-				Group stagingGroup = (Group)_pageContext.getAttribute(
-					"stagingGroup");
-
-				long stagingGroupId = stagingGroup.getGroupId();
-
 				addPrimaryDropdownItem(
 					dropdownItem -> {
 						dropdownItem.setHref(
 							getRenderURL(), "mvcRenderCommandName",
 							"editPublishConfiguration", "groupId",
-							String.valueOf(stagingGroupId), "layoutSetBranchId",
+							String.valueOf(_stagingGroupId),
+							"layoutSetBranchId",
 							ParamUtil.getString(_request, "layoutSetBranchId"),
 							"layoutSetBranchName",
 							ParamUtil.getString(
@@ -76,8 +70,8 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext {
 		return _portletResponse.createRenderURL();
 	}
 
-	private final PageContext _pageContext;
 	private final LiferayPortletResponse _portletResponse;
 	private final HttpServletRequest _request;
+	private final long _stagingGroupId;
 
 }

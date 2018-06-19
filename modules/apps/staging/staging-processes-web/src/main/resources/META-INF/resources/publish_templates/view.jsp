@@ -31,13 +31,6 @@ portletDisplay.setURLBack(stagingProcessesURL.toString());
 renderResponse.setTitle(LanguageUtil.get(request, "publish-templates"));
 %>
 
-<liferay-util:include page="/publish_templates/navigation.jsp" servletContext="<%= application %>" />
-
-<liferay-util:include page="/publish_templates/toolbar.jsp" servletContext="<%= application %>">
-	<liferay-util:param name="layoutSetBranchId" value="<%= String.valueOf(layoutSetBranchId) %>" />
-	<liferay-util:param name="layoutSetBranchName" value="<%= layoutSetBranchName %>" />
-</liferay-util:include>
-
 <portlet:actionURL name="editPublishConfiguration" var="restoreTrashEntriesURL">
 	<portlet:param name="mvcRenderCommandName" value="viewPublishConfigurations" />
 	<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RESTORE %>" />
@@ -54,6 +47,20 @@ renderResponse.setTitle(LanguageUtil.get(request, "publish-templates"));
 	<portlet:param name="layoutSetBranchName" value="<%= layoutSetBranchName %>" />
 	<portlet:param name="privateLayout" value="<%= String.valueOf(privateLayout) %>" />
 </liferay-portlet:renderURL>
+
+<clay:navigation-bar
+	inverted="<%= true %>"
+	navigationItems="<%= publishTemplatesDisplayContext.getNavigationItems() %>"
+/>
+
+<clay:management-toolbar
+	creationMenu="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext.getCreationMenu() %>"
+	searchActionURL="<%= stagingProcessesWebPublishTemplatesToolbarDisplayContext.getSearchActionURL() %>"
+	searchFormName="searchFm"
+	selectable="<%= false %>"
+	showCreationMenu="<%= true %>"
+	showSearch="<%= true %>"
+/>
 
 <%
 int exportImportConfigurationType = stagingGroup.isStagedRemotely() ? ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_REMOTE : ExportImportConfigurationConstants.TYPE_PUBLISH_LAYOUT_LOCAL;

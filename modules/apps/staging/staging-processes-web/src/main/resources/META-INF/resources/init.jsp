@@ -123,7 +123,7 @@ StagingProcessesWebDisplayContext stagingProcessesWebDisplayContext = new Stagin
 
 StagingProcessesWebToolbarDisplayContext stagingProcessesWebToolbarDisplayContext = new StagingProcessesWebToolbarDisplayContext(request, pageContext, liferayPortletResponse);
 
-StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPublishTemplatesToolbarDisplayContext = new StagingProcessesWebPublishTemplatesToolbarDisplayContext(request, pageContext, liferayPortletResponse);
+StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPublishTemplatesToolbarDisplayContext = new StagingProcessesWebPublishTemplatesToolbarDisplayContext(request, stagingGroupId, liferayPortletResponse);
 %>
 
 <%@ include file="/init-ext.jsp" %>
