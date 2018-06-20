@@ -272,50 +272,31 @@ public class StagingImpl implements Staging {
 			classPK);
 	}
 
+	/**
+	 * @deprecated As of 5.0.0, replaced by {@link
+	 *             StagingURLHelper#buildRemoteURL(ExportImportConfiguration)}
+	 */
+	@Deprecated
 	@Override
 	public String buildRemoteURL(
 		ExportImportConfiguration exportImportConfiguration) {
 
-		Map<String, Serializable> settingsMap =
-			exportImportConfiguration.getSettingsMap();
-
-		String remoteAddress = MapUtil.getString(settingsMap, "remoteAddress");
-		int remotePort = MapUtil.getInteger(settingsMap, "remotePort");
-		String remotePathContext = MapUtil.getString(
-			settingsMap, "remotePathContext");
-		boolean secureConnection = MapUtil.getBoolean(
-			settingsMap, "secureConnection");
-
-		return buildRemoteURL(
-			remoteAddress, remotePort, remotePathContext, secureConnection);
+		return _stagingURLHelper.buildRemoteURL(exportImportConfiguration);
 	}
 
+	/**
+	 * @deprecated As of 5.0.0, replaced by {@link
+	 *             StagingURLHelper#buildRemoteURL(String, int, String,
+	 *             boolean)}
+	 */
+	@Deprecated
 	@Override
 	public String buildRemoteURL(
 		String remoteAddress, int remotePort, String remotePathContext,
 		boolean secureConnection) {
 
-		StringBundler sb = new StringBundler(5);
-
-		if (secureConnection) {
-			sb.append(Http.HTTPS_WITH_SLASH);
-		}
-		else {
-			sb.append(Http.HTTP_WITH_SLASH);
-		}
-
-		sb.append(remoteAddress);
-
-		if (remotePort > 0) {
-			sb.append(StringPool.COLON);
-			sb.append(remotePort);
-		}
-
-		if (Validator.isNotNull(remotePathContext)) {
-			sb.append(remotePathContext);
-		}
-
-		return sb.toString();
+		return _stagingURLHelper.buildRemoteURL(
+			remoteAddress, remotePort, remotePathContext, secureConnection);
 	}
 
 	/**
@@ -332,19 +313,14 @@ public class StagingImpl implements Staging {
 			remoteAddress, remotePort, remotePathContext, secureConnection);
 	}
 
+	/**
+	 * @deprecated As of 5.0.0, replaced by {@link
+	 *             StagingURLHelper#buildRemoteURL(UnicodeProperties)}
+	 */
+	@Deprecated
 	@Override
 	public String buildRemoteURL(UnicodeProperties typeSettingsProperties) {
-		String remoteAddress = typeSettingsProperties.getProperty(
-			"remoteAddress");
-		int remotePort = GetterUtil.getInteger(
-			typeSettingsProperties.getProperty("remotePort"));
-		String remotePathContext = typeSettingsProperties.getProperty(
-			"remotePathContext");
-		boolean secureConnection = GetterUtil.getBoolean(
-			typeSettingsProperties.getProperty("secureConnection"));
-
-		return buildRemoteURL(
-			remoteAddress, remotePort, remotePathContext, secureConnection);
+		return _stagingURLHelper.buildRemoteURL(typeSettingsProperties);
 	}
 
 	/**
