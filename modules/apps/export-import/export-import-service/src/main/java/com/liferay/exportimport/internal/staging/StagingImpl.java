@@ -355,7 +355,12 @@ public class StagingImpl implements Staging {
 	}
 
 	@Override
-	public void checkRemoteLiveLayoutPlid(
+	public boolean getRemoteLayoutHasPortletId(
+		long userId, long stagingGroupId, long plid, String portletId) {
+
+		return false;
+	}
+
 	@Override
 	public void getRemoteLayoutPlid(
 			long userId, long stagingGroupId, long plid)

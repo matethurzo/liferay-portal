@@ -87,7 +87,9 @@ public interface Staging {
 			ServiceContext serviceContext)
 		throws PortalException;
 
-	public void checkRemoteLiveLayoutPlid(
+	public boolean getRemoteLayoutHasPortletId(
+		long userId, long stagingGroupId, long plid, String portletId);
+
 	public void getRemoteLayoutPlid(
 			long userId, long stagingGroupId, long plid)
 		throws PortalException;
