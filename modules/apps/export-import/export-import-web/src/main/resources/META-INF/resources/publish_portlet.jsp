@@ -24,6 +24,7 @@ String tabs3 = ParamUtil.getString(request, "tabs3", "new-publication-process");
 String errorMessageKey = StringPool.BLANK;
 
 Layout targetLayout = null;
+long targetLayoutPlid = 0;
 
 if (!layout.isTypeControlPanel()) {
 	if ((liveGroup == null) || (stagingGroup == null) || (group.isLayout() && (stagingGroup.getLiveGroupId() == 0))) {
@@ -35,7 +36,7 @@ if (!layout.isTypeControlPanel()) {
 				targetLayout = LayoutLocalServiceUtil.getLayout(liveGroup.getClassPK());
 			}
 			else if (stagingGroup.isStagedRemotely()) {
-				StagingUtil.getRemoteLayoutPlid(user.getUserId(), stagingGroup.getGroupId(), layout.getPlid());
+				targetLayoutPlid = StagingUtil.getRemoteLayoutPlid(user.getUserId(), stagingGroup.getGroupId(), layout.getPlid());
 			}
 			else {
 				targetLayout = LayoutLocalServiceUtil.getLayoutByUuidAndGroupId(layout.getUuid(), liveGroup.getGroupId(), layout.isPrivateLayout());
@@ -53,9 +54,9 @@ if (!layout.isTypeControlPanel()) {
 			}
 		}
 		else if (stagingGroup.isStagedRemotely()) {
-			boolean remoteLayoutHasPortletId = StagingUtil.getRemoteLayoutHasPortletId();
+			boolean remoteLayoutHasPortletId = StagingUtil.getRemoteLayoutHasPortletId(user.getUserId(), stagingGroup.getGroupId(), targetLayoutPlid, selPortlet.getPortletId());
 
-			if (remoteLayoutHasPortletId) {
+			if (!remoteLayoutHasPortletId) {
 				errorMessageKey = "this-widget-has-not-been-added-to-the-live-page-publish-the-page-first";
 			}
 		}
