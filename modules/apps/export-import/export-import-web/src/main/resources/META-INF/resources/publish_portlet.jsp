@@ -52,6 +52,13 @@ if (!layout.isTypeControlPanel()) {
 				errorMessageKey = "this-widget-has-not-been-added-to-the-live-page-publish-the-page-first";
 			}
 		}
+		else if (stagingGroup.isStagedRemotely()) {
+			boolean remoteLayoutHasPortletId = StagingUtil.getRemoteLayoutHasPortletId();
+
+			if (remoteLayoutHasPortletId) {
+				errorMessageKey = "this-widget-has-not-been-added-to-the-live-page-publish-the-page-first";
+			}
+		}
 	}
 }
 else if (group.isLayout()) {
