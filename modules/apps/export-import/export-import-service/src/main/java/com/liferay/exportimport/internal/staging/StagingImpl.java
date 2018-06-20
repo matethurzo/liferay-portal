@@ -355,31 +355,6 @@ public class StagingImpl implements Staging {
 	}
 
 	@Override
-	public boolean getRemoteLayoutHasPortletId(
-		long userId, long stagingGroupId, long plid, String portletId) {
-
-		return false;
-	}
-
-	@Override
-	public void getRemoteLayoutPlid(
-			long userId, long stagingGroupId, long plid)
-		throws PortalException {
-
-		User user = _userLocalService.fetchUser(userId);
-		Group stagingGroup = _groupLocalService.fetchGroup(stagingGroupId);
-		Layout layout = _layoutLocalService.fetchLayout(plid);
-
-		HttpPrincipal httpPrincipal = new HttpPrincipal(
-			buildRemoteURL(stagingGroup.getTypeSettingsProperties()),
-			user.getLogin(), user.getPassword(), user.isPasswordEncrypted());
-
-		LayoutServiceHttp.getLayoutPlid(
-			httpPrincipal, layout.getUuid(),
-			stagingGroup.getRemoteLiveGroupId(), layout.isPrivateLayout());
-	}
-
-	@Override
 	public long copyFromLive(PortletRequest portletRequest)
 		throws PortalException {
 
@@ -1882,6 +1857,53 @@ public class StagingImpl implements Staging {
 		}
 
 		return 0;
+	}
+
+	@Override
+	public boolean getRemoteLayoutHasPortletId(
+		long userId, long stagingGroupId, long plid, String portletId) {
+
+		User user = _userLocalService.fetchUser(userId);
+		Group stagingGroup = _groupLocalService.fetchGroup(stagingGroupId);
+
+		try {
+			HttpPrincipal httpPrincipal = new HttpPrincipal(
+				buildRemoteURL(stagingGroup.getTypeSettingsProperties()),
+				user.getLogin(), user.getPassword(),
+				user.isPasswordEncrypted());
+
+			return LayoutServiceHttp.isLayoutContainsPortletId(
+				httpPrincipal, plid, portletId);
+		}
+		catch (PortalException pe) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Unable to decide if remote layout ",
+						String.valueOf(plid), " contains portletId: ",
+						portletId),
+					pe);
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public long getRemoteLayoutPlid(long userId, long stagingGroupId, long plid)
+		throws PortalException {
+
+		User user = _userLocalService.fetchUser(userId);
+		Group stagingGroup = _groupLocalService.fetchGroup(stagingGroupId);
+		Layout layout = _layoutLocalService.fetchLayout(plid);
+
+		HttpPrincipal httpPrincipal = new HttpPrincipal(
+			buildRemoteURL(stagingGroup.getTypeSettingsProperties()),
+			user.getLogin(), user.getPassword(), user.isPasswordEncrypted());
+
+		return LayoutServiceHttp.getLayoutPlid(
+			httpPrincipal, layout.getUuid(),
+			stagingGroup.getRemoteLiveGroupId(), layout.isPrivateLayout());
 	}
 
 	@Override
