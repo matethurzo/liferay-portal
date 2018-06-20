@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.LayoutReference;
 import com.liferay.portal.kernel.model.LayoutSoap;
+import com.liferay.portal.kernel.model.LayoutType;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Plugin;
 import com.liferay.portal.kernel.model.User;
@@ -1432,6 +1433,26 @@ public class LayoutServiceImpl extends LayoutServiceBaseImpl {
 
 		layoutLocalService.importPortletInfoInBackground(
 			getUserId(), taskName, portletId, parameterMap, is);
+	}
+
+	@Override
+	public boolean isLayoutContainsPortletId(long plid, String portletId)
+		throws PortalException {
+
+		Layout layout = layoutLocalService.getLayout(plid);
+
+		LayoutPermissionUtil.check(
+			getPermissionChecker(), layout, ActionKeys.VIEW);
+
+		LayoutType layoutType = layout.getLayoutType();
+
+		if ((layoutType instanceof LayoutTypePortlet) &&
+			((LayoutTypePortlet)layoutType).hasPortletId(portletId)) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
