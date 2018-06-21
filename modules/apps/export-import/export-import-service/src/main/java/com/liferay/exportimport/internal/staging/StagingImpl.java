@@ -1893,13 +1893,14 @@ public class StagingImpl implements Staging {
 	public long getRemoteLayoutPlid(long userId, long stagingGroupId, long plid)
 		throws PortalException {
 
-		User user = _userLocalService.fetchUser(userId);
 		Group stagingGroup = _groupLocalService.fetchGroup(stagingGroupId);
-		Layout layout = _layoutLocalService.fetchLayout(plid);
+		User user = _userLocalService.fetchUser(userId);
 
 		HttpPrincipal httpPrincipal = new HttpPrincipal(
 			buildRemoteURL(stagingGroup.getTypeSettingsProperties()),
 			user.getLogin(), user.getPassword(), user.isPasswordEncrypted());
+
+		Layout layout = _layoutLocalService.fetchLayout(plid);
 
 		return LayoutServiceHttp.getLayoutPlid(
 			httpPrincipal, layout.getUuid(),
