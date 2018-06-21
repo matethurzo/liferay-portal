@@ -902,7 +902,7 @@ AUI.add(
 							}
 						);
 
-						if (selectedContent.length === 0) {
+						if ((selectedContent.length === 0) || !instance.byId('PORTLET_DATA_' + portletId).attr('checked')) {
 							instance.byId('PORTLET_DATA_' + portletId).attr('checked', false);
 
 							instance.byId('showChangeContent_' + portletId).hide();
