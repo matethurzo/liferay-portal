@@ -1036,6 +1036,30 @@ public class LayoutServiceImpl extends LayoutServiceBaseImpl {
 		return layoutLocalService.hasLayout(uuid, groupId, privateLayout);
 	}
 
+	@Override
+	public boolean hasPortletId(long plid, String portletId)
+		throws PortalException {
+
+		Layout layout = layoutLocalService.fetchLayout(plid);
+
+		if (layout == null) {
+			return false;
+		}
+
+		LayoutPermissionUtil.check(
+			getPermissionChecker(), layout, ActionKeys.VIEW);
+
+		LayoutType layoutType = layout.getLayoutType();
+
+		if ((layoutType instanceof LayoutTypePortlet) &&
+			((LayoutTypePortlet)layoutType).hasPortletId(portletId)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * @deprecated As of 7.0.0, replaced by {@link
 	 *             com.liferay.exportimport.kernel.service.ExportImportService#importLayouts(
@@ -1433,26 +1457,6 @@ public class LayoutServiceImpl extends LayoutServiceBaseImpl {
 
 		layoutLocalService.importPortletInfoInBackground(
 			getUserId(), taskName, portletId, parameterMap, is);
-	}
-
-	@Override
-	public boolean isLayoutContainsPortletId(long plid, String portletId)
-		throws PortalException {
-
-		Layout layout = layoutLocalService.getLayout(plid);
-
-		LayoutPermissionUtil.check(
-			getPermissionChecker(), layout, ActionKeys.VIEW);
-
-		LayoutType layoutType = layout.getLayoutType();
-
-		if ((layoutType instanceof LayoutTypePortlet) &&
-			((LayoutTypePortlet)layoutType).hasPortletId(portletId)) {
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

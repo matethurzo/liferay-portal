@@ -1872,7 +1872,7 @@ public class StagingImpl implements Staging {
 				user.getLogin(), user.getPassword(),
 				user.isPasswordEncrypted());
 
-			return LayoutServiceHttp.isLayoutContainsPortletId(
+			return LayoutServiceHttp.hasPortletId(
 				httpPrincipal, plid, portletId);
 		}
 		catch (PortalException pe) {
