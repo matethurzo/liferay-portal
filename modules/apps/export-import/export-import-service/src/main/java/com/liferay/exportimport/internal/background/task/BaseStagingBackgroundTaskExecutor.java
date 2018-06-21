@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -45,7 +44,6 @@ import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Mate Thurzo
