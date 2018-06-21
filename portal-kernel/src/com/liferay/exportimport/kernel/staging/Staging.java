@@ -214,9 +214,6 @@ public interface Staging {
 
 	public long getRecentLayoutSetBranchId(User user, long layoutSetId);
 
-	public boolean getRemoteLayoutHasPortletId(
-		long userId, long stagingGroupId, long plid, String portletId);
-
 	public long getRemoteLayoutPlid(long userId, long stagingGroupId, long plid)
 		throws PortalException;
 
@@ -277,6 +274,9 @@ public interface Staging {
 	public boolean isIncomplete(Layout layout);
 
 	public boolean isIncomplete(Layout layout, long layoutSetBranchId);
+
+	public boolean isRemoteLayoutHasPortletId(
+		long userId, long stagingGroupId, long plid, String portletId);
 
 	/**
 	 * @deprecated As of 7.0.0, see {@link

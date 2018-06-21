@@ -55,7 +55,7 @@ if (!layout.isTypeControlPanel()) {
 			}
 		}
 		else if (stagingGroup.isStagedRemotely() && (remoteLayoutPlid > 0)) {
-			boolean remoteLayoutHasPortletId = StagingUtil.getRemoteLayoutHasPortletId(user.getUserId(), stagingGroup.getGroupId(), remoteLayoutPlid, selPortlet.getPortletId());
+			boolean remoteLayoutHasPortletId = StagingUtil.isRemoteLayoutHasPortletId(user.getUserId(), stagingGroup.getGroupId(), remoteLayoutPlid, selPortlet.getPortletId());
 
 			if (!remoteLayoutHasPortletId) {
 				errorMessageKey = "this-widget-has-not-been-added-to-the-live-page-publish-the-page-first";
