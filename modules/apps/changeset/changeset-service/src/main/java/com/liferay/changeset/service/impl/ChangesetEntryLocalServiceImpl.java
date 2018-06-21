@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 
 import java.util.Set;
@@ -83,10 +84,10 @@ public class ChangesetEntryLocalServiceImpl
 	}
 
 	@Override
-	public void deleteChangesetEntries(Long[] changesetEntryIds)
+	public void deleteChangesetEntries(Set<Long> changesetEntryIds)
 		throws PortalException {
 
-		if (ArrayUtil.isEmpty(changesetEntryIds)) {
+		if (SetUtil.isEmpty(changesetEntryIds)) {
 			return;
 		}
 

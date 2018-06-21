@@ -71,11 +71,8 @@ public abstract class BaseStagingBackgroundTaskExecutor
 	}
 
 	protected void deleteExportedChangesetEntries() throws PortalException {
-		Set<Long> exportedChangesetEntryIds =
-			ChangesetThreadLocal.getExportedChangesetEntryIds();
-
 		ChangesetEntryLocalServiceUtil.deleteChangesetEntries(
-			ArrayUtil.toLongArray(exportedChangesetEntryIds.toArray()));
+			ChangesetThreadLocal.getExportedChangesetEntryIds());
 
 		ChangesetThreadLocal.clearExportedChangesetEntryIds();
 	}
