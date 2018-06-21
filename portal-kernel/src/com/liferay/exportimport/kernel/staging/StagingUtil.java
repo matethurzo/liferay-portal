@@ -451,6 +451,13 @@ public class StagingUtil {
 			portletDataContext, stagedModelTypes);
 	}
 
+	public static void populateLastPublishDateCounts(
+			PortletDataContext portletDataContext, String[] classNames)
+		throws PortalException {
+
+		_staging.populateLastPublishDateCounts(portletDataContext, classNames);
+	}
+
 	public static long publishLayout(
 			long userId, long plid, long liveGroupId, boolean includeChildren)
 		throws PortalException {

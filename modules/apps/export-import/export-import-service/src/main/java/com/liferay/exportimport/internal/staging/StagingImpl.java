@@ -2242,6 +2242,25 @@ public class StagingImpl implements Staging {
 	}
 
 	@Override
+	public void populateLastPublishDateCounts(
+			PortletDataContext portletDataContext, String[] classNames)
+		throws PortalException {
+
+		if (ArrayUtil.isEmpty(classNames)) {
+			return;
+		}
+
+		StagedModelType[] stagedModelTypes =
+			new StagedModelType[classNames.length];
+
+		for (int i = 0; i < classNames.length; i++) {
+			stagedModelTypes[i] = new StagedModelType(classNames[i]);
+		}
+
+		populateLastPublishDateCounts(portletDataContext, stagedModelTypes);
+	}
+
+	@Override
 	public long publishLayout(
 			long userId, long plid, long liveGroupId, boolean includeChildren)
 		throws PortalException {
