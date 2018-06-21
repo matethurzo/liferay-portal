@@ -25,9 +25,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.SetUtil;
 
-import java.util.Set;
-
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Brian Wing Shun Chan
@@ -95,14 +94,6 @@ public class ChangesetEntryLocalServiceImpl
 	}
 
 	@Override
-	public List<ChangesetEntry> fetchChangesetEntries(
-		long changesetCollectionId, long classNameId) {
-
-		return changesetEntryPersistence.findByC_C(
-			changesetCollectionId, classNameId);
-	}
-
-	@Override
 	public ChangesetEntry fetchChangesetEntry(
 		long changesetCollectionId, long classNameId, long classPK) {
 
@@ -132,6 +123,13 @@ public class ChangesetEntryLocalServiceImpl
 
 		return changesetEntryLocalService.addChangesetEntry(
 			user.getUserId(), changesetCollectionId, classNameId, classPK);
+	}
+
+	public List<ChangesetEntry> getChangesetEntries(
+		long changesetCollectionId, long classNameId) {
+
+		return changesetEntryPersistence.findByC_C(
+			changesetCollectionId, classNameId);
 	}
 
 	@Override

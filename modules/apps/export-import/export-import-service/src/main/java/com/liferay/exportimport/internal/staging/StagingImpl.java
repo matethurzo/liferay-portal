@@ -2201,7 +2201,7 @@ public class StagingImpl implements Staging {
 
 					if (stagedModelRepository != null) {
 						List<ChangesetEntry> changesetEntries =
-							_changesetEntryLocalService.fetchChangesetEntries(
+							_changesetEntryLocalService.getChangesetEntries(
 								changesetCollection.getChangesetCollectionId(),
 								stagedModelType.getClassNameId());
 
