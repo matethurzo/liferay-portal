@@ -15,16 +15,11 @@
 package com.liferay.document.library.web.internal.portlet.action;
 
 import com.liferay.document.library.constants.DLPortletKeys;
-import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.model.DLFileShortcut;
-import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.exportimport.changeset.Changeset;
 import com.liferay.exportimport.changeset.portlet.action.ExportImportChangesetMVCActionCommand;
-import com.liferay.portal.kernel.dao.orm.QueryDefinition;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,6 +31,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -64,14 +60,14 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 
 		final long folderId = ParamUtil.getLong(actionRequest, "folderId");
 
-		DLFolder folder = _dlFolderLocalService.getFolder(folderId);
+		Folder folder = _dlAppLocalService.getFolder(folderId);
 
 		Changeset.Builder builder = Changeset.create();
 
 		Changeset changeset = builder.addStagedModel(
 			() -> _getFolder(folderId)
 		).addMultipleStagedModel(
-			() -> _getFolderEntries(folder)
+			() -> _getFoldersAndFileEntriesAndFileShortcuts(folder)
 		).build();
 
 		_exportImportChangesetMVCActionCommand.processPublishAction(
@@ -91,39 +87,32 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 		}
 	}
 
-	private List<StagedModel> _getFolderEntries(DLFolder folder) {
-		List<StagedModel> entries = new ArrayList<>();
+	private List<StagedModel> _getFoldersAndFileEntriesAndFileShortcuts(
+		Folder folder) {
+
+		if (folder == null) {
+			return Collections.emptyList();
+		}
+
+		List<StagedModel> stagedModels = new ArrayList<>();
 
 		try {
-			if (folder != null) {
-				QueryDefinition<?> queryDefinition = new QueryDefinition<>(
-					WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null);
+			List<Object> children =
+				_dlAppService.getFoldersAndFileEntriesAndFileShortcuts(
+					folder.getGroupId(), folder.getFolderId(),
+					WorkflowConstants.STATUS_ANY, false, -1, -1);
 
-				for (Object entry : _dlFolderLocalService.
-						getFoldersAndFileEntriesAndFileShortcuts(
-							folder.getGroupId(), folder.getFolderId(), null,
-							true, queryDefinition)) {
+			for (Object child : children) {
+				if (child instanceof Folder) {
+					Folder childFolder = (Folder)child;
 
-					if (entry instanceof DLFileEntry) {
-						entries.add(
-							_dlAppLocalService.getFileEntry(
-								((DLFileEntry)entry).getPrimaryKey()));
-					}
-					else if (entry instanceof DLFolder) {
-						DLFolder subfolder = (DLFolder)entry;
+					stagedModels.add(childFolder);
 
-						entries.add(
-							_dlAppLocalService.getFolder(
-								subfolder.getFolderId()));
-
-						entries.addAll(_getFolderEntries(subfolder));
-					}
-					else if (entry instanceof DLFileShortcut) {
-						entries.add(
-							_dlAppLocalService.getFileShortcut(
-								((DLFileShortcut)entry).getPrimaryKey()));
-					}
+					stagedModels.addAll(
+						_getFoldersAndFileEntriesAndFileShortcuts(childFolder));
+				}
+				else {
+					stagedModels.add((StagedModel)child);
 				}
 			}
 		}
@@ -137,7 +126,7 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 			}
 		}
 
-		return entries;
+		return stagedModels;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
