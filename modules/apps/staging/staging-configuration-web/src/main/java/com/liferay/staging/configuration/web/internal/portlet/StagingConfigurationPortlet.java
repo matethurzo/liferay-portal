@@ -217,6 +217,9 @@ public class StagingConfigurationPortlet extends MVCPortlet {
 			if (stagingType == StagingConstants.TYPE_NOT_STAGED) {
 				SessionMessages.add(actionRequest, "stagingDisabled");
 			}
+			else {
+				SessionMessages.add(actionRequest, "remoteStagingModified");
+			}
 		}
 		else {
 
@@ -233,6 +236,8 @@ public class StagingConfigurationPortlet extends MVCPortlet {
 			if (portletURL != null) {
 				redirect = portletURL.toString();
 			}
+
+			SessionMessages.add(actionRequest, "localStagingModified");
 		}
 
 		actionRequest.setAttribute(WebKeys.REDIRECT, redirect);
