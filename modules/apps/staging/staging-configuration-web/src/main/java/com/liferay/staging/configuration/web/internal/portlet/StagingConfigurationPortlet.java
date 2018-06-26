@@ -104,6 +104,8 @@ public class StagingConfigurationPortlet extends MVCPortlet {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws IOException, PortalException, PortletException {
 
+		hideDefaultSuccessMessage(actionRequest);
+
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
