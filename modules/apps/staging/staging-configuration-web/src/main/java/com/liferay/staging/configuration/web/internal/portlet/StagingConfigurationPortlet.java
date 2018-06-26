@@ -178,12 +178,18 @@ public class StagingConfigurationPortlet extends MVCPortlet {
 					actionRequest, liveGroup.getStagingGroup(),
 					StagingProcessesPortletKeys.STAGING_PROCESSES, 0, 0,
 					PortletRequest.RENDER_PHASE);
+
+				portletURL.setParameter(
+					"localStagingEnabled", Boolean.TRUE.toString());
 			}
 			else if (stagingType == StagingConstants.TYPE_REMOTE_STAGING) {
 				portletURL = _portal.getControlPanelPortletURL(
 					actionRequest, liveGroup,
 					StagingProcessesPortletKeys.STAGING_PROCESSES, 0, 0,
 					PortletRequest.RENDER_PHASE);
+
+				portletURL.setParameter(
+					"remoteStagingEnabled", Boolean.TRUE.toString());
 			}
 
 			if (portletURL != null) {
