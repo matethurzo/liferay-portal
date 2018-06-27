@@ -164,31 +164,32 @@ public class ChangesetPortletDataHandler extends BasePortletDataHandler {
 
 			_exportChangesetCollection(portletDataContext, changesetCollection);
 		}
+		else {
+			Optional<Changeset> changesetOptional =
+				_changesetManager.popChangeset(changesetUuid);
 
-		Optional<Changeset> changesetOptional = _changesetManager.popChangeset(
-			changesetUuid);
-
-		if (!changesetOptional.isPresent()) {
-			return getExportDataRootElementString(rootElement);
-		}
-
-		Changeset changeset = changesetOptional.get();
-
-		Stream<StagedModel> stream = changeset.stream();
-
-		stream.filter(
-			Objects::nonNull
-		).forEach(
-			stagedModel -> {
-				try {
-					StagedModelDataHandlerUtil.exportStagedModel(
-						portletDataContext, stagedModel);
-				}
-				catch (PortletDataException pde) {
-					throw new ExportImportRuntimeException(pde);
-				}
+			if (!changesetOptional.isPresent()) {
+				return getExportDataRootElementString(rootElement);
 			}
-		);
+
+			Changeset changeset = changesetOptional.get();
+
+			Stream<StagedModel> stream = changeset.stream();
+
+			stream.filter(
+				Objects::nonNull
+			).forEach(
+				stagedModel -> {
+					try {
+						StagedModelDataHandlerUtil.exportStagedModel(
+							portletDataContext, stagedModel);
+					}
+					catch (PortletDataException pde) {
+						throw new ExportImportRuntimeException(pde);
+					}
+				}
+			);
+		}
 
 		_exportAssetLinks(portletDataContext);
 
