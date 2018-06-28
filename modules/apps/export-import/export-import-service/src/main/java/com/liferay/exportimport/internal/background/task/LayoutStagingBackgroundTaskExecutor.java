@@ -129,8 +129,7 @@ public class LayoutStagingBackgroundTaskExecutor
 					TrashEntryLocalServiceUtil.deleteEntries(
 						sourceGroupId, true);
 
-					DLAppHelperLocalServiceUtil.cancelGroupCheckOuts(
-						sourceGroupId);
+					DLAppHelperLocalServiceUtil.cancelCheckOuts(sourceGroupId);
 				}
 			}
 

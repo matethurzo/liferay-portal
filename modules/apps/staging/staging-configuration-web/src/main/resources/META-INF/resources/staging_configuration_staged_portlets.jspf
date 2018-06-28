@@ -60,7 +60,7 @@
 		</div>
 
 		<div id="<portlet:namespace />pwcWarning">
-			<c:if test="<%= DLAppHelperLocalServiceUtil.getGroupCheckedOutFileEntriesCount(liveGroup.getGroupId()) > 0 %>">
+			<c:if test="<%= DLAppHelperLocalServiceUtil.getCheckedOutFileEntriesCount(liveGroup.getGroupId()) > 0 %>">
 				<liferay-staging:alert
 					type="WARNING"
 				>
