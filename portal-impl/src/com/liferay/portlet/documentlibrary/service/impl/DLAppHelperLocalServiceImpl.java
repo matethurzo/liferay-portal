@@ -136,9 +136,9 @@ public class DLAppHelperLocalServiceImpl
 	}
 
 	@Override
-	public void cancelGroupCheckOuts(long groupId) throws PortalException {
+	public void cancelCheckOuts(long groupId) throws PortalException {
 		ActionableDynamicQuery actionableDynamicQuery =
-			getCancelGroupCheckOutsActionableDynamicQuery(groupId);
+			getCancelCheckOutsActionableDynamicQuery(groupId);
 
 		actionableDynamicQuery.performActions();
 	}
@@ -257,6 +257,16 @@ public class DLAppHelperLocalServiceImpl
 	}
 
 	@Override
+	public long getCheckedOutFileEntriesCount(long groupId)
+		throws PortalException {
+
+		ActionableDynamicQuery actionableDynamicQuery =
+			getCancelCheckOutsActionableDynamicQuery(groupId);
+
+		return actionableDynamicQuery.performCount();
+	}
+
+	@Override
 	public void getFileAsStream(
 		long userId, FileEntry fileEntry, boolean incrementCounter) {
 
@@ -295,16 +305,6 @@ public class DLAppHelperLocalServiceImpl
 
 		return dlFileShortcutPersistence.countByG_F_A_S(
 			groupId, folderId, active, status);
-	}
-
-	@Override
-	public long getGroupCheckedOutFileEntriesCount(long groupId)
-		throws PortalException {
-
-		ActionableDynamicQuery actionableDynamicQuery =
-			getCancelGroupCheckOutsActionableDynamicQuery(groupId);
-
-		return actionableDynamicQuery.performCount();
 	}
 
 	@Override
@@ -1552,8 +1552,8 @@ public class DLAppHelperLocalServiceImpl
 		return new LiferayFolder(dlFolder);
 	}
 
-	protected ActionableDynamicQuery
-		getCancelGroupCheckOutsActionableDynamicQuery(long groupId) {
+	protected ActionableDynamicQuery getCancelCheckOutsActionableDynamicQuery(
+		long groupId) {
 
 		ActionableDynamicQuery fileEntryActionableDynamicQuery =
 			dlFileEntryLocalService.getActionableDynamicQuery();
