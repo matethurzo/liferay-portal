@@ -24,6 +24,7 @@ String navigation = ParamUtil.getString(request, "navigation", "all");
 String orderByCol = ParamUtil.getString(request, "orderByCol");
 String orderByType = ParamUtil.getString(request, "orderByType");
 String searchContainerId = ParamUtil.getString(request, "searchContainerId");
+
 Boolean localStagingEnabled = ParamUtil.getBoolean(request, "localStagingEnabled", false);
 Boolean remoteStagingEnabled = ParamUtil.getBoolean(request, "remoteStagingEnabled", false);
 
