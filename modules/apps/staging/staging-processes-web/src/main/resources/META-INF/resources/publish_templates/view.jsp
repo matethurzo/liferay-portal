@@ -49,7 +49,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "publish-templates"));
 </liferay-portlet:renderURL>
 
 <%
-StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPublishTemplatesToolbarDisplayContext = new StagingProcessesWebPublishTemplatesToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, stagingGroupId, groupId, company, portletURL, stagingGroup.isStagedRemotely());
+StagingProcessesWebPublishTemplatesToolbarDisplayContext stagingProcessesWebPublishTemplatesToolbarDisplayContext = new StagingProcessesWebPublishTemplatesToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, pageContext, portletURL);
 %>
 
 <clay:navigation-bar

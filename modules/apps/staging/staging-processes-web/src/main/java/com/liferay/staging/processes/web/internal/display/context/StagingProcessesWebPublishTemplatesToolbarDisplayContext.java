@@ -22,10 +22,12 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.display.context.BaseManag
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.staging.processes.web.internal.search.PublishConfigurationDisplayTerms;
 import com.liferay.staging.processes.web.internal.search.PublishConfigurationSearchTerms;
 
@@ -34,6 +36,7 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
 
 /**
  * @author Péter Alius
@@ -45,15 +48,20 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
 	public StagingProcessesWebPublishTemplatesToolbarDisplayContext(
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse,
-		HttpServletRequest request, long stagingGroupId, long groupId,
-		Company company, PortletURL iteratorURL, boolean stagedRemotely) {
+		HttpServletRequest request, PageContext pageContext,
+		PortletURL iteratorURL) {
 
 		super(liferayPortletRequest, liferayPortletResponse, request);
 
-		_stagingGroupId = stagingGroupId;
+		long companyId = PortalUtil.getCompanyId(liferayPortletRequest);
+		long groupId = (long)pageContext.getAttribute("groupId");
 
-		searchContainer = _createSearchContainer(
-			groupId, company, iteratorURL, stagedRemotely);
+		_stagingGroupId = (long)pageContext.getAttribute("stagingGroupId");
+
+		Group stagingGroup = GroupLocalServiceUtil.fetchGroup(_stagingGroupId);
+
+		_searchContainer = _createSearchContainer(
+			companyId, groupId, iteratorURL, stagingGroup.isStagedRemotely());
 	}
 
 	@Override
@@ -88,7 +96,7 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
 
 	@Override
 	public int getItemsTotal() {
-		return searchContainer.getTotal();
+		return _searchContainer.getTotal();
 	}
 
 	@Override
@@ -102,17 +110,15 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
 	}
 
 	public SearchContainer getSearchContainer() {
-		return searchContainer;
+		return _searchContainer;
 	}
 
 	protected PortletURL getRenderURL() {
 		return liferayPortletResponse.createRenderURL();
 	}
 
-	protected SearchContainer searchContainer;
-
 	private SearchContainer _createSearchContainer(
-		long groupId, Company company, PortletURL iteratorURL,
+		long companyId, long groupId, PortletURL iteratorURL,
 		boolean stagedRemotely) {
 
 		SearchContainer searchContainer = new SearchContainer(
@@ -142,14 +148,14 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
 		List<ExportImportConfiguration> results =
 			ExportImportConfigurationLocalServiceUtil.
 				getExportImportConfigurations(
-					company.getCompanyId(), groupId, searchTerms.getKeywords(),
+					companyId, groupId, searchTerms.getKeywords(),
 					exportImportConfigurationType, searchContainer.getStart(),
 					searchContainer.getEnd(),
 					searchContainer.getOrderByComparator());
 		int total =
 			ExportImportConfigurationLocalServiceUtil.
 				getExportImportConfigurationsCount(
-					company.getCompanyId(), groupId, searchTerms.getKeywords(),
+					companyId, groupId, searchTerms.getKeywords(),
 					exportImportConfigurationType);
 
 		searchContainer.setResults(results);
@@ -158,6 +164,7 @@ public class StagingProcessesWebPublishTemplatesToolbarDisplayContext
 		return searchContainer;
 	}
 
+	private final SearchContainer _searchContainer;
 	private final long _stagingGroupId;
 
 }
