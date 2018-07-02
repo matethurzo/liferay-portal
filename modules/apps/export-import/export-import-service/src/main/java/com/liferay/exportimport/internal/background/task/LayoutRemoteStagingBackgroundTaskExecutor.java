@@ -216,6 +216,13 @@ public class LayoutRemoteStagingBackgroundTaskExecutor
 							plid);
 				}
 				catch (NoSuchLayoutException nsle) {
+
+					// see LPS-36174
+
+					if (_log.isDebugEnabled()) {
+						_log.debug(nsle, nsle);
+					}
+
 					entrySet.remove(plid);
 
 					continue;
