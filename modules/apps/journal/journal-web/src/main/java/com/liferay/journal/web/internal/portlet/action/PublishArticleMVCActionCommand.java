@@ -71,7 +71,7 @@ public class PublishArticleMVCActionCommand extends BaseMVCActionCommand {
 		Changeset changeset = builder.addStagedModel(
 			() -> journalArticle
 		).addMultipleStagedModel(
-			() -> _getArticleVersions(journalArticle)
+			() -> _getJournalArticleVersions(journalArticle)
 		).build();
 
 		_exportImportChangesetMVCActionCommand.processPublishAction(
@@ -86,15 +86,15 @@ public class PublishArticleMVCActionCommand extends BaseMVCActionCommand {
 			_getStagedModelDataHandler();
 
 		try {
-			JournalArticle latestApprovedArticle =
+			JournalArticle latestApprovedJournalArticle =
 				_journalArticleLocalService.getArticle(
 					journalArticle.getGroupId(), journalArticle.getArticleId());
 
 			if (ArrayUtil.contains(
 					stagedModelDataHandler.getExportableStatuses(),
-					latestApprovedArticle.getStatus())) {
+					latestApprovedJournalArticle.getStatus())) {
 
-				return latestApprovedArticle;
+				return latestApprovedJournalArticle;
 			}
 		}
 		catch (PortalException pe) {
@@ -110,7 +110,7 @@ public class PublishArticleMVCActionCommand extends BaseMVCActionCommand {
 		return null;
 	}
 
-	private List<StagedModel> _getArticleVersions(
+	private List<StagedModel> _getJournalArticleVersions(
 		JournalArticle journalArticle) {
 
 		boolean includeVersionHistory = JournalUtil.isIncludeVersionHistory();
@@ -130,12 +130,12 @@ public class PublishArticleMVCActionCommand extends BaseMVCActionCommand {
 			_journalArticleLocalService.getArticles(
 				journalArticle.getGroupId(), journalArticle.getArticleId()));
 
-		for (JournalArticle article : journalArticles) {
+		for (JournalArticle journalArticleVersion : journalArticles) {
 			if (ArrayUtil.contains(
 					stagedModelDataHandler.getExportableStatuses(),
-					article.getStatus())) {
+					journalArticleVersion.getStatus())) {
 
-				stagedModels.add(article);
+				stagedModels.add(journalArticleVersion);
 			}
 		}
 

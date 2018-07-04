@@ -69,15 +69,17 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 			() -> _journalFolderLocalService.fetchJournalFolder(folderId)
 		).addStagedModelHierarchy(
 			() -> _journalFolderLocalService.fetchJournalFolder(folderId),
-			folder -> _getFoldersAndArticles(folder)
+			journalFolder -> _getFoldersAndArticles(journalFolder)
 		).build();
 
 		_exportImportChangesetMVCActionCommand.processPublishAction(
 			actionRequest, actionResponse, changeset);
 	}
 
-	private List<StagedModel> _getFoldersAndArticles(JournalFolder folder) {
-		if (folder == null) {
+	private List<StagedModel> _getFoldersAndArticles(
+		JournalFolder journalFolder) {
+
+		if (journalFolder == null) {
 			return Collections.emptyList();
 		}
 
@@ -86,15 +88,17 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 		try {
 			List<Object> childObjects =
 				_journalFolderLocalService.getFoldersAndArticles(
-					folder.getGroupId(), folder.getFolderId());
+					journalFolder.getGroupId(), journalFolder.getFolderId());
 
 			for (Object childObject : childObjects) {
 				if (childObject instanceof JournalFolder) {
-					JournalFolder childFolder = (JournalFolder)childObject;
+					JournalFolder childJournalFolder =
+						(JournalFolder)childObject;
 
-					stagedModels.add(childFolder);
+					stagedModels.add(childJournalFolder);
 
-					stagedModels.addAll(_getFoldersAndArticles(childFolder));
+					stagedModels.addAll(
+						_getFoldersAndArticles(childJournalFolder));
 				}
 				else if (childObject instanceof JournalArticle) {
 					JournalArticle journalArticle = (JournalArticle)childObject;
@@ -120,12 +124,14 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 								journalArticle.getArticleId()));
 					}
 
-					for (JournalArticle article : journalArticles) {
+					for (JournalArticle journalArticleVersion :
+							journalArticles) {
+
 						if (ArrayUtil.contains(
 								stagedModelDataHandler.getExportableStatuses(),
-								article.getStatus())) {
+								journalArticleVersion.getStatus())) {
 
-							stagedModels.add(article);
+							stagedModels.add(journalArticleVersion);
 						}
 					}
 				}
@@ -138,7 +144,7 @@ public class PublishFolderMVCActionCommand extends BaseMVCActionCommand {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"Unable to get folders, articles for folder " +
-						folder.getFolderId(),
+						journalFolder.getFolderId(),
 					pe);
 			}
 		}
