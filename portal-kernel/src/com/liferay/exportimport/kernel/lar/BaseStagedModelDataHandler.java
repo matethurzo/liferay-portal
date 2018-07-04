@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TransientValue;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.ratings.kernel.model.RatingsEntry;
@@ -371,7 +372,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 				String userUuid = element.attributeValue("user-uuid");
 
-				if (userUuid != null) {
+				if (Validator.isNotNull(userUuid)) {
 					AuditedModel auditedModel = (AuditedModel)stagedModel;
 
 					auditedModel.setUserId(
