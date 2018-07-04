@@ -364,15 +364,19 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 			PortletDataHandlerStatusMessageSenderUtil.sendStatusMessage(
 				"stagedModel", stagedModel, manifestSummary);
 
-			Element element =
-				portletDataContext.getImportDataStagedModelElement(stagedModel);
+			if (stagedModel instanceof AuditedModel) {
+				Element element =
+					portletDataContext.getImportDataStagedModelElement(
+						stagedModel);
 
-			String userUuid = element.attributeValue("user-uuid");
+				String userUuid = element.attributeValue("user-uuid");
 
-			if ((userUuid != null) && (stagedModel instanceof AuditedModel)) {
-				AuditedModel auditedModel = (AuditedModel)stagedModel;
+				if (userUuid != null) {
+					AuditedModel auditedModel = (AuditedModel)stagedModel;
 
-				auditedModel.setUserId(portletDataContext.getUserId(userUuid));
+					auditedModel.setUserId(
+						portletDataContext.getUserId(userUuid));
+				}
 			}
 
 			if (stagedModel instanceof LocalizedModel) {
