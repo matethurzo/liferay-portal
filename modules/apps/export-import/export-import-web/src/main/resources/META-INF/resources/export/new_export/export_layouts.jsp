@@ -19,6 +19,8 @@
 <liferay-staging:defineObjects />
 
 <%
+String backURL = ParamUtil.getString(request, "backURL");
+
 if (liveGroup == null) {
 	liveGroup = group;
 	liveGroupId = groupId;
@@ -63,8 +65,6 @@ if (privateLayout) {
 else {
 	rootNodeName = LanguageUtil.get(request, "public-pages");
 }
-
-String backURL = ParamUtil.getString(request, "backURL");
 
 String treeId = "layoutsExportTree" + liveGroupId + privateLayout;
 
