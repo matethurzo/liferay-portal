@@ -53,7 +53,9 @@ import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.util.PropsValues;
@@ -538,6 +540,28 @@ public class JournalFolderLocalServiceImpl
 		getSubscriptionLocalService() {
 
 		return subscriptionLocalService;
+	}
+
+	@Override
+	public String getUniqueFolderName(
+		String uuid, long groupId, long parentFolderId, String name,
+		int count) {
+
+		JournalFolder folder = journalFolderLocalService.fetchFolder(
+			groupId, parentFolderId, name);
+
+		if (folder == null) {
+			return name;
+		}
+
+		if (Validator.isNotNull(uuid) && uuid.equals(folder.getUuid())) {
+			return name;
+		}
+
+		name = StringUtil.appendParentheticalSuffix(name, count);
+
+		return getUniqueFolderName(
+			uuid, groupId, parentFolderId, name, ++count);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
