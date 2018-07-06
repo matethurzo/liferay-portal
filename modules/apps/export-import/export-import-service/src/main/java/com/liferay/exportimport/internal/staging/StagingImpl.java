@@ -270,7 +270,7 @@ public class StagingImpl implements Staging {
 	}
 
 	/**
-	 * @deprecated As of 5.0.0, replaced by {@link
+	 * @deprecated As of Judson (7.1.x), replaced by {@link
 	 *             StagingURLHelper#buildRemoteURL(ExportImportConfiguration)}
 	 */
 	@Deprecated
@@ -282,7 +282,7 @@ public class StagingImpl implements Staging {
 	}
 
 	/**
-	 * @deprecated As of 5.0.0, replaced by {@link
+	 * @deprecated As of Judson (7.1.x), replaced by {@link
 	 *             StagingURLHelper#buildRemoteURL(String, int, String,
 	 *             boolean)}
 	 */
@@ -311,7 +311,7 @@ public class StagingImpl implements Staging {
 	}
 
 	/**
-	 * @deprecated As of 5.0.0, replaced by {@link
+	 * @deprecated As of Judson (7.1.x), replaced by {@link
 	 *             StagingURLHelper#buildRemoteURL(UnicodeProperties)}
 	 */
 	@Deprecated
