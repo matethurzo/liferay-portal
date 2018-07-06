@@ -758,7 +758,12 @@ public class JournalFolderLocalServiceImpl
 				RestoreEntryException.INVALID_STATUS);
 		}
 
-		folder.setName(_trashHelper.getOriginalTitle(folder.getName()));
+		String originalName = _trashHelper.getOriginalTitle(folder.getName());
+
+		folder.setName(
+			journalFolderLocalService.getUniqueFolderName(
+				folder.getUuid(), folder.getGroupId(),
+				folder.getParentFolderId(), originalName, 2));
 
 		journalFolderPersistence.update(folder);
 
