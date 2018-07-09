@@ -611,18 +611,6 @@ public class ExportImportConfigurationParameterMapFactoryImpl
 
 					_addModelParameter(
 						parameterMap, dataSiteLevelPortlet, portletDataAll);
-
-					if (Objects.equals(
-							MapUtil.getString(
-								parameterMap, "javax.portlet.action"),
-							"publishPortlet")) {
-
-						parameterMap.put(
-							"originalPortletId",
-							new String[] {
-								dataSiteLevelPortlet.getRootPortletId()
-							});
-					}
 				}
 			}
 
