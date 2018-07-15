@@ -76,13 +76,18 @@ import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.WorkflowedModel;
+import com.liferay.portal.kernel.model.adapter.ModelAdapterUtil;
 import com.liferay.portal.kernel.portlet.PortletIdCodec;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.TeamLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateRange;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -96,6 +101,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.xml.Attribute;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Node;
@@ -103,6 +109,8 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.xml.XPath;
 import com.liferay.portal.kernel.zip.ZipReader;
 import com.liferay.portal.kernel.zip.ZipWriter;
+import com.liferay.portal.workflow.kaleo.model.KaleoDefinition;
+import com.liferay.portal.workflow.kaleo.service.KaleoDefinitionLocalServiceUtil;
 import com.liferay.ratings.kernel.model.RatingsEntry;
 import com.liferay.xstream.configurator.XStreamConfigurator;
 import com.liferay.xstream.configurator.XStreamConfiguratorRegistryUtil;
@@ -260,6 +268,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 			_addUserUuid(element, auditedModel.getUserUuid());
 		}
+
+		_addWorkflowDefinitionLink(classedModel);
 
 		addZipEntry(path, classedModel);
 	}
@@ -1580,6 +1590,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 			}
 		}
 
+		_importWorkflowDefinitionLink(newClassedModel);
+
 		importLocks(
 			clazz, String.valueOf(primaryKeyObj),
 			String.valueOf(newPrimaryKeyObj));
@@ -2888,6 +2900,103 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 	private void _addUserUuid(Element element, String userUuid) {
 		element.addAttribute("user-uuid", userUuid);
+	}
+
+	private void _addWorkflowDefinitionLink(ClassedModel classedModel)
+		throws PortletDataException {
+
+		if (classedModel instanceof StagedGroupedModel ||
+			classedModel instanceof WorkflowedModel) {
+
+			StagedGroupedModel stagedGroupedModel =
+				(StagedGroupedModel)classedModel;
+
+			long classPK = GetterUtil.getLong(
+				stagedGroupedModel.getPrimaryKeyObj());
+			String className = ExportImportClassedModelUtil.getClassName(
+				stagedGroupedModel);
+
+			WorkflowDefinitionLink workflowDefinitionLink =
+				WorkflowDefinitionLinkLocalServiceUtil.
+					fetchWorkflowDefinitionLink(
+						stagedGroupedModel.getCompanyId(),
+						stagedGroupedModel.getGroupId(), className, classPK,
+						-1);
+
+			if (workflowDefinitionLink != null) {
+				StagedWorkflowDefinitionLink stagedWorkflowDefinitionLink =
+					ModelAdapterUtil.adapt(
+						workflowDefinitionLink, WorkflowDefinitionLink.class,
+						StagedWorkflowDefinitionLink.class);
+
+				StagedModelDataHandlerUtil.exportStagedModel(
+					this, stagedWorkflowDefinitionLink);
+			}
+		}
+	}
+
+	private void _importWorkflowDefinitionLink(ClassedModel newClassedModel)
+		throws PortletDataException {
+
+		Element workflowElements = getImportDataGroupElement(
+			StagedWorkflowDefinitionLink.class);
+
+		for (Element workflowElement : workflowElements.elements()) {
+			String displayName = workflowElement.attributeValue("display-name");
+
+			long companyId = getCompanyId();
+
+			ServiceContext serviceContext = new ServiceContext();
+
+			serviceContext.setCompanyId(companyId);
+
+			KaleoDefinition kaleoDefinition =
+				KaleoDefinitionLocalServiceUtil.fetchKaleoDefinition(
+					displayName, serviceContext);
+
+			Element referencesElement = workflowElement.element("references");
+
+			List<Element> referenceElements = referencesElement.elements(
+				"reference");
+
+			for (Element referenceElement : referenceElements) {
+				long classPK = GetterUtil.getLong(
+					referenceElement.attributeValue("class-pk"));
+
+				String className = referenceElement.attributeValue(
+					"class-name");
+
+				PermissionChecker permissionChecker =
+					PermissionThreadLocal.getPermissionChecker();
+
+				long userId = permissionChecker.getUserId();
+
+				long typePK = -1;
+
+				WorkflowDefinitionLink workflowDefinitionLink =
+					WorkflowDefinitionLinkLocalServiceUtil.
+						fetchWorkflowDefinitionLink(
+							companyId, getScopeGroupId(), className, classPK,
+							typePK);
+
+				if (workflowDefinitionLink == null) {
+					try {
+						long importedClassPK = GetterUtil.getLong(
+							newClassedModel.getPrimaryKeyObj());
+
+						WorkflowDefinitionLinkLocalServiceUtil.
+							addWorkflowDefinitionLink(
+								userId, companyId, getScopeGroupId(), className,
+								importedClassPK, typePK,
+								kaleoDefinition.getName(),
+								kaleoDefinition.getVersion());
+					}
+					catch (PortalException pe) {
+						throw new PortletDataException(pe.getMessage(), pe);
+					}
+				}
+			}
+		}
 	}
 
 	private static final Class<?>[] _XSTREAM_DEFAULT_ALLOWED_TYPES = {
