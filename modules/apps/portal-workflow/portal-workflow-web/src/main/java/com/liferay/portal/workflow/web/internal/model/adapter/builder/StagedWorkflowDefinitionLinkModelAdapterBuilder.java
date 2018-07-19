@@ -15,8 +15,8 @@
 package com.liferay.portal.workflow.web.internal.model.adapter.builder;
 
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
+import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.adapter.builder.ModelAdapterBuilder;
-import com.liferay.portal.kernel.workflow.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.model.adapter.impl.StagedWorkflowDefinitionLinkImpl;
 
 import org.osgi.service.component.annotations.Component;

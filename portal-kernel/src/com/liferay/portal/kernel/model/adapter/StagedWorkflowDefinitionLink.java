@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.kernel.workflow.adapter;
+package com.liferay.portal.kernel.model.adapter;
 
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
