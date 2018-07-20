@@ -203,4 +203,19 @@ public class ExportImportConfigurationFactory {
 				publishLayoutRemoteSettingsMap);
 	}
 
+	private static Map<String, String[]> _getPublishingParameters(
+		final PortletRequest portletRequest) {
+
+		final Map<String, String[]> parameterMapFromRequest =
+			new LinkedHashMap<>(portletRequest.getParameterMap());
+
+		final Map<String, String[]> defaultParameterMap =
+			ExportImportConfigurationParameterMapFactoryUtil.
+				buildParameterMap();
+
+		parameterMapFromRequest.forEach(defaultParameterMap::putIfAbsent);
+
+		return defaultParameterMap;
+	}
+
 }
