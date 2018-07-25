@@ -131,64 +131,6 @@ import org.xml.sax.XMLReader;
 public class ExportImportHelperImpl implements ExportImportHelper {
 
 	@Override
-	public void addBackgroundTaskStagingSummary(
-			long userId, long sourceGroupId, BackgroundTask backgroundTask,
-			File file)
-		throws PortalException {
-
-		FileEntry fileEntry = null;
-
-		try {
-			fileEntry = TempFileEntryUtil.addTempFileEntry(
-				sourceGroupId, userId, ExportImportHelper.TEMP_FOLDER_NAME,
-				file.getName(), file, MimeTypesUtil.getContentType(file));
-
-			ManifestSummary manifestSummary = getManifestSummary(
-				userId, sourceGroupId, new HashMap<>(), fileEntry);
-
-			Map<String, Serializable> taskContextMap =
-				backgroundTask.getTaskContextMap();
-
-			HashMap<String, LongWrapper> modelAdditionCounters = new HashMap<>(
-				manifestSummary.getModelAdditionCounters());
-
-			taskContextMap.put(
-				ExportImportBackgroundTaskContextMapConstants.
-					MODEL_ADDITION_COUNTERS,
-				modelAdditionCounters);
-
-			HashMap<String, LongWrapper> modelDeletionCounters = new HashMap<>(
-				manifestSummary.getModelDeletionCounters());
-
-			taskContextMap.put(
-				ExportImportBackgroundTaskContextMapConstants.
-					MODEL_DELETION_COUNTERS,
-				modelDeletionCounters);
-
-			HashSet<String> manifestSummaryKeys = new HashSet<>(
-				manifestSummary.getManifestSummaryKeys());
-
-			taskContextMap.put(
-				ExportImportBackgroundTaskContextMapConstants.
-					MANIFEST_SUMMARY_KEYS,
-				manifestSummaryKeys);
-		}
-		catch (Exception e) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					"Unable to process manifest for the process summary " +
-						"screen");
-			}
-		}
-		finally {
-			if (fileEntry != null) {
-				TempFileEntryUtil.deleteTempFileEntry(
-					fileEntry.getFileEntryId());
-			}
-		}
-	}
-
-	@Override
 	public long[] getAllLayoutIds(long groupId, boolean privateLayout) {
 		List<Layout> layouts = _layoutLocalService.getLayouts(
 			groupId, privateLayout);
@@ -940,6 +882,64 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void processBackgroundTaskManifestSummary(
+			long userId, long sourceGroupId, BackgroundTask backgroundTask,
+			File file)
+		throws PortalException {
+
+		FileEntry fileEntry = null;
+
+		try {
+			fileEntry = TempFileEntryUtil.addTempFileEntry(
+				sourceGroupId, userId, ExportImportHelper.TEMP_FOLDER_NAME,
+				file.getName(), file, MimeTypesUtil.getContentType(file));
+
+			ManifestSummary manifestSummary = getManifestSummary(
+				userId, sourceGroupId, new HashMap<>(), fileEntry);
+
+			Map<String, Serializable> taskContextMap =
+				backgroundTask.getTaskContextMap();
+
+			HashMap<String, LongWrapper> modelAdditionCounters = new HashMap<>(
+				manifestSummary.getModelAdditionCounters());
+
+			taskContextMap.put(
+				ExportImportBackgroundTaskContextMapConstants.
+					MODEL_ADDITION_COUNTERS,
+				modelAdditionCounters);
+
+			HashMap<String, LongWrapper> modelDeletionCounters = new HashMap<>(
+				manifestSummary.getModelDeletionCounters());
+
+			taskContextMap.put(
+				ExportImportBackgroundTaskContextMapConstants.
+					MODEL_DELETION_COUNTERS,
+				modelDeletionCounters);
+
+			HashSet<String> manifestSummaryKeys = new HashSet<>(
+				manifestSummary.getManifestSummaryKeys());
+
+			taskContextMap.put(
+				ExportImportBackgroundTaskContextMapConstants.
+					MANIFEST_SUMMARY_KEYS,
+				manifestSummaryKeys);
+		}
+		catch (Exception e) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to process manifest for the process summary " +
+						"screen");
+			}
+		}
+		finally {
+			if (fileEntry != null) {
+				TempFileEntryUtil.deleteTempFileEntry(
+					fileEntry.getFileEntryId());
+			}
+		}
 	}
 
 	/**

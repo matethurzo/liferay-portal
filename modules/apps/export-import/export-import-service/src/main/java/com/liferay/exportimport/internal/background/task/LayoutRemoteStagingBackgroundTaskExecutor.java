@@ -159,7 +159,7 @@ public class LayoutRemoteStagingBackgroundTaskExecutor
 			ServiceContext serviceContext =
 				ServiceContextThreadLocal.getServiceContext();
 
-			ExportImportHelperUtil.addBackgroundTaskStagingSummary(
+			ExportImportHelperUtil.processBackgroundTaskManifestSummary(
 				serviceContext.getUserId(), sourceGroupId, backgroundTask,
 				file);
 		}

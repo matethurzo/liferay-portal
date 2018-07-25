@@ -123,11 +123,6 @@ public interface ExportImportHelper {
 	public static final String TEMP_FOLDER_NAME =
 		ExportImportHelper.class.getName();
 
-	public void addBackgroundTaskStagingSummary(
-			long userId, long sourceGroupId, BackgroundTask backgroundTask,
-			File file)
-		throws PortalException;
-
 	public long[] getAllLayoutIds(long groupId, boolean privateLayout);
 
 	public Map<Long, Boolean> getAllLayoutIdsMap(
@@ -309,6 +304,11 @@ public interface ExportImportHelper {
 
 	public boolean isReferenceWithinExportScope(
 		PortletDataContext portletDataContext, StagedModel stagedModel);
+
+	public void processBackgroundTaskManifestSummary(
+			long userId, long sourceGroupId, BackgroundTask backgroundTask,
+			File file)
+		throws PortalException;
 
 	/**
 	 * @deprecated As of Wilberforce (7.0.x), replaced by

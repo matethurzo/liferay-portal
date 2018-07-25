@@ -44,15 +44,6 @@ import javax.portlet.PortletRequest;
 @ProviderType
 public class ExportImportHelperUtil {
 
-	public static void addBackgroundTaskStagingSummary(
-			long userId, long sourceGroupId, BackgroundTask backgroundTask,
-			File file)
-		throws PortalException {
-
-		_exportImportHelper.addBackgroundTaskStagingSummary(
-			userId, sourceGroupId, backgroundTask, file);
-	}
-
 	public static long[] getAllLayoutIds(long groupId, boolean privateLayout) {
 		return _exportImportHelper.getAllLayoutIds(groupId, privateLayout);
 	}
@@ -350,6 +341,15 @@ public class ExportImportHelperUtil {
 
 		return _exportImportHelper.isReferenceWithinExportScope(
 			portletDataContext, stagedModel);
+	}
+
+	public static void processBackgroundTaskManifestSummary(
+			long userId, long sourceGroupId, BackgroundTask backgroundTask,
+			File file)
+		throws PortalException {
+
+		_exportImportHelper.processBackgroundTaskManifestSummary(
+			userId, sourceGroupId, backgroundTask, file);
 	}
 
 	/**

@@ -165,7 +165,7 @@ public class LayoutStagingBackgroundTaskExecutor
 					exportImportConfiguration.getExportImportConfigurationId()),
 				exportImportConfiguration);
 
-			ExportImportHelperUtil.addBackgroundTaskStagingSummary(
+			ExportImportHelperUtil.processBackgroundTaskManifestSummary(
 				userId, sourceGroupId, backgroundTask, file);
 		}
 		catch (Throwable t) {
