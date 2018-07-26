@@ -18,11 +18,7 @@ import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
-import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
-import com.liferay.exportimport.staged.model.repository.StagedModelRepository;
-import com.liferay.exportimport.staged.model.repository.StagedModelRepositoryRegistryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.xml.Element;
@@ -85,17 +81,6 @@ public class StagedWorkflowDefinitionLinkStagedModelDataHandler
 			"version",
 			String.valueOf(
 				stagedWorkflowDefinitionLink.getWorkflowDefinitionVersion()));
-
-		StagedModelRepository stagedModelRepository =
-			StagedModelRepositoryRegistryUtil.getStagedModelRepository(
-				stagedWorkflowDefinitionLink.getClassName());
-
-		StagedModel stagedModel = stagedModelRepository.getStagedModel(
-			stagedWorkflowDefinitionLink.getClassPK());
-
-		StagedModelDataHandlerUtil.exportReferenceStagedModel(
-			portletDataContext, stagedWorkflowDefinitionLink, stagedModel,
-			PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
 	}
 
 	@Override
@@ -111,14 +96,7 @@ public class StagedWorkflowDefinitionLinkStagedModelDataHandler
 		throws Exception {
 	}
 
-	@Reference(unbind = "-")
-	protected void setWorkflowDefinitionLinkLocalService(
-		WorkflowDefinitionLinkLocalService workflowDefinitionLinkLocalService) {
-
-		_workflowDefinitionLinkLocalService =
-			workflowDefinitionLinkLocalService;
-	}
-
+	@Reference
 	private WorkflowDefinitionLinkLocalService
 		_workflowDefinitionLinkLocalService;
 
