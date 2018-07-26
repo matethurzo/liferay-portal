@@ -102,6 +102,9 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowDefinition;
+import com.liferay.portal.kernel.workflow.WorkflowDefinitionManagerUtil;
+import com.liferay.portal.kernel.workflow.WorkflowException;
 import com.liferay.portal.kernel.xml.Attribute;
 import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.Node;
@@ -109,8 +112,6 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.xml.XPath;
 import com.liferay.portal.kernel.zip.ZipReader;
 import com.liferay.portal.kernel.zip.ZipWriter;
-import com.liferay.portal.workflow.kaleo.model.KaleoDefinition;
-import com.liferay.portal.workflow.kaleo.service.KaleoDefinitionLocalServiceUtil;
 import com.liferay.ratings.kernel.model.RatingsEntry;
 import com.liferay.xstream.configurator.XStreamConfigurator;
 import com.liferay.xstream.configurator.XStreamConfiguratorRegistryUtil;
@@ -2944,15 +2945,22 @@ public class PortletDataContextImpl implements PortletDataContext {
 		for (Element workflowElement : workflowElements.elements()) {
 			String displayName = workflowElement.attributeValue("display-name");
 
-			long companyId = getCompanyId();
+			WorkflowDefinition workflowDefinition = null;
 
-			ServiceContext serviceContext = new ServiceContext();
+			try {
+				workflowDefinition =
+					WorkflowDefinitionManagerUtil.getLatestWorkflowDefinition(
+						getCompanyId(), displayName);
+			}
+			catch (WorkflowException we) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Could not find workflow definition with name " +
+							displayName);
+				}
 
-			serviceContext.setCompanyId(companyId);
-
-			KaleoDefinition kaleoDefinition =
-				KaleoDefinitionLocalServiceUtil.fetchKaleoDefinition(
-					displayName, serviceContext);
+				return;
+			}
 
 			Element referencesElement = workflowElement.element("references");
 
@@ -2976,20 +2984,22 @@ public class PortletDataContextImpl implements PortletDataContext {
 				WorkflowDefinitionLink workflowDefinitionLink =
 					WorkflowDefinitionLinkLocalServiceUtil.
 						fetchWorkflowDefinitionLink(
-							companyId, getScopeGroupId(), className, classPK,
-							typePK);
+							getCompanyId(), getScopeGroupId(), className,
+							classPK, typePK);
 
-				if (workflowDefinitionLink == null) {
+				if ((workflowDefinition != null) &&
+					(workflowDefinitionLink == null)) {
+
 					try {
 						long importedClassPK = GetterUtil.getLong(
 							newClassedModel.getPrimaryKeyObj());
 
 						WorkflowDefinitionLinkLocalServiceUtil.
 							addWorkflowDefinitionLink(
-								userId, companyId, getScopeGroupId(), className,
-								importedClassPK, typePK,
-								kaleoDefinition.getName(),
-								kaleoDefinition.getVersion());
+								userId, getCompanyId(), getScopeGroupId(),
+								className, importedClassPK, typePK,
+								workflowDefinition.getName(),
+								workflowDefinition.getVersion());
 					}
 					catch (PortalException pe) {
 						throw new PortletDataException(pe.getMessage(), pe);
