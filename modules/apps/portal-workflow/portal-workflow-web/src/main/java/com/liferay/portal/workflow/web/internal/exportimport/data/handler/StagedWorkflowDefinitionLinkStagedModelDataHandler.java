@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.workflow.kaleo.runtime.internal.exportimport.data.handler;
+package com.liferay.portal.workflow.web.internal.exportimport.data.handler;
 
 import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
