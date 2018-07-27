@@ -222,6 +222,7 @@ public class JournalFeedReferencesExportImportContentProcessor
 
 				StringBundler exportedReferenceSB = new StringBundler(3);
 
+				exportedReferenceSB.append(Portal.FRIENDLY_URL_SEPARATOR);
 				exportedReferenceSB.append("[$journalfeed-reference=");
 				exportedReferenceSB.append(path);
 				exportedReferenceSB.append("$]");
@@ -290,7 +291,9 @@ public class JournalFeedReferencesExportImportContentProcessor
 					groupId, className, classPK);
 			}
 
-			String exportedReference = "[$journalfeed-reference=" + path + "$]";
+			String exportedReference =
+				Portal.FRIENDLY_URL_SEPARATOR + "[$journalfeed-reference=" +
+					path + "$]";
 
 			if (!content.contains(exportedReference)) {
 				continue;
