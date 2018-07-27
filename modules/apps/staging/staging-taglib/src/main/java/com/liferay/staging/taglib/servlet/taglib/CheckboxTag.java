@@ -34,13 +34,6 @@ public class CheckboxTag extends BaseCssTag {
 
 	@Override
 	public int doEndTag() throws JspException {
-		List<String> checkboxNames = (List<String>)request.getAttribute(
-			"LIFERAY_SHARED_aui:form:checkboxNames");
-
-		if (checkboxNames != null) {
-			checkboxNames.add(_name);
-		}
-
 		return super.doEndTag();
 	}
 
