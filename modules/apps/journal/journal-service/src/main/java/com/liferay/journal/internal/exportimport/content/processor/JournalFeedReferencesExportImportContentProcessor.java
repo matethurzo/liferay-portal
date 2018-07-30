@@ -220,7 +220,7 @@ public class JournalFeedReferencesExportImportContentProcessor
 
 				String path = ExportImportPathUtil.getModelPath(journalFeed);
 
-				StringBundler exportedReferenceSB = new StringBundler(3);
+				StringBundler exportedReferenceSB = new StringBundler(4);
 
 				exportedReferenceSB.append(Portal.FRIENDLY_URL_SEPARATOR);
 				exportedReferenceSB.append("[$journalfeed-reference=");
