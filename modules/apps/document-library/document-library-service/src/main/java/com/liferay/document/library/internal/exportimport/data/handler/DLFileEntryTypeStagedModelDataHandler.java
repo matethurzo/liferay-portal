@@ -151,6 +151,10 @@ public class DLFileEntryTypeStagedModelDataHandler
 		boolean preloaded = GetterUtil.getBoolean(
 			referenceElement.attributeValue("preloaded"));
 
+		if (!preloaded) {
+			return super.validateMissingReference(uuid, groupId);
+		}
+
 		DLFileEntryType existingFileEntryType = fetchExistingFileEntryType(
 			uuid, groupId, fileEntryTypeKey, preloaded);
 
@@ -221,10 +225,15 @@ public class DLFileEntryTypeStagedModelDataHandler
 		boolean preloaded = GetterUtil.getBoolean(
 			referenceElement.attributeValue("preloaded"));
 
-		DLFileEntryType existingFileEntryType = null;
+		DLFileEntryType existingFileEntryType;
 
-		existingFileEntryType = fetchExistingFileEntryType(
-			uuid, groupId, fileEntryTypeKey, preloaded);
+		if (!preloaded) {
+			existingFileEntryType = fetchMissingReference(uuid, groupId);
+		}
+		else {
+			existingFileEntryType = fetchExistingFileEntryType(
+				uuid, groupId, fileEntryTypeKey, preloaded);
+		}
 
 		Map<Long, Long> fileEntryTypeIds =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
