@@ -14,9 +14,9 @@
 
 package com.liferay.expando.exportimport.internal.data.handler;
 
+import com.liferay.expando.constants.ExpandoPortletKeys;
 import com.liferay.expando.kernel.model.adapter.StagedExpandoColumn;
 import com.liferay.expando.kernel.model.adapter.StagedExpandoTable;
-import com.liferay.expando.web.constants.ExpandoPortletKeys;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
