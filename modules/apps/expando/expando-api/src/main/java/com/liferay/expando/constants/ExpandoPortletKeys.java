@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.expando.web.constants;
+package com.liferay.expando.constants;
 
 /**
  * @author Drew Brokke
