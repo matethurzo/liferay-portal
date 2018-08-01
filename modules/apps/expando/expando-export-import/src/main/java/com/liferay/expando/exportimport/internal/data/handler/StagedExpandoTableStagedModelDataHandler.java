@@ -105,7 +105,7 @@ public class StagedExpandoTableStagedModelDataHandler
 			importedStagedExpandoTable = stagedExpandoTables.get(0);
 		}
 
-		// Updating the expandoTable is not necessary because all of its
+		// Updating the expando table is not necessary because all of its
 		// attributes are either IDs or used as IDs
 
 		portletDataContext.importClassedModel(
