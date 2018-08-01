@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.List;
@@ -126,8 +127,8 @@ public class StagedExpandoColumnStagedModelDataHandlerTest
 			stagedExpandoColumn.getCompanyId(),
 			importedStagedExpandoColumn.getCompanyId());
 		Assert.assertEquals(
-			stagedExpandoColumn.getDefaultData(),
-			importedStagedExpandoColumn.getDefaultData());
+			StringUtil.trim(stagedExpandoColumn.getDefaultData()),
+			StringUtil.trim(importedStagedExpandoColumn.getDefaultData()));
 		Assert.assertEquals(
 			stagedExpandoColumn.getName(),
 			importedStagedExpandoColumn.getName());
