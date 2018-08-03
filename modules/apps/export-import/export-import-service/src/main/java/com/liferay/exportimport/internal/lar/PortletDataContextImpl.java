@@ -2544,7 +2544,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 			return SAXReaderUtil.createElement("EMPTY-ELEMENT");
 		}
 
-		Element groupElement = _importDataRootElement.element(name);
+		Element groupElement = (Element)_importDataRootElement.selectSingleNode(
+			".//" + name);
 
 		if (groupElement == null) {
 			return SAXReaderUtil.createElement("EMPTY-ELEMENT");
