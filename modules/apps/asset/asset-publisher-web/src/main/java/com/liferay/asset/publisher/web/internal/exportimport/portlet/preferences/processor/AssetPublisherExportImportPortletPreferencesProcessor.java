@@ -1032,6 +1032,8 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				newValues[i] =
 					AssetPublisherUtil.SCOPE_ID_LAYOUT_UUID_PREFIX +
 						scopeIdLayout.getUuid();
+
+				continue;
 			}
 			else if (oldValue.startsWith(
 						 AssetPublisherUtil.SCOPE_ID_LAYOUT_UUID_PREFIX)) {
@@ -1051,6 +1053,8 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				}
 
 				newValues[i] = oldValue;
+
+				continue;
 			}
 			else {
 				newValues[i] = oldValue;
