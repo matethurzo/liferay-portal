@@ -420,19 +420,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			Element groupIdMappingsElement, Layout layout, String value)
 		throws PortalException, PortletDataException {
 
-		if (value.startsWith(AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX)) {
-			String companyGroupScopeId =
-				AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX +
-					portletDataContext.getCompanyGroupId();
-
-			value = StringUtil.replace(
-				value, companyGroupScopeId, "[$COMPANY_GROUP_SCOPE_ID$]");
-
-			if (value.contains("[$COMPANY_GROUP_SCOPE_ID$]")) {
-				return value;
-			}
-		}
-
 		if (value.startsWith(AssetPublisherHelper.SCOPE_ID_LAYOUT_PREFIX)) {
 
 			// Legacy preferences
@@ -1292,14 +1279,10 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 		Layout layout = _layoutLocalService.getLayout(plid);
 
-		String companyGroupScopeId =
-			AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX + companyGroupId;
-
 		List<String> newValues = new ArrayList<>(oldValues.length);
 
 		for (String oldValue : oldValues) {
-			String newValue = StringUtil.replace(
-				oldValue, "[$COMPANY_GROUP_SCOPE_ID$]", companyGroupScopeId);
+			String newValue = oldValue;
 
 			if (Validator.isNumber(oldValue) &&
 				groupIds.containsKey(Long.valueOf(oldValue))) {
