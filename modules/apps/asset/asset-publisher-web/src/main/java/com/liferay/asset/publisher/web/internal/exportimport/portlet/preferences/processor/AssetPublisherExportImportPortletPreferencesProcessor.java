@@ -1284,6 +1284,10 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		for (String oldValue : oldValues) {
 			String newValue = oldValue;
 
+			if ("[$COMPANY_GROUP_SCOPE_ID$]".equals(oldValue)) {
+				oldValue = String.valueOf(companyGroupId);
+			}
+
 			if (Validator.isNumber(oldValue) &&
 				groupIds.containsKey(Long.valueOf(oldValue))) {
 
