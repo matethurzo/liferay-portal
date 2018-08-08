@@ -52,6 +52,7 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -412,6 +413,97 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 		}
 
 		return StringUtil.merge(new Object[] {uuid, groupId}, StringPool.POUND);
+	}
+
+	protected String getExportScopeId(
+			PortletDataContext portletDataContext,
+			Element groupIdMappingsElement, Layout layout, String value)
+		throws PortalException, PortletDataException {
+
+		if (value.startsWith(AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX)) {
+			String companyGroupScopeId =
+				AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX +
+					portletDataContext.getCompanyGroupId();
+
+			value = StringUtil.replace(
+				value, companyGroupScopeId, "[$COMPANY_GROUP_SCOPE_ID$]");
+
+			if (value.contains("[$COMPANY_GROUP_SCOPE_ID$]")) {
+				return value;
+			}
+		}
+
+		if (value.startsWith(AssetPublisherHelper.SCOPE_ID_LAYOUT_PREFIX)) {
+
+			// Legacy preferences
+
+			String scopeIdSuffix = value.substring(
+				AssetPublisherHelper.SCOPE_ID_LAYOUT_PREFIX.length());
+
+			long scopeIdLayoutId = GetterUtil.getLong(scopeIdSuffix);
+
+			Layout scopeIdLayout = _layoutLocalService.getLayout(
+				layout.getGroupId(), layout.isPrivateLayout(), scopeIdLayoutId);
+
+			if (layout.getPlid() != scopeIdLayout.getPlid()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, portletDataContext.getPortletId(),
+					scopeIdLayout);
+			}
+
+			return AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX +
+				scopeIdLayout.getUuid();
+		}
+
+		if (value.startsWith(
+				AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX)) {
+
+			String scopeLayoutUuid = value.substring(
+				AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX.length());
+
+			Layout scopeUuidLayout =
+				_layoutLocalService.getLayoutByUuidAndGroupId(
+					scopeLayoutUuid, portletDataContext.getGroupId(),
+					portletDataContext.isPrivateLayout());
+
+			if (layout.getPlid() != scopeUuidLayout.getPlid()) {
+				StagedModelDataHandlerUtil.exportReferenceStagedModel(
+					portletDataContext, portletDataContext.getPortletId(),
+					scopeUuidLayout);
+			}
+
+			return value;
+		}
+
+		long groupId = assetPublisherHelper.getGroupIdFromScopeId(
+			value, portletDataContext.getGroupId(),
+			portletDataContext.isPrivateLayout());
+
+		Group group = _groupLocalService.fetchGroup(groupId);
+
+		if (group == null) {
+			return value;
+		}
+
+		long liveGroupId = group.getLiveGroupId();
+
+		if (group.isStagedRemotely()) {
+			liveGroupId = group.getRemoteLiveGroupId();
+		}
+
+		if (liveGroupId == GroupConstants.DEFAULT_LIVE_GROUP_ID) {
+			liveGroupId = group.getGroupId();
+		}
+
+		Element groupIdMappingElement = groupIdMappingsElement.addElement(
+			"group-id-mapping");
+
+		groupIdMappingElement.addAttribute("group-id", String.valueOf(groupId));
+		groupIdMappingElement.addAttribute(
+			"live-group-id", String.valueOf(liveGroupId));
+		groupIdMappingElement.addAttribute("group-key", group.getGroupKey());
+
+		return String.valueOf(groupId);
 	}
 
 	@Override
@@ -987,10 +1079,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 		Layout layout = _layoutLocalService.getLayout(plid);
 
-		String companyGroupScopeId =
-			AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX +
-				portletDataContext.getCompanyGroupId();
-
 		String[] newValues = new String[oldValues.length];
 
 		Element rootElement = portletDataContext.getExportDataRootElement();
@@ -999,101 +1087,9 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 			"group-id-mappings");
 
 		for (int i = 0; i < oldValues.length; i++) {
-			String oldValue = oldValues[i];
-
-			if (oldValue.startsWith(
-					AssetPublisherHelper.SCOPE_ID_GROUP_PREFIX)) {
-
-				newValues[i] = StringUtil.replace(
-					oldValue, companyGroupScopeId,
-					"[$COMPANY_GROUP_SCOPE_ID$]");
-
-				if (newValues[i].contains("[$COMPANY_GROUP_SCOPE_ID$]")) {
-					continue;
-				}
-			}
-			else if (oldValue.startsWith(
-						 AssetPublisherHelper.SCOPE_ID_LAYOUT_PREFIX)) {
-
-				// Legacy preferences
-
-				String scopeIdSuffix = oldValue.substring(
-					AssetPublisherHelper.SCOPE_ID_LAYOUT_PREFIX.length());
-
-				long scopeIdLayoutId = GetterUtil.getLong(scopeIdSuffix);
-
-				Layout scopeIdLayout = _layoutLocalService.getLayout(
-					layout.getGroupId(), layout.isPrivateLayout(),
-					scopeIdLayoutId);
-
-				if (plid != scopeIdLayout.getPlid()) {
-					StagedModelDataHandlerUtil.exportReferenceStagedModel(
-						portletDataContext, portletDataContext.getPortletId(),
-						scopeIdLayout);
-				}
-
-				newValues[i] =
-					AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX +
-						scopeIdLayout.getUuid();
-
-				continue;
-			}
-			else if (oldValue.startsWith(
-						 AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX)) {
-
-				String scopeLayoutUuid = oldValue.substring(
-					AssetPublisherHelper.SCOPE_ID_LAYOUT_UUID_PREFIX.length());
-
-				Layout scopeUuidLayout =
-					_layoutLocalService.getLayoutByUuidAndGroupId(
-						scopeLayoutUuid, portletDataContext.getGroupId(),
-						portletDataContext.isPrivateLayout());
-
-				if (plid != scopeUuidLayout.getPlid()) {
-					StagedModelDataHandlerUtil.exportReferenceStagedModel(
-						portletDataContext, portletDataContext.getPortletId(),
-						scopeUuidLayout);
-				}
-
-				newValues[i] = oldValue;
-
-				continue;
-			}
-			else {
-				newValues[i] = oldValue;
-			}
-
-			long groupId = assetPublisherHelper.getGroupIdFromScopeId(
-				newValues[i], portletDataContext.getGroupId(),
-				portletDataContext.isPrivateLayout());
-
-			Group group = _groupLocalService.fetchGroup(groupId);
-
-			if (group == null) {
-				continue;
-			}
-
-			long liveGroupId = group.getLiveGroupId();
-
-			if (group.isStagedRemotely()) {
-				liveGroupId = group.getRemoteLiveGroupId();
-			}
-
-			if (liveGroupId == GroupConstants.DEFAULT_LIVE_GROUP_ID) {
-				liveGroupId = group.getGroupId();
-			}
-
-			newValues[i] = String.valueOf(groupId);
-
-			Element groupIdMappingElement = groupIdMappingsElement.addElement(
-				"group-id-mapping");
-
-			groupIdMappingElement.addAttribute(
-				"group-id", String.valueOf(groupId));
-			groupIdMappingElement.addAttribute(
-				"live-group-id", String.valueOf(liveGroupId));
-			groupIdMappingElement.addAttribute(
-				"group-key", group.getGroupKey());
+			newValues[i] = getExportScopeId(
+				portletDataContext, groupIdMappingsElement, layout, 
+				oldValues[i]);
 		}
 
 		portletPreferences.setValues(key, newValues);
