@@ -512,6 +512,12 @@ public class JournalArticleStagedModelDataHandler
 			referenceElement.attributeValue("class-pk"));
 
 		articleIds.put(articleId, existingArticle.getId());
+
+		Map<String, Long> articleGroupIds =
+			(Map<String, Long>)portletDataContext.getNewPrimaryKeysMap(
+				JournalArticle.class + ".groupId");
+
+		articleGroupIds.put(articleArticleId, existingArticle.getGroupId());
 	}
 
 	@Override
