@@ -1075,7 +1075,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 		for (int i = 0; i < oldValues.length; i++) {
 			newValues[i] = getExportScopeId(
-				portletDataContext, groupIdMappingsElement, layout, 
+				portletDataContext, groupIdMappingsElement, layout,
 				oldValues[i]);
 		}
 
@@ -1288,27 +1288,28 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				oldValue = String.valueOf(companyGroupId);
 			}
 
-			if (Validator.isNumber(oldValue) &&
-				groupIds.containsKey(Long.valueOf(oldValue))) {
+			if (Validator.isNumber(oldValue)) {
+				long groupId = Long.valueOf(oldValue);
 
-				Group group = _groupLocalService.fetchGroup(
-					groupIds.get(Long.valueOf(oldValue)));
-
-				if (group != null) {
-					newValue = assetPublisherHelper.getScopeId(
-						group, portletDataContext.getScopeGroupId());
-				}
-			}
-
-			if (Validator.isNumber(newValue)) {
-				if (_log.isInfoEnabled()) {
-					_log.info(
-						StringBundler.concat(
-							"Ignoring group ", newValue, " because it cannot ",
-							"be converted to scope"));
+				if (groupIds.containsKey(groupId)) {
+					groupId = groupIds.get(groupId);
 				}
 
-				continue;
+				Group group = _groupLocalService.fetchGroup(groupId);
+
+				if (group == null) {
+					if (_log.isInfoEnabled()) {
+						_log.info(
+							StringBundler.concat(
+								"Ignoring group ", newValue, " because it ",
+								"cannot be converted to scope"));
+					}
+
+					continue;
+				}
+
+				newValue = assetPublisherHelper.getScopeId(
+					group, portletDataContext.getScopeGroupId());
 			}
 
 			try {
