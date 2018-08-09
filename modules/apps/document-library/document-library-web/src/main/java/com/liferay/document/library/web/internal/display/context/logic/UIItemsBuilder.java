@@ -848,7 +848,10 @@ public class UIItemsBuilder {
 		StringBundler sb = new StringBundler(5);
 
 		sb.append("javascript:if (confirm('");
-		sb.append(UnicodeLanguageUtil.get(_resourceBundle, "are-you-sure-you-want-to-publish-the-selected-document"));
+		sb.append(
+			UnicodeLanguageUtil.get(
+				_resourceBundle,
+				"are-you-sure-you-want-to-publish-the-selected-document"));
 		sb.append("')){ location.href = '");
 		sb.append(portletURL);
 		sb.append("';}");
