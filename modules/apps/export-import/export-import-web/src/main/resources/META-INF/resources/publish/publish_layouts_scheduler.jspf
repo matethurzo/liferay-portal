@@ -87,7 +87,7 @@
 			submitForm(form);
 		}
 		else {
-			exportImport.showNotification(dateChecker);
+			exportImport.showNotification(dateChecker, rangeEndsLater);
 		}
 	}
 
