@@ -61,13 +61,12 @@
 		var schedulerEndBy = AUI.$("#<portlet:namespace/>schedulerEndBy");
 
 		if (schedulerEndBy.length && schedulerEndBy[0].checked) {
+			var endDate = Liferay.component("<portlet:namespace />schedulerEndDateDatePicker");
+			var endTime = Liferay.component("<portlet:namespace />schedulerEndTimeTimePicker");
 			var startDate = Liferay.component("<portlet:namespace />schedulerStartDateDatePicker");
 			var startTime = Liferay.component("<portlet:namespace />schedulerStartTimeTimePicker");
 
-			var endDate = Liferay.component("<portlet:namespace />schedulerEndDateDatePicker");
-			var endTime = Liferay.component("<portlet:namespace />schedulerEndTimeTimePicker");
-
-			if (startDate && startTime && endDate && endTime) {
+			if (endDate && endTime && startDate && startTime) {
 				if (endDate.getDate().toISOString() < startDate.getDate().toISOString()) {
 					rangeEndsLater = true;
 				}
