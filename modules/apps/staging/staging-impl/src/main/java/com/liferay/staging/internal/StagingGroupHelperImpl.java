@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.service.http.GroupServiceHttp;
 import com.liferay.staging.StagingGroupHelper;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -274,14 +275,23 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
-	public boolean isStagedPortletData(long groupId, String className)
-		throws Exception {
+	public boolean isStagedPortletData(long groupId, String className) {
+		Group group = _groupLocalService.fetchGroup(groupId);
 
-		Group group = _groupLocalService.getGroup(groupId);
+		if (group == null) {
+			return true;
+		}
 
-		List<Portlet> dataSiteLevelPortlets =
-			_exportImportHelper.getDataSiteLevelPortlets(
-				group.getCompanyId(), true);
+		List<Portlet> dataSiteLevelPortlets = Collections.emptyList();
+
+		try {
+			dataSiteLevelPortlets =
+				_exportImportHelper.getDataSiteLevelPortlets(
+					group.getCompanyId(), true);
+		}
+		catch (Exception e) {
+			return true;
+		}
 
 		for (Portlet dataSiteLevelPortlet : dataSiteLevelPortlets) {
 			PortletDataHandler portletDataHandler =
