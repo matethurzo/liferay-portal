@@ -363,7 +363,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				_ddmStructureLocalService.fetchStructure(primaryKeyLong);
 
 			if ((ddmStructure != null) &&
-				_exportImportHelper.isStagedPortletData(
+				stagingGroupHelper.isStagedPortletData(
 					portletDataContext.getGroupId(),
 					ddmStructure.getClassName())) {
 
@@ -379,7 +379,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 				_dlFileEntryTypeLocalService.fetchFileEntryType(primaryKeyLong);
 
 			if ((dlFileEntryType != null) &&
-				_exportImportHelper.isStagedPortletData(
+				stagingGroupHelper.isStagedPortletData(
 					portletDataContext.getGroupId(),
 					DLFileEntry.class.getName())) {
 
@@ -1388,9 +1388,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 	private CompanyLocalService _companyLocalService;
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
-
-	@Reference
-	private ExportImportHelper _exportImportHelper;
 
 	private GroupLocalService _groupLocalService;
 	private LayoutLocalService _layoutLocalService;

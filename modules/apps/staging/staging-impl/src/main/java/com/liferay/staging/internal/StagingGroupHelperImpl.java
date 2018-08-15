@@ -16,22 +16,28 @@ package com.liferay.staging.internal;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.exportimport.kernel.lar.ExportImportHelper;
+import com.liferay.exportimport.kernel.lar.PortletDataHandler;
 import com.liferay.exportimport.kernel.staging.StagingURLHelper;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.HttpPrincipal;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.service.http.GroupServiceHttp;
 import com.liferay.staging.StagingGroupHelper;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -268,6 +274,31 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 	}
 
 	@Override
+	public boolean isStagedPortletData(long groupId, String className)
+		throws Exception {
+
+		Group group = _groupLocalService.getGroup(groupId);
+
+		List<Portlet> dataSiteLevelPortlets =
+			_exportImportHelper.getDataSiteLevelPortlets(
+				group.getCompanyId(), true);
+
+		for (Portlet dataSiteLevelPortlet : dataSiteLevelPortlets) {
+			PortletDataHandler portletDataHandler =
+				dataSiteLevelPortlet.getPortletDataHandlerInstance();
+
+			String[] classNames = portletDataHandler.getClassNames();
+
+			if (ArrayUtil.contains(classNames, className)) {
+				return isStagedPortlet(
+					groupId, dataSiteLevelPortlet.getRootPortletId());
+			}
+		}
+
+		return true;
+	}
+
+	@Override
 	public boolean isStagingGroup(Group group) {
 		if (isLocalStagingGroup(group) || isRemoteStagingGroup(group)) {
 			return true;
@@ -316,6 +347,9 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		StagingGroupHelperImpl.class);
+
+	@Reference
+	private ExportImportHelper _exportImportHelper;
 
 	@Reference
 	private GroupLocalService _groupLocalService;

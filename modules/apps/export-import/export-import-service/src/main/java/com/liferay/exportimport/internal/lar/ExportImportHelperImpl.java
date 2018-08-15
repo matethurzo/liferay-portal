@@ -885,28 +885,6 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 	}
 
 	@Override
-	public boolean isStagedPortletData(long groupId, String className)
-		throws Exception {
-
-		Group group = _groupLocalService.getGroup(groupId);
-
-		for (Portlet portlet :
-				getDataSiteLevelPortlets(group.getCompanyId(), true)) {
-
-			PortletDataHandler portletDataHandler =
-				portlet.getPortletDataHandlerInstance();
-
-			String[] classNames = portletDataHandler.getClassNames();
-
-			if (ArrayUtil.contains(classNames, className)) {
-				return group.isStagedPortlet(portlet.getRootPortletId());
-			}
-		}
-
-		return true;
-	}
-
-	@Override
 	public void processBackgroundTaskManifestSummary(
 			long userId, long sourceGroupId, BackgroundTask backgroundTask,
 			File file)
