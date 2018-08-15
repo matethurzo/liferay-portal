@@ -305,14 +305,14 @@ public interface ExportImportHelper {
 	public boolean isReferenceWithinExportScope(
 		PortletDataContext portletDataContext, StagedModel stagedModel);
 
+	public boolean isStagedPortletData(
+			long companyId, long groupId, String className)
+		throws Exception;
+
 	public void processBackgroundTaskManifestSummary(
 			long userId, long sourceGroupId, BackgroundTask backgroundTask,
 			File file)
 		throws PortalException;
-
-	public boolean isStagedPortletData(
-			long companyId, long groupId, String className)
-		throws Exception;
 
 	/**
 	 * @deprecated As of Wilberforce (7.0.x), replaced by

@@ -1381,9 +1381,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 	@Reference
 	protected StagingGroupHelper stagingGroupHelper;
 
-	@Reference
-	private ExportImportHelper _exportImportHelper;
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		AssetPublisherExportImportPortletPreferencesProcessor.class);
 
@@ -1393,6 +1390,10 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 	private CompanyLocalService _companyLocalService;
 	private DDMStructureLocalService _ddmStructureLocalService;
 	private DLFileEntryTypeLocalService _dlFileEntryTypeLocalService;
+
+	@Reference
+	private ExportImportHelper _exportImportHelper;
+
 	private GroupLocalService _groupLocalService;
 	private LayoutLocalService _layoutLocalService;
 	private OrganizationLocalService _organizationLocalService;

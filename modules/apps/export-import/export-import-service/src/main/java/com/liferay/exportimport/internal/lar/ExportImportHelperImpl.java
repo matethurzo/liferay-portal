@@ -885,6 +885,27 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 	}
 
 	@Override
+	public boolean isStagedPortletData(
+			long companyId, long groupId, String className)
+		throws Exception {
+
+		Group group = _groupLocalService.getGroup(groupId);
+
+		for (Portlet portlet : getDataSiteLevelPortlets(companyId, true)) {
+			PortletDataHandler portletDataHandler =
+				portlet.getPortletDataHandlerInstance();
+
+			String[] classNames = portletDataHandler.getClassNames();
+
+			if (ArrayUtil.contains(classNames, className)) {
+				return group.isStagedPortlet(portlet.getRootPortletId());
+			}
+		}
+
+		return true;
+	}
+
+	@Override
 	public void processBackgroundTaskManifestSummary(
 			long userId, long sourceGroupId, BackgroundTask backgroundTask,
 			File file)
@@ -940,26 +961,6 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 					fileEntry.getFileEntryId());
 			}
 		}
-	}
-
-	@Override
-	public boolean isStagedPortletData(
-		long companyId, long groupId, String className) throws Exception {
-
-		Group group = _groupLocalService.getGroup(groupId);
-
-		for (Portlet portlet : getDataSiteLevelPortlets(companyId, true)) {
-			PortletDataHandler portletDataHandler =
-				portlet.getPortletDataHandlerInstance();
-
-			String[] classNames = portletDataHandler.getClassNames();
-
-			if (ArrayUtil.contains(classNames, className)) {
-				return group.isStagedPortlet(portlet.getRootPortletId());
-			}
-		}
-
-		return true;
 	}
 
 	/**
