@@ -364,7 +364,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 			if ((ddmStructure != null) &&
 				_exportImportHelper.isStagedPortletData(
-					portletDataContext.getCompanyId(),
 					portletDataContext.getGroupId(),
 					ddmStructure.getClassName())) {
 
@@ -381,7 +380,6 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 
 			if ((dlFileEntryType != null) &&
 				_exportImportHelper.isStagedPortletData(
-					portletDataContext.getCompanyId(),
 					portletDataContext.getGroupId(),
 					DLFileEntry.class.getName())) {
 

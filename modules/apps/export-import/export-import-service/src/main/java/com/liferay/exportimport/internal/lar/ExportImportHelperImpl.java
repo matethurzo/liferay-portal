@@ -885,13 +885,14 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 	}
 
 	@Override
-	public boolean isStagedPortletData(
-			long companyId, long groupId, String className)
+	public boolean isStagedPortletData(long groupId, String className)
 		throws Exception {
 
 		Group group = _groupLocalService.getGroup(groupId);
 
-		for (Portlet portlet : getDataSiteLevelPortlets(companyId, true)) {
+		for (Portlet portlet :
+				getDataSiteLevelPortlets(group.getCompanyId(), true)) {
+
 			PortletDataHandler portletDataHandler =
 				portlet.getPortletDataHandlerInstance();
 

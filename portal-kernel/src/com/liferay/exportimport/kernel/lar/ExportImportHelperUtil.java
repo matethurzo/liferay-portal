@@ -343,12 +343,10 @@ public class ExportImportHelperUtil {
 			portletDataContext, stagedModel);
 	}
 
-	public static boolean isStagedPortletData(
-			long companyId, long groupId, String className)
+	public static boolean isStagedPortletData(long groupId, String className)
 		throws Exception {
 
-		return _exportImportHelper.isStagedPortletData(
-			companyId, groupId, className);
+		return _exportImportHelper.isStagedPortletData(groupId, className);
 	}
 
 	public static void processBackgroundTaskManifestSummary(

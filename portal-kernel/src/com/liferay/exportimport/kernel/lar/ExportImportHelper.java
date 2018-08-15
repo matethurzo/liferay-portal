@@ -305,8 +305,7 @@ public interface ExportImportHelper {
 	public boolean isReferenceWithinExportScope(
 		PortletDataContext portletDataContext, StagedModel stagedModel);
 
-	public boolean isStagedPortletData(
-			long companyId, long groupId, String className)
+	public boolean isStagedPortletData(long groupId, String className)
 		throws Exception;
 
 	public void processBackgroundTaskManifestSummary(
