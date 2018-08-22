@@ -40,7 +40,7 @@ if (layoutSetBranches.contains(layoutSetBranch)) {
 		/>
 	</a>
 
-	<h3 class="header-title">
+	<h3 class="header-title header-title-with-overflow">
 		<span>
 			<%= HtmlUtil.escape(LanguageUtil.get(resourceBundle, "merge-site-pages-variation")) %>
 		</span>
