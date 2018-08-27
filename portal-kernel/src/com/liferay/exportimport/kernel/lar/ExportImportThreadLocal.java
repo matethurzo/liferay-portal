@@ -98,7 +98,9 @@ public class ExportImportThreadLocal {
 	}
 
 	public static boolean isStagingInProcess() {
-		if (isLayoutStagingInProcess() || isPortletStagingInProcess()) {
+		if (isLayoutStagingInProcess() || isPortletStagingInProcess() ||
+			isStagingInProcessOnRemoteLive()) {
+
 			return true;
 		}
 
