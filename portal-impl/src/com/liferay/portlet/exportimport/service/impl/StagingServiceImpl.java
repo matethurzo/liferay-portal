@@ -47,9 +47,9 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 		throws PortalException {
 
 		boolean stagingInProcessOnLive =
-			ExportImportThreadLocal.isStagingInProcessOnLive();
+			ExportImportThreadLocal.isStagingInProcessOnRemoteLive();
 
-		ExportImportThreadLocal.setStagingInProcessOnLive(true);
+		ExportImportThreadLocal.setStagingInProcessOnRemoteLive(true);
 
 		try {
 			checkPermission(stagingRequestId);
@@ -67,7 +67,7 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 			throw pe;
 		}
 		finally {
-			ExportImportThreadLocal.setStagingInProcessOnLive(
+			ExportImportThreadLocal.setStagingInProcessOnRemoteLive(
 				stagingInProcessOnLive);
 		}
 	}
@@ -77,9 +77,9 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 		throws PortalException {
 
 		boolean stagingInProcessOnLive =
-			ExportImportThreadLocal.isStagingInProcessOnLive();
+			ExportImportThreadLocal.isStagingInProcessOnRemoteLive();
 
-		ExportImportThreadLocal.setStagingInProcessOnLive(true);
+		ExportImportThreadLocal.setStagingInProcessOnRemoteLive(true);
 
 		try {
 			GroupPermissionUtil.check(
@@ -101,7 +101,7 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 			throw pe;
 		}
 		finally {
-			ExportImportThreadLocal.setStagingInProcessOnLive(
+			ExportImportThreadLocal.setStagingInProcessOnRemoteLive(
 				stagingInProcessOnLive);
 		}
 	}
@@ -211,9 +211,9 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 		throws PortalException {
 
 		boolean stagingInProcessOnLive =
-			ExportImportThreadLocal.isStagingInProcessOnLive();
+			ExportImportThreadLocal.isStagingInProcessOnRemoteLive();
 
-		ExportImportThreadLocal.setStagingInProcessOnLive(true);
+		ExportImportThreadLocal.setStagingInProcessOnRemoteLive(true);
 
 		try {
 			checkPermission(stagingRequestId);
@@ -234,7 +234,7 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 			throw pe;
 		}
 		finally {
-			ExportImportThreadLocal.setStagingInProcessOnLive(
+			ExportImportThreadLocal.setStagingInProcessOnRemoteLive(
 				stagingInProcessOnLive);
 		}
 	}
@@ -245,9 +245,9 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 		throws PortalException {
 
 		boolean stagingInProcessOnLive =
-			ExportImportThreadLocal.isStagingInProcessOnLive();
+			ExportImportThreadLocal.isStagingInProcessOnRemoteLive();
 
-		ExportImportThreadLocal.setStagingInProcessOnLive(true);
+		ExportImportThreadLocal.setStagingInProcessOnRemoteLive(true);
 
 		try {
 			checkPermission(stagingRequestId);
@@ -268,7 +268,7 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 			throw pe;
 		}
 		finally {
-			ExportImportThreadLocal.setStagingInProcessOnLive(
+			ExportImportThreadLocal.setStagingInProcessOnRemoteLive(
 				stagingInProcessOnLive);
 		}
 	}
@@ -285,9 +285,9 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 		throws PortalException {
 
 		boolean stagingInProcessOnLive =
-			ExportImportThreadLocal.isStagingInProcessOnLive();
+			ExportImportThreadLocal.isStagingInProcessOnRemoteLive();
 
-		ExportImportThreadLocal.setStagingInProcessOnLive(true);
+		ExportImportThreadLocal.setStagingInProcessOnRemoteLive(true);
 
 		try {
 			checkPermission(stagingRequestId);
@@ -296,7 +296,7 @@ public class StagingServiceImpl extends StagingServiceBaseImpl {
 				getUserId(), stagingRequestId, privateLayout, parameterMap);
 		}
 		finally {
-			ExportImportThreadLocal.setStagingInProcessOnLive(
+			ExportImportThreadLocal.setStagingInProcessOnRemoteLive(
 				stagingInProcessOnLive);
 		}
 	}

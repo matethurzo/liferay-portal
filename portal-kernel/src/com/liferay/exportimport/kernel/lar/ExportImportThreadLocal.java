@@ -105,8 +105,8 @@ public class ExportImportThreadLocal {
 		return false;
 	}
 
-	public static boolean isStagingInProcessOnLive() {
-		return _stagingInProcessOnLive.get();
+	public static boolean isStagingInProcessOnRemoteLive() {
+		return _stagingInProcessOnRemoteLive.get();
 	}
 
 	public static void setInitialLayoutStagingInProcess(
@@ -173,10 +173,10 @@ public class ExportImportThreadLocal {
 		_portletValidationInProcess.set(portletValidationInProcess);
 	}
 
-	public static void setStagingInProcessOnLive(
-		boolean stagingInProcessOnLive) {
+	public static void setStagingInProcessOnRemoteLive(
+		boolean stagingInProcessOnRemoteLive) {
 
-		_stagingInProcessOnLive.set(stagingInProcessOnLive);
+		_stagingInProcessOnRemoteLive.set(stagingInProcessOnRemoteLive);
 	}
 
 	private static final ThreadLocal<Boolean> _initialLayoutStagingInProcess =
@@ -225,9 +225,9 @@ public class ExportImportThreadLocal {
 		new CentralizedThreadLocal<>(
 			ExportImportThreadLocal.class + "._portletValidationInProcess",
 			() -> Boolean.FALSE);
-	private static final ThreadLocal<Boolean> _stagingInProcessOnLive =
+	private static final ThreadLocal<Boolean> _stagingInProcessOnRemoteLive =
 		new CentralizedThreadLocal<>(
-			ExportImportThreadLocal.class + "._stagingInProcessOnLive",
+			ExportImportThreadLocal.class + "._stagingInProcessOnRemoteLive",
 			() -> Boolean.FALSE);
 
 }
