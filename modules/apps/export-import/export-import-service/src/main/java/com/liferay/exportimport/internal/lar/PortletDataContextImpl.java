@@ -2441,9 +2441,9 @@ public class PortletDataContextImpl implements PortletDataContext {
 					liveGroupId = group.getGroupId();
 				}
 
+				referenceElement.addAttribute("group-key", group.getGroupKey());
 				referenceElement.addAttribute(
 					"live-group-id", String.valueOf(liveGroupId));
-				referenceElement.addAttribute("group-key", group.getGroupKey());
 
 				if (group.isLayout()) {
 					try {
