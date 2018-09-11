@@ -691,7 +691,7 @@ public class LayoutStagedModelDataHandler
 			}
 		}
 
-		String layoutPrototypeUuid = getLayoutPrototypeUuid(
+		String layoutPrototypeUuid = _getLayoutPrototypeUuid(
 			portletDataContext.getCompanyId(), layout, layoutElement);
 
 		importedLayout.setLayoutPrototypeUuid(layoutPrototypeUuid);
@@ -1071,28 +1071,6 @@ public class LayoutStagedModelDataHandler
 		typeSettings.setProperty(
 			"url",
 			url.substring(0, x) + group.getFriendlyURL() + url.substring(y));
-	}
-
-	protected String getLayoutPrototypeUuid(
-		long companyId, Layout layout, Element layoutElement) {
-
-		boolean preloaded = GetterUtil.getBoolean(
-			layoutElement.attributeValue("preloaded"));
-
-		if (preloaded) {
-			String layoutPrototypeName = GetterUtil.getString(
-				layoutElement.attributeValue("layout-prototype-name"));
-
-			LayoutPrototype layoutPrototype =
-				_layoutPrototypeLocalService.fetchLayoutProtoype(
-					companyId, layoutPrototypeName);
-
-			if (layoutPrototype != null) {
-				return layoutPrototype.getUuid();
-			}
-		}
-
-		return layout.getLayoutPrototypeUuid();
 	}
 
 	protected Map<String, Object[]> getPortletids(
@@ -1917,6 +1895,28 @@ public class LayoutStagedModelDataHandler
 		finally {
 			layout.setGroupId(groupId);
 		}
+	}
+
+	private String _getLayoutPrototypeUuid(
+		long companyId, Layout layout, Element layoutElement) {
+
+		boolean preloaded = GetterUtil.getBoolean(
+			layoutElement.attributeValue("preloaded"));
+
+		if (preloaded) {
+			String layoutPrototypeName = GetterUtil.getString(
+				layoutElement.attributeValue("layout-prototype-name"));
+
+			LayoutPrototype layoutPrototype =
+				_layoutPrototypeLocalService.fetchLayoutProtoype(
+					companyId, layoutPrototypeName);
+
+			if (layoutPrototype != null) {
+				return layoutPrototype.getUuid();
+			}
+		}
+
+		return layout.getLayoutPrototypeUuid();
 	}
 
 	private FragmentEntryLink _getOldFragmentEntryLink(
