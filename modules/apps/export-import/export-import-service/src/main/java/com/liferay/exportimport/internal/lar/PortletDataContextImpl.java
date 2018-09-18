@@ -81,7 +81,7 @@ import com.liferay.portal.kernel.model.Team;
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.model.adapter.ModelAdapterUtil;
-import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
+import com.liferay.portal.kernel.model.adapter.StagedGroupedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -2977,13 +2977,15 @@ public class PortletDataContextImpl implements PortletDataContext {
 						-1);
 
 			if (workflowDefinitionLink != null) {
-				StagedWorkflowDefinitionLink stagedWorkflowDefinitionLink =
-					ModelAdapterUtil.adapt(
-						workflowDefinitionLink, WorkflowDefinitionLink.class,
-						StagedWorkflowDefinitionLink.class);
+				StagedGroupedWorkflowDefinitionLink
+					stagedGroupedWorkflowDefinitionLink =
+						ModelAdapterUtil.adapt(
+							workflowDefinitionLink,
+							WorkflowDefinitionLink.class,
+							StagedGroupedWorkflowDefinitionLink.class);
 
 				StagedModelDataHandlerUtil.exportStagedModel(
-					this, stagedWorkflowDefinitionLink);
+					this, stagedGroupedWorkflowDefinitionLink);
 			}
 		}
 	}
@@ -3023,20 +3025,21 @@ public class PortletDataContextImpl implements PortletDataContext {
 	private void _importWorkflowDefinitionLink(ClassedModel classedModel)
 		throws PortletDataException {
 
-		Element stagedWorkflowDefinitionLinkElements =
-			getImportDataGroupElement(StagedWorkflowDefinitionLink.class);
+		Element stagedGroupedWorkflowDefinitionLinkElements =
+			getImportDataGroupElement(
+				StagedGroupedWorkflowDefinitionLink.class);
 
 		Map<Long, Long> primaryKeys = (Map<Long, Long>)getNewPrimaryKeysMap(
 			classedModel.getModelClass());
 
-		for (Element stagedWorkflowDefinitionLinkElement :
-				stagedWorkflowDefinitionLinkElements.elements()) {
+		for (Element stagedGroupedWorkflowDefinitionLinkElement :
+				stagedGroupedWorkflowDefinitionLinkElements.elements()) {
 
 			String referrerClassName = GetterUtil.getString(
-				stagedWorkflowDefinitionLinkElement.attributeValue(
+				stagedGroupedWorkflowDefinitionLinkElement.attributeValue(
 					"referrer-class-name"));
 			long referrerClassPK = GetterUtil.getLong(
-				stagedWorkflowDefinitionLinkElement.attributeValue(
+				stagedGroupedWorkflowDefinitionLinkElement.attributeValue(
 					"referrer-class-pk"));
 
 			String className = classedModel.getModelClassName();
@@ -3053,7 +3056,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 			}
 
 			String displayName =
-				stagedWorkflowDefinitionLinkElement.attributeValue(
+				stagedGroupedWorkflowDefinitionLinkElement.attributeValue(
 					"display-name");
 
 			if (Validator.isNull(displayName)) {

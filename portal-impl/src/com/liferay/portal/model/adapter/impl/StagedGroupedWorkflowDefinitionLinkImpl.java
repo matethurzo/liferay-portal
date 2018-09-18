@@ -17,6 +17,7 @@ package com.liferay.portal.model.adapter.impl;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
+import com.liferay.portal.kernel.model.adapter.StagedGroupedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.model.impl.WorkflowDefinitionLinkImpl;
@@ -28,10 +29,11 @@ import java.util.Date;
 /**
  * @author Zoltan Csaszi
  */
-public class StagedWorkflowDefinitionLinkImpl
-	extends WorkflowDefinitionLinkImpl implements StagedWorkflowDefinitionLink {
+public class StagedGroupedWorkflowDefinitionLinkImpl
+	extends WorkflowDefinitionLinkImpl
+	implements StagedGroupedWorkflowDefinitionLink {
 
-	public StagedWorkflowDefinitionLinkImpl(
+	public StagedGroupedWorkflowDefinitionLinkImpl(
 		WorkflowDefinitionLink workflowDefinitionLink) {
 
 		_workflowDefinitionLink = workflowDefinitionLink;
@@ -39,7 +41,8 @@ public class StagedWorkflowDefinitionLinkImpl
 
 	@Override
 	public Object clone() {
-		return new StagedWorkflowDefinitionLinkImpl(_workflowDefinitionLink);
+		return new StagedGroupedWorkflowDefinitionLinkImpl(
+			_workflowDefinitionLink);
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class StagedWorkflowDefinitionLinkImpl
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return new StagedModelType(StagedWorkflowDefinitionLink.class);
+		return new StagedModelType(StagedGroupedWorkflowDefinitionLink.class);
 	}
 
 	@Override
