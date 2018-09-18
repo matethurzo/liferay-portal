@@ -20,7 +20,6 @@ import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.adapter.StagedGroupedWorkflowDefinitionLink;
-import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.xml.Element;
 

@@ -18,7 +18,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
 import com.liferay.portal.kernel.model.adapter.StagedGroupedWorkflowDefinitionLink;
-import com.liferay.portal.kernel.model.adapter.StagedWorkflowDefinitionLink;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.model.impl.WorkflowDefinitionLinkImpl;
 
