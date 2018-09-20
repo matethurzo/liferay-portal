@@ -32,7 +32,6 @@
 		/>
 
 		<liferay-staging:input-scheduler />
-		
 	</li>
 </ul>
 
