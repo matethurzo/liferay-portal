@@ -142,6 +142,21 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 	}
 
 	@Override
+	public List<WorkflowDefinitionLink> fetchWorkflowDefinitionLinks(
+		long companyId, long groupId, String className, long classPK) {
+
+		if (!WorkflowEngineManagerUtil.isDeployed()) {
+			return null;
+		}
+
+		groupId = StagingUtil.getLiveGroupId(groupId);
+		long classNameId = classNameLocalService.getClassNameId(className);
+
+		return workflowDefinitionLinkPersistence.findByG_C_C_C(
+			groupId, companyId, classNameId, classPK);
+	}
+
+	@Override
 	public WorkflowDefinitionLink getDefaultWorkflowDefinitionLink(
 			long companyId, String className, long classPK, long typePK)
 		throws PortalException {
@@ -190,6 +205,21 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 		}
 
 		return workflowDefinitionLink;
+	}
+
+	@Override
+	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
+			long companyId, long groupId, String className, long classPK)
+		throws PortalException {
+
+		if (!WorkflowEngineManagerUtil.isDeployed()) {
+			throw new NoSuchWorkflowDefinitionLinkException();
+		}
+
+		long classNameId = classNameLocalService.getClassNameId(className);
+
+		return workflowDefinitionLinkPersistence.findByG_C_C_C(
+			companyId, groupId, classNameId, classPK);
 	}
 
 	@Override
