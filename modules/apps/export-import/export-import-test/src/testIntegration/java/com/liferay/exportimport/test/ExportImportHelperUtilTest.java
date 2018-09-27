@@ -931,11 +931,11 @@ public class ExportImportHelperUtilTest {
 	private class ExportImportTestParameterMapBuilder {
 
 		public ExportImportTestParameterMapBuilder() {
-			this._parameterMap = new HashMap<>();
+			_parameterMap = new HashMap<>();
 		}
 
 		public Map<String, String[]> build() {
-			return this._parameterMap;
+			return _parameterMap;
 		}
 
 		public ExportImportTestParameterMapBuilder withPortletArchivedSetupAll(
