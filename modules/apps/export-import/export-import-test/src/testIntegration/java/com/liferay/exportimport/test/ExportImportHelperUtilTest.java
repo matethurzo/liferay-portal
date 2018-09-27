@@ -122,15 +122,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(true)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(true)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			true
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			true
+		).build();
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -146,12 +154,17 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletData(
+			false
+		).build();
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -167,15 +180,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+				false
+			).withPortletConfigurationAll(
+				false
+			).withPortletArchivedSetupAll(
+				true
+			).withPortletSetupAll(
+				true
+			).withPortletUserPreferencesAll(
+				true
+			).withPortletData(
+				false
+			).build();
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -193,15 +214,23 @@ public class ExportImportHelperUtilTest {
 		String portletId = JournalPortletKeys.JOURNAL;
 
 		String rootPortletId = PortletIdCodec.decodePortletName(portletId);
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(true)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			true
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS +
@@ -223,15 +252,23 @@ public class ExportImportHelperUtilTest {
 		String portletId = JournalPortletKeys.JOURNAL;
 
 		String rootPortletId = PortletIdCodec.decodePortletName(portletId);
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(true)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			true
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION +
@@ -254,15 +291,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(true)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(true)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			true
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			true
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = null;
@@ -282,15 +327,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(true)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(true)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			true
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			true
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -310,15 +363,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(true)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(true)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			true
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			true
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -344,15 +405,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(true)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(true)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			true
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			true
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -378,12 +447,17 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = "test_portlet";
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = null;
@@ -403,15 +477,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = null;
@@ -431,15 +513,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -459,15 +549,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -493,15 +591,23 @@ public class ExportImportHelperUtilTest {
 
 		long companyId = TestPropsValues.getCompanyId();
 		String portletId = JournalPortletKeys.JOURNAL;
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(false)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = new ManifestSummary();
@@ -529,15 +635,23 @@ public class ExportImportHelperUtilTest {
 		String portletId = JournalPortletKeys.JOURNAL;
 
 		String rootPortletId = PortletIdCodec.decodePortletName(portletId);
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(true)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			true
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = null;
@@ -563,15 +677,23 @@ public class ExportImportHelperUtilTest {
 		String portletId = JournalPortletKeys.JOURNAL;
 
 		String rootPortletId = PortletIdCodec.decodePortletName(portletId);
-		Map<String, String[]> parameterMap =
-			new ExportImportTestParameterMapBuilder()
-				.withPortletConfiguration(true)
-				.withPortletConfigurationAll(false)
-				.withPortletArchivedSetupAll(true)
-				.withPortletSetupAll(true)
-				.withPortletUserPreferencesAll(true)
-				.withPortletData(false)
-				.build();
+
+		ExportImportTestParameterMapBuilder builder =
+			new ExportImportTestParameterMapBuilder();
+
+		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
+			true
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION +
