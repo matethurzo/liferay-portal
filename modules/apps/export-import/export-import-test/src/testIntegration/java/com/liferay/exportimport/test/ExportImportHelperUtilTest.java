@@ -185,18 +185,18 @@ public class ExportImportHelperUtilTest {
 			new ExportImportTestParameterMapBuilder();
 
 		Map<String, String[]> parameterMap = builder.withPortletConfiguration(
-				false
-			).withPortletConfigurationAll(
-				false
-			).withPortletArchivedSetupAll(
-				true
-			).withPortletSetupAll(
-				true
-			).withPortletUserPreferencesAll(
-				true
-			).withPortletData(
-				false
-			).build();
+			false
+		).withPortletConfigurationAll(
+			false
+		).withPortletArchivedSetupAll(
+			true
+		).withPortletSetupAll(
+			true
+		).withPortletUserPreferencesAll(
+			true
+		).withPortletData(
+			false
+		).build();
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -994,8 +994,8 @@ public class ExportImportHelperUtilTest {
 			return this;
 		}
 
-		public ExportImportTestParameterMapBuilder withPortletUserPreferencesAll(
-			boolean portletUserPreferencesAll) {
+		public ExportImportTestParameterMapBuilder
+			withPortletUserPreferencesAll(boolean portletUserPreferencesAll) {
 
 			_parameterMap.put(
 				PortletDataHandlerKeys.PORTLET_USER_PREFERENCES_ALL,
