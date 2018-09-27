@@ -234,7 +234,8 @@ public class ExportImportHelperUtilTest {
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -272,10 +273,12 @@ public class ExportImportHelperUtilTest {
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getExportPortletControlsMap(
@@ -658,7 +661,8 @@ public class ExportImportHelperUtilTest {
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 
 		Map<String, Boolean> actualPortletControlsMap =
 			ExportImportHelperUtil.getImportPortletControlsMap(
@@ -697,10 +701,12 @@ public class ExportImportHelperUtilTest {
 
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_CONFIGURATION +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 		parameterMap.put(
 			PortletDataHandlerKeys.PORTLET_ARCHIVED_SETUPS +
-			StringPool.UNDERLINE + rootPortletId, new String[] {"true"});
+				StringPool.UNDERLINE + rootPortletId,
+			new String[] {"true"});
 
 		Element portletDataElement = null;
 		ManifestSummary manifestSummary = null;
