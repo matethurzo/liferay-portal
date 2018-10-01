@@ -51,6 +51,10 @@ if (publicLayoutSet != null) {
 		publicLayoutSetPrototype = LayoutSetPrototypeLocalServiceUtil.fetchLayoutSetPrototypeByUuidAndCompanyId(layoutSetPrototypeUuid, company.getCompanyId());
 	}
 }
+
+SiteAdminConfiguration siteAdminConfiguration = ConfigurationProviderUtil.getSystemConfiguration(SiteAdminConfiguration.class);
+
+boolean enableCustomLanguagesWithTemplatePropagation = siteAdminConfiguration.enableCustomLanguagesWithTemplatePropagation();
 %>
 
 <liferay-ui:error-marker
@@ -63,7 +67,7 @@ if (publicLayoutSet != null) {
 <%
 boolean disableLayoutSetPrototypeInput = false;
 
-if (!LanguageUtil.isInheritLocales(group.getGroupId())) {
+if (!LanguageUtil.isInheritLocales(group.getGroupId()) && !enableCustomLanguagesWithTemplatePropagation) {
 	disableLayoutSetPrototypeInput = true;
 }
 
