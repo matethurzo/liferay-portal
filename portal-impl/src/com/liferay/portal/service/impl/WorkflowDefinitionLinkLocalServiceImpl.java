@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowEngineManagerUtil;
 import com.liferay.portal.service.base.WorkflowDefinitionLinkLocalServiceBaseImpl;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -146,7 +147,7 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 		long companyId, long groupId, String className, long classPK) {
 
 		if (!WorkflowEngineManagerUtil.isDeployed()) {
-			return null;
+			return Collections.emptyList();
 		}
 
 		groupId = StagingUtil.getLiveGroupId(groupId);
