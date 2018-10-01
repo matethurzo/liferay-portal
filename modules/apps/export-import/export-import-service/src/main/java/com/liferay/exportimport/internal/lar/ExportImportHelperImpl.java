@@ -1796,10 +1796,11 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 			PortletDataHandlerKeys.PORTLET_USER_PREFERENCES_ALL);
 	}
 
-	private Map<String, Boolean> _createPortletConfigurablePortletSetupControlsMap(
-		Map<String, String[]> parameterMap, boolean portletConfiguration,
-		String portletArchivedSetupKey, String portletSetupKey,
-		String portletUserPreferencesKey) {
+	private Map<String, Boolean>
+		_createPortletConfigurablePortletSetupControlsMap(
+			Map<String, String[]> parameterMap, boolean portletConfiguration,
+			String portletArchivedSetupKey, String portletSetupKey,
+			String portletUserPreferencesKey) {
 
 		boolean portletArchivedSetups = false;
 		boolean portletSetup = false;
