@@ -359,12 +359,12 @@ public class DDMFormValuesExportImportContentProcessor
 		implements DDMFormFieldValueTransformer {
 
 		public JournalArticleExportDDMFormFieldValueTransformer(
-			boolean exportReferencedContent,
-			PortletDataContext portletDataContext, StagedModel stagedModel) {
+			PortletDataContext portletDataContext, StagedModel stagedModel,
+			boolean exportReferencedContent) {
 
-			_exportReferencedContent = exportReferencedContent;
 			_portletDataContext = portletDataContext;
 			_stagedModel = stagedModel;
+			_exportReferencedContent = exportReferencedContent;
 		}
 
 		@Override
