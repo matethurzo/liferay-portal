@@ -74,10 +74,10 @@ public class DDMFormValuesExportImportContentProcessor
 
 		ddmFormValuesTransformer.addTransformer(
 			new FileEntryExportDDMFormFieldValueTransformer(
-				exportReferencedContent, portletDataContext, stagedModel));
+				portletDataContext, stagedModel, exportReferencedContent));
 		ddmFormValuesTransformer.addTransformer(
 			new JournalArticleExportDDMFormFieldValueTransformer(
-				exportReferencedContent, portletDataContext, stagedModel));
+				portletDataContext, stagedModel, exportReferencedContent));
 		ddmFormValuesTransformer.addTransformer(
 			new LayoutExportDDMFormFieldValueTransformer(
 				portletDataContext, stagedModel));
