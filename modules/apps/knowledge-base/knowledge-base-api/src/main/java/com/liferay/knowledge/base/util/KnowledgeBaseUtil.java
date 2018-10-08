@@ -259,6 +259,6 @@ public class KnowledgeBaseUtil {
 	private static final Pattern _normalizationFriendlyUrlPattern =
 		Pattern.compile("[^a-z0-9_-]");
 	private static final Pattern _validFriendlyUrlPattern = Pattern.compile(
-		"/[a-z0-9_-]+");
+		"[a-z0-9_-]+");
 
 }

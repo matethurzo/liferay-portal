@@ -1771,11 +1771,7 @@ public class KBArticleLocalServiceImpl extends KBArticleLocalServiceBaseImpl {
 			return null;
 		}
 
-		if (StringUtil.startsWith(urlTitle, CharPool.SLASH)) {
-			return urlTitle;
-		}
-
-		return StringPool.SLASH + urlTitle;
+		return urlTitle;
 	}
 
 	protected void notifySubscribers(
