@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<root available-locales="en_US" default-locale="en_US">
+	<dynamic-element name="content" type="text_area" index-type="text" instance-id="qnll">
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/'/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/]/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/}/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/)/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/>/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/</" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/|/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/#/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/?/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/"/" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+		<dynamic-content language-id="en_US"><![CDATA[<p>&lt;a href="https://DOMAIN/PATH/ /" target="_blank"&gt;Link on html&lt;/a&gt;</p>]]></dynamic-content>
+	</dynamic-element>
+</root>
