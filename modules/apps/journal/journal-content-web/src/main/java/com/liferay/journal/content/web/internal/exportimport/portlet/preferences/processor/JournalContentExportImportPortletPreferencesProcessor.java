@@ -294,7 +294,7 @@ public class JournalContentExportImportPortletPreferencesProcessor
 		portletDataContext.setScopeGroupId(groupId);
 
 		try {
-			if (Validator.isNotNull(articleId)) {
+			if (Validator.isNotNull(articleId) && (groupId != 0)) {
 				Group importedArticleGroup = _groupLocalService.getGroup(
 					groupId);
 
