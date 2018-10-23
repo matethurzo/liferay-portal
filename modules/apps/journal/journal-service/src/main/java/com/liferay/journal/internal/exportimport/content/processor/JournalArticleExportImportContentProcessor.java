@@ -544,6 +544,12 @@ public class JournalArticleExportImportContentProcessor
 		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
 			Value value = ddmFormFieldValue.getValue();
 
+			if (value == null) {
+				contents.add(null);
+
+				continue;
+			}
+
 			for (Locale locale : value.getAvailableLocales()) {
 				contents.add(value.getString(locale));
 			}
