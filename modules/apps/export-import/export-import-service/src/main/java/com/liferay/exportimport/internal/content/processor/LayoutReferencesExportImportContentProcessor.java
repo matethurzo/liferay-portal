@@ -256,11 +256,13 @@ public class LayoutReferencesExportImportContentProcessor
 
 			if (pos != -1) {
 				url = url.substring(0, pos);
+
 				endPos = beginPos + offset + pos;
 			}
 
 			if (url.endsWith(StringPool.SLASH)) {
 				url = url.substring(0, url.length() - 1);
+
 				endPos--;
 			}
 
