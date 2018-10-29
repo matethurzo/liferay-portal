@@ -42,10 +42,6 @@ boolean inheritLocales = GetterUtil.getBoolean(typeSettingsProperties.getPropert
 LayoutSet publicLayoutSet = liveGroup.getPublicLayoutSet();
 LayoutSet privateLayoutSet = liveGroup.getPrivateLayoutSet();
 
-SiteAdminConfiguration siteAdminConfiguration = ConfigurationProviderUtil.getSystemConfiguration(SiteAdminConfiguration.class);
-
-boolean enableCustomLanguagesWithTemplatePropagation = siteAdminConfiguration.enableCustomLanguagesWithTemplatePropagation();
-
 boolean disabledLocaleInput = false;
 
 if ((publicLayoutSet.isLayoutSetPrototypeLinkEnabled() || privateLayoutSet.isLayoutSetPrototypeLinkEnabled()) && !enableCustomLanguagesWithTemplatePropagation) {

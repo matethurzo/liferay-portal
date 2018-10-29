@@ -145,6 +145,10 @@ SiteAdminDisplayContext siteAdminDisplayContext = new SiteAdminDisplayContext(re
 SiteAdminManagementToolbarDisplayContext siteAdminManagementToolbarDisplayContext = new SiteAdminManagementToolbarDisplayContext(liferayPortletRequest, liferayPortletResponse, request, siteAdminDisplayContext);
 
 portletDisplay.setShowStagingIcon(false);
+
+SiteAdminConfiguration siteAdminConfiguration = ConfigurationProviderUtil.getSystemConfiguration(SiteAdminConfiguration.class);
+
+boolean enableCustomLanguagesWithTemplatePropagation = siteAdminConfiguration.enableCustomLanguagesWithTemplatePropagation();
 %>
 
 <%@ include file="/init-ext.jsp" %>
