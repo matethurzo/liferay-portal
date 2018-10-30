@@ -84,7 +84,9 @@ Map<String, String[]> parameterMap = (Map<String, String[]>)settingsMap.get("par
 
 		int incompleteBackgroundTaskCount = BackgroundTaskManagerUtil.getBackgroundTasksCount(groupDisplayContextHelper.getStagingGroupId(), taskExecutorClassName, false);
 
-		incompleteBackgroundTaskCount += BackgroundTaskManagerUtil.getBackgroundTasksCount(groupDisplayContextHelper.getLiveGroupId(), taskExecutorClassName, false);
+		if (localPublishing) {
+			incompleteBackgroundTaskCount += BackgroundTaskManagerUtil.getBackgroundTasksCount(groupDisplayContextHelper.getLiveGroupId(), taskExecutorClassName, false);
+		}
 		%>
 
 		<div class="container-fluid-1280">
