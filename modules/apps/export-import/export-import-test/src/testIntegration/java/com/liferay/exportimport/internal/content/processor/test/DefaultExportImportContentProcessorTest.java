@@ -743,6 +743,40 @@ public class DefaultExportImportContentProcessorTest {
 		Assert.assertEquals(expectedContent, importedContent);
 	}
 
+	@Test
+	public void testImportLinksToLayoutsInLayoutSetPrototype()
+		throws Exception {
+
+		LayoutTestUtil.addLayout(_liveGroup, true);
+
+		exportImportLayouts(true);
+
+		Layout importedPrivateLayout =
+			LayoutLocalServiceUtil.fetchLayoutByUuidAndGroupId(
+				_stagingPrivateLayout.getUuid(), _liveGroup.getGroupId(), true);
+
+		Map<Long, Layout> data =
+			(Map<Long, Layout>)_portletDataContextImport.getNewPrimaryKeysMap(
+				_PRIMARY_KEY_MAP_LAYOUT_KEY);
+
+		data.put(Long.valueOf(3), importedPrivateLayout);
+
+		String contentInFile = getContent(
+			"layout_links_in_layoutset_prototype.txt");
+
+		String content = replaceLinksToLayoutsParametersInLayoutSetPrototype(
+			contentInFile);
+
+		String importedContent =
+			_exportImportContentProcessor.replaceImportContentReferences(
+				_portletDataContextImport, _referrerStagedModel, content);
+
+		boolean templateIdSuccessfullyReplaced = !importedContent.contains(
+			"template");
+
+		Assert.assertTrue(templateIdSuccessfullyReplaced);
+	}
+
 	@Ignore
 	@Test
 	public void testInvalidLayoutReferencesCauseNoSuchLayoutException()
@@ -1032,6 +1066,25 @@ public class DefaultExportImportContentProcessorTest {
 			});
 	}
 
+	protected String replaceLinksToLayoutsParametersInLayoutSetPrototype(
+		String content) {
+
+		String portalURL = TestPropsValues.PORTAL_URL;
+
+		String portalURLPlaceholderToReplace = "[$PORTAL_URL$]";
+
+		String templateIdPlaceholderToReplace = "[$ID$]";
+
+		return StringUtil.replace(
+			content,
+			new String[] {
+				portalURLPlaceholderToReplace, templateIdPlaceholderToReplace
+			},
+			new String[] {
+				portalURL, String.valueOf(_stagingGroup.getGroupId())
+			});
+	}
+
 	protected String replaceMultiLocaleLayoutFriendlyURLs(String content) {
 		return duplicateLinesWithParamNames(
 			content, _MULTI_LOCALE_LAYOUT_VARIABLES,
@@ -1233,6 +1286,9 @@ public class DefaultExportImportContentProcessorTest {
 		"[$NON_DEFAULT_PRIVATE_LAYOUT_FRIENDLY_URL$]",
 		"[$NON_DEFAULT_PUBLIC_LAYOUT_FRIENDLY_URL$]"
 	};
+
+	private static final String _PRIMARY_KEY_MAP_LAYOUT_KEY =
+		"interface com.liferay.portal.kernel.model.Layout.layout";
 
 	private static final Locale[] _locales =
 		{LocaleUtil.US, LocaleUtil.GERMANY, LocaleUtil.SPAIN};
