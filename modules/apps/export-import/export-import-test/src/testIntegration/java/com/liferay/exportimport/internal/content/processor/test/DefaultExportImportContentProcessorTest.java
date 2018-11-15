@@ -759,7 +759,7 @@ public class DefaultExportImportContentProcessorTest {
 			(Map<Long, Layout>)_portletDataContextImport.getNewPrimaryKeysMap(
 				Layout.class + ".layout");
 
-		data.put(Long.valueOf(3), importedPrivateLayout);
+		layouts.put(3L, importedPrivateLayout);
 
 		String contentInFile = getContent(
 			"layout_links_in_layoutset_prototype.txt");
@@ -771,10 +771,9 @@ public class DefaultExportImportContentProcessorTest {
 			_exportImportContentProcessor.replaceImportContentReferences(
 				_portletDataContextImport, _referrerStagedModel, content);
 
-		boolean templateIdSuccessfullyReplaced = !importedContent.contains(
-			"template");
-
-		Assert.assertTrue(templateIdSuccessfullyReplaced);
+		Assert.assertTrue(
+			"Template ID should have been replaced in the imported content",
+			!importedContent.contains("template"));
 	}
 
 	@Ignore
