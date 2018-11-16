@@ -17,6 +17,7 @@
 <%@ include file="/panel/init.jsp" %>
 
 <%
+List<PanelApp> childPanelApps = (List<PanelApp>)request.getAttribute("liferay-application-list:panel:childPanelApps");
 List<PanelCategory> childPanelCategories = (List<PanelCategory>)request.getAttribute("liferay-application-list:panel:childPanelCategories");
 %>
 
@@ -31,6 +32,18 @@ List<PanelCategory> childPanelCategories = (List<PanelCategory>)request.getAttri
 				panelCategory="<%= childPanelCategory %>"
 				showOpen="<%= childPanelCategories.size() == 1 %>"
 			/>
+
+		<%
+		}
+
+		for (PanelApp childPanelApp : childPanelApps) {
+		%>
+
+			<ul class="nav nav-equal-height nav-stacked panel-app" role="menu">
+				<liferay-application-list:panel-app
+					panelApp="<%= childPanelApp %>"
+				/>
+			</ul>
 
 		<%
 		}

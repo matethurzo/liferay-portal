@@ -14,6 +14,7 @@
 
 package com.liferay.application.list.taglib.servlet.taglib;
 
+import com.liferay.application.list.PanelAppRegistry;
 import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.PanelCategoryRegistry;
 import com.liferay.application.list.RootPanelCategory;
@@ -62,6 +63,10 @@ public class PanelTag extends BasePanelTag {
 			(PanelCategoryRegistry)request.getAttribute(
 				ApplicationListWebKeys.PANEL_CATEGORY_REGISTRY);
 
+		PanelAppRegistry panelAppRegistry =
+			(PanelAppRegistry)request.getAttribute(
+				ApplicationListWebKeys.PANEL_APP_REGISTRY);
+
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
@@ -73,6 +78,10 @@ public class PanelTag extends BasePanelTag {
 		request.setAttribute(
 			"liferay-application-list:panel:childPanelCategories",
 			childPanelCategories);
+
+		request.setAttribute(
+			"liferay-application-list:panel:childPanelApps",
+			panelAppRegistry.getPanelApps(_panelCategory));
 
 		request.setAttribute(
 			"liferay-application-list:panel:panelCategory", _panelCategory);
