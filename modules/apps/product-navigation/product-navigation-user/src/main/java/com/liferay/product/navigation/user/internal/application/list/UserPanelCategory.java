@@ -15,12 +15,15 @@
 package com.liferay.product.navigation.user.internal.application.list;
 
 import com.liferay.application.list.BaseJSPPanelCategory;
+import com.liferay.application.list.PanelApp;
+import com.liferay.application.list.PanelAppRegistry;
 import com.liferay.application.list.PanelCategory;
 import com.liferay.application.list.constants.ApplicationListWebKeys;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 
 import java.io.IOException;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
@@ -68,7 +71,16 @@ public class UserPanelCategory extends BaseJSPPanelCategory {
 			HttpServletRequest request, HttpServletResponse response)
 		throws IOException {
 
+		PanelAppRegistry panelAppRegistry =
+			(PanelAppRegistry)request.getAttribute(
+				ApplicationListWebKeys.PANEL_APP_REGISTRY);
+
+		List<PanelApp> panelApps = panelAppRegistry.getPanelApps(this);
+
 		request.setAttribute(ApplicationListWebKeys.PANEL_CATEGORY, this);
+
+		request.setAttribute(
+			ApplicationListWebKeys.PANEL_APP + "_USER", panelApps);
 
 		return super.include(request, response);
 	}

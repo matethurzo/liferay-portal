@@ -18,6 +18,7 @@
 
 <%
 PanelCategory panelCategory = (PanelCategory)request.getAttribute(ApplicationListWebKeys.PANEL_CATEGORY);
+List<PanelApp> panelApps = (List<PanelApp>)request.getAttribute(ApplicationListWebKeys.PANEL_APP + "_USER");
 
 MyAccountPanelCategoryDisplayContext myAccountPanelCategoryDisplayContext = new MyAccountPanelCategoryDisplayContext(liferayPortletRequest, liferayPortletResponse);
 %>
@@ -34,6 +35,20 @@ MyAccountPanelCategoryDisplayContext myAccountPanelCategoryDisplayContext = new 
 <c:if test="<%= myAccountPanelCategoryDisplayContext.isShowMySiteGroup(true) %>">
 	<aui:a cssClass='<%= "list-group-heading" + (myAccountPanelCategoryDisplayContext.isMySiteGroupActive(true) ? " active" : StringPool.BLANK) %>' href="<%= myAccountPanelCategoryDisplayContext.getMySiteGroupURL(true) %>" label="my-dashboard" />
 </c:if>
+
+<%
+for (PanelApp panelApp : panelApps) {
+%>
+
+	<ul class="nav nav-equal-height nav-stacked panel-app" role="menu">
+		<liferay-application-list:panel-app
+			panelApp="<%= panelApp %>"
+		/>
+	</ul>
+
+<%
+}
+%>
 
 <c:if test="<%= themeDisplay.isShowSignOutIcon() %>">
 	<aui:a cssClass="list-group-heading" href="<%= themeDisplay.getURLSignOut() %>" label="sign-out" />

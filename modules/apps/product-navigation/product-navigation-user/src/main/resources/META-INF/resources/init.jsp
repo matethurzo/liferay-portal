@@ -23,7 +23,8 @@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.application.list.PanelCategory" %><%@
+<%@ page import="com.liferay.application.list.PanelApp" %><%@
+page import="com.liferay.application.list.PanelCategory" %><%@
 page import="com.liferay.application.list.constants.ApplicationListWebKeys" %><%@
 page import="com.liferay.application.list.display.context.logic.PanelCategoryHelper" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
@@ -36,7 +37,8 @@ page import="com.liferay.product.navigation.user.internal.application.list.UserP
 page import="com.liferay.product.navigation.user.internal.display.context.MyAccountPanelCategoryDisplayContext" %><%@
 page import="com.liferay.taglib.aui.AUIUtil" %>
 
-<%@ page import="java.util.Locale" %><%@
+<%@ page import="java.util.List" %><%@
+page import="java.util.Locale" %><%@
 page import="java.util.Objects" %>
 
 <liferay-theme:defineObjects />
