@@ -107,7 +107,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -776,7 +775,6 @@ public class DefaultExportImportContentProcessorTest {
 			!importedContent.contains("template"));
 	}
 
-	@Ignore
 	@Test
 	public void testInvalidLayoutReferencesCauseNoSuchLayoutException()
 		throws Exception {
@@ -814,7 +812,11 @@ public class DefaultExportImportContentProcessorTest {
 			catch (ExportImportContentValidationException eicve) {
 				Throwable cause = eicve.getCause();
 
-				if (cause instanceof NoSuchLayoutException) {
+				if ((cause instanceof NoSuchLayoutException) ||
+					(eicve.getType() ==
+						ExportImportContentValidationException.
+							LAYOUT_GROUP_NOT_FOUND)) {
+
 					noSuchLayoutExceptionThrown = true;
 				}
 			}
