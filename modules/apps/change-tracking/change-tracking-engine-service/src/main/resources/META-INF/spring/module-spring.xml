@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.liferay.change.tracking.engine.service.impl.CTEChangeCollectionLocalServiceImpl" id="com.liferay.change.tracking.engine.service.CTEChangeCollectionLocalService" />
+	<bean class="com.liferay.change.tracking.engine.service.persistence.impl.CTEChangeCollectionPersistenceImpl" id="com.liferay.change.tracking.engine.service.persistence.CTEChangeCollectionPersistence" parent="basePersistence" />
+	<bean class="com.liferay.change.tracking.engine.service.impl.CTEChangeEntryLocalServiceImpl" id="com.liferay.change.tracking.engine.service.CTEChangeEntryLocalService" />
+	<bean class="com.liferay.change.tracking.engine.service.persistence.impl.CTEChangeEntryPersistenceImpl" id="com.liferay.change.tracking.engine.service.persistence.CTEChangeEntryPersistence" parent="basePersistence" />
+</beans>
