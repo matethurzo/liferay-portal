@@ -3,11 +3,11 @@
 
 <service-builder auto-namespace-tables="false" package-path="com.liferay.change.tracking.engine">
 	<namespace>ChangeTrackingEngine</namespace>
-	<entity local-service="true" name="ChangeCollection" remote-service="false" trash-enabled="false" uuid="false">
+	<entity local-service="true" name="CTEChangeCollection" remote-service="false" trash-enabled="false" uuid="false">
 
 		<!-- PK fields -->
 
-		<column name="changeCollectionId" primary="true" type="long" />
+		<column name="cteChangeCollectionId" primary="true" type="long" />
 
 		<!-- Audit fields -->
 
@@ -24,17 +24,17 @@
 
 		<!-- Relationships -->
 
-		<column entity="ChangeEntry" mapping-table="Collections_Entries" name="changeEntries" type="Collection" />
+		<column entity="CTEChangeEntry" mapping-table="Collections_Entries" name="cteChangeEntries" type="Collection" />
 
 		<!-- References -->
 
-		<reference entity="ChangeEntry" package-path="com.liferay.change.tracking.engine" />
+		<reference entity="CTEChangeEntry" package-path="com.liferay.change.tracking.engine" />
 	</entity>
-	<entity local-service="true" name="ChangeEntry" remote-service="false" trash-enabled="false" uuid="false">
+	<entity local-service="true" name="CTEChangeEntry" remote-service="false" trash-enabled="false" uuid="false">
 
 		<!-- PK fields -->
 
-		<column name="changeEntryId" primary="true" type="long" />
+		<column name="cteChangeEntryId" primary="true" type="long" />
 
 		<!-- Audit fields -->
 
@@ -52,10 +52,10 @@
 
 		<!-- Relationships -->
 
-		<column entity="ChangeCollection" mapping-table="Collections_Entries" name="changeCollections" type="Collection" />
+		<column entity="CTEChangeCollection" mapping-table="Collections_Entries" name="cteChangeCollections" type="Collection" />
 
 		<!-- References -->
 
-		<reference entity="ChangeCollection" package-path="com.liferay.change.tracking.engine" />
+		<reference entity="CTEChangeCollection" package-path="com.liferay.change.tracking.engine" />
 	</entity>
 </service-builder>
