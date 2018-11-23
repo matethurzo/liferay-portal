@@ -22,5 +22,6 @@ import org.osgi.service.component.annotations.Component;
  * @author Brian Wing Shun Chan
  */
 @Component(immediate = true, service = UADAnonymizer.class)
-public class CTEChangeEntryUADAnonymizer extends BaseCTEChangeEntryUADAnonymizer {
+public class CTEChangeEntryUADAnonymizer
+	extends BaseCTEChangeEntryUADAnonymizer {
 }

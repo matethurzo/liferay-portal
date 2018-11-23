@@ -27,11 +27,13 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class CTEChangeEntryImpl extends CTEChangeEntryBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a cte change entry model instance should use the {@link com.liferay.change.tracking.engine.model.CTEChangeEntry} interface instead.
 	 */
 	public CTEChangeEntryImpl() {
 	}
+
 }

@@ -32,9 +32,11 @@ import com.liferay.change.tracking.engine.service.base.CTEChangeEntryLocalServic
  */
 public class CTEChangeEntryLocalServiceImpl
 	extends CTEChangeEntryLocalServiceBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link com.liferay.change.tracking.engine.service.CTEChangeEntryLocalServiceUtil} to access the cte change entry local service.
 	 */
+
 }
