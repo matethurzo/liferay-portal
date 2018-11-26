@@ -20,15 +20,17 @@ import com.liferay.change.tracking.engine.service.base.CTEChangeEntryLocalServic
  * The implementation of the cte change entry local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.change.tracking.engine.service.CTEChangeEntryLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the {@link
+ * com.liferay.change.tracking.engine.service.CTEChangeEntryLocalService}
+ * interface. <p> This is a local service. Methods of this service will not have
+ * security checks based on the propagated JAAS credentials because this service
+ * can only be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see CTEChangeEntryLocalServiceBaseImpl
- * @see com.liferay.change.tracking.engine.service.CTEChangeEntryLocalServiceUtil
+ * @see    CTEChangeEntryLocalServiceBaseImpl
+ * @see    com.liferay.change.tracking.engine.service.CTEChangeEntryLocalServiceUtil
  */
 public class CTEChangeEntryLocalServiceImpl
 	extends CTEChangeEntryLocalServiceBaseImpl {
