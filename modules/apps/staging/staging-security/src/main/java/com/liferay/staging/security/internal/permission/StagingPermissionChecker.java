@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
+import com.liferay.portal.background.task.model.BackgroundTask;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.repository.model.Folder;
@@ -138,6 +139,10 @@ public class StagingPermissionChecker implements PermissionChecker {
 			return true;
 		}
 
+		if (_isLarFile(name, actionId)) {
+			return true;
+		}
+
 		return _permissionChecker.hasPermission(
 			liveGroup, name, primKey, actionId);
 	}
@@ -155,6 +160,10 @@ public class StagingPermissionChecker implements PermissionChecker {
 		}
 
 		if (_isStagingFolder(name, actionId)) {
+			return true;
+		}
+
+		if (_isLarFile(name, actionId)) {
 			return true;
 		}
 
@@ -244,6 +253,16 @@ public class StagingPermissionChecker implements PermissionChecker {
 	@Override
 	public boolean isSignedIn() {
 		return _permissionChecker.isSignedIn();
+	}
+
+	private boolean _isLarFile(String name, String actionId) {
+		if (actionId.equals("VIEW") &&
+			name.equals(BackgroundTask.class.getName())) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private boolean _isStagingFolder(String name, String actionId) {
