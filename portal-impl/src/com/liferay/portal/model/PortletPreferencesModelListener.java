@@ -131,7 +131,9 @@ public class PortletPreferencesModelListener
 
 				layout.setModifiedDate(new Date());
 
-				LayoutLocalServiceUtil.updateLayout(layout);
+				LayoutLocalServiceUtil.updateLayout(
+					layout.getGroupId(), layout.isPrivateLayout(),
+					layout.getLayoutId(), layout.getTypeSettings());
 			}
 		}
 		catch (Exception e) {
