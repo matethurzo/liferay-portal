@@ -134,6 +134,14 @@ public class JournalContentExportImportPortletPreferencesProcessor
 
 		Group group = _groupLocalService.fetchGroup(articleGroupId);
 
+		if (group == null) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("No group found with group ID " + articleGroupId);
+			}
+
+			return portletPreferences;
+		}
+
 		if (ExportImportThreadLocal.isStagingInProcess() &&
 			!group.isStagedPortlet(JournalPortletKeys.JOURNAL)) {
 
