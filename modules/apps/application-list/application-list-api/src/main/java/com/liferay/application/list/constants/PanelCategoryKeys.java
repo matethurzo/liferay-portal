@@ -76,4 +76,6 @@ public interface PanelCategoryKeys {
 	public static final String USER_MY_ACCOUNT =
 		PortletCategoryKeys.USER_MY_ACCOUNT;
 
+	public static final String USER_SIGN_OUT = "user.sign_out";
+
 }

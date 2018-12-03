@@ -34,7 +34,3 @@ MyAccountPanelCategoryDisplayContext myAccountPanelCategoryDisplayContext = new 
 <c:if test="<%= myAccountPanelCategoryDisplayContext.isShowMySiteGroup(true) %>">
 	<aui:a cssClass='<%= "list-group-heading" + (myAccountPanelCategoryDisplayContext.isMySiteGroupActive(true) ? " active" : StringPool.BLANK) %>' href="<%= myAccountPanelCategoryDisplayContext.getMySiteGroupURL(true) %>" label="my-dashboard" />
 </c:if>
-
-<c:if test="<%= themeDisplay.isShowSignOutIcon() %>">
-	<aui:a cssClass="list-group-heading" href="<%= themeDisplay.getURLSignOut() %>" label="sign-out" />
-</c:if>
