@@ -1,3 +1,4 @@
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -11,19 +12,4 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package com.liferay.change.tracking.constants;
-
-/**
- * @author Mate Thurzo
- */
-public class ChangeTrackingPortletKeys {
-
-	public static final String CHANGE_LISTS =
-		"com_liferay_change_tracking_web_portlet_ChangeListsPortlet";
-
-	public static final String MY_CHANGE_LISTS =
-		"com_liferay_change_tracking_my_change_lists_web_portlet_" +
-			"MyChangeListsPortlet";
-
-}
+--%>

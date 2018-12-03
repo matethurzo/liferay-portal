@@ -1,3 +1,4 @@
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -11,19 +12,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+--%>
 
-package com.liferay.change.tracking.constants;
+<%@ include file="/init.jsp" %>
 
-/**
- * @author Mate Thurzo
- */
-public class ChangeTrackingPortletKeys {
-
-	public static final String CHANGE_LISTS =
-		"com_liferay_change_tracking_web_portlet_ChangeListsPortlet";
-
-	public static final String MY_CHANGE_LISTS =
-		"com_liferay_change_tracking_my_change_lists_web_portlet_" +
-			"MyChangeListsPortlet";
-
-}
+<div class="sheet sheet-lg">
+	<div class="sheet-header">
+		<h2 class="sheet-title">My Change Lists example screen</h2>
+		<div class="sheet-text">This is only a placeholder for what's later be added to the my change lists screen.</div>
+	</div>
+</div>
