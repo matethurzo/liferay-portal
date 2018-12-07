@@ -30,11 +30,11 @@ import org.osgi.service.component.annotations.Component;
 	immediate = true,
 	property = {
 		"javax.portlet.name=" + ChangeTrackingPortletKeys.SITE_CHANGE_LISTS,
-		"mvc.command.name=siteChangeLists"
+		"mvc.command.name=/", "mvc.command.name=/site_change_lists/view"
 	},
 	service = MVCRenderCommand.class
 )
-public class ViewSiteChangeListsMVCRenderCommand implements MVCRenderCommand {
+public class ViewMVCRenderCommand implements MVCRenderCommand {
 
 	@Override
 	public String render(
