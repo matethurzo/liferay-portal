@@ -1,0 +1,11 @@
+task formatSourceTravis {
+    subprojects.each { dependsOn("${it.name}:formatSource") }
+}
+
+task pmdTravis {
+    subprojects.each { dependsOn("${it.name}:pmdMain", "${it.name}:pmdTest") }
+}
+
+task runTravis {
+    dependsOn = ["formatSourceTravis", "pmdTravis"]
+}

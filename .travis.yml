@@ -1,0 +1,70 @@
+git:
+    depth: 5
+
+env:
+    - ANT_OPTS="-Xmx2560m" GRADLE_OPTS="-Xmx2560m"
+
+jdk: oraclejdk8
+
+language: java
+
+#services:
+#    - docker
+
+sudo: required
+
+install: true
+
+before_script:
+    - wget http://github.com/liferay/liferay-binaries-cache-2017/raw/master/gradle-4.10.2.LIFERAY-PATCHED-1-bin.zip
+
+    - mv gradle-4.10.2.LIFERAY-PATCHED-1-bin.zip tools/
+
+    #- cd modules/apps/petra && ../../../gradlew deploy
+    
+    #- cd - && cd portal-kernel && ant deploy
+
+    #- ant test-class -Dtest.class=ModulesStructureTest
+
+    #- cd .. && 
+    
+    - cd modules/apps/change-tracking
+
+    - ../../../gradlew runTravis
+    
+    #- ../gradlew :apps:change-tracking:change-tracking-api:checkSourceFormatting
+    
+    #- ../gradlew :apps:change-tracking:change-tracking-api:pmdMain 
+    
+    #- ../gradlew :apps:change-tracking:change-tracking-api:pmdTest 
+    
+    #- ../gradlew :apps:change-tracking:change-tracking-api:pmdTestIntegration 
+    
+    #- test
+
+    #- ./gradlew buildAppDockerImage
+
+    #- ./gradlew deployDependencies
+
+script:
+    - set pipefail
+
+    #- travis_wait ./gradlew runDocker
+
+    #- ./gradlew testIntegration
+
+before_cache:
+    - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+    - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+#cache:
+#  directories:
+#    - $HOME/.gradle/caches/
+#    - $HOME/.gradle/wrapper/
+
+#after_success:
+    #- ./gradlew dumpJacoco
+    #- ./gradlew coveralls
+
+#after_script:
+    #- docker logs com-liferay-adaptive-media
