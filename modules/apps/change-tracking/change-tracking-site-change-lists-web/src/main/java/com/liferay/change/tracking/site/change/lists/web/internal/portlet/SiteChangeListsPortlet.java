@@ -15,7 +15,6 @@
 package com.liferay.change.tracking.site.change.lists.web.internal.portlet;
 
 import com.liferay.change.tracking.constants.ChangeTrackingPortletKeys;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.Portlet;
@@ -40,7 +39,6 @@ import org.osgi.service.component.annotations.Component;
 		"com.liferay.portlet.use-default-template=true",
 		"javax.portlet.display-name=Site Change Lists",
 		"javax.portlet.expiration-cache=0",
-		"javax.portlet.init-param.mvc-command-names-default-views=siteChangeLists",
 		"javax.portlet.init-param.template-path=/META-INF/resources/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + ChangeTrackingPortletKeys.SITE_CHANGE_LISTS,
@@ -51,16 +49,4 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class SiteChangeListsPortlet extends MVCPortlet {
-
-	@Override
-	protected boolean isSessionErrorException(Throwable cause) {
-		if (cause instanceof SystemException ||
-			super.isSessionErrorException(cause)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
 }
