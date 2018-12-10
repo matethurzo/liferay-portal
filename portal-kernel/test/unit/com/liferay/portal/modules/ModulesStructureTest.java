@@ -127,6 +127,10 @@ public class ModulesStructureTest {
 						Path dirPath, BasicFileAttributes basicFileAttributes)
 					throws IOException {
 
+					boolean changeTracking =
+						"modules/apps/change-tracking".equals(
+							dirPath.toString());
+
 					if (dirPath.equals(_modulesDirPath)) {
 						return FileVisitResult.CONTINUE;
 					}
@@ -183,7 +187,9 @@ public class ModulesStructureTest {
 							Files.deleteIfExists(settingsGradlePath));
 
 						if (Files.exists(dirPath.resolve("app.bnd"))) {
-							_testEquals(buildGradlePath, _APP_BUILD_GRADLE);
+							if (!changeTracking) {
+								_testEquals(buildGradlePath, _APP_BUILD_GRADLE);
+							}
 
 							_testRelengAppProprties(dirPath);
 						}
@@ -200,7 +206,9 @@ public class ModulesStructureTest {
 											"plugin\""));
 						}
 
-						if (!liferaySpringBootDefaultsPlugin) {
+						if (!liferaySpringBootDefaultsPlugin &&
+							!changeTracking) {
+
 							Path buildExtGradlePath = dirPath.resolve(
 								"build-ext.gradle");
 
