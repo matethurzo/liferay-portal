@@ -16,6 +16,7 @@ package com.liferay.exportimport.internal.background.task;
 
 import com.liferay.changeset.service.ChangesetEntryLocalServiceUtil;
 import com.liferay.changeset.util.ChangesetThreadLocal;
+import com.liferay.exportimport.configuration.ExportImportServiceConfiguration;
 import com.liferay.exportimport.kernel.lar.MissingReference;
 import com.liferay.exportimport.kernel.lar.MissingReferences;
 import com.liferay.exportimport.kernel.staging.StagingUtil;
@@ -30,6 +31,9 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -37,7 +41,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 import java.io.Serializable;
@@ -76,7 +79,12 @@ public abstract class BaseStagingBackgroundTaskExecutor
 	}
 
 	protected void deleteTempLarOnFailure(File file) {
-		if (PropsValues.STAGING_DELETE_TEMP_LAR_ON_FAILURE) {
+		ExportImportServiceConfiguration exportImportServiceConfiguration =
+			getExportImportServiceConfiguration();
+
+		if ((exportImportServiceConfiguration == null) ||
+			exportImportServiceConfiguration.stagingDeleteTempLarOnFailure()) {
+
 			FileUtil.delete(file);
 		}
 		else if (file != null) {
@@ -85,12 +93,34 @@ public abstract class BaseStagingBackgroundTaskExecutor
 	}
 
 	protected void deleteTempLarOnSuccess(File file) {
-		if (PropsValues.STAGING_DELETE_TEMP_LAR_ON_SUCCESS) {
+		ExportImportServiceConfiguration exportImportServiceConfiguration =
+			getExportImportServiceConfiguration();
+
+		if ((exportImportServiceConfiguration == null) ||
+			exportImportServiceConfiguration.stagingDeleteTempLarOnSuccess()) {
+
 			FileUtil.delete(file);
 		}
 		else if ((file != null) && _log.isDebugEnabled()) {
 			_log.debug("Kept temporary LAR file " + file.getAbsolutePath());
 		}
+	}
+
+	protected ExportImportServiceConfiguration
+		getExportImportServiceConfiguration() {
+
+		try {
+			long companyId = CompanyThreadLocal.getCompanyId();
+
+			return ConfigurationProviderUtil.getCompanyConfiguration(
+				ExportImportServiceConfiguration.class, companyId);
+		}
+		catch (ConfigurationException ce) {
+			_log.error(
+				"Unable to load export import service configuration", ce);
+		}
+
+		return null;
 	}
 
 	protected void initThreadLocals(long groupId, boolean privateLayout)

@@ -17,6 +17,7 @@ package com.liferay.exportimport.internal.lar;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
+import com.liferay.exportimport.configuration.ExportImportServiceConfiguration;
 import com.liferay.exportimport.constants.ExportImportBackgroundTaskContextMapConstants;
 import com.liferay.exportimport.kernel.lar.DefaultConfigurationPortletDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
@@ -37,6 +38,7 @@ import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.exportimport.portlet.data.handler.provider.PortletDataHandlerProvider;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -93,7 +95,6 @@ import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.kernel.zip.ZipWriter;
 import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
 import com.liferay.portal.model.impl.LayoutImpl;
-import com.liferay.portal.util.PropsValues;
 
 import java.io.File;
 import java.io.InputStream;
@@ -114,7 +115,9 @@ import java.util.TreeMap;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import org.xml.sax.InputSource;
@@ -126,7 +129,10 @@ import org.xml.sax.XMLReader;
  * @author Julio Camarero
  * @author Máté Thurzó
  */
-@Component(immediate = true, service = ExportImportHelper.class)
+@Component(
+	configurationPid = "com.liferay.exportimport.configuration.ExportImportServiceConfiguration",
+	immediate = true, service = ExportImportHelper.class
+)
 @ProviderType
 public class ExportImportHelperImpl implements ExportImportHelper {
 
@@ -1425,6 +1431,13 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 		}
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_exportImportServiceConfiguration = ConfigurableUtil.createConfigurable(
+			ExportImportServiceConfiguration.class, properties);
+	}
+
 	protected void addCreateDateProperty(
 		PortletDataContext portletDataContext, DynamicQuery dynamicQuery) {
 
@@ -1648,8 +1661,10 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 
 	protected ZipWriter getZipWriter(String fileName) {
 		if (!ExportImportThreadLocal.isStagingInProcess() ||
-			(PropsValues.STAGING_DELETE_TEMP_LAR_ON_FAILURE &&
-			 PropsValues.STAGING_DELETE_TEMP_LAR_ON_SUCCESS)) {
+			(_exportImportServiceConfiguration.
+				stagingDeleteTempLarOnFailure() &&
+			 _exportImportServiceConfiguration.
+				 stagingDeleteTempLarOnSuccess())) {
 
 			return ZipWriterFactoryUtil.getZipWriter();
 		}
@@ -1887,6 +1902,7 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 		ExportImportHelperImpl.class);
 
 	private DLFileEntryLocalService _dlFileEntryLocalService;
+	private ExportImportServiceConfiguration _exportImportServiceConfiguration;
 	private GroupLocalService _groupLocalService;
 	private LayoutLocalService _layoutLocalService;
 	private LayoutService _layoutService;
