@@ -16,6 +16,7 @@ package com.liferay.change.tracking.service.impl;
 
 import com.liferay.change.tracking.exception.CollectionNameException;
 import com.liferay.change.tracking.model.ChangeTrackingCollection;
+import com.liferay.change.tracking.model.ChangeTrackingEntry;
 import com.liferay.change.tracking.service.base.ChangeTrackingCollectionLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
@@ -57,6 +58,43 @@ public class ChangeTrackingCollectionLocalServiceImpl
 		collection.setDescription(description);
 
 		return changeTrackingCollectionPersistence.update(collection);
+	}
+
+	@Override
+	public ChangeTrackingCollection deleteCollection(
+		ChangeTrackingCollection collection) {
+
+		List<ChangeTrackingEntry> entries =
+			changeTrackingCollectionPersistence.getChangeTrackingEntries(
+				collection.getChangeTrackingCollectionId());
+
+		for (ChangeTrackingEntry entry : entries) {
+			int collectionsSize =
+				changeTrackingEntryPersistence.getChangeTrackingCollectionsSize(
+					collection.getChangeTrackingCollectionId());
+
+			if (collectionsSize > 1) {
+				continue;
+			}
+
+			changeTrackingEntryLocalService.deleteChangeTrackingEntry(entry);
+		}
+
+		changeTrackingCollectionPersistence.remove(collection);
+		changeTrackingCollectionPersistence.clearChangeTrackingEntries(
+			collection.getChangeTrackingCollectionId());
+
+		return collection;
+	}
+
+	@Override
+	public void deleteCollection(long companyId) {
+		List<ChangeTrackingCollection> collections =
+			changeTrackingCollectionPersistence.findByCompanyId(companyId);
+
+		for (ChangeTrackingCollection collection : collections) {
+			changeTrackingCollectionLocalService.deleteCollection(collection);
+		}
 	}
 
 	@Override
