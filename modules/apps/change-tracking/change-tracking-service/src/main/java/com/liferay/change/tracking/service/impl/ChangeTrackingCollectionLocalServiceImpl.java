@@ -14,11 +14,54 @@
 
 package com.liferay.change.tracking.service.impl;
 
+import com.liferay.change.tracking.exception.CollectionNameException;
+import com.liferay.change.tracking.model.ChangeTrackingCollection;
 import com.liferay.change.tracking.service.base.ChangeTrackingCollectionLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.Date;
 
 /**
  * @author Brian Wing Shun Chan
+ * @author Daniel Kocsis
  */
 public class ChangeTrackingCollectionLocalServiceImpl
 	extends ChangeTrackingCollectionLocalServiceBaseImpl {
+
+	public ChangeTrackingCollection addCollection(
+			long companyId, long userId, String name, String description,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		_validate(name);
+
+		long id = counterLocalService.increment();
+
+		ChangeTrackingCollection collection =
+			changeTrackingCollectionPersistence.create(id);
+
+		User user = userLocalService.getUser(userId);
+		Date now = new Date();
+
+		collection.setCompanyId(companyId);
+		collection.setUserId(user.getUserId());
+		collection.setUserName(user.getFullName());
+		collection.setCreateDate(serviceContext.getCreateDate(now));
+		collection.setModifiedDate(serviceContext.getModifiedDate(now));
+
+		collection.setName(name);
+		collection.setDescription(description);
+
+		return changeTrackingCollectionPersistence.update(collection);
+	}
+
+	private void _validate(String name) throws CollectionNameException {
+		if (Validator.isNull(name)) {
+			throw new CollectionNameException();
+		}
+	}
+
 }

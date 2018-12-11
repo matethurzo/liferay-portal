@@ -62,4 +62,7 @@
 
 		<reference entity="ChangeTrackingCollection" package-path="com.liferay.change.tracking" />
 	</entity>
+	<exceptions>
+		<exception>CollectionName</exception>
+	</exceptions>
 </service-builder>
