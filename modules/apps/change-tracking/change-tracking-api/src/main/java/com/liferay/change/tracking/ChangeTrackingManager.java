@@ -16,26 +16,30 @@ package com.liferay.change.tracking;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.change.tracking.model.ChangeTrackingCollection;
+import com.liferay.change.tracking.model.ChangeTrackingEntry;
 import com.liferay.portal.kernel.model.BaseModel;
 
 import java.util.List;
 
 /**
- * Provides the main internal service interface to interact with the Change
+ * Provides the main internal manager interface to interact with the Change
  * Tracking framework.
  *
  * @author Daniel Kocsis
  */
 @ProviderType
-public interface ChangeTrackingEngineService {
+public interface ChangeTrackingManager {
 
 	/**
 	 * Changes the selected change collection for the given user.
 	 *
 	 * @param userId the primary key of the user
-	 * @param collectionId the primary key of the selected change collection
+	 * @param changeTrackingCollectionId the primary key of the selected change
+	 *        collection
 	 */
-	public void checkoutChangeTrackingCollection(long userId, long collectionId);
+	public void checkoutChangeTrackingCollection(
+		long userId, long changeTrackingCollectionId);
 
 	/**
 	 * Creates a new change collection.
@@ -46,16 +50,18 @@ public interface ChangeTrackingEngineService {
 	 * @param  description the description of the change collection
 	 * @return the newly created change collection
 	 */
-	public CTECollection createCollection(
+	public ChangeTrackingCollection createChangeTrackingCollection(
 		long companyId, long userId, String name, String description);
 
 	/**
 	 * Deletes a change collection.
 	 *
 	 * @param userId the primary key of the user who initiated the action
-	 * @param collectionId the primary key of the change collection
+	 * @param changeTrackingCollectionId the primary key of the change
+	 *        collection
 	 */
-	public void deleteCollection(long userId, long collectionId);
+	public void deleteChangeTrackingCollection(
+		long userId, long changeTrackingCollectionId);
 
 	/**
 	 * Disables the change tracking functionality in the scope of the given
@@ -83,15 +89,18 @@ public interface ChangeTrackingEngineService {
 	 * @param  userId the primary key of the user
 	 * @return the selected change collection
 	 */
-	public CTECollection getActiveCollection(long companyId, long userId);
+	public ChangeTrackingCollection getActiveChangeTrackingCollection(
+		long companyId, long userId);
 
 	/**
 	 * Returns the change collection identified by the primary key.
 	 *
-	 * @param  collectionId the primary key of the change collection
+	 * @param  changeTrackingCollectionId the primary key of the change
+	 *         collection
 	 * @return the change collection
 	 */
-	public CTECollection getCollection(long collectionId);
+	public ChangeTrackingCollection getChangeTrackingCollection(
+		long changeTrackingCollectionId);
 
 	/**
 	 * Returns all the change collection associated with the given company.
@@ -99,16 +108,19 @@ public interface ChangeTrackingEngineService {
 	 * @param  companyId the primary key of the company
 	 * @return the list of change collections
 	 */
-	public List<CTECollection> getCollections(long companyId);
+	public List<ChangeTrackingCollection> getChangeTrackingCollections(
+		long companyId);
 
 	/**
 	 * Returns all the change entries associated with the given change
 	 * collection.
 	 *
-	 * @param  collectionId the primary key of the change collection
+	 * @param  changeTrackingCollectionId the primary key of the change
+	 *         collection
 	 * @return the list of change entries
 	 */
-	public List<CTEEntry> getEntries(long collectionId);
+	public List<ChangeTrackingEntry> getChangeTrackingEntries(
+		long changeTrackingCollectionId);
 
 	/**
 	 * Returns the special change collection which is called production and
@@ -117,7 +129,8 @@ public interface ChangeTrackingEngineService {
 	 * @param  companyId the primary key of the company
 	 * @return the production change collection
 	 */
-	public CTECollection getProductionCollection(long companyId);
+	public ChangeTrackingCollection getProductionChangeTrackingCollection(
+		long companyId);
 
 	/**
 	 * Returns <code>true</code> if the change tracking is enabled in the scope
@@ -145,9 +158,10 @@ public interface ChangeTrackingEngineService {
 	 *
 	 * @param companyId the primary key of the company
 	 * @param userId the primary key of the user
-	 * @param collectionId the primary key of the change collection
+	 * @param changeTrackingCollectionId the primary key of the change
+	 *        collection
 	 */
-	public void publishCollection(
-		long companyId, long userId, long collectionId);
+	public void publishChangeTrackingCollection(
+		long companyId, long userId, long changeTrackingCollectionId);
 
 }
