@@ -20,6 +20,7 @@ import aQute.bnd.annotation.metatype.Meta;
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 /**
+ * @author Jorge Díaz
  * @author Michael Bowerman
  */
 @ExtendedObjectClassDefinition(
@@ -39,5 +40,17 @@ public interface ExportImportServiceConfiguration {
 		name = "validate-layout-references", required = false
 	)
 	public boolean validateLayoutReferences();
+
+	@Meta.AD(
+		deflt = "true", description = "staging-delete-temp-lar-on-failure-help",
+		name = "staging-delete-temp-lar-on-failure", required = false
+	)
+	public boolean stagingDeleteTempLarOnFailure();
+
+	@Meta.AD(
+		deflt = "true", description = "staging-delete-temp-lar-on-success-help",
+		name = "staging-delete-temp-lar-on-success", required = false
+	)
+	public boolean stagingDeleteTempLarOnSuccess();
 
 }
