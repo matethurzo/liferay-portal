@@ -74,11 +74,19 @@
 
 		<column entity="ChangeTrackingCollection" mapping-table="CTCollections_CTEntries" name="collections" type="Collection" />
 
+		<!-- Finder methods -->
+
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+		</finder>
+
 		<!-- References -->
 
 		<reference entity="ChangeTrackingCollection" package-path="com.liferay.change.tracking" />
 	</entity>
 	<exceptions>
 		<exception>CollectionName</exception>
+		<exception>DuplicateCTEEntry</exception>
 	</exceptions>
 </service-builder>
