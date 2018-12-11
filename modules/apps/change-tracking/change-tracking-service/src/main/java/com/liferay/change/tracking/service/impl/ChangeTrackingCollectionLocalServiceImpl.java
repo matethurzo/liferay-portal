@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -56,6 +57,7 @@ public class ChangeTrackingCollectionLocalServiceImpl
 
 		collection.setName(name);
 		collection.setDescription(description);
+		collection.setStatus(WorkflowConstants.STATUS_APPROVED);
 
 		return changeTrackingCollectionPersistence.update(collection);
 	}
@@ -107,6 +109,28 @@ public class ChangeTrackingCollectionLocalServiceImpl
 	@Override
 	public List<ChangeTrackingCollection> getCollections(long companyId) {
 		return changeTrackingCollectionPersistence.findByCompanyId(companyId);
+	}
+
+	@Override
+	public ChangeTrackingCollection updateStatus(
+			long userId, ChangeTrackingCollection collection, int status,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		User user = userLocalService.getUser(userId);
+
+		Date now = new Date();
+
+		Date modifiedDate = serviceContext.getModifiedDate(now);
+
+		collection.setModifiedDate(modifiedDate);
+
+		collection.setStatus(status);
+		collection.setStatusByUserId(user.getUserId());
+		collection.setStatusByUserName(user.getFullName());
+		collection.setStatusDate(modifiedDate);
+
+		return changeTrackingCollectionPersistence.update(collection);
 	}
 
 	private void _validate(String name) throws CollectionNameException {
