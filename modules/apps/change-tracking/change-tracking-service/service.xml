@@ -30,6 +30,22 @@
 
 		<column entity="ChangeTrackingEntry" mapping-table="CTCollections_CTEntries" name="entries" type="Collection" />
 
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+		<finder name="C_N" return-type="ChangeTrackingCollection" unique="true">
+			<finder-column name="companyId" />
+			<finder-column name="name" />
+		</finder>
+
 		<!-- References -->
 
 		<reference entity="ChangeTrackingEntry" package-path="com.liferay.change.tracking" />

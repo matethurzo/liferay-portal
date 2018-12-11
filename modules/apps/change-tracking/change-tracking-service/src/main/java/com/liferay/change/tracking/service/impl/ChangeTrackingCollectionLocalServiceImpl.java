@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Brian Wing Shun Chan
@@ -56,6 +57,18 @@ public class ChangeTrackingCollectionLocalServiceImpl
 		collection.setDescription(description);
 
 		return changeTrackingCollectionPersistence.update(collection);
+	}
+
+	@Override
+	public ChangeTrackingCollection fetchCollection(
+		long companyId, String name) {
+
+		return changeTrackingCollectionPersistence.fetchByC_N(companyId, name);
+	}
+
+	@Override
+	public List<ChangeTrackingCollection> getCollections(long companyId) {
+		return changeTrackingCollectionPersistence.findByCompanyId(companyId);
 	}
 
 	private void _validate(String name) throws CollectionNameException {
