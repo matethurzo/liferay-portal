@@ -1450,8 +1450,15 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 
 		Property groupIdProperty = PropertyFactoryUtil.forName("groupId");
 
-		dynamicQuery.add(
-			groupIdProperty.eq(portletDataContext.getScopeGroupId()));
+		if (portletDataContext.getScopeGroupId() !=
+				portletDataContext.getCompanyGroupId()) {
+
+			dynamicQuery.add(
+				groupIdProperty.eq(portletDataContext.getScopeGroupId()));
+		}
+		else {
+			dynamicQuery.add(groupIdProperty.eq(0L));
+		}
 
 		Property classNameIdProperty = PropertyFactoryUtil.forName(
 			"classNameId");
