@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.exportimport.changeset.constants.ChangesetPortletKeys;
+import com.liferay.exportimport.configuration.ExportImportServiceConfiguration;
 import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationParameterMapFactoryUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
@@ -39,6 +40,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.LayoutSetBranchConstants;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
@@ -64,7 +66,6 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.zip.ZipReader;
 import com.liferay.portal.kernel.zip.ZipReaderFactoryUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.test.LayoutTestUtil;
 
 import java.io.File;
@@ -72,7 +73,9 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -106,17 +109,31 @@ public class StagingImplTest {
 
 	@Test
 	public void testInitialPublication() throws Exception {
-		boolean stagingDeleteTempLarOnSuccess =
-			PropsValues.STAGING_DELETE_TEMP_LAR_ON_SUCCESS;
+		long companyId = _group.getCompanyId();
 
-		PropsValues.STAGING_DELETE_TEMP_LAR_ON_SUCCESS = false;
+		ExportImportServiceConfiguration exportImportServiceConfiguration =
+			ConfigurationProviderUtil.getCompanyConfiguration(
+				ExportImportServiceConfiguration.class, companyId);
+
+		boolean stagingDeleteTempLarOnSuccess =
+			exportImportServiceConfiguration.stagingDeleteTempLarOnSuccess();
+
+		Dictionary<String, Object> properties = new Hashtable<>();
+
+		properties.put("stagingDeleteTempLarOnSuccess", false);
+
+		ConfigurationProviderUtil.saveCompanyConfiguration(
+			ExportImportServiceConfiguration.class, companyId, properties);
 
 		try {
 			doTestInitialPublication();
 		}
 		finally {
-			PropsValues.STAGING_DELETE_TEMP_LAR_ON_SUCCESS =
-				stagingDeleteTempLarOnSuccess;
+			properties.put(
+				"stagingDeleteTempLarOnSuccess", stagingDeleteTempLarOnSuccess);
+
+			ConfigurationProviderUtil.saveCompanyConfiguration(
+				ExportImportServiceConfiguration.class, companyId, properties);
 		}
 	}
 
