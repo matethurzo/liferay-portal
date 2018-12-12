@@ -21,6 +21,7 @@ import com.liferay.change.tracking.model.ChangeTrackingEntry;
 import com.liferay.portal.kernel.model.BaseModel;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Provides the main internal manager interface to interact with the Change
@@ -34,12 +35,13 @@ public interface ChangeTrackingManager {
 	/**
 	 * Changes the selected change collection for the given user.
 	 *
+	 * @param companyId the primary key of the company
 	 * @param userId the primary key of the user
 	 * @param changeTrackingCollectionId the primary key of the selected change
 	 *        collection
 	 */
 	public void checkoutChangeTrackingCollection(
-		long userId, long changeTrackingCollectionId);
+		long companyId, long userId, long changeTrackingCollectionId);
 
 	/**
 	 * Creates a new change collection.
@@ -50,7 +52,7 @@ public interface ChangeTrackingManager {
 	 * @param  description the description of the change collection
 	 * @return the newly created change collection
 	 */
-	public ChangeTrackingCollection createChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> createChangeTrackingCollection(
 		long companyId, long userId, String name, String description);
 
 	/**
@@ -89,7 +91,7 @@ public interface ChangeTrackingManager {
 	 * @param  userId the primary key of the user
 	 * @return the selected change collection
 	 */
-	public ChangeTrackingCollection getActiveChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> getActiveChangeTrackingCollection(
 		long companyId, long userId);
 
 	/**
@@ -99,7 +101,7 @@ public interface ChangeTrackingManager {
 	 *         collection
 	 * @return the change collection
 	 */
-	public ChangeTrackingCollection getChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> getChangeTrackingCollection(
 		long changeTrackingCollectionId);
 
 	/**
@@ -129,8 +131,8 @@ public interface ChangeTrackingManager {
 	 * @param  companyId the primary key of the company
 	 * @return the production change collection
 	 */
-	public ChangeTrackingCollection getProductionChangeTrackingCollection(
-		long companyId);
+	public Optional<ChangeTrackingCollection>
+		getProductionChangeTrackingCollection(long companyId);
 
 	/**
 	 * Returns <code>true</code> if the change tracking is enabled in the scope
@@ -146,11 +148,13 @@ public interface ChangeTrackingManager {
 	 * Returns <code>true</code> if the given base model supports change
 	 * tracking or <code>false</code> if not.
 	 *
+	 * @param  companyId the primary key of the company
 	 * @param  clazz the class object
 	 * @return <code>true</code> if the given base model supports change
 	 *         tracking; <code>false</code> otherwise.
 	 */
-	public boolean isChangeTrackingSupported(Class<BaseModel> clazz);
+	public boolean isChangeTrackingSupported(
+		long companyId, Class<BaseModel> clazz);
 
 	/**
 	 * Publishes all the change entries from the given change collection to the
