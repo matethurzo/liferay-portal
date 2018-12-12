@@ -52,19 +52,20 @@ import org.osgi.service.component.annotations.Reference;
 public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 
 	@Override
-	public void checkoutChangeTrackingCollection(
-		long companyId, long userId, long collectionId) {
+	public void checkoutCTCollection(
+		long companyId, long userId, long ctCollectionId) {
 
 		if (!isChangeTrackingEnabled(companyId)) {
 			return;
 		}
 
-		Optional<ChangeTrackingCollection> collectionOptional =
-			getChangeTrackingCollection(collectionId);
+		Optional<ChangeTrackingCollection> ctCollectionOptional =
+			getCTCollectionOptional(ctCollectionId);
 
-		if (!collectionOptional.isPresent()) {
+		if (!ctCollectionOptional.isPresent()) {
 			_log.error(
-				"Unable to checkout change collection with id " + collectionId);
+				"Unable to checkout change collection with id " +
+					ctCollectionId);
 
 			return;
 		}
@@ -73,7 +74,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 			TransactionInvokerUtil.invoke(
 				_transactionConfig,
 				() -> {
-					_updateUserCollection(userId, collectionId);
+					_updateUserCollection(userId, ctCollectionId);
 
 					return null;
 				});
@@ -84,33 +85,33 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 	}
 
 	@Override
-	public Optional<ChangeTrackingCollection> createChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> createCTCollection(
 		long companyId, long userId, String name, String description) {
 
-		if (ChangeTrackingConstants.PRODUCTION_CHANGE_COLLECTION_NAME.equals(
+		if (ChangeTrackingConstants.CHANGE_COLLECTION_NAME_PRODUCTION.equals(
 				name) ||
 			!isChangeTrackingEnabled(companyId)) {
 
 			return Optional.empty();
 		}
 
-		return _createCollection(companyId, userId, name, description);
+		return _createCTCollection(companyId, userId, name, description);
 	}
 
 	@Override
-	public void deleteChangeTrackingCollection(long userId, long collectionId) {
-		Optional<ChangeTrackingCollection> collectionOptional =
-			getChangeTrackingCollection(collectionId);
+	public void deleteCTCollection(long userId, long ctCollectionId) {
+		Optional<ChangeTrackingCollection> ctCollectionOptional =
+			getCTCollectionOptional(ctCollectionId);
 
-		if (!collectionOptional.isPresent()) {
+		if (!ctCollectionOptional.isPresent()) {
 			_log.error(
-				"Unable to delete change collection with id " + collectionId);
+				"Unable to delete change collection with id " + ctCollectionId);
 
 			return;
 		}
 
 		_changeTrackingCollectionLocalService.deleteChangeTrackingCollection(
-			collectionOptional.get());
+			ctCollectionOptional.get());
 	}
 
 	@Override
@@ -126,7 +127,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 					_changeTrackingCollectionLocalService.
 						deleteCompanyChangeTrackingCollections(companyId);
 
-					_productionCollection = null;
+					_productionCTCollection = null;
 
 					return null;
 				});
@@ -146,21 +147,21 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 			TransactionInvokerUtil.invoke(
 				_transactionConfig,
 				() -> {
-					Optional<ChangeTrackingCollection> collectionOptional =
-						_createCollection(
+					Optional<ChangeTrackingCollection> ctCollectionOptional =
+						_createCTCollection(
 							companyId, userId,
 							ChangeTrackingConstants.
-								PRODUCTION_CHANGE_COLLECTION_NAME,
+								CHANGE_COLLECTION_NAME_PRODUCTION,
 							StringPool.BLANK);
 
-					collectionOptional.ifPresent(
-						collection -> {
-							_productionCollection = collectionOptional.orElse(
-								null);
+					ctCollectionOptional.ifPresent(
+						ctCollection -> {
+							_productionCTCollection =
+								ctCollectionOptional.orElse(null);
 
-							checkoutChangeTrackingCollection(
+							checkoutCTCollection(
 								companyId, userId,
-								collection.getChangeTrackingCollectionId());
+								ctCollection.getChangeTrackingCollectionId());
 						});
 
 					return null;
@@ -172,47 +173,44 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 	}
 
 	@Override
-	public Optional<ChangeTrackingCollection> getActiveChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> getActiveCTCollectionOptional(
 		long companyId, long userId) {
 
 		if (!isChangeTrackingEnabled(companyId)) {
 			return Optional.empty();
 		}
 
-		long recentCollectionId = _getUserCollectionId(userId);
+		long recentCTCollectionId = _getUserCollectionId(userId);
 
-		if (recentCollectionId == 0L) {
-			Optional<ChangeTrackingCollection> productionCollectionOptional =
-				getProductionChangeTrackingCollection(companyId);
+		if (recentCTCollectionId == 0L) {
+			Optional<ChangeTrackingCollection> productionCTCollectionOptional =
+				getProductionCTCollectionOptional(companyId);
 
-			recentCollectionId = productionCollectionOptional.map(
+			recentCTCollectionId = productionCTCollectionOptional.map(
 				ChangeTrackingCollection::getChangeTrackingCollectionId
 			).orElse(
 				0L
 			);
 
-			checkoutChangeTrackingCollection(
-				companyId, userId, recentCollectionId);
+			checkoutCTCollection(companyId, userId, recentCTCollectionId);
 		}
 
-		return getChangeTrackingCollection(recentCollectionId);
+		return getCTCollectionOptional(recentCTCollectionId);
 	}
 
 	@Override
-	public Optional<ChangeTrackingCollection> getChangeTrackingCollection(
-		long collectionId) {
+	public Optional<ChangeTrackingCollection> getCTCollectionOptional(
+		long ctCollectionId) {
 
-		ChangeTrackingCollection collection =
+		ChangeTrackingCollection ctCollection =
 			_changeTrackingCollectionLocalService.fetchChangeTrackingCollection(
-				collectionId);
+				ctCollectionId);
 
-		return Optional.ofNullable(collection);
+		return Optional.ofNullable(ctCollection);
 	}
 
 	@Override
-	public List<ChangeTrackingCollection> getChangeTrackingCollections(
-		long companyId) {
-
+	public List<ChangeTrackingCollection> getCTCollections(long companyId) {
 		if (!isChangeTrackingEnabled(companyId)) {
 			return Collections.emptyList();
 		}
@@ -222,34 +220,32 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 	}
 
 	@Override
-	public List<ChangeTrackingEntry> getChangeTrackingEntries(
-		long collectionId) {
-
+	public List<ChangeTrackingEntry> getCTEntries(long ctCollectionId) {
 		return _changeTrackingEntryLocalService.
-			getChangeTrackingCollectionChangeTrackingEntries(collectionId);
+			getChangeTrackingCollectionChangeTrackingEntries(ctCollectionId);
 	}
 
-	public Optional<ChangeTrackingCollection>
-		getProductionChangeTrackingCollection(long companyId) {
+	public Optional<ChangeTrackingCollection> getProductionCTCollectionOptional(
+		long companyId) {
 
-		if (_productionCollection == null) {
-			_productionCollection =
+		if (_productionCTCollection == null) {
+			_productionCTCollection =
 				_changeTrackingCollectionLocalService.
 					fetchChangeTrackingCollection(
 						companyId,
 						ChangeTrackingConstants.
-							PRODUCTION_CHANGE_COLLECTION_NAME);
+							CHANGE_COLLECTION_NAME_PRODUCTION);
 		}
 
-		return Optional.ofNullable(_productionCollection);
+		return Optional.ofNullable(_productionCTCollection);
 	}
 
 	@Override
 	public boolean isChangeTrackingEnabled(long companyId) {
-		Optional<ChangeTrackingCollection> productionCollection =
-			getProductionChangeTrackingCollection(companyId);
+		Optional<ChangeTrackingCollection> productionCTCollection =
+			getProductionCTCollectionOptional(companyId);
 
-		return productionCollection.isPresent();
+		return productionCTCollection.isPresent();
 	}
 
 	@Override
@@ -260,8 +256,8 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 	}
 
 	@Override
-	public void publishChangeTrackingCollection(
-		long companyId, long userId, long collectionId) {
+	public void publishCTCollection(
+		long companyId, long userId, long ctCollectionId) {
 
 		if (!isChangeTrackingEnabled(companyId)) {
 			if (_log.isWarnEnabled()) {
@@ -273,14 +269,13 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 			return;
 		}
 
-		List<ChangeTrackingEntry> entries = getChangeTrackingEntries(
-			collectionId);
+		List<ChangeTrackingEntry> ctEntries = getCTEntries(ctCollectionId);
 
-		if (ListUtil.isEmpty(entries)) {
+		if (ListUtil.isEmpty(ctEntries)) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"Unable to find any change entries with change " +
-						"collection id " + collectionId);
+						"collection id " + ctCollectionId);
 			}
 
 			return;
@@ -290,8 +285,8 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 			TransactionInvokerUtil.invoke(
 				_transactionConfig,
 				() -> {
-					_publishChangeEntries(
-						companyId, userId, collectionId, entries);
+					_publishCTEntries(
+						companyId, userId, ctCollectionId, ctEntries);
 
 					return null;
 				});
@@ -300,52 +295,52 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"Unable to publish change entries to change collection " +
-						collectionId,
+						ctCollectionId,
 					t);
 			}
 		}
 	}
 
 	private void _copyEntriesFromProduction(
-		ChangeTrackingCollection collection) {
+		ChangeTrackingCollection ctCollection) {
 
-		Optional<ChangeTrackingCollection> productionCollectionOptional =
-			getProductionChangeTrackingCollection(collection.getCompanyId());
+		Optional<ChangeTrackingCollection> productionCTCollectionOptional =
+			getProductionCTCollectionOptional(ctCollection.getCompanyId());
 
-		List<ChangeTrackingEntry> productionEntries =
-			productionCollectionOptional.map(
+		List<ChangeTrackingEntry> productionCTEntries =
+			productionCTCollectionOptional.map(
 				ChangeTrackingCollection::getChangeTrackingCollectionId
 			).map(
-				this::getChangeTrackingEntries
+				this::getCTEntries
 			).orElse(
 				Collections.emptyList()
 			);
 
-		for (ChangeTrackingEntry entry : productionEntries) {
+		for (ChangeTrackingEntry ctEntry : productionCTEntries) {
 			_changeTrackingCollectionLocalService.
 				addChangeTrackingEntryChangeTrackingCollection(
-					entry.getChangeTrackingEntryId(), collection);
+					ctEntry.getChangeTrackingEntryId(), ctCollection);
 		}
 	}
 
-	private Optional<ChangeTrackingCollection> _createCollection(
+	private Optional<ChangeTrackingCollection> _createCTCollection(
 		long companyId, long userId, String name, String description) {
 
-		ChangeTrackingCollection collection = null;
+		ChangeTrackingCollection ctCollection = null;
 
 		try {
-			collection = TransactionInvokerUtil.invoke(
+			ctCollection = TransactionInvokerUtil.invoke(
 				_transactionConfig,
 				() -> {
-					ChangeTrackingCollection changeTrackingCollection =
+					ChangeTrackingCollection addedCTCollection =
 						_changeTrackingCollectionLocalService.
 							addChangeTrackingCollection(
 								companyId, userId, name, description,
 								new ServiceContext());
 
-					_copyEntriesFromProduction(changeTrackingCollection);
+					_copyEntriesFromProduction(addedCTCollection);
 
-					return changeTrackingCollection;
+					return addedCTCollection;
 				});
 		}
 		catch (Throwable t) {
@@ -353,7 +348,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 				"Unable to create change collection with name " + name, t);
 		}
 
-		return Optional.ofNullable(collection);
+		return Optional.ofNullable(ctCollection);
 	}
 
 	private long _getUserCollectionId(long userId) {
@@ -375,35 +370,35 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 				_RECENT_CHANGE_COLLECTION_ID));
 	}
 
-	private void _publishChangeEntries(
-		long companyId, long userId, long collectionId,
-		List<ChangeTrackingEntry> entries) {
+	private void _publishCTEntries(
+		long companyId, long userId, long ctCollectionId,
+		List<ChangeTrackingEntry> ctEntries) {
 
-		Optional<ChangeTrackingCollection> productionCollectionOptional =
-			getProductionChangeTrackingCollection(companyId);
+		Optional<ChangeTrackingCollection> productionCTCollectionOptional =
+			getProductionCTCollectionOptional(companyId);
 
-		if (!productionCollectionOptional.isPresent()) {
+		if (!productionCTCollectionOptional.isPresent()) {
 			return;
 		}
 
-		long productionCollectionId = productionCollectionOptional.map(
+		long productionCTCollectionId = productionCTCollectionOptional.map(
 			ChangeTrackingCollection::getChangeTrackingCollectionId
 		).get();
 
 		_changeTrackingEntryLocalService.
 			addChangeTrackingCollectionChangeTrackingEntries(
-				productionCollectionId, entries);
+				productionCTCollectionId, ctEntries);
 
-		Optional<ChangeTrackingCollection> changeTrackingCollectionOptional =
-			getChangeTrackingCollection(collectionId);
+		Optional<ChangeTrackingCollection> ctCollectionOptional =
+			getCTCollectionOptional(ctCollectionId);
 
-		if (!changeTrackingCollectionOptional.isPresent()) {
+		if (!ctCollectionOptional.isPresent()) {
 			return;
 		}
 
 		try {
 			_changeTrackingCollectionLocalService.updateStatus(
-				userId, changeTrackingCollectionOptional.get(),
+				userId, ctCollectionOptional.get(),
 				WorkflowConstants.STATUS_APPROVED, new ServiceContext());
 		}
 		catch (PortalException pe) {
@@ -414,7 +409,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 		}
 	}
 
-	private void _updateUserCollection(long userId, long collectionId) {
+	private void _updateUserCollection(long userId, long ctCollectionId) {
 		User user = _userLocalService.fetchUser(userId);
 
 		PortalPreferences portalPreferences =
@@ -423,7 +418,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 
 		portalPreferences.setValue(
 			ChangeTrackingPortletKeys.CHANGE_LISTS,
-			_RECENT_CHANGE_COLLECTION_ID, String.valueOf(collectionId));
+			_RECENT_CHANGE_COLLECTION_ID, String.valueOf(ctCollectionId));
 	}
 
 	private static final String _RECENT_CHANGE_COLLECTION_ID =
@@ -439,7 +434,7 @@ public class ChangeTrackingManagerImpl implements ChangeTrackingManager {
 	@Reference
 	private ChangeTrackingEntryLocalService _changeTrackingEntryLocalService;
 
-	private ChangeTrackingCollection _productionCollection;
+	private ChangeTrackingCollection _productionCTCollection;
 	private final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(
 			Propagation.REQUIRED, new Class<?>[] {Exception.class});

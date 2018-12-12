@@ -37,11 +37,11 @@ public interface ChangeTrackingManager {
 	 *
 	 * @param companyId the primary key of the company
 	 * @param userId the primary key of the user
-	 * @param changeTrackingCollectionId the primary key of the selected change
+	 * @param ctCollectionId the primary key of the selected change
 	 *        collection
 	 */
-	public void checkoutChangeTrackingCollection(
-		long companyId, long userId, long changeTrackingCollectionId);
+	public void checkoutCTCollection(
+		long companyId, long userId, long ctCollectionId);
 
 	/**
 	 * Creates a new change collection.
@@ -52,18 +52,17 @@ public interface ChangeTrackingManager {
 	 * @param  description the description of the change collection
 	 * @return the newly created change collection
 	 */
-	public Optional<ChangeTrackingCollection> createChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> createCTCollection(
 		long companyId, long userId, String name, String description);
 
 	/**
 	 * Deletes a change collection.
 	 *
 	 * @param userId the primary key of the user who initiated the action
-	 * @param changeTrackingCollectionId the primary key of the change
+	 * @param ctCollectionId the primary key of the change
 	 *        collection
 	 */
-	public void deleteChangeTrackingCollection(
-		long userId, long changeTrackingCollectionId);
+	public void deleteCTCollection(long userId, long ctCollectionId);
 
 	/**
 	 * Disables the change tracking functionality in the scope of the given
@@ -91,18 +90,18 @@ public interface ChangeTrackingManager {
 	 * @param  userId the primary key of the user
 	 * @return the selected change collection
 	 */
-	public Optional<ChangeTrackingCollection> getActiveChangeTrackingCollection(
+	public Optional<ChangeTrackingCollection> getActiveCTCollectionOptional(
 		long companyId, long userId);
 
 	/**
 	 * Returns the change collection identified by the primary key.
 	 *
-	 * @param  changeTrackingCollectionId the primary key of the change
+	 * @param  ctCollectionId the primary key of the change
 	 *         collection
 	 * @return the change collection
 	 */
-	public Optional<ChangeTrackingCollection> getChangeTrackingCollection(
-		long changeTrackingCollectionId);
+	public Optional<ChangeTrackingCollection> getCTCollectionOptional(
+		long ctCollectionId);
 
 	/**
 	 * Returns all the change collection associated with the given company.
@@ -110,19 +109,17 @@ public interface ChangeTrackingManager {
 	 * @param  companyId the primary key of the company
 	 * @return the list of change collections
 	 */
-	public List<ChangeTrackingCollection> getChangeTrackingCollections(
-		long companyId);
+	public List<ChangeTrackingCollection> getCTCollections(long companyId);
 
 	/**
 	 * Returns all the change entries associated with the given change
 	 * collection.
 	 *
-	 * @param  changeTrackingCollectionId the primary key of the change
+	 * @param  ctCollectionId the primary key of the change
 	 *         collection
 	 * @return the list of change entries
 	 */
-	public List<ChangeTrackingEntry> getChangeTrackingEntries(
-		long changeTrackingCollectionId);
+	public List<ChangeTrackingEntry> getCTEntries(long ctCollectionId);
 
 	/**
 	 * Returns the special change collection which is called production and
@@ -131,8 +128,8 @@ public interface ChangeTrackingManager {
 	 * @param  companyId the primary key of the company
 	 * @return the production change collection
 	 */
-	public Optional<ChangeTrackingCollection>
-		getProductionChangeTrackingCollection(long companyId);
+	public Optional<ChangeTrackingCollection> getProductionCTCollectionOptional(
+		long companyId);
 
 	/**
 	 * Returns <code>true</code> if the change tracking is enabled in the scope
@@ -162,10 +159,10 @@ public interface ChangeTrackingManager {
 	 *
 	 * @param companyId the primary key of the company
 	 * @param userId the primary key of the user
-	 * @param changeTrackingCollectionId the primary key of the change
+	 * @param ctCollectionId the primary key of the change
 	 *        collection
 	 */
-	public void publishChangeTrackingCollection(
-		long companyId, long userId, long changeTrackingCollectionId);
+	public void publishCTCollection(
+		long companyId, long userId, long ctCollectionId);
 
 }
