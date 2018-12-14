@@ -37,8 +37,7 @@ public interface CTEngineManager {
 	 * Changes the selected change tracking collection for the given user.
 	 *
 	 * @param userId the primary key of the user
-	 * @param ctCollectionId the primary key of the selected change
-	 *        collection
+	 * @param ctCollectionId the primary key of the selected change collection
 	 */
 	public void checkoutCTCollection(long userId, long ctCollectionId);
 
@@ -56,15 +55,14 @@ public interface CTEngineManager {
 	/**
 	 * Deletes a change tracking collection.
 	 *
-	 * @param ctCollectionId the primary key of the change
-	 *        collection
+	 * @param ctCollectionId the primary key of the change collection
 	 */
 	public void deleteCTCollection(long ctCollectionId);
 
 	/**
 	 * Disables the change tracking functionality in the scope of the given
-	 * company. As a side effect it deletes all the related change tracking collections
-	 * and entries.
+	 * company. As a side effect it deletes all the related change tracking
+	 * collections and entries.
 	 *
 	 * @param userId the primary key of the user who initiated the action
 	 */
@@ -78,8 +76,8 @@ public interface CTEngineManager {
 	public void enableChangeTracking(long userId);
 
 	/**
-	 * Returns the active change tracking collection associated with the given user in
-	 * the scope of the given company.
+	 * Returns the active change tracking collection associated with the given
+	 * user in the scope of the given company.
 	 *
 	 * @param  userId the primary key of the user
 	 * @return the selected change tracking collection
@@ -89,14 +87,14 @@ public interface CTEngineManager {
 	/**
 	 * Returns the change tracking collection identified by the primary key.
 	 *
-	 * @param  ctCollectionId the primary key of the change
-	 *         collection
+	 * @param  ctCollectionId the primary key of the change collection
 	 * @return the change tracking collection
 	 */
 	public Optional<CTCollection> getCTCollectionOptional(long ctCollectionId);
 
 	/**
-	 * Returns all the change tracking collection associated with the given company.
+	 * Returns all the change tracking collection associated with the given
+	 * company.
 	 *
 	 * @param  companyId the primary key of the company
 	 * @return the list of change tracking collections
@@ -107,15 +105,14 @@ public interface CTEngineManager {
 	 * Returns all the change entries associated with the given change
 	 * collection.
 	 *
-	 * @param  ctCollectionId the primary key of the change
-	 *         collection
+	 * @param  ctCollectionId the primary key of the change collection
 	 * @return the list of change entries
 	 */
 	public List<CTEntry> getCTEntries(long ctCollectionId);
 
 	/**
-	 * Returns the special change tracking collection which is called production and
-	 * contains all the changes published before.
+	 * Returns the special change tracking collection which is called production
+	 * and contains all the changes published before.
 	 *
 	 * @param  companyId the primary key of the company
 	 * @return the production change tracking collection
@@ -149,20 +146,19 @@ public interface CTEngineManager {
 	 * Returns <code>true</code> if the given base model supports change
 	 * tracking or <code>false</code> if not.
 	 *
-	 * @param companyId the primary key of the company
-	 * @param classNameId the class name id of the model class
+	 * @param  companyId the primary key of the company
+	 * @param  classNameId the class name ID of the model class
 	 * @return <code>true</code> if the given base model supports change
-	 * tracking; <code>false</code> otherwise.
+	 *         tracking; <code>false</code> otherwise.
 	 */
 	public boolean isChangeTrackingSupported(long companyId, long classNameId);
 
 	/**
-	 * Publishes all the change entries from the given change tracking collection to the
-	 * production change tracking collection.
+	 * Publishes all the change entries from the given change tracking
+	 * collection to the production change tracking collection.
 	 *
 	 * @param userId the primary key of the user
-	 * @param ctCollectionId the primary key of the change
-	 *        collection
+	 * @param ctCollectionId the primary key of the change collection
 	 */
 	public void publishCTCollection(long userId, long ctCollectionId);
 
