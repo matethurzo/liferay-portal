@@ -66,22 +66,18 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		return ctEntry;
 	}
 
+	@Override
+	public CTEntry fetchCTEntry(long classNameId, long classPK) {
+		return ctEntryPersistence.fetchByC_C(classNameId, classPK);
+	}
+
 	private void _validate(long classNameId, long classPK, long ctCollectionId)
 		throws PortalException {
 
-		List<CTEntry> ctEntries = ctEntryPersistence.findByC_C(
-			classNameId, classPK);
+		CTEntry ctEntry = ctEntryPersistence.fetchByC_C(classNameId, classPK);
 
-		for (CTEntry ctEntry : ctEntries) {
-			List<CTCollection> ctCollections =
-				ctCollectionLocalService.getCTEntryCTCollections(
-					ctEntry.getCtEntryId());
-
-			for (CTCollection ctCollection : ctCollections) {
-				if (ctCollection.getCtCollectionId() == ctCollectionId) {
-					throw new DuplicateCTEEntryException();
-				}
-			}
+		if (ctEntry != null) {
+			throw new DuplicateCTEEntryException();
 		}
 
 		ctCollectionLocalService.getCTCollection(ctCollectionId);
