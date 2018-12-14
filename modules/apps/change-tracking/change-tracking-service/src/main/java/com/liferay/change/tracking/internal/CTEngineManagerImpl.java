@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.transaction.TransactionConfig;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Collections;
@@ -278,6 +279,12 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	public boolean isChangeTrackingSupported(
 		long companyId, Class<BaseModel> clazz) {
 
+		return isChangeTrackingSupported(
+			companyId, _portal.getClassNameId(clazz));
+	}
+
+	@Override
+	public boolean isChangeTrackingSupported(long companyId, long classNameId) {
 		return false;
 	}
 
@@ -464,6 +471,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 	@Reference
 	private CTEntryLocalService _ctEntryLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	private CTCollection _productionCTCollection;
 	private final TransactionConfig _transactionConfig =
