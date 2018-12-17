@@ -67,7 +67,7 @@ public interface CTConfigurationBuilder<T, U> {
 	public interface VersionEntityByVersionEntityIdStep<U> {
 
 		public EntityIdsFromVersionEntityStep<U>
-			setversionEntityByVersionEntityIdFunction(
+			setVersionEntityByVersionEntityIdFunction(
 				Function<Long, U> versionEntityByVersionEntityIdFunction);
 
 	}
