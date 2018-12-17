@@ -139,7 +139,7 @@ public class StagingPermissionChecker implements PermissionChecker {
 			return true;
 		}
 
-		if (_isLARFile(name, actionId)) {
+		if (_isLarFile(name, actionId)) {
 			return true;
 		}
 
@@ -163,7 +163,7 @@ public class StagingPermissionChecker implements PermissionChecker {
 			return true;
 		}
 
-		if (_isLARFile(name, actionId)) {
+		if (_isLarFile(name, actionId)) {
 			return true;
 		}
 
@@ -255,7 +255,7 @@ public class StagingPermissionChecker implements PermissionChecker {
 		return _permissionChecker.isSignedIn();
 	}
 
-	private boolean _isLARFile(String name, String actionId) {
+	private boolean _isLarFile(String name, String actionId) {
 		if (actionId.equals("VIEW") &&
 			name.equals(BackgroundTask.class.getName())) {
 
