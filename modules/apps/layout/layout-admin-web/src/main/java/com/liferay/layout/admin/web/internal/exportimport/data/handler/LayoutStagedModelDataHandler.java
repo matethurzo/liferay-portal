@@ -572,6 +572,14 @@ public class LayoutStagedModelDataHandler
 			importedLayout = existingLayout;
 		}
 
+		Map<Long, Long> layoutPlids =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				Layout.class);
+
+		layoutPlids.put(layout.getPlid(), importedLayout.getPlid());
+
+		layouts.put(oldLayoutId, importedLayout);
+
 		portletDataContext.setPlid(importedLayout.getPlid());
 		portletDataContext.setOldPlid(layout.getPlid());
 
@@ -587,8 +595,17 @@ public class LayoutStagedModelDataHandler
 		if ((parentLayoutId != LayoutConstants.DEFAULT_PARENT_LAYOUT_ID) &&
 			(parentLayoutElement != null)) {
 
-			StagedModelDataHandlerUtil.importStagedModel(
-				portletDataContext, parentLayoutElement);
+			long originalOldPlid = portletDataContext.getOldPlid();
+			long originalPlid = portletDataContext.getPlid();
+
+			try {
+				StagedModelDataHandlerUtil.importStagedModel(
+					portletDataContext, parentLayoutElement);
+			}
+			finally {
+				portletDataContext.setOldPlid(originalOldPlid);
+				portletDataContext.setPlid(originalPlid);
+			}
 
 			Layout importedParentLayout = layouts.get(parentLayoutId);
 
@@ -707,14 +724,6 @@ public class LayoutStagedModelDataHandler
 		_layoutLocalService.updateLayout(importedLayout);
 
 		_layoutSetLocalService.updatePageCount(groupId, privateLayout);
-
-		Map<Long, Long> layoutPlids =
-			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-				Layout.class);
-
-		layoutPlids.put(layout.getPlid(), importedLayout.getPlid());
-
-		layouts.put(oldLayoutId, importedLayout);
 
 		if ((Objects.equals(layout.getType(), LayoutConstants.TYPE_PORTLET) &&
 			 Validator.isNotNull(layout.getTypeSettings())) ||
