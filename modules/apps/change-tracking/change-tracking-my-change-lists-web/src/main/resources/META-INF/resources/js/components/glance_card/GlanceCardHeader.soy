@@ -1,10 +1,10 @@
 {namespace com.liferay.change.tracking.my.change.lists.web.GlanceCardHeader}
- /**
+/**
  * Prints the portlet header.
  */
 {template .render}
 	{@param  headerTitle: string}
-	
+
 	{@param? headerSubTitle: string}
 	{@param? headerInfo: bool}
 	{@param? headerLink1: [
@@ -25,10 +25,10 @@
 	]>}
 
 	{let $twoColumns: $headerInfo or $headerButton or $headerDropdown /}
-	
+
 	<div class="glance-card-container glance-card-header">
 		<div class="row">
-		
+
 			<div class="col-sm-{$twoColumns ? 6 : 12}">
 				<h3>{$headerTitle}</h3>
 				{if $headerSubTitle}
@@ -38,13 +38,13 @@
 					<a href="{$headerLink1.href}" class="stick-to-bottom" onclick="">{$headerLink1.label}</a>
 				{/if}
 			</div>
-			
+
 			{if $twoColumns}
-			
+
 				<div class="col-sm-6">
 					<div class="navbar-nav stick-to-right">
-						{if $headerInfo}	
-							<div class="flex-col"> 
+						{if $headerInfo}
+							<div class="flex-col">
 
 								{call liferay.frontend.Tooltip.render}
 									{param elementClasses: 'fade' /}
@@ -53,7 +53,7 @@
 									{param title: '' /}
 									{param visible: false /}
 								{/call}
-								<button class="btn nav-link nav-link-monospaced btn-unstyled text-warning" aria-label="info-circle-open" type="button" id="" data-title="Collision Detected" title="Collision Detected">			
+								<button class="btn nav-link nav-link-monospaced btn-unstyled text-warning" aria-label="info-circle-open" type="button" id="" data-title="Collision Detected" title="Collision Detected">
 									<svg aria-hidden="true" class="lexicon-icon lexicon-icon-info-circle-open" focusable="false" viewBox="0 0 512 512">
 										<title>info-circle-open</title>
 										<path class="lexicon-icon-body" fill="none" d="M437,75C388.7,26.6,324.4,0,256,0C187.6,0,123.3,26.6,75,75C26.6,123.3,0,187.6,0,256c0,68.4,26.6,132.7,75,181
@@ -82,7 +82,7 @@
 						{if $headerButton}
 							<div class="flex-col">
 								<button class="btn btn-primary btn-default" id="" type="button">
-									<span class="lfr-btn-label">{$headerButton.label}</span> 
+									<span class="lfr-btn-label">{$headerButton.label}</span>
 								</button>
 							</div>
 						{/if}
@@ -96,6 +96,7 @@
 											<path class="lexicon-icon-outline" d="M319 64c0 35.346-28.654 64-64 64s-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64z"></path>
 											</svg>
 									</button>
+
 									<div class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(-189px, -11px, 0px); top: 0px; left: 0px; will-change: transform;">
 										{foreach $dropdown in $headerDropdown}
 											<a class="dropdown-item" data-onclick="{$dropdown.dataOnClick}" href="{$dropdown.href}">{$dropdown.label}</a>
@@ -109,10 +110,10 @@
 						<a href="{$headerLink2.href}" class="stick-to-bottom stick-to-right" onclick="">{$headerLink2.label}</a>
 					{/if}
 				</div>
-			
+
 			{/if}
-				
+
 		</div>
 	</div>
 
-{/template} 
+{/template}

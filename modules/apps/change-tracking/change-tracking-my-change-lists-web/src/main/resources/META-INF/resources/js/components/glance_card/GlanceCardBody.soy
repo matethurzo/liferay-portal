@@ -16,23 +16,23 @@
 		modified: number,
 		deleted: number
 	]}
-	
+
 	<div class="glance-card-container glance-card-body">
-	
+
 		{if $description}
 			<div class="glance-card-sheet-block">
 				<h3>Description</h3>
-				<div class="sheet-text"> 
+				<div class="sheet-text">
 					{$description}
 				</div>
 			</div>
 		{/if}
-		
+
 		{if $publishedBy}
 			<div class="glance-card-sheet-block">
 				<h3>Published by</h3>
 				<div class="autofit-padded-no-gutters-x autofit-row widget-metadata">
-					
+
 					<div class="autofit-col">
 						{if $publishedBy.userMonogram}
 							<div class="user-icon-color-9 user-icon-lg user-icon user-icon-default">
@@ -43,6 +43,7 @@
 							</div>
 						{/if}
 					</div>
+
 					<div class="autofit-col autofit-col-expand">
 						<div class="aspect-ratio-item-left-middle text-secondary">
 							{$publishedBy.dateTime} by {$publishedBy.userName}
@@ -51,7 +52,7 @@
 				</div>
 			</div>
 		{/if}
-		
+
 		{if $changes}
 			<div class="glance-card-sheet-block">
 				<h3>Changes</h3>
@@ -60,11 +61,13 @@
 						<div class="big-number">{$changes.added}</div>
 						<div class="">Added</div>
 					</div>
+
 					<div class="changes">
 						<div class="big-number">{$changes.modified}</div>
 						<div class="">Modified</div>
-					
+
 					</div>
+
 					<div class="changes">
 						<div class="big-number">{$changes.deleted}</div>
 						<div class="">Deleted</div>
@@ -72,7 +75,7 @@
 				</div>
 			</div>
 		{/if}
-	
+
 	</div>
 
 {/template}

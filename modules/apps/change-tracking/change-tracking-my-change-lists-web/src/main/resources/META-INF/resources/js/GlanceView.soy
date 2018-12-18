@@ -6,7 +6,7 @@
 {template .render}
 
 	<div class="container-fluid-1280">
-	
+
 		<div class="row">
 			<div class="col-sm-6">
 				{call com.liferay.change.tracking.my.change.lists.web.GlanceCard.render}
@@ -14,8 +14,8 @@
 					{param cardState: 'border-left-blue' /}
 					{param headerTitle: 'Christmas Sale' /}
 					{param headerSubTitle: 'Active Change List' /}
-					{param headerInfo: true /}	
-					{param headerButton: ['label': 'Publish'] /}					
+					{param headerInfo: true /}
+					{param headerButton: ['label': 'Publish'] /}
 					{param headerLink1: ['href': 'href', 'label': 'Preview'] /}
 					{param headerLink2: ['href': 'href', 'label': 'Select Change List'] /}
 					{param headerDropdown: [['href': 'href', 'label': 'Delete', 'dataOnClick': '']] /}
@@ -23,6 +23,7 @@
 					{param changes: ['added':42, 'modified': 6, 'deleted': 2] /}
 				{/call}
 			</div>
+
 			<div class="col-sm-6">
 				{call com.liferay.change.tracking.my.change.lists.web.GlanceCard.render}
 					{param bodyType: 'default' /}
@@ -35,7 +36,7 @@
 				{/call}
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-12">
 				{call com.liferay.change.tracking.my.change.lists.web.GlanceCard.render}
@@ -45,8 +46,7 @@
 				{/call}
 			</div>
 		</div>
-		
-	
+
 	</div>
-	
+
 {/template}

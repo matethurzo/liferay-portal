@@ -25,8 +25,8 @@
 		href: string,
 		label: string,
 		dataOnClick: string
-	]>} 
-	
+	]>}
+
 	{@param? description: string}
 	{@param? publishedBy: [
 		userName: string,
@@ -41,7 +41,7 @@
 	]}
 
 	<div class="glance-card-sheet {$cardState}">
-		
+
 		{call com.liferay.change.tracking.my.change.lists.web.GlanceCardHeader.render}
 			{param headerTitle: $headerTitle /}
 			{param headerSubTitle: $headerSubTitle /}
@@ -49,11 +49,11 @@
 			{param headerLink2: $headerLink2 /}
 			{param headerButton: $headerButton /}
 			{param headerDropdown: $headerDropdown /}
-			{param headerInfo: $headerInfo /}	
+			{param headerInfo: $headerInfo /}
 		{/call}
-	
+
 		<div class="glance-card-sheet-divider"></div>
-			
+
 		{if $bodyType and $bodyType == 'table'}
 			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardTable.render}
 			{/call}
@@ -64,7 +64,7 @@
 				{param changes: $changes /}
 			{/call}
 		{/if}
-		
+
 	</div>
-	
+
 {/template}

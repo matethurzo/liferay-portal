@@ -15,17 +15,6 @@
 		}
 	},
 	"dependencies": {
-		"metal": "^2.16.0",
-		"metal-component": "^2.16.0",
-		"metal-debounce": "^2.0.0",
-		"metal-dom": "^2.5.18",
-		"metal-drag-drop": "^3.1.0",
-		"metal-events": "^2.16.5",
-		"metal-position": "^2.1.1",
-		"metal-soy": "^2.16.0",
-		"metal-state": "^2.16.0",
-		"metal-throttle": "^3.0.0",
-		"metal-uri": "^3.1.0",
 		"clay-alert": "^2.4.1",
 		"clay-badge": "^2.4.1",
 		"clay-button": "^2.4.1",
@@ -51,7 +40,18 @@
 		"clay-select": "^2.4.1",
 		"clay-sticker": "^2.4.1",
 		"clay-table": "^2.4.1",
-		"clay-tooltip": "^2.4.1"
+		"clay-tooltip": "^2.4.1",
+		"metal": "^2.16.0",
+		"metal-component": "^2.16.0",
+		"metal-debounce": "^2.0.0",
+		"metal-dom": "^2.5.18",
+		"metal-drag-drop": "^3.1.0",
+		"metal-events": "^2.16.5",
+		"metal-position": "^2.1.1",
+		"metal-soy": "^2.16.0",
+		"metal-state": "^2.16.0",
+		"metal-throttle": "^3.0.0",
+		"metal-uri": "^3.1.0"
 	},
 	"devDependencies": {
 		"check-source-formatting": "^2.0.12",

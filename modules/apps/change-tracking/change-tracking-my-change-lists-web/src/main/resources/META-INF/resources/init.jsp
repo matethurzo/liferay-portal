@@ -14,9 +14,8 @@
  */
 --%>
 
-<%@ taglib uri="http://liferay.com/tld/soy" prefix="soy" %>
-
-<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
+taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 
 <%@ page import="java.util.HashMap" %><%@
 page import="java.util.Map" %>
