@@ -1,0 +1,70 @@
+{namespace com.liferay.change.tracking.my.change.lists.web.GlanceCard}
+
+/**
+ * This renders the component's whole content.
+ */
+{template .render}
+	{@param  headerTitle: string}
+
+	{@param? bodyType: string}
+	{@param? cardState: string}
+	{@param? headerSubTitle: string}
+	{@param? headerInfo: bool}
+	{@param? headerLink1: [
+		href: string,
+		label: string
+	]}
+	{@param? headerLink2: [
+		href: string,
+		label: string
+	]}
+	{@param? headerButton: [
+		label: string
+	]}
+	{@param? headerDropdown: list<[
+		href: string,
+		label: string,
+		dataOnClick: string
+	]>} 
+	
+	{@param? description: string}
+	{@param? publishedBy: [
+		userName: string,
+		userMonogram: string,
+		userIconUrl: string,
+		dateTime: string
+	]}
+	{@param? changes: [
+		added: number,
+		modified: number,
+		deleted: number
+	]}
+
+	<div class="glance-card-sheet {$cardState}">
+		
+		{call com.liferay.change.tracking.my.change.lists.web.GlanceCardHeader.render}
+			{param headerTitle: $headerTitle /}
+			{param headerSubTitle: $headerSubTitle /}
+			{param headerLink1: $headerLink1 /}
+			{param headerLink2: $headerLink2 /}
+			{param headerButton: $headerButton /}
+			{param headerDropdown: $headerDropdown /}
+			{param headerInfo: $headerInfo /}	
+		{/call}
+	
+		<div class="glance-card-sheet-divider"></div>
+			
+		{if $bodyType and $bodyType == 'table'}
+			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardTable.render}
+			{/call}
+		{else}
+			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardBody.render}
+				{param description: $description /}
+				{param publishedBy: $publishedBy /}
+				{param changes: $changes /}
+			{/call}
+		{/if}
+		
+	</div>
+	
+{/template}
