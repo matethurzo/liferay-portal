@@ -155,8 +155,9 @@
 	color: #000000;
 	display: block;
 	font-size: 14px;
+	max-width: 16ch;
 	overflow: hidden;
-	padding: 4px 8px;
+	padding: 4px 24px 4px 8px;
 	position: relative;
 	text-overflow: ellipsis;
 	white-space: nowrap;
