@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<suppressions>
+	<checkstyle>
+		<suppress checks="UnusedMethodCheck" files="src/main/java/com/liferay/change/tracking/internal/configuration/CTConfigurationRegistry\.java" />
+	</checkstyle>
+</suppressions>
