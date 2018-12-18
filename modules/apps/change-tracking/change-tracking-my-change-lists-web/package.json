@@ -1,0 +1,69 @@
+{
+	"csfConfig": {
+		"path:**/*.js": {
+			"js": {
+				"lint": {
+					"globals": {
+						"$": true,
+						"AlloyEditor": true,
+						"CKEDITOR": true,
+						"MODULE_PATH": true,
+						"_": true
+					}
+				}
+			}
+		}
+	},
+	"dependencies": {
+		"metal": "^2.16.0",
+		"metal-component": "^2.16.0",
+		"metal-debounce": "^2.0.0",
+		"metal-dom": "^2.5.18",
+		"metal-drag-drop": "^3.1.0",
+		"metal-events": "^2.16.5",
+		"metal-position": "^2.1.1",
+		"metal-soy": "^2.16.0",
+		"metal-state": "^2.16.0",
+		"metal-throttle": "^3.0.0",
+		"metal-uri": "^3.1.0",
+		"clay-alert": "^2.4.1",
+		"clay-badge": "^2.4.1",
+		"clay-button": "^2.4.1",
+		"clay-card": "^2.4.1",
+		"clay-card-grid": "^2.4.1",
+		"clay-checkbox": "^2.4.1",
+		"clay-collapse": "^2.4.1",
+		"clay-component": "^2.4.1",
+		"clay-dataset-display": "^2.4.1",
+		"clay-dropdown": "^2.4.1",
+		"clay-icon": "^2.4.1",
+		"clay-label": "^2.4.1",
+		"clay-link": "^2.4.1",
+		"clay-list": "^2.4.1",
+		"clay-management-toolbar": "^2.4.1",
+		"clay-modal": "^2.4.1",
+		"clay-navigation-bar": "^2.4.1",
+		"clay-pagination": "^2.4.1",
+		"clay-pagination-bar": "^2.4.1",
+		"clay-portal": "^2.4.1",
+		"clay-progress-bar": "^2.4.1",
+		"clay-radio": "^2.4.1",
+		"clay-select": "^2.4.1",
+		"clay-sticker": "^2.4.1",
+		"clay-table": "^2.4.1",
+		"clay-tooltip": "^2.4.1"
+	},
+	"devDependencies": {
+		"check-source-formatting": "^2.0.12",
+		"liferay-module-config-generator": "^1.2.1",
+		"metal-cli": "^4.3.3",
+		"metal-tools-soy": "^6.0.0"
+	},
+	"name": "change-tracking-my-change-lists-web",
+	"scripts": {
+		"checkFormat": "npm run csf",
+		"csf": "csf src/**/*.js",
+		"format": "npm run csf -- -i"
+	},
+	"version": "1.0.0"
+}

@@ -16,10 +16,12 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="sheet sheet-lg">
-	<div class="sheet-header">
-		<h2 class="sheet-title">My Change Lists example screen</h2>
+<%
+Map<String, Object> context = new HashMap<>();
+context.put("pathThemeImages", themeDisplay.getPathThemeImages());
 
-		<div class="sheet-text">This is only a placeholder for what's later be added to the my change lists screen.</div>
-	</div>
-</div>
+%>
+<soy:component-renderer 
+	module="change-tracking-my-change-lists-web/js/GlanceView.es" 
+	templateNamespace="com.liferay.change.tracking.my.change.lists.web.GlanceView.render"
+	context="<%= context %>" />
