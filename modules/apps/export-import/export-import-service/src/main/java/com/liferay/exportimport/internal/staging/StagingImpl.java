@@ -1109,6 +1109,8 @@ public class StagingImpl implements Staging {
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else if (e instanceof ExportImportRuntimeException) {
+			_log.error(e, e);
+
 			ExportImportRuntimeException eire = (ExportImportRuntimeException)e;
 
 			if (Validator.isNull(eire.getMessage())) {
