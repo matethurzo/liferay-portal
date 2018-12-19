@@ -18,6 +18,7 @@
 
 <%
 Map<String, Object> context = new HashMap<>();
+
 context.put("pathThemeImages", themeDisplay.getPathThemeImages());
 %>
 
