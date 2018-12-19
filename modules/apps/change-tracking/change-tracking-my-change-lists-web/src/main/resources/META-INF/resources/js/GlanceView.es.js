@@ -6,7 +6,7 @@ import templates from './GlanceView.soy';
 
 class GlanceView extends Component {}
 
-GlanceView.STATE = {};	
+GlanceView.STATE = {};
 
 Soy.register(GlanceView, templates);
 

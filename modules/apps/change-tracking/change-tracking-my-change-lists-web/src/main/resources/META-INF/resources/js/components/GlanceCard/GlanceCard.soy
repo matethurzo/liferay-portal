@@ -1,7 +1,9 @@
 {namespace com.liferay.change.tracking.my.change.lists.web.GlanceCard}
 
 /**
- * This renders the component's whole content.
+ * GlanceCard
+ *
+ * This template renders the component's whole content
  */
 {template .render}
 	{@param  headerTitle: string}
@@ -41,7 +43,6 @@
 	]}
 
 	<div class="glance-card-sheet {$cardState}">
-
 		{call com.liferay.change.tracking.my.change.lists.web.GlanceCardHeader.render}
 			{param headerTitle: $headerTitle /}
 			{param headerSubTitle: $headerSubTitle /}
@@ -55,8 +56,7 @@
 		<div class="glance-card-sheet-divider"></div>
 
 		{if $bodyType and $bodyType == 'table'}
-			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardTable.render}
-			{/call}
+			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardTable.render /}
 		{else}
 			{call com.liferay.change.tracking.my.change.lists.web.GlanceCardBody.render}
 				{param description: $description /}
@@ -64,7 +64,5 @@
 				{param changes: $changes /}
 			{/call}
 		{/if}
-
 	</div>
-
 {/template}

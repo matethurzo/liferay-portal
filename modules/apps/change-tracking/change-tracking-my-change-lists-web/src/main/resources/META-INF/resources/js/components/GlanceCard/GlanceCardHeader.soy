@@ -1,6 +1,9 @@
 {namespace com.liferay.change.tracking.my.change.lists.web.GlanceCardHeader}
+
 /**
- * Prints the portlet header.
+ * GlanceCard
+ *
+ * This template renders the glance card's header
  */
 {template .render}
 	{@param  headerTitle: string}
@@ -28,7 +31,6 @@
 
 	<div class="glance-card-container glance-card-header">
 		<div class="row">
-
 			<div class="col-sm-{$twoColumns ? 6 : 12}">
 				<h3>{$headerTitle}</h3>
 				{if $headerSubTitle}
@@ -45,7 +47,6 @@
 					<div class="navbar-nav stick-to-right">
 						{if $headerInfo}
 							<div class="flex-col">
-
 								{call liferay.frontend.Tooltip.render}
 									{param elementClasses: 'fade' /}
 									{param position: 3 /}
@@ -53,6 +54,7 @@
 									{param title: '' /}
 									{param visible: false /}
 								{/call}
+
 								<button class="btn nav-link nav-link-monospaced btn-unstyled text-warning" aria-label="info-circle-open" type="button" id="" data-title="Collision Detected" title="Collision Detected">
 									<svg aria-hidden="true" class="lexicon-icon lexicon-icon-info-circle-open" focusable="false" viewBox="0 0 512 512">
 										<title>info-circle-open</title>
@@ -76,9 +78,9 @@
 											C114.6,0,0,114.6,0,256s114.6,256,256,256s256-114.6,256-256C512,239.3,510.4,223,507.3,207.1z"></path>
 									</svg>
 								</button>
-
 							</div>
 						{/if}
+
 						{if $headerButton}
 							<div class="flex-col">
 								<button class="btn btn-primary btn-default" id="" type="button">
@@ -86,6 +88,7 @@
 								</button>
 							</div>
 						{/if}
+
 						{if $headerDropdown}
 							<div class="flex-col">
 								<div aria-expanded="false" aria-haspopup="true" class="dropdown dropdown-action mt-0">
@@ -106,14 +109,12 @@
 							</div>
 						{/if}
 					</div>
+
 					{if $headerLink2}
 						<a href="{$headerLink2.href}" class="stick-to-bottom stick-to-right" onclick="">{$headerLink2.label}</a>
 					{/if}
 				</div>
-
 			{/if}
-
 		</div>
 	</div>
-
 {/template}
