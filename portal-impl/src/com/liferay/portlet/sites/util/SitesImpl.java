@@ -1899,17 +1899,13 @@ public class SitesImpl implements Sites {
 		File file = null;
 
 		if (!importData) {
-			StringBundler sb = new StringBundler(3);
+			String cacheFileName = StringBundler.concat(
+				_TEMP_DIR, layoutSetPrototype.getUuid(), ".v",
+				String.valueOf(layoutSetPrototype.getMvccVersion()), ".lar");
 
-			sb.append(_TEMP_DIR);
-			sb.append(layoutSetPrototype.getUuid());
-			sb.append(".lar");
+			cacheFile = new File(cacheFileName);
 
-			cacheFile = new File(sb.toString());
-
-			Date modifiedDate = layoutSetPrototype.getModifiedDate();
-
-			if (cacheFile.lastModified() >= modifiedDate.getTime()) {
+			if (cacheFile.exists()) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
 						"Using cached layout set prototype LAR file " +
