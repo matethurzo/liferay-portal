@@ -71,6 +71,17 @@ public interface CTManager {
 		QueryDefinition<CTEntry> queryDefinition);
 
 	/**
+	 * Retrieves the latest model change in the context of the current user's
+	 * active change collection.
+	 *
+	 * @param  userId the primary key of the user
+	 * @param  resourcePrimKey the primary key of the changed resource model
+	 * @return the change tracking entry representing the model change
+	 */
+	public Optional<CTEntry> retrieveLatestModelChange(
+		long userId, long resourcePrimKey);
+
+	/**
 	 * Retrieves a model change in the context of the current user's active
 	 * change collection.
 	 *
@@ -81,16 +92,5 @@ public interface CTManager {
 	 */
 	public Optional<CTEntry> retrieveModelChange(
 		long userId, long classNameId, long classPK);
-
-	/**
-	 * Retrieves the latest model change in the context of the current user's
-	 * active change collection.
-	 *
-	 * @param  userId the primary key of the user
-	 * @param  resourcePrimKey the primary key of the changed resource model
-	 * @return the change tracking entry representing the model change
-	 */
-	public Optional<CTEntry> retrieveLatestModelChange(
-		long userId, long resourcePrimKey);
 
 }
