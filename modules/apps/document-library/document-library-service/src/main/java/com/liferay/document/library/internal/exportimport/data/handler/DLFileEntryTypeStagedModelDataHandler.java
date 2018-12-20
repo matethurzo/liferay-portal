@@ -392,7 +392,8 @@ public class DLFileEntryTypeStagedModelDataHandler
 		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group == null) {
-			return null;
+			return fetchExistingFileEntryType(
+				uuid, groupId, fileEntryTypeKey, preloaded);
 		}
 
 		long companyId = group.getCompanyId();
