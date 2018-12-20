@@ -22,9 +22,18 @@ public interface CTConfigurationRegistrar {
 	/**
 	 * Registers the change tracking configuration object as a component service
 	 *
-	 * @param CTConfiguration The change tracking configuration object to be
-	 *                        registered
+	 * @param ctConfiguration The change tracking configuration object to be
+	 *        registered
 	 */
 	public void register(CTConfiguration<?, ?> ctConfiguration);
+
+	/**
+	 * Unregisters the change tracking configuration object as a component
+	 * service
+	 *
+	 * @param ctConfiguration The change tracking configuration object to be
+	 *        unregistered
+	 */
+	public void unregister(CTConfiguration<?, ?> ctConfiguration);
 
 }

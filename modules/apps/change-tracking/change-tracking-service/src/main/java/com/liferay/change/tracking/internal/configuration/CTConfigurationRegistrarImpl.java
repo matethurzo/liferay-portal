@@ -17,15 +17,19 @@ package com.liferay.change.tracking.internal.configuration;
 import com.liferay.change.tracking.configuration.CTConfiguration;
 import com.liferay.change.tracking.configuration.CTConfigurationRegistrar;
 
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 
 /**
  * @author Gergely Mathe
+ * @author Daniel Kocsis
  */
 @Component(immediate = true, service = CTConfigurationRegistrar.class)
 public class CTConfigurationRegistrarImpl implements CTConfigurationRegistrar {
@@ -35,13 +39,45 @@ public class CTConfigurationRegistrarImpl implements CTConfigurationRegistrar {
 			return;
 		}
 
-		final Bundle bundle = FrameworkUtil.getBundle(
-			CTConfigurationRegistrarImpl.class);
+		ServiceRegistration<CTConfiguration> serviceRegistration =
+			_bundleContext.registerService(
+				CTConfiguration.class, ctConfiguration, new Hashtable<>());
 
-		final BundleContext bundleContext = bundle.getBundleContext();
-
-		bundleContext.registerService(
-			CTConfiguration.class, ctConfiguration, new Hashtable<>());
+		_serviceRegistrations.put(ctConfiguration, serviceRegistration);
 	}
+
+	@Override
+	public void unregister(CTConfiguration<?, ?> ctConfiguration) {
+		if (ctConfiguration == null) {
+			return;
+		}
+
+		ServiceRegistration<CTConfiguration> serviceRegistration =
+			_serviceRegistrations.get(ctConfiguration);
+
+		serviceRegistration.unregister();
+	}
+
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_bundleContext = bundleContext;
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		for (ServiceRegistration<CTConfiguration> serviceRegistration :
+				_serviceRegistrations.values()) {
+
+			serviceRegistration.unregister();
+		}
+
+		_serviceRegistrations.clear();
+
+		_bundleContext = null;
+	}
+
+	private BundleContext _bundleContext;
+	private final Map<CTConfiguration, ServiceRegistration<CTConfiguration>>
+		_serviceRegistrations = new HashMap<>();
 
 }
