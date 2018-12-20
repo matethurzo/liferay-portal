@@ -15,8 +15,10 @@
 package com.liferay.change.tracking.internal;
 
 import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.configuration.CTConfiguration;
 import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.constants.CTPortletKeys;
+import com.liferay.change.tracking.internal.configuration.CTConfigurationRegistry;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
@@ -277,15 +279,24 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 	@Override
 	public boolean isChangeTrackingSupported(
-		long companyId, Class<BaseModel> clazz) {
+		long companyId, Class<? extends BaseModel> clazz) {
 
-		return isChangeTrackingSupported(
-			companyId, _portal.getClassNameId(clazz));
+		Optional<CTConfiguration<?, ?>> ctConfigurationOptional =
+			_ctConfigurationRegistry.getCTConfigurationOptionalByVersionClass(
+				clazz);
+
+		return ctConfigurationOptional.isPresent();
 	}
 
 	@Override
 	public boolean isChangeTrackingSupported(long companyId, long classNameId) {
-		return false;
+		String className = _portal.getClassName(classNameId);
+
+		Optional<CTConfiguration<?, ?>> ctConfigurationOptional =
+			_ctConfigurationRegistry.
+				getCTConfigurationOptionalByVersionClassName(className);
+
+		return ctConfigurationOptional.isPresent();
 	}
 
 	@Override
@@ -468,6 +479,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 	@Reference
 	private CTCollectionLocalService _ctCollectionLocalService;
+
+	@Reference
+	private CTConfigurationRegistry _ctConfigurationRegistry;
 
 	@Reference
 	private CTEntryLocalService _ctEntryLocalService;

@@ -140,7 +140,7 @@ public interface CTEngineManager {
 	 *         tracking; <code>false</code> otherwise.
 	 */
 	public boolean isChangeTrackingSupported(
-		long companyId, Class<BaseModel> clazz);
+		long companyId, Class<? extends BaseModel> clazz);
 
 	/**
 	 * Returns <code>true</code> if the given base model supports change
