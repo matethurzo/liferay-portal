@@ -401,7 +401,7 @@ public class DLFileEntryTypeStagedModelDataHandler
 		while (group != null) {
 			DLFileEntryType existingDLFileEntryType =
 				fetchExistingFileEntryType(
-					uuid, groupId, fileEntryTypeKey, preloaded);
+					uuid, group.getGroupId(), fileEntryTypeKey, preloaded);
 
 			if (existingDLFileEntryType != null) {
 				return existingDLFileEntryType;
