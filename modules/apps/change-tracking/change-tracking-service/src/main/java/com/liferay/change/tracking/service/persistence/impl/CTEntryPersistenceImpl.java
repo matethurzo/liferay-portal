@@ -605,18 +605,9 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 	private static final String _FINDER_COLUMN_RESOURCEPRIMKEY_RESOURCEPRIMKEY_2 =
 		"ctEntry.resourcePrimKey = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_C_C = new FinderPath(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_C_C = new FinderPath(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
 			CTEntryModelImpl.FINDER_CACHE_ENABLED, CTEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C = new FinderPath(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
-			CTEntryModelImpl.FINDER_CACHE_ENABLED, CTEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_C",
 			new String[] { Long.class.getName(), Long.class.getName() },
 			CTEntryModelImpl.CLASSNAMEID_COLUMN_BITMASK |
 			CTEntryModelImpl.CLASSPK_COLUMN_BITMASK);
@@ -626,139 +617,90 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the ct entries where classNameId = &#63; and classPK = &#63;.
+	 * Returns the ct entry where classNameId = &#63; and classPK = &#63; or throws a {@link NoSuchEntryException} if it could not be found.
 	 *
 	 * @param classNameId the class name ID
 	 * @param classPK the class pk
-	 * @return the matching ct entries
+	 * @return the matching ct entry
+	 * @throws NoSuchEntryException if a matching ct entry could not be found
 	 */
 	@Override
-	public List<CTEntry> findByC_C(long classNameId, long classPK) {
-		return findByC_C(classNameId, classPK, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public CTEntry findByC_C(long classNameId, long classPK)
+		throws NoSuchEntryException {
+		CTEntry ctEntry = fetchByC_C(classNameId, classPK);
+
+		if (ctEntry == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("classNameId=");
+			msg.append(classNameId);
+
+			msg.append(", classPK=");
+			msg.append(classPK);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchEntryException(msg.toString());
+		}
+
+		return ctEntry;
 	}
 
 	/**
-	 * Returns a range of all the ct entries where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the ct entry where classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param classNameId the class name ID
 	 * @param classPK the class pk
-	 * @param start the lower bound of the range of ct entries
-	 * @param end the upper bound of the range of ct entries (not inclusive)
-	 * @return the range of matching ct entries
+	 * @return the matching ct entry, or <code>null</code> if a matching ct entry could not be found
 	 */
 	@Override
-	public List<CTEntry> findByC_C(long classNameId, long classPK, int start,
-		int end) {
-		return findByC_C(classNameId, classPK, start, end, null);
+	public CTEntry fetchByC_C(long classNameId, long classPK) {
+		return fetchByC_C(classNameId, classPK, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the ct entries where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the ct entry where classNameId = &#63; and classPK = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param classNameId the class name ID
 	 * @param classPK the class pk
-	 * @param start the lower bound of the range of ct entries
-	 * @param end the upper bound of the range of ct entries (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching ct entries
-	 */
-	@Override
-	public List<CTEntry> findByC_C(long classNameId, long classPK, int start,
-		int end, OrderByComparator<CTEntry> orderByComparator) {
-		return findByC_C(classNameId, classPK, start, end, orderByComparator,
-			true);
-	}
-
-	/**
-	 * Returns an ordered range of all the ct entries where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 * @param start the lower bound of the range of ct entries
-	 * @param end the upper bound of the range of ct entries (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching ct entries
+	 * @return the matching ct entry, or <code>null</code> if a matching ct entry could not be found
 	 */
 	@Override
-	public List<CTEntry> findByC_C(long classNameId, long classPK, int start,
-		int end, OrderByComparator<CTEntry> orderByComparator,
+	public CTEntry fetchByC_C(long classNameId, long classPK,
 		boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+		Object[] finderArgs = new Object[] { classNameId, classPK };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C;
-			finderArgs = new Object[] { classNameId, classPK };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_C_C;
-			finderArgs = new Object[] {
-					classNameId, classPK,
-					
-					start, end, orderByComparator
-				};
-		}
-
-		List<CTEntry> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<CTEntry>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_C,
+					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (CTEntry ctEntry : list) {
-					if ((classNameId != ctEntry.getClassNameId()) ||
-							(classPK != ctEntry.getClassPK())) {
-						list = null;
+		if (result instanceof CTEntry) {
+			CTEntry ctEntry = (CTEntry)result;
 
-						break;
-					}
-				}
+			if ((classNameId != ctEntry.getClassNameId()) ||
+					(classPK != ctEntry.getClassPK())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_CTENTRY_WHERE);
 
 			query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
 
 			query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(CTEntryModelImpl.ORDER_BY_JPQL);
-			}
 
 			String sql = query.toString();
 
@@ -775,25 +717,22 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 				qPos.add(classPK);
 
-				if (!pagination) {
-					list = (List<CTEntry>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+				List<CTEntry> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_C, finderArgs,
+						list);
 				}
 				else {
-					list = (List<CTEntry>)QueryUtil.list(q, getDialect(),
-							start, end);
+					CTEntry ctEntry = list.get(0);
+
+					result = ctEntry;
+
+					cacheResult(ctEntry);
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_C, finderArgs);
 
 				throw processException(e);
 			}
@@ -802,289 +741,27 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first ct entry in the ordered set where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching ct entry
-	 * @throws NoSuchEntryException if a matching ct entry could not be found
-	 */
-	@Override
-	public CTEntry findByC_C_First(long classNameId, long classPK,
-		OrderByComparator<CTEntry> orderByComparator)
-		throws NoSuchEntryException {
-		CTEntry ctEntry = fetchByC_C_First(classNameId, classPK,
-				orderByComparator);
-
-		if (ctEntry != null) {
-			return ctEntry;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("classNameId=");
-		msg.append(classNameId);
-
-		msg.append(", classPK=");
-		msg.append(classPK);
-
-		msg.append("}");
-
-		throw new NoSuchEntryException(msg.toString());
-	}
-
-	/**
-	 * Returns the first ct entry in the ordered set where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching ct entry, or <code>null</code> if a matching ct entry could not be found
-	 */
-	@Override
-	public CTEntry fetchByC_C_First(long classNameId, long classPK,
-		OrderByComparator<CTEntry> orderByComparator) {
-		List<CTEntry> list = findByC_C(classNameId, classPK, 0, 1,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last ct entry in the ordered set where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching ct entry
-	 * @throws NoSuchEntryException if a matching ct entry could not be found
-	 */
-	@Override
-	public CTEntry findByC_C_Last(long classNameId, long classPK,
-		OrderByComparator<CTEntry> orderByComparator)
-		throws NoSuchEntryException {
-		CTEntry ctEntry = fetchByC_C_Last(classNameId, classPK,
-				orderByComparator);
-
-		if (ctEntry != null) {
-			return ctEntry;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("classNameId=");
-		msg.append(classNameId);
-
-		msg.append(", classPK=");
-		msg.append(classPK);
-
-		msg.append("}");
-
-		throw new NoSuchEntryException(msg.toString());
-	}
-
-	/**
-	 * Returns the last ct entry in the ordered set where classNameId = &#63; and classPK = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching ct entry, or <code>null</code> if a matching ct entry could not be found
-	 */
-	@Override
-	public CTEntry fetchByC_C_Last(long classNameId, long classPK,
-		OrderByComparator<CTEntry> orderByComparator) {
-		int count = countByC_C(classNameId, classPK);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<CTEntry> list = findByC_C(classNameId, classPK, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (CTEntry)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Returns the ct entries before and after the current ct entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 * Removes the ct entry where classNameId = &#63; and classPK = &#63; from the database.
 	 *
-	 * @param ctEntryId the primary key of the current ct entry
 	 * @param classNameId the class name ID
 	 * @param classPK the class pk
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next ct entry
-	 * @throws NoSuchEntryException if a ct entry with the primary key could not be found
+	 * @return the ct entry that was removed
 	 */
 	@Override
-	public CTEntry[] findByC_C_PrevAndNext(long ctEntryId, long classNameId,
-		long classPK, OrderByComparator<CTEntry> orderByComparator)
+	public CTEntry removeByC_C(long classNameId, long classPK)
 		throws NoSuchEntryException {
-		CTEntry ctEntry = findByPrimaryKey(ctEntryId);
+		CTEntry ctEntry = findByC_C(classNameId, classPK);
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			CTEntry[] array = new CTEntryImpl[3];
-
-			array[0] = getByC_C_PrevAndNext(session, ctEntry, classNameId,
-					classPK, orderByComparator, true);
-
-			array[1] = ctEntry;
-
-			array[2] = getByC_C_PrevAndNext(session, ctEntry, classNameId,
-					classPK, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected CTEntry getByC_C_PrevAndNext(Session session, CTEntry ctEntry,
-		long classNameId, long classPK,
-		OrderByComparator<CTEntry> orderByComparator, boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_CTENTRY_WHERE);
-
-		query.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
-
-		query.append(_FINDER_COLUMN_C_C_CLASSPK_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(CTEntryModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		qPos.add(classNameId);
-
-		qPos.add(classPK);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue : orderByComparator.getOrderByConditionValues(
-					ctEntry)) {
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<CTEntry> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the ct entries where classNameId = &#63; and classPK = &#63; from the database.
-	 *
-	 * @param classNameId the class name ID
-	 * @param classPK the class pk
-	 */
-	@Override
-	public void removeByC_C(long classNameId, long classPK) {
-		for (CTEntry ctEntry : findByC_C(classNameId, classPK,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-			remove(ctEntry);
-		}
+		return remove(ctEntry);
 	}
 
 	/**
@@ -1164,6 +841,10 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 		entityCache.putResult(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
 			CTEntryImpl.class, ctEntry.getPrimaryKey(), ctEntry);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_C,
+			new Object[] { ctEntry.getClassNameId(), ctEntry.getClassPK() },
+			ctEntry);
+
 		ctEntry.resetOriginalValues();
 	}
 
@@ -1215,6 +896,8 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((CTEntryModelImpl)ctEntry, true);
 	}
 
 	@Override
@@ -1225,6 +908,43 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 		for (CTEntry ctEntry : ctEntries) {
 			entityCache.removeResult(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
 				CTEntryImpl.class, ctEntry.getPrimaryKey());
+
+			clearUniqueFindersCache((CTEntryModelImpl)ctEntry, true);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(CTEntryModelImpl ctEntryModelImpl) {
+		Object[] args = new Object[] {
+				ctEntryModelImpl.getClassNameId(), ctEntryModelImpl.getClassPK()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_C_C, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_C, args, ctEntryModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(CTEntryModelImpl ctEntryModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					ctEntryModelImpl.getClassNameId(),
+					ctEntryModelImpl.getClassPK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_C, args);
+		}
+
+		if ((ctEntryModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_C_C.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					ctEntryModelImpl.getOriginalClassNameId(),
+					ctEntryModelImpl.getOriginalClassPK()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_C, args);
 		}
 	}
 
@@ -1406,15 +1126,6 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RESOURCEPRIMKEY,
 				args);
 
-			args = new Object[] {
-					ctEntryModelImpl.getClassNameId(),
-					ctEntryModelImpl.getClassPK()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C,
-				args);
-
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -1439,31 +1150,13 @@ public class CTEntryPersistenceImpl extends BasePersistenceImpl<CTEntry>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RESOURCEPRIMKEY,
 					args);
 			}
-
-			if ((ctEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						ctEntryModelImpl.getOriginalClassNameId(),
-						ctEntryModelImpl.getOriginalClassPK()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C,
-					args);
-
-				args = new Object[] {
-						ctEntryModelImpl.getClassNameId(),
-						ctEntryModelImpl.getClassPK()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_C,
-					args);
-			}
 		}
 
 		entityCache.putResult(CTEntryModelImpl.ENTITY_CACHE_ENABLED,
 			CTEntryImpl.class, ctEntry.getPrimaryKey(), ctEntry, false);
+
+		clearUniqueFindersCache(ctEntryModelImpl, false);
+		cacheUniqueFindersCache(ctEntryModelImpl);
 
 		ctEntry.resetOriginalValues();
 

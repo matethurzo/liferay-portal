@@ -229,9 +229,27 @@ public class CTEntryLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
+		long collectionId, long classPrimKey,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
+		return getService()
+				   .fetchCTEntries(collectionId, classPrimKey, queryDefinition);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
+		long collectionId,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
+		return getService().fetchCTEntries(collectionId, queryDefinition);
+	}
+
 	public static com.liferay.change.tracking.model.CTEntry fetchCTEntry(
 		long ctEntryId) {
 		return getService().fetchCTEntry(ctEntryId);
+	}
+
+	public static com.liferay.change.tracking.model.CTEntry fetchCTEntry(
+		long classNameId, long classPK) {
+		return getService().fetchCTEntry(classNameId, classPK);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

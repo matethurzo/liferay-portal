@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -397,6 +398,22 @@ public class CTEntryPersistenceTest {
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testResetOriginalValues() throws Exception {
+		CTEntry newCTEntry = addCTEntry();
+
+		_persistence.clearCache();
+
+		CTEntry existingCTEntry = _persistence.findByPrimaryKey(newCTEntry.getPrimaryKey());
+
+		Assert.assertEquals(Long.valueOf(existingCTEntry.getClassNameId()),
+			ReflectionTestUtil.<Long>invoke(existingCTEntry,
+				"getOriginalClassNameId", new Class<?>[0]));
+		Assert.assertEquals(Long.valueOf(existingCTEntry.getClassPK()),
+			ReflectionTestUtil.<Long>invoke(existingCTEntry,
+				"getOriginalClassPK", new Class<?>[0]));
 	}
 
 	protected CTEntry addCTEntry() throws Exception {

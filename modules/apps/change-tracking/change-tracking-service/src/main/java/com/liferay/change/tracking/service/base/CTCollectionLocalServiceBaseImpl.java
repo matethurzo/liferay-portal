@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.change.tracking.service.persistence.CTCollectionPersistence;
+import com.liferay.change.tracking.service.persistence.CTEntryFinder;
 import com.liferay.change.tracking.service.persistence.CTEntryPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
@@ -523,6 +524,24 @@ public abstract class CTCollectionLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the ct entry finder.
+	 *
+	 * @return the ct entry finder
+	 */
+	public CTEntryFinder getCTEntryFinder() {
+		return ctEntryFinder;
+	}
+
+	/**
+	 * Sets the ct entry finder.
+	 *
+	 * @param ctEntryFinder the ct entry finder
+	 */
+	public void setCTEntryFinder(CTEntryFinder ctEntryFinder) {
+		this.ctEntryFinder = ctEntryFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -695,6 +714,8 @@ public abstract class CTCollectionLocalServiceBaseImpl
 	protected com.liferay.change.tracking.service.CTEntryLocalService ctEntryLocalService;
 	@BeanReference(type = CTEntryPersistence.class)
 	protected CTEntryPersistence ctEntryPersistence;
+	@BeanReference(type = CTEntryFinder.class)
+	protected CTEntryFinder ctEntryFinder;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

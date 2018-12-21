@@ -239,9 +239,30 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
+		long collectionId, long classPrimKey,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
+		return _ctEntryLocalService.fetchCTEntries(collectionId, classPrimKey,
+			queryDefinition);
+	}
+
+	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
+		long collectionId,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
+		return _ctEntryLocalService.fetchCTEntries(collectionId, queryDefinition);
+	}
+
+	@Override
 	public com.liferay.change.tracking.model.CTEntry fetchCTEntry(
 		long ctEntryId) {
 		return _ctEntryLocalService.fetchCTEntry(ctEntryId);
+	}
+
+	@Override
+	public com.liferay.change.tracking.model.CTEntry fetchCTEntry(
+		long classNameId, long classPK) {
+		return _ctEntryLocalService.fetchCTEntry(classNameId, classPK);
 	}
 
 	@Override
