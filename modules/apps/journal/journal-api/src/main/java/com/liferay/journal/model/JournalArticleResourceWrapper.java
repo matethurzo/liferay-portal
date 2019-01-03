@@ -145,6 +145,11 @@ public class JournalArticleResourceWrapper implements JournalArticleResource,
 		return _journalArticleResource.getGroupId();
 	}
 
+	@Override
+	public long getLatestArticlePK() {
+		return _journalArticleResource.getLatestArticlePK();
+	}
+
 	/**
 	* Returns the primary key of this journal article resource.
 	*

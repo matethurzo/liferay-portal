@@ -55,4 +55,6 @@ public interface JournalArticleResource extends JournalArticleResourceModel,
 				return JournalArticleResource.class;
 			}
 		};
+
+	public long getLatestArticlePK();
 }
