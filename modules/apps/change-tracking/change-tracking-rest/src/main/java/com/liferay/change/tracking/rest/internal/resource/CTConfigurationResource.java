@@ -19,10 +19,14 @@ import com.liferay.change.tracking.rest.internal.dto.CTConfigurationDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.osgi.service.component.annotations.Component;
@@ -40,7 +44,7 @@ import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 	},
 	service = Object.class
 )
-@Path("/configuration")
+@Path("/configurations")
 public class CTConfigurationResource {
 
 	@GET
@@ -58,6 +62,21 @@ public class CTConfigurationResource {
 		return builder.setChangeTrackingEnabled(
 			_ctEngineManager.isChangeTrackingEnabled(companyId)
 		).build();
+	}
+
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{companyId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@PUT
+	public CTConfigurationDTO updateCtConfiguration(
+		@PathParam("companyId") long companyId,
+		CTConfigurationDTO configuration) {
+
+		boolean changeTrackingEnabled =
+			_ctEngineManager.isChangeTrackingEnabled(
+				configuration.getCompanyId());
+
+
 	}
 
 	@Reference

@@ -14,20 +14,31 @@
 
 package com.liferay.change.tracking.rest.internal.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author Máté Thurzó
  */
+@JsonRootName("configuration")
 public class CTConfigurationDTO {
 
 	public static CTConfigurationDTO.Builder forCompany(long companyId) {
 		return new Builder(companyId);
 	}
 
-	@XmlElement(name = "changeTrackingEnabled")
 	public boolean isChangeTrackingEnabled() {
 		return _changeTrackingEnabled;
+	}
+
+	public long getCompanyId() {
+		return _companyId;
 	}
 
 	public static class Builder {
@@ -55,7 +66,10 @@ public class CTConfigurationDTO {
 	private CTConfigurationDTO() {
 	}
 
+	@JsonProperty("changeTrackingEnabled")
 	private boolean _changeTrackingEnabled;
+
+	@JsonProperty("companyId")
 	private long _companyId;
 
 }

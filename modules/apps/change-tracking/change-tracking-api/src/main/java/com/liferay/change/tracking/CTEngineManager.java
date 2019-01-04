@@ -64,9 +64,9 @@ public interface CTEngineManager {
 	 * company. As a side effect it deletes all the related change tracking
 	 * collections and entries.
 	 *
-	 * @param userId the primary key of the user who initiated the action
+	 * @param companyId the primary key of the company
 	 */
-	public void disableChangeTracking(long userId);
+	public void disableChangeTracking(long companyId);
 
 	/**
 	 * Enables the change tracking feature in the scope of the given company.

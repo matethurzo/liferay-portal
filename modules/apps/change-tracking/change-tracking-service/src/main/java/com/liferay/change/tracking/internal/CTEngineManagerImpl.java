@@ -133,16 +133,8 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public void disableChangeTracking(long userId) {
-		User user = _userLocalService.fetchUser(userId);
-
-		if (user == null) {
-			_log.error("Unable to get user " + userId);
-
-			return;
-		}
-
-		if (!isChangeTrackingEnabled(user.getCompanyId())) {
+	public void disableChangeTracking(long companyId) {
+		if (!isChangeTrackingEnabled(companyId)) {
 			return;
 		}
 
@@ -151,7 +143,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				_transactionConfig,
 				() -> {
 					_ctCollectionLocalService.deleteCompanyCTCollections(
-						user.getCompanyId());
+						companyId);
 
 					_productionCTCollection = null;
 
