@@ -38,6 +38,7 @@ public class CTEntryFinderImpl
 		CTEntryFinder.class.getName() + ".findByCTCollectionId";
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<CTEntry> findByCTCollectionId(
 		long collectionId, long resourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
