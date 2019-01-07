@@ -13,8 +13,13 @@
  * details.
  */
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://liferay.com/tld/soy" prefix="soy" %>
+
+<%@ page import="java.util.HashMap" %>
+<%@ page import="javax.portlet.PortletURL" %>
+<%@ page import="javax.portlet.WindowState" %>
 
 <liferay-theme:defineObjects />
 
