@@ -11,14 +11,14 @@ import templates from './ChangeListConfiguration.soy';
 class ChangeListConfiguration extends Component {
 
 	attached() {
-		axiot.get("http://localhost:8080/o/change-tracking/configurations/" + context.companyId)
-			.then(function (response) {
+		axios.get('http://localhost:8080/o/change-tracking/configurations/' + context.companyId)
+			.then(function(response) {
 				console.log(response);
-			})
+			});
 	}
-	
+
 	save(event) {
-		console.log(event + "saving...");
+		console.log(event + 'saving...');
 	}
 
 }
