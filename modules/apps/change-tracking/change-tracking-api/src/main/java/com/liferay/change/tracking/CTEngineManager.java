@@ -73,7 +73,7 @@ public interface CTEngineManager {
 	 *
 	 * @param userId the primary key of the user who initiated the action
 	 */
-	public void enableChangeTracking(long userId);
+	public void enableChangeTracking(long companyId, long userId);
 
 	/**
 	 * Returns the active change tracking collection associated with the given

@@ -156,7 +156,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public void enableChangeTracking(long userId) {
+	public void enableChangeTracking(long companyId, long userId) {
 		User user = _userLocalService.fetchUser(userId);
 
 		if (user == null) {
@@ -165,7 +165,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			return;
 		}
 
-		if (isChangeTrackingEnabled(user.getCompanyId())) {
+		if (isChangeTrackingEnabled(companyId)) {
 			return;
 		}
 

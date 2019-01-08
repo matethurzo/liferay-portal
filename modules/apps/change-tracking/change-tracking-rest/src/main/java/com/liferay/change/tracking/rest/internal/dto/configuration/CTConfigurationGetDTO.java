@@ -12,58 +12,53 @@
  * details.
  */
 
-package com.liferay.change.tracking.rest.internal.dto;
+package com.liferay.change.tracking.rest.internal.dto.configuration;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author Máté Thurzó
  */
 @JsonRootName("configuration")
-public class CTConfigurationDTO {
+public class CTConfigurationGetDTO {
 
-	public static CTConfigurationDTO.Builder forCompany(long companyId) {
+	public static CTConfigurationGetDTO.Builder forCompany(long companyId) {
 		return new Builder(companyId);
-	}
-
-	public boolean isChangeTrackingEnabled() {
-		return _changeTrackingEnabled;
 	}
 
 	public long getCompanyId() {
 		return _companyId;
 	}
 
+	public boolean isChangeTrackingEnabled() {
+		return _changeTrackingEnabled;
+	}
+
 	public static class Builder {
 
-		public CTConfigurationDTO build() {
-			return _ctConfigurationDTO;
+		public CTConfigurationGetDTO build() {
+			return _ctConfigurationGetDTO;
 		}
 
 		public Builder setChangeTrackingEnabled(boolean changeTrackingEnabled) {
-			_ctConfigurationDTO._changeTrackingEnabled = changeTrackingEnabled;
+			_ctConfigurationGetDTO._changeTrackingEnabled =
+				changeTrackingEnabled;
 
 			return this;
 		}
 
 		private Builder(long companyId) {
-			_ctConfigurationDTO = new CTConfigurationDTO();
+			_ctConfigurationGetDTO = new CTConfigurationGetDTO();
 
-			_ctConfigurationDTO._companyId = companyId;
+			_ctConfigurationGetDTO._companyId = companyId;
 		}
 
-		private final CTConfigurationDTO _ctConfigurationDTO;
+		private final CTConfigurationGetDTO _ctConfigurationGetDTO;
 
 	}
 
-	private CTConfigurationDTO() {
+	private CTConfigurationGetDTO() {
 	}
 
 	@JsonProperty("changeTrackingEnabled")

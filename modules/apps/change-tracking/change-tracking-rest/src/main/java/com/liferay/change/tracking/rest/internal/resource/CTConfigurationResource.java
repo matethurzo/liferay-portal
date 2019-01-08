@@ -15,18 +15,17 @@
 package com.liferay.change.tracking.rest.internal.resource;
 
 import com.liferay.change.tracking.CTEngineManager;
-import com.liferay.change.tracking.rest.internal.dto.CTConfigurationDTO;
+import com.liferay.change.tracking.rest.internal.dto.configuration.CTConfigurationGetDTO;
+import com.liferay.change.tracking.rest.internal.dto.configuration.CTConfigurationUpdateDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.osgi.service.component.annotations.Component;
@@ -50,33 +49,64 @@ public class CTConfigurationResource {
 	@GET
 	@Path("/{companyId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public CTConfigurationDTO getCtConfiguration(
+	public CTConfigurationGetDTO getCtConfiguration(
 			@PathParam("companyId") long companyId)
 		throws PortalException {
 
 		_companyLocalService.getCompany(companyId);
 
-		CTConfigurationDTO.Builder builder = CTConfigurationDTO.forCompany(
-			companyId);
-
-		return builder.setChangeTrackingEnabled(
-			_ctEngineManager.isChangeTrackingEnabled(companyId)
-		).build();
+		return _getCTConfigurationDTO(companyId);
 	}
 
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{companyId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
-	public CTConfigurationDTO updateCtConfiguration(
-		@PathParam("companyId") long companyId,
-		CTConfigurationDTO configuration) {
+	public CTConfigurationGetDTO updateCtConfiguration(
+			@PathParam("companyId") long companyId,
+			CTConfigurationUpdateDTO ctConfigurationUpdateDTO)
+		throws PortalException {
+
+		_companyLocalService.getCompany(companyId);
+
+		_updateChangeTrackingEnabled(companyId, ctConfigurationUpdateDTO);
+
+		return _getCTConfigurationDTO(companyId);
+	}
+
+	private CTConfigurationGetDTO _getCTConfigurationDTO(long companyId)
+		throws PortalException {
+
+		CTConfigurationGetDTO.Builder builder =
+			CTConfigurationGetDTO.forCompany(companyId);
+
+		return builder.setChangeTrackingEnabled(
+			_ctEngineManager.isChangeTrackingEnabled(companyId)
+		).build();
+	}
+
+	private void _updateChangeTrackingEnabled(
+		long companyId, CTConfigurationUpdateDTO ctConfigurationUpdateDTO) {
 
 		boolean changeTrackingEnabled =
-			_ctEngineManager.isChangeTrackingEnabled(
-				configuration.getCompanyId());
+			_ctEngineManager.isChangeTrackingEnabled(companyId);
 
+		boolean setChangeTrackingEnabled =
+			ctConfigurationUpdateDTO.isChangeTrackingEnabled();
 
+		if (changeTrackingEnabled && !setChangeTrackingEnabled) {
+
+			// enabled - should disable
+
+			_ctEngineManager.disableChangeTracking(companyId);
+		}
+		else if (!changeTrackingEnabled && setChangeTrackingEnabled) {
+
+			// disabled - should enable
+
+			_ctEngineManager.enableChangeTracking(
+				companyId, ctConfigurationUpdateDTO.getUserId());
+		}
 	}
 
 	@Reference
