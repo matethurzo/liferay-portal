@@ -16,8 +16,17 @@
 
 <%@ include file="/init.jsp" %>
 
+<%
+Map<String, Object> context = new HashMap<>();
+
+context.put("namespace", liferayPortletResponse.getNamespace());
+context.put("pathThemeImages", themeDisplay.getPathThemeImages());
+context.put("companyId", themeDisplay.getCompanyId());
+%>
+
 <soy:component-renderer
 	componentId="Change-tracking-change-list-configuration-window"
+	context="<%= context %>"
 	module="change-tracking-change-lists-configuration-web/js/ChangeListConfiguration.es"
 	templateNamespace="com.liferay.change.tracking.change.lists.configuration.web.ChangeListConfiguration.render"
 />
