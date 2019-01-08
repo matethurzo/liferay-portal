@@ -11,10 +11,21 @@ import templates from './ChangeListConfiguration.soy';
 class ChangeListConfiguration extends Component {
 
 	attached() {
-		axios.get('http://localhost:8080/o/change-tracking/configurations/' + context.companyId)
-			.then(function(response) {
-				console.log(response);
-			});
+		fetch(
+			"http://localhost:8080/o/change-tracking/configurations/20101",
+			{
+				method: "GET", //method: "PUT"
+				headers: {
+					"Authorization": "Basic dGVzdEBsaWZlcmF5LmNvbTp0ZXN0",
+					"Content-Type": "application/json"
+				},
+				//body: {
+				//     "changeTrackingEnabled": true,
+				//     "userId": 20141
+				// }
+			})
+			.then(response => response.json())
+			.then(console.log(response));
 	}
 
 	save(event) {
@@ -24,8 +35,6 @@ class ChangeListConfiguration extends Component {
 }
 
 ChangeListConfiguration.STATE = {
-
-
 };
 
 Soy.register(ChangeListConfiguration, templates);
