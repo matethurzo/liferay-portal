@@ -10,6 +10,10 @@ import templates from './ChangeListConfiguration.soy';
 
 class ChangeListConfiguration extends Component {
 
+	save(event) {
+		console.log(event + "saving...");
+	}
+
 }
 
 ChangeListConfiguration.STATE = {

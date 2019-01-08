@@ -11,6 +11,7 @@
 		}
 	},
 	"dependencies": {
+		"axios": "^0.18.0",
 		"clay-alert": "2.5.1",
 		"clay-autocomplete": "2.5.1",
 		"clay-badge": "2.5.1",

@@ -4,6 +4,7 @@
  * This renders the Configuration Window element.
  */
 {template .render}
+{@param save: any}
 <div class="change-lists-configuration-sheet sheet sheet-lg">
 
   //HEADER
@@ -185,6 +186,18 @@
       </div>
 
     </div>
+    
+    <div class="sheet-footer sheet-footer-btn-block-sm-down">
+		<div class="btn-group">
+			<div class="btn-group-item">
+				<button class="btn btn-primary" onClick="{$save}" type="button">Save</button>
+			</div>
+			<div class="btn-group-item">
+				<button class="btn btn-secondary" type="button">Cancel</button>
+			</div>
+		</div>
+	</div>
+
   </div>
 </div>
 {/template}
