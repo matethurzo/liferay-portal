@@ -19,25 +19,25 @@ import com.liferay.portal.kernel.exception.SystemException;
 /**
  * @author Gergely Mathe
  */
-public class CTError extends SystemException {
+public class CTSystemException extends SystemException {
 
-	public CTError(long companyId) {
+	public CTSystemException(long companyId) {
 		_companyId = companyId;
 	}
 
-	public CTError(long companyId, String msg) {
+	public CTSystemException(long companyId, String msg) {
 		super(msg);
 
 		_companyId = companyId;
 	}
 
-	public CTError(long companyId, String msg, Throwable cause) {
+	public CTSystemException(long companyId, String msg, Throwable cause) {
 		super(msg, cause);
 
 		_companyId = companyId;
 	}
 
-	public CTError(long companyId, Throwable cause) {
+	public CTSystemException(long companyId, Throwable cause) {
 		super(cause);
 
 		_companyId = companyId;
