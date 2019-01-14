@@ -14,6 +14,7 @@
 
 package com.liferay.change.tracking;
 
+import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 
@@ -91,6 +92,7 @@ public interface CTManager {
 	 *         change
 	 */
 	public Optional<CTEntry> registerModelChange(
-		long userId, long classNameId, long classPK, long resourcePrimKey);
+			long userId, long classNameId, long classPK, long resourcePrimKey)
+		throws CTException;
 
 }
