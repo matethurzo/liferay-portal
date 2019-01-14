@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.journal.internal.service;
+package com.liferay.journal.change.tracking.internal.service;
 
 import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.exception.CTEntryException;
