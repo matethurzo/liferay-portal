@@ -15,10 +15,14 @@
 package com.liferay.journal.internal.service;
 
 import com.liferay.change.tracking.CTManager;
+import com.liferay.change.tracking.exception.CTEntryException;
+import com.liferay.change.tracking.exception.CTException;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalArticleLocalServiceWrapper;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
@@ -82,10 +86,7 @@ public class JournalArticleCTServiceWrapper
 			smallImage, smallImageURL, smallImageFile, images, articleURL,
 			serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -120,10 +121,7 @@ public class JournalArticleCTServiceWrapper
 			reviewDateMinute, neverReview, indexable, smallImage, smallImageURL,
 			smallImageFile, images, articleURL, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -140,10 +138,7 @@ public class JournalArticleCTServiceWrapper
 			userId, groupId, folderId, titleMap, descriptionMap, content,
 			ddmStructureKey, ddmTemplateKey, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -178,10 +173,7 @@ public class JournalArticleCTServiceWrapper
 			reviewDateMinute, neverReview, indexable, smallImage, smallImageURL,
 			smallImageFile, images, articleURL, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -198,10 +190,7 @@ public class JournalArticleCTServiceWrapper
 			userId, groupId, folderId, articleId, version, titleMap,
 			descriptionMap, content, layoutUuid, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -235,10 +224,7 @@ public class JournalArticleCTServiceWrapper
 			indexable, smallImage, smallImageURL, smallImageFile, images,
 			articleURL, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -253,10 +239,7 @@ public class JournalArticleCTServiceWrapper
 			userId, groupId, folderId, articleId, version, content,
 			serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -267,10 +250,7 @@ public class JournalArticleCTServiceWrapper
 
 		JournalArticle journalArticle = super.updateArticle(id, urlTitle);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -286,10 +266,7 @@ public class JournalArticleCTServiceWrapper
 			groupId, articleId, version, locale, title, description, content,
 			images, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -302,10 +279,7 @@ public class JournalArticleCTServiceWrapper
 		JournalArticle journalArticle = super.updateContent(
 			groupId, articleId, version, content);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -321,10 +295,7 @@ public class JournalArticleCTServiceWrapper
 			userId, article, status, articleURL, serviceContext,
 			workflowContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -339,10 +310,7 @@ public class JournalArticleCTServiceWrapper
 		JournalArticle journalArticle = super.updateStatus(
 			userId, classPK, status, workflowContext, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
@@ -359,13 +327,34 @@ public class JournalArticleCTServiceWrapper
 			userId, groupId, articleId, version, status, articleURL,
 			workflowContext, serviceContext);
 
-		_ctManager.registerModelChange(
-			PrincipalThreadLocal.getUserId(),
-			_portal.getClassNameId(JournalArticle.class.getName()),
-			journalArticle.getId(), journalArticle.getResourcePrimKey());
+		_registerChange(journalArticle);
 
 		return journalArticle;
 	}
+
+	private void _registerChange(JournalArticle journalArticle)
+		throws CTException {
+
+		try {
+			_ctManager.registerModelChange(
+				PrincipalThreadLocal.getUserId(),
+				_portal.getClassNameId(JournalArticle.class.getName()),
+				journalArticle.getId(), journalArticle.getResourcePrimKey());
+		}
+		catch (CTException cte) {
+			if (cte instanceof CTEntryException) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(cte.getMessage());
+				}
+			}
+			else {
+				throw cte;
+			}
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		JournalArticleCTServiceWrapper.class);
 
 	@Reference
 	private CTManager _ctManager;
