@@ -14,7 +14,7 @@
 
 package com.liferay.change.tracking.service.impl;
 
-import com.liferay.change.tracking.exception.DuplicateCTEEntryException;
+import com.liferay.change.tracking.exception.DuplicateCTEntryException;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.base.CTEntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
@@ -94,7 +94,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		CTEntry ctEntry = ctEntryPersistence.fetchByC_C(classNameId, classPK);
 
 		if (ctEntry != null) {
-			throw new DuplicateCTEEntryException();
+			throw new DuplicateCTEntryException();
 		}
 
 		ctCollectionLocalService.getCTCollection(ctCollectionId);

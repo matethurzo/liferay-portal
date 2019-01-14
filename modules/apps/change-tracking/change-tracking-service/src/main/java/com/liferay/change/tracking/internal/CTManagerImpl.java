@@ -18,7 +18,7 @@ import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.exception.CTEntryException;
 import com.liferay.change.tracking.exception.CTException;
-import com.liferay.change.tracking.exception.DuplicateCTEEntryException;
+import com.liferay.change.tracking.exception.DuplicateCTEntryException;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.CTEntryLocalService;
@@ -181,7 +181,7 @@ public class CTManagerImpl implements CTManager {
 					userId, classNameId, classPK, resourcePrimKey,
 					ctCollection.getCtCollectionId(), new ServiceContext()));
 		}
-		catch (DuplicateCTEEntryException dcteee) {
+		catch (DuplicateCTEntryException dctee) {
 			StringBundler sb = new StringBundler(8);
 
 			sb.append("Duplicate CTEntry with class name ID ");
@@ -196,7 +196,7 @@ public class CTManagerImpl implements CTManager {
 			throw new CTEntryException(
 				0L, user.getCompanyId(), userId, classNameId, classPK,
 				resourcePrimKey, ctCollection.getCtCollectionId(),
-				sb.toString(), dcteee);
+				sb.toString(), dctee);
 		}
 		catch (PortalException pe) {
 			StringBundler sb = new StringBundler(8);
