@@ -87,6 +87,6 @@
 	</entity>
 	<exceptions>
 		<exception>CTCollectionName</exception>
-		<exception>DuplicateCTEEntry</exception>
+		<exception>DuplicateCTEntry</exception>
 	</exceptions>
 </service-builder>
