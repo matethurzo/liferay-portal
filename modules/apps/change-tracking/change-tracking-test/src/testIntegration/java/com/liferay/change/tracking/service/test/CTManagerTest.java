@@ -278,7 +278,7 @@ public class CTManagerTest {
 	}
 
 	@Test
-	public void testRegisterModelChange() {
+	public void testRegisterModelChange() throws PortalException {
 		Optional<CTEntry> ctEntryOptional = _ctManager.registerModelChange(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			_TEST_VERSION_CLASS_ENTITY_ID, _TEST_RESOURCE_CLASS_ENTITY_ID);
