@@ -475,7 +475,7 @@ public class LayoutImportController implements ImportController {
 				for (Layout layout : layouts) {
 					layout.setLayoutPrototypeUuid(layoutPrototypeUuid);
 
-					_layoutLocalService.updateLayout(layout);
+					_layoutLocalService.updateLayout(layout, false);
 				}
 			}
 		}

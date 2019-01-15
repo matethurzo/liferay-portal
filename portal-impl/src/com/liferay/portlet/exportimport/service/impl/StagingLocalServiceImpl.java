@@ -1087,7 +1087,7 @@ public class StagingLocalServiceImpl extends StagingLocalServiceBaseImpl {
 		layout.setColorSchemeId(layoutRevision.getColorSchemeId());
 		layout.setCss(layoutRevision.getCss());
 
-		return layoutLocalService.updateLayout(layout);
+		return layoutLocalService.updateLayout(layout, false);
 	}
 
 	protected void updatePortletPreferences(

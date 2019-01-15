@@ -239,7 +239,7 @@ public class AddDefaultSharedFormLayoutPortalInstanceLifecycleListener
 
 		layout.setType(DDMFormPortletLayoutTypeConstants.LAYOUT_TYPE);
 
-		_layoutLocalService.updateLayout(layout);
+		_layoutLocalService.updateLayout(layout, false);
 	}
 
 	private GroupLocalService _groupLocalService;

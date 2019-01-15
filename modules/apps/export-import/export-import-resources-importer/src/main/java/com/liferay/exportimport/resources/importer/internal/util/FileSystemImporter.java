@@ -1817,7 +1817,7 @@ public class FileSystemImporter extends BaseImporter {
 
 		layout.setTypeSettingsProperties(typeSettings);
 
-		layoutLocalService.updateLayout(layout);
+		layoutLocalService.updateLayout(layout, false);
 	}
 
 	protected void setServiceContext(String name) {

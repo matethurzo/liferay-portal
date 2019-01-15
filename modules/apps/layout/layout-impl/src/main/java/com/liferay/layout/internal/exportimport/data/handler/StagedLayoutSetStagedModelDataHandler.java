@@ -630,7 +630,7 @@ public class StagedLayoutSetStagedModelDataHandler
 			typeSettingsProperties.setProperty(
 				Sites.LAST_MERGE_TIME, String.valueOf(lastMergeTime));
 
-			_layoutLocalService.updateLayout(layout);
+			_layoutLocalService.updateLayout(layout, false);
 		}
 
 		// The layout set may be stale because LayoutUtil#update(layout)
@@ -713,7 +713,7 @@ public class StagedLayoutSetStagedModelDataHandler
 				layout.setPriority(++maxPriority);
 			}
 
-			_layoutLocalService.updateLayout(layout);
+			_layoutLocalService.updateLayout(layout, false);
 		}
 	}
 

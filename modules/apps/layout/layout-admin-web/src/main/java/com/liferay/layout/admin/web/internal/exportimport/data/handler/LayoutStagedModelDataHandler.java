@@ -2131,7 +2131,7 @@ public class LayoutStagedModelDataHandler
 
 			layout.setTypeSettingsProperties(typeSettingsProperties);
 
-			_layoutLocalService.updateLayout(layout);
+			_layoutLocalService.updateLayout(layout, false);
 
 			return null;
 		}

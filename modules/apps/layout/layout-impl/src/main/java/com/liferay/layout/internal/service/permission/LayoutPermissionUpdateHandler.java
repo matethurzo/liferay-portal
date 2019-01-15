@@ -44,7 +44,7 @@ public class LayoutPermissionUpdateHandler implements PermissionUpdateHandler {
 
 		layout.setModifiedDate(new Date());
 
-		_layoutLocalService.updateLayout(layout);
+		_layoutLocalService.updateLayout(layout, false);
 	}
 
 	@Reference(unbind = "-")
