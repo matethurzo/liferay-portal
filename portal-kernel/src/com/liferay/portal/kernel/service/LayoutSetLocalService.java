@@ -92,6 +92,9 @@ public interface LayoutSetLocalService extends BaseLocalService,
 	@Override
 	public LayoutSet create();
 
+	@Transactional(enabled = false)
+	public LayoutSet createLayoutSet(long layoutSetId);
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public LayoutSet delete(LayoutSet publishedLayoutSet)
@@ -336,6 +339,7 @@ public interface LayoutSetLocalService extends BaseLocalService,
 	*
 	* @param layoutSet the layout set
 	* @return the layout set that was updated
+	* @throws PortalException
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public LayoutSet updateLayoutSet(LayoutSet draftLayoutSet)

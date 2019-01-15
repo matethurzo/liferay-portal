@@ -292,9 +292,9 @@ public class LayoutSetVersionPersistenceTest {
 			"layoutSetVersionId", true, "version", true, "layoutSetId", true,
 			"groupId", true, "companyId", true, "createDate", true,
 			"modifiedDate", true, "privateLayout", true, "logoId", true,
-			"themeId", true, "colorSchemeId", true, "css", true, "pageCount",
-			true, "settings", true, "layoutSetPrototypeUuid", true,
-			"layoutSetPrototypeLinkEnabled", true);
+			"themeId", true, "colorSchemeId", true, "pageCount", true,
+			"layoutSetPrototypeUuid", true, "layoutSetPrototypeLinkEnabled",
+			true);
 	}
 
 	@Test

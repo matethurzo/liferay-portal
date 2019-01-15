@@ -73,6 +73,11 @@ public class LayoutSetLocalServiceUtil {
 		return getService().create();
 	}
 
+	public static com.liferay.portal.kernel.model.LayoutSet createLayoutSet(
+		long layoutSetId) {
+		return getService().createLayoutSet(layoutSetId);
+	}
+
 	public static com.liferay.portal.kernel.model.LayoutSet delete(
 		com.liferay.portal.kernel.model.LayoutSet publishedLayoutSet)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -383,6 +388,7 @@ public class LayoutSetLocalServiceUtil {
 	*
 	* @param layoutSet the layout set
 	* @return the layout set that was updated
+	* @throws PortalException
 	*/
 	public static com.liferay.portal.kernel.model.LayoutSet updateLayoutSet(
 		com.liferay.portal.kernel.model.LayoutSet draftLayoutSet)

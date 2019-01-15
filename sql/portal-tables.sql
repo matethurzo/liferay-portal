@@ -726,9 +726,9 @@ create table LayoutSetVersion (
 	logoId LONG,
 	themeId VARCHAR(75) null,
 	colorSchemeId VARCHAR(75) null,
-	css VARCHAR(75) null,
+	css TEXT null,
 	pageCount INTEGER,
-	settings_ VARCHAR(75) null,
+	settings_ TEXT null,
 	layoutSetPrototypeUuid VARCHAR(75) null,
 	layoutSetPrototypeLinkEnabled BOOLEAN
 );

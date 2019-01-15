@@ -77,9 +77,9 @@ public class LayoutSetVersionModelImpl extends BaseModelImpl<LayoutSetVersion>
 			{ "logoId", Types.BIGINT },
 			{ "themeId", Types.VARCHAR },
 			{ "colorSchemeId", Types.VARCHAR },
-			{ "css", Types.VARCHAR },
+			{ "css", Types.CLOB },
 			{ "pageCount", Types.INTEGER },
-			{ "settings_", Types.VARCHAR },
+			{ "settings_", Types.CLOB },
 			{ "layoutSetPrototypeUuid", Types.VARCHAR },
 			{ "layoutSetPrototypeLinkEnabled", Types.BOOLEAN }
 		};
@@ -97,14 +97,14 @@ public class LayoutSetVersionModelImpl extends BaseModelImpl<LayoutSetVersion>
 		TABLE_COLUMNS_MAP.put("logoId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("themeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("colorSchemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("css", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("css", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("pageCount", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("settings_", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("settings_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("layoutSetPrototypeUuid", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("layoutSetPrototypeLinkEnabled", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LayoutSetVersion (layoutSetVersionId LONG not null primary key,version INTEGER,layoutSetId LONG,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,logoId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css VARCHAR(75) null,pageCount INTEGER,settings_ VARCHAR(75) null,layoutSetPrototypeUuid VARCHAR(75) null,layoutSetPrototypeLinkEnabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table LayoutSetVersion (layoutSetVersionId LONG not null primary key,version INTEGER,layoutSetId LONG,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,privateLayout BOOLEAN,logoId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css TEXT null,pageCount INTEGER,settings_ TEXT null,layoutSetPrototypeUuid VARCHAR(75) null,layoutSetPrototypeLinkEnabled BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table LayoutSetVersion";
 	public static final String ORDER_BY_JPQL = " ORDER BY layoutSetVersion.version DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LayoutSetVersion.version DESC";
