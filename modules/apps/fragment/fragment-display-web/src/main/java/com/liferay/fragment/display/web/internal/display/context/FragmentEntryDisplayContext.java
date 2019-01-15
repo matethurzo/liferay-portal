@@ -15,7 +15,6 @@
 package com.liferay.fragment.display.web.internal.display.context;
 
 import com.liferay.fragment.display.web.internal.constants.FragmentEntryDisplayWebKeys;
-import com.liferay.fragment.display.web.internal.util.SoyContextFactoryUtil;
 import com.liferay.fragment.item.selector.criterion.FragmentItemSelectorCriterion;
 import com.liferay.fragment.model.FragmentEntry;
 import com.liferay.fragment.model.FragmentEntryLink;
@@ -48,6 +47,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.template.soy.utils.SoyContext;
+import com.liferay.portal.template.soy.utils.SoyContextFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
