@@ -16,7 +16,6 @@ package com.liferay.frontend.taglib.soy.servlet.taglib;
 
 import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolvedPackageNameUtil;
 import com.liferay.frontend.taglib.soy.internal.util.SoyComponentRendererProvider;
-import com.liferay.frontend.taglib.soy.internal.util.SoyContextFactoryUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -26,6 +25,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.template.soy.renderer.ComponentDescriptor;
 import com.liferay.portal.template.soy.renderer.SoyComponentRenderer;
 import com.liferay.portal.template.soy.utils.SoyContext;
+import com.liferay.portal.template.soy.utils.SoyContextFactoryUtil;
 import com.liferay.taglib.util.ParamAndPropertyAncestorTagImpl;
 
 import java.util.Map;
