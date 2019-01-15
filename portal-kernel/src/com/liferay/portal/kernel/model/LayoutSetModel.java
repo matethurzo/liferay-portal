@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.model.version.VersionedModel;
 
 import java.util.Date;
 
@@ -35,7 +36,7 @@ import java.util.Date;
  */
 @ProviderType
 public interface LayoutSetModel extends BaseModel<LayoutSet>, MVCCModel,
-	ShardedModel {
+	ShardedModel, VersionedModel<LayoutSetVersion> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -47,6 +48,7 @@ public interface LayoutSetModel extends BaseModel<LayoutSet>, MVCCModel,
 	 *
 	 * @return the primary key of this layout set
 	 */
+	@Override
 	public long getPrimaryKey();
 
 	/**
@@ -54,6 +56,7 @@ public interface LayoutSetModel extends BaseModel<LayoutSet>, MVCCModel,
 	 *
 	 * @param primaryKey the primary key of this layout set
 	 */
+	@Override
 	public void setPrimaryKey(long primaryKey);
 
 	/**
@@ -71,6 +74,22 @@ public interface LayoutSetModel extends BaseModel<LayoutSet>, MVCCModel,
 	 */
 	@Override
 	public void setMvccVersion(long mvccVersion);
+
+	/**
+	 * Returns the head ID of this layout set.
+	 *
+	 * @return the head ID of this layout set
+	 */
+	@Override
+	public long getHeadId();
+
+	/**
+	 * Sets the head ID of this layout set.
+	 *
+	 * @param headId the head ID of this layout set
+	 */
+	@Override
+	public void setHeadId(long headId);
 
 	/**
 	 * Returns the layout set ID of this layout set.

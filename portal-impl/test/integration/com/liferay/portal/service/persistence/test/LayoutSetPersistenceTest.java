@@ -118,6 +118,8 @@ public class LayoutSetPersistenceTest {
 
 		newLayoutSet.setMvccVersion(RandomTestUtil.nextLong());
 
+		newLayoutSet.setHeadId(RandomTestUtil.nextLong());
+
 		newLayoutSet.setGroupId(RandomTestUtil.nextLong());
 
 		newLayoutSet.setCompanyId(RandomTestUtil.nextLong());
@@ -150,6 +152,8 @@ public class LayoutSetPersistenceTest {
 
 		Assert.assertEquals(existingLayoutSet.getMvccVersion(),
 			newLayoutSet.getMvccVersion());
+		Assert.assertEquals(existingLayoutSet.getHeadId(),
+			newLayoutSet.getHeadId());
 		Assert.assertEquals(existingLayoutSet.getLayoutSetId(),
 			newLayoutSet.getLayoutSetId());
 		Assert.assertEquals(existingLayoutSet.getGroupId(),
@@ -214,6 +218,13 @@ public class LayoutSetPersistenceTest {
 	}
 
 	@Test
+	public void testCountByHeadId() throws Exception {
+		_persistence.countByHeadId(RandomTestUtil.nextLong());
+
+		_persistence.countByHeadId(0L);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		LayoutSet newLayoutSet = addLayoutSet();
 
@@ -237,11 +248,11 @@ public class LayoutSetPersistenceTest {
 
 	protected OrderByComparator<LayoutSet> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("LayoutSet", "mvccVersion",
-			true, "layoutSetId", true, "groupId", true, "companyId", true,
-			"createDate", true, "modifiedDate", true, "privateLayout", true,
-			"logoId", true, "themeId", true, "colorSchemeId", true,
-			"pageCount", true, "layoutSetPrototypeUuid", true,
-			"layoutSetPrototypeLinkEnabled", true);
+			true, "headId", true, "layoutSetId", true, "groupId", true,
+			"companyId", true, "createDate", true, "modifiedDate", true,
+			"privateLayout", true, "logoId", true, "themeId", true,
+			"colorSchemeId", true, "pageCount", true, "layoutSetPrototypeUuid",
+			true, "layoutSetPrototypeLinkEnabled", true);
 	}
 
 	@Test
@@ -459,6 +470,10 @@ public class LayoutSetPersistenceTest {
 		Assert.assertEquals(Long.valueOf(existingLayoutSet.getLogoId()),
 			ReflectionTestUtil.<Long>invoke(existingLayoutSet,
 				"getOriginalLogoId", new Class<?>[0]));
+
+		Assert.assertEquals(Long.valueOf(existingLayoutSet.getHeadId()),
+			ReflectionTestUtil.<Long>invoke(existingLayoutSet,
+				"getOriginalHeadId", new Class<?>[0]));
 	}
 
 	protected LayoutSet addLayoutSet() throws Exception {
@@ -467,6 +482,8 @@ public class LayoutSetPersistenceTest {
 		LayoutSet layoutSet = _persistence.create(pk);
 
 		layoutSet.setMvccVersion(RandomTestUtil.nextLong());
+
+		layoutSet.setHeadId(RandomTestUtil.nextLong());
 
 		layoutSet.setGroupId(RandomTestUtil.nextLong());
 

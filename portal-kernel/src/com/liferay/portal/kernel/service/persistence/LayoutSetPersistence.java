@@ -417,6 +417,49 @@ public interface LayoutSetPersistence extends BasePersistence<LayoutSet> {
 	public int countByP_L(boolean privateLayout, long logoId);
 
 	/**
+	* Returns the layout set where headId = &#63; or throws a {@link NoSuchLayoutSetException} if it could not be found.
+	*
+	* @param headId the head ID
+	* @return the matching layout set
+	* @throws NoSuchLayoutSetException if a matching layout set could not be found
+	*/
+	public LayoutSet findByHeadId(long headId) throws NoSuchLayoutSetException;
+
+	/**
+	* Returns the layout set where headId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param headId the head ID
+	* @return the matching layout set, or <code>null</code> if a matching layout set could not be found
+	*/
+	public LayoutSet fetchByHeadId(long headId);
+
+	/**
+	* Returns the layout set where headId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param headId the head ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching layout set, or <code>null</code> if a matching layout set could not be found
+	*/
+	public LayoutSet fetchByHeadId(long headId, boolean retrieveFromCache);
+
+	/**
+	* Removes the layout set where headId = &#63; from the database.
+	*
+	* @param headId the head ID
+	* @return the layout set that was removed
+	*/
+	public LayoutSet removeByHeadId(long headId)
+		throws NoSuchLayoutSetException;
+
+	/**
+	* Returns the number of layout sets where headId = &#63;.
+	*
+	* @param headId the head ID
+	* @return the number of matching layout sets
+	*/
+	public int countByHeadId(long headId);
+
+	/**
 	* Caches the layout set in the entity cache if it is enabled.
 	*
 	* @param layoutSet the layout set
