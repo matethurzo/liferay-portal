@@ -66,6 +66,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntry;
 import com.liferay.portal.kernel.systemevent.SystemEventHierarchyEntryThreadLocal;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -137,6 +138,12 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		sb.append(privateLayout);
 
 		return sb.toString();
+	}
+
+	@Override
+	@Transactional(enabled = false)
+	public Layout createLayout(long plid) {
+		return layoutPersistence.create(plid);
 	}
 
 	/**
@@ -232,6 +239,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 
 		Layout layout = layoutPersistence.create(plid);
 
+		layout.setHeadId(-plid);
 		layout.setUuid(serviceContext.getUuid());
 		layout.setGroupId(groupId);
 		layout.setCompanyId(user.getCompanyId());
