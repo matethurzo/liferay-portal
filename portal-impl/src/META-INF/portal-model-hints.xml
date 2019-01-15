@@ -894,9 +894,13 @@
 		<field name="logoId" type="long" />
 		<field name="themeId" type="String" />
 		<field name="colorSchemeId" type="String" />
-		<field name="css" type="String" />
+		<field name="css" type="String">
+			<hint-collection name="CLOB" />
+		</field>
 		<field name="pageCount" type="int" />
-		<field name="settings" type="String" />
+		<field name="settings" type="String">
+			<hint-collection name="CLOB" />
+		</field>
 		<field name="layoutSetPrototypeUuid" type="String" />
 		<field name="layoutSetPrototypeLinkEnabled" type="boolean" />
 	</model>
