@@ -181,6 +181,14 @@ public class BookmarksEntryStagedModelRepository
 			BookmarksEntry bookmarksEntry)
 		throws PortalException {
 
+		throw new UnsupportedOperationException();
+	}
+
+	public BookmarksEntry updateStagedModel(
+		PortletDataContext portletDataContext,
+		BookmarksEntry bookmarksEntry, long existingEntityId)
+		throws PortalException {
+
 		long userId = portletDataContext.getUserId(
 			bookmarksEntry.getUserUuid());
 
@@ -188,7 +196,7 @@ public class BookmarksEntryStagedModelRepository
 			bookmarksEntry);
 
 		return _bookmarksEntryLocalService.updateEntry(
-			userId, bookmarksEntry.getEntryId(), bookmarksEntry.getGroupId(),
+			userId, existingEntityId, bookmarksEntry.getGroupId(),
 			bookmarksEntry.getFolderId(), bookmarksEntry.getName(),
 			bookmarksEntry.getUrl(), bookmarksEntry.getDescription(),
 			serviceContext);
