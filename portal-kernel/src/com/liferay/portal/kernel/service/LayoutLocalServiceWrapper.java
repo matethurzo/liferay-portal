@@ -306,6 +306,11 @@ public class LayoutLocalServiceWrapper implements LayoutLocalService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.model.Layout createLayout(long plid) {
+		return _layoutLocalService.createLayout(plid);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.model.Layout delete(
 		com.liferay.portal.kernel.model.Layout publishedLayout)
 		throws com.liferay.portal.kernel.exception.PortalException {

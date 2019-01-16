@@ -319,6 +319,9 @@ public interface LayoutLocalService extends BaseLocalService,
 	@Override
 	public Layout create();
 
+	@Transactional(enabled = false)
+	public Layout createLayout(long plid);
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public Layout delete(Layout publishedLayout) throws PortalException;

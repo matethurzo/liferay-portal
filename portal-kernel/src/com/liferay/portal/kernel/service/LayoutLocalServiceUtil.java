@@ -311,6 +311,10 @@ public class LayoutLocalServiceUtil {
 		return getService().create();
 	}
 
+	public static com.liferay.portal.kernel.model.Layout createLayout(long plid) {
+		return getService().createLayout(plid);
+	}
+
 	public static com.liferay.portal.kernel.model.Layout delete(
 		com.liferay.portal.kernel.model.Layout publishedLayout)
 		throws com.liferay.portal.kernel.exception.PortalException {
