@@ -14,6 +14,7 @@
 
 package com.liferay.bookmarks.internal.exportimport.data.handler;
 
+import com.liferay.bookmarks.internal.exportimport.staged.model.repository.BookmarksEntryStagedModelRepository;
 import com.liferay.bookmarks.model.BookmarksEntry;
 import com.liferay.bookmarks.model.BookmarksFolder;
 import com.liferay.bookmarks.model.BookmarksFolderConstants;
@@ -107,20 +108,21 @@ public class BookmarksEntryStagedModelDataHandler
 		importedEntry.setFolderId(folderId);
 
 		BookmarksEntry existingEntry =
-			_stagedModelRepository.fetchStagedModelByUuidAndGroupId(
-				entry.getUuid(), portletDataContext.getScopeGroupId());
+			_bookmarksEntryStagedModelRepository.
+				fetchStagedModelByUuidAndGroupId(
+					entry.getUuid(), portletDataContext.getScopeGroupId());
 
 		if ((existingEntry == null) ||
 			!portletDataContext.isDataStrategyMirror()) {
 
-			importedEntry = _stagedModelRepository.addStagedModel(
+			importedEntry = _bookmarksEntryStagedModelRepository.addStagedModel(
 				portletDataContext, importedEntry);
 		}
 		else {
-			importedEntry.setEntryId(existingEntry.getEntryId());
-
-			importedEntry = _stagedModelRepository.updateStagedModel(
-				portletDataContext, importedEntry);
+			importedEntry =
+				_bookmarksEntryStagedModelRepository.updateStagedModel(
+					portletDataContext, importedEntry,
+					existingEntry.getEntryId());
 		}
 
 		portletDataContext.importClassedModel(entry, importedEntry);
@@ -128,19 +130,23 @@ public class BookmarksEntryStagedModelDataHandler
 
 	@Override
 	protected StagedModelRepository<BookmarksEntry> getStagedModelRepository() {
-		return _stagedModelRepository;
+		return _bookmarksEntryStagedModelRepository;
 	}
 
 	@Reference(
+		service = BookmarksEntryStagedModelRepository.class,
 		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksEntry)",
 		unbind = "-"
 	)
 	protected void setStagedModelRepository(
-		StagedModelRepository<BookmarksEntry> stagedModelRepository) {
+		BookmarksEntryStagedModelRepository
+			bookmarksEntryStagedModelRepository) {
 
-		_stagedModelRepository = stagedModelRepository;
+		_bookmarksEntryStagedModelRepository =
+			bookmarksEntryStagedModelRepository;
 	}
 
-	private StagedModelRepository<BookmarksEntry> _stagedModelRepository;
+	private BookmarksEntryStagedModelRepository
+		_bookmarksEntryStagedModelRepository;
 
 }
