@@ -11,28 +11,31 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+package com.liferay.portal.kernel.exception;
 
-package com.liferay.layout.uad.constants;
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
- * @generated
  */
-public class LayoutUADConstants {
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_BRANCH = { "userId" };
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_FRIENDLY_URL = {
-			"userId"
-		};
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_PROTOTYPE = {
-			"userId"
-		};
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_REVISION = {
-			"userId", "statusByUserId"
-		};
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_SET_BRANCH = {
-			"userId"
-		};
-	public static final String[] USER_ID_FIELD_NAMES_LAYOUT_SET_PROTOTYPE = {
-			"userId"
-		};
+@ProviderType
+public class NoSuchLayoutVersionException extends NoSuchModelException {
+
+	public NoSuchLayoutVersionException() {
+	}
+
+	public NoSuchLayoutVersionException(String msg) {
+		super(msg);
+	}
+
+	public NoSuchLayoutVersionException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public NoSuchLayoutVersionException(Throwable cause) {
+		super(cause);
+	}
+
 }

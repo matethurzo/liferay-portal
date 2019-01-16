@@ -296,14 +296,31 @@ public class LayoutLocalServiceUtil {
 			name, title, description, type, hidden, friendlyURL, serviceContext);
 	}
 
+	public static com.liferay.portal.kernel.model.Layout checkout(
+		com.liferay.portal.kernel.model.Layout publishedLayout, int version)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().checkout(publishedLayout, version);
+	}
+
 	/**
-	* Creates a new layout with the primary key. Does not add the layout to the database.
+	* Creates a new layout. Does not add the layout to the database.
 	*
-	* @param plid the primary key for the new layout
 	* @return the new layout
 	*/
-	public static com.liferay.portal.kernel.model.Layout createLayout(long plid) {
-		return getService().createLayout(plid);
+	public static com.liferay.portal.kernel.model.Layout create() {
+		return getService().create();
+	}
+
+	public static com.liferay.portal.kernel.model.Layout delete(
+		com.liferay.portal.kernel.model.Layout publishedLayout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().delete(publishedLayout);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout deleteDraft(
+		com.liferay.portal.kernel.model.Layout draftLayout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deleteDraft(draftLayout);
 	}
 
 	/**
@@ -402,6 +419,12 @@ public class LayoutLocalServiceUtil {
 		com.liferay.portal.kernel.model.PersistedModel persistedModel)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static com.liferay.portal.kernel.model.LayoutVersion deleteVersion(
+		com.liferay.portal.kernel.model.LayoutVersion layoutVersion)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deleteVersion(layoutVersion);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
@@ -794,10 +817,25 @@ public class LayoutLocalServiceUtil {
 		return getService().fetchDefaultLayout(groupId, privateLayout);
 	}
 
+	public static com.liferay.portal.kernel.model.Layout fetchDraft(
+		com.liferay.portal.kernel.model.Layout layout) {
+		return getService().fetchDraft(layout);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout fetchDraft(
+		long primaryKey) {
+		return getService().fetchDraft(primaryKey);
+	}
+
 	public static com.liferay.portal.kernel.model.Layout fetchFirstLayout(
 		long groupId, boolean privateLayout, long parentLayoutId) {
 		return getService()
 				   .fetchFirstLayout(groupId, privateLayout, parentLayoutId);
+	}
+
+	public static com.liferay.portal.kernel.model.LayoutVersion fetchLatestVersion(
+		com.liferay.portal.kernel.model.Layout layout) {
+		return getService().fetchLatestVersion(layout);
 	}
 
 	public static com.liferay.portal.kernel.model.Layout fetchLayout(long plid) {
@@ -838,6 +876,16 @@ public class LayoutLocalServiceUtil {
 		String uuid, long groupId, boolean privateLayout) {
 		return getService()
 				   .fetchLayoutByUuidAndGroupId(uuid, groupId, privateLayout);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout fetchPublished(
+		com.liferay.portal.kernel.model.Layout layout) {
+		return getService().fetchPublished(layout);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout fetchPublished(
+		long primaryKey) {
+		return getService().fetchPublished(primaryKey);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
@@ -881,6 +929,18 @@ public class LayoutLocalServiceUtil {
 		String portletId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getDefaultPlid(groupId, privateLayout, portletId);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout getDraft(
+		com.liferay.portal.kernel.model.Layout layout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getDraft(layout);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout getDraft(
+		long primaryKey)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getDraft(primaryKey);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
@@ -1361,6 +1421,17 @@ public class LayoutLocalServiceUtil {
 		return getService().getScopeGroupLayouts(parentGroupId, privateLayout);
 	}
 
+	public static com.liferay.portal.kernel.model.LayoutVersion getVersion(
+		com.liferay.portal.kernel.model.Layout layout, int version)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getVersion(layout, version);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.LayoutVersion> getVersions(
+		com.liferay.portal.kernel.model.Layout layout) {
+		return getService().getVersions(layout);
+	}
+
 	/**
 	* Returns <code>true</code> if there is a matching layout with the UUID,
 	* group, and privacy.
@@ -1816,6 +1887,17 @@ public class LayoutLocalServiceUtil {
 			parameterMap, is);
 	}
 
+	public static com.liferay.portal.kernel.model.Layout publishDraft(
+		com.liferay.portal.kernel.model.Layout draftLayout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().publishDraft(draftLayout);
+	}
+
+	public static void registerListener(
+		com.liferay.portal.kernel.service.version.VersionServiceListener<com.liferay.portal.kernel.model.Layout, com.liferay.portal.kernel.model.LayoutVersion> versionServiceListener) {
+		getService().registerListener(versionServiceListener);
+	}
+
 	/**
 	* Sets the layouts for the group, replacing and prioritizing all layouts of
 	* the parent layout.
@@ -1835,11 +1917,22 @@ public class LayoutLocalServiceUtil {
 			serviceContext);
 	}
 
+	public static void unregisterListener(
+		com.liferay.portal.kernel.service.version.VersionServiceListener<com.liferay.portal.kernel.model.Layout, com.liferay.portal.kernel.model.LayoutVersion> versionServiceListener) {
+		getService().unregisterListener(versionServiceListener);
+	}
+
 	public static void updateAsset(long userId,
 		com.liferay.portal.kernel.model.Layout layout, long[] assetCategoryIds,
 		String[] assetTagNames)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		getService().updateAsset(userId, layout, assetCategoryIds, assetTagNames);
+	}
+
+	public static com.liferay.portal.kernel.model.Layout updateDraft(
+		com.liferay.portal.kernel.model.Layout draftLayout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateDraft(draftLayout);
 	}
 
 	/**
@@ -1890,8 +1983,9 @@ public class LayoutLocalServiceUtil {
 	* @return the layout that was updated
 	*/
 	public static com.liferay.portal.kernel.model.Layout updateLayout(
-		com.liferay.portal.kernel.model.Layout layout) {
-		return getService().updateLayout(layout);
+		com.liferay.portal.kernel.model.Layout draftLayout)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateLayout(draftLayout);
 	}
 
 	public static com.liferay.portal.kernel.model.Layout updateLayout(
