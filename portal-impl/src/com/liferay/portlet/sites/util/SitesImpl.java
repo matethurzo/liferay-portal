@@ -1397,7 +1397,9 @@ public class SitesImpl implements Sites {
 	}
 
 	@Override
-	public void removeMergeFailFriendlyURLLayouts(LayoutSet layoutSet) {
+	public void removeMergeFailFriendlyURLLayouts(LayoutSet layoutSet)
+		throws PortalException {
+
 		UnicodeProperties settingsProperties =
 			layoutSet.getSettingsProperties();
 
@@ -1729,7 +1731,9 @@ public class SitesImpl implements Sites {
 	 *
 	 * @param layoutSet the site having its timestamp reset
 	 */
-	protected void doResetPrototype(LayoutSet layoutSet) {
+	protected void doResetPrototype(LayoutSet layoutSet)
+		throws PortalException {
+
 		UnicodeProperties settingsProperties =
 			layoutSet.getSettingsProperties();
 

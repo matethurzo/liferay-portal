@@ -30,8 +30,11 @@ import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.LayoutSetStagingHandler;
 import com.liferay.portal.kernel.model.VirtualHost;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ColorSchemeFactoryUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -73,6 +76,8 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 
 		LayoutSet layoutSet = layoutSetPersistence.create(layoutSetId);
 
+		layoutSet.setHeadId(-layoutSetId);
+
 		layoutSet.setGroupId(groupId);
 		layoutSet.setCompanyId(group.getCompanyId());
 		layoutSet.setCreateDate(now);
@@ -84,6 +89,23 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 		layoutSetPersistence.update(layoutSet);
 
 		return layoutSet;
+	}
+
+	@Transactional(enabled = false)
+	public LayoutSet createLayoutSet(long layoutSetId) {
+		return layoutSetPersistence.create(layoutSetId);
+	}
+
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	public LayoutSet deleteLayoutSet(LayoutSet layoutSet) {
+		return layoutSetPersistence.remove(layoutSet);
+	}
+
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	public LayoutSet deleteLayoutSet(long layoutSetId) throws PortalException {
+		return layoutSetPersistence.remove(layoutSetId);
 	}
 
 	@Override
@@ -212,6 +234,14 @@ public class LayoutSetLocalServiceImpl extends LayoutSetLocalServiceBaseImpl {
 
 		return layoutSetPersistence.findByLayoutSetPrototypeUuid(
 			layoutSetPrototypeUuid);
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public LayoutSet updateLayoutSet(LayoutSet layoutSet)
+		throws PortalException {
+
+		return layoutSetPersistence.update(layoutSet);
 	}
 
 	/**
