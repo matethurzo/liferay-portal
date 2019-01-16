@@ -1,3 +1,20 @@
 .change-lists-configuration-sheet {
 	margin-top: 1.5rem;
 }
+.toggle-label-text {
+	line-height: 2.3;
+}
+.changelist-helper {
+	font-family: SF Pro Text;
+	font-size: 14px;
+	line-height: 25px;
+	text-align: right;
+
+	color: #272833;
+}
+.changelist-helper:hover .tooltip{
+	opacity: 1
+}
+.tooltip:hover .tooltip{
+	opacity: 1
+}
