@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.lar.test.BasePortletDataHandlerTestCase;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.portal.util.test.LayoutTestUtil;
 
 import java.util.List;
@@ -64,7 +65,9 @@ public class JournalPortletDataHandlerTest
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE);
 
 	@Before
 	@Override

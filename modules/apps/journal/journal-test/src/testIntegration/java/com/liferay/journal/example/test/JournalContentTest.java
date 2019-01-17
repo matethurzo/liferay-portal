@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,7 +79,9 @@ public class JournalContentTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE);
 
 	@Before
 	public void setUp() throws PortalException {

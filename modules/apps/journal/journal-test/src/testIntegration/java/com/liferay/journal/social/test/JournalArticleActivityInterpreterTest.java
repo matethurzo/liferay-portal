@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.social.activity.test.util.BaseSocialActivityInterpreterTestCase;
 import com.liferay.social.kernel.model.SocialActivityConstants;
 import com.liferay.social.kernel.model.SocialActivityInterpreter;
@@ -44,7 +45,9 @@ public class JournalArticleActivityInterpreterTest
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE);
 
 	@Override
 	protected void addActivities() throws Exception {

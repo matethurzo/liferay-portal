@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.portal.test.rule.SynchronousMailTestRule;
 import com.liferay.portlet.subscriptions.test.BaseSubscriptionLocalizedContentTestCase;
 
@@ -51,7 +52,9 @@ public class JournalSubscriptionLocalizedContentTest
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(), SynchronousMailTestRule.INSTANCE);
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE,
+			SynchronousMailTestRule.INSTANCE);
 
 	@Before
 	@Override

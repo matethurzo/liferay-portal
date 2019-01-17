@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.portal.test.rule.TransactionalTestRule;
 
 import java.util.List;
@@ -60,6 +61,7 @@ public class JournalFolderFinderTest {
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
 			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE,
 			new TransactionalTestRule(
 				Propagation.SUPPORTS, "com.liferay.journal.service"));
 

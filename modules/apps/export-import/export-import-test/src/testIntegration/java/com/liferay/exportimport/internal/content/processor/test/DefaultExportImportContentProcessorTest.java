@@ -75,6 +75,7 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.test.randomizerbumpers.FriendlyURLRandomizerBumper;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerTestRule;
 import com.liferay.portal.util.PortalImpl;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.test.LayoutTestUtil;
@@ -121,7 +122,9 @@ public class DefaultExportImportContentProcessorTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
-		new LiferayIntegrationTestRule();
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerTestRule.INSTANCE);
 
 	@BeforeClass
 	public static void setUpClass() {
