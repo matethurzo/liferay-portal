@@ -47,7 +47,7 @@ import org.junit.runner.RunWith;
  * @author Gergely Mathe
  */
 @RunWith(Arquillian.class)
-public class JournalArticleCTConfigurationTest {
+public class JournalCTConfigurationTest {
 
 	@ClassRule
 	@Rule
