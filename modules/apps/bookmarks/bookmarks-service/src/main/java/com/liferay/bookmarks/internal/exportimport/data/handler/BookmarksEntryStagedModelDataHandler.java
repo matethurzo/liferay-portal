@@ -135,17 +135,8 @@ public class BookmarksEntryStagedModelDataHandler
 
 	@Reference(
 		service = BookmarksEntryStagedModelRepository.class,
-		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksEntry)",
-		unbind = "-"
+		target = "(model.class.name=com.liferay.bookmarks.model.BookmarksEntry)"
 	)
-	protected void setStagedModelRepository(
-		BookmarksEntryStagedModelRepository
-			bookmarksEntryStagedModelRepository) {
-
-		_bookmarksEntryStagedModelRepository =
-			bookmarksEntryStagedModelRepository;
-	}
-
 	private BookmarksEntryStagedModelRepository
 		_bookmarksEntryStagedModelRepository;
 
