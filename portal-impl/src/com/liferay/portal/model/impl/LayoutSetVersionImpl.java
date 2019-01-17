@@ -27,11 +27,13 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class LayoutSetVersionImpl extends LayoutSetVersionBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a layout set version model instance should use the {@link com.liferay.portal.kernel.model.LayoutSetVersion} interface instead.
 	 */
 	public LayoutSetVersionImpl() {
 	}
+
 }
