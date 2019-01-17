@@ -3415,7 +3415,11 @@ public class DataFactory {
 
 		LayoutSetModel layoutSetModel = new LayoutSetModelImpl();
 
-		layoutSetModel.setLayoutSetId(_counter.get());
+		long layoutSetId = _counter.get();
+
+		layoutSetModel.setLayoutSetId(layoutSetId);
+		layoutSetModel.setHeadId(-layoutSetId);
+
 		layoutSetModel.setGroupId(groupId);
 		layoutSetModel.setCompanyId(_companyId);
 		layoutSetModel.setCreateDate(new Date());
