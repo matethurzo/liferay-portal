@@ -1,0 +1,60 @@
+{namespace com.liferay.change.tracking.change.lists.configuration.web.ChangeListConfiguration}
+
+/**
+ * This renders the Configuration Window element.
+ */
+{template .render}
+	{@param spritemap: string}
+	{@param translations: map<string, string>}
+
+	<div class="change-lists-configuration-sheet sheet sheet-lg">
+		
+		<div class="sheet-header">
+			<h2 class="float-left sheet-title ">{$translations['enable-change-lists']}</h2>
+
+			<span class="changelist-helper float-right">
+				<svg class="lexicon-icon">
+					<use href="{$spritemap}#info-circle-open" />
+				</svg>
+
+				<div class="clay-tooltip-bottom tooltip" role="tooltip">
+					<div class="arrow"></div>
+					<div class="tooltip-inner">
+					</div>
+				</div>
+
+				<span class="helper-text">{$translations['supported-content-types']}</span>
+			</span>
+		</div>
+
+		<div class="sheet-text">{$translations['change-lists-help']}</div>
+
+		<div class="form-group">
+			<label class="toggle-switch">
+				<input class="toggle-switch-check" checked type="checkbox"/>
+				<span aria-hidden="true" class="toggle-switch-bar">
+					<span class="toggle-switch-handle"></span>
+				</span>
+				<span class="toggle-label-text">
+					<span class="custom-control-label-text">
+						{msg desc=""}Yes{/msg}
+					</span>
+				</span>
+			</label>
+		</div>
+
+		<div class="sheet-footer sheet-footer-btn-block-sm-down">
+			<div class="btn-group">
+				<div class="btn-group-item">
+					<button class="btn btn-primary" type="button">
+						{msg desc=""}Save{/msg}
+					</button>
+				</div>
+
+				<div class="btn-group-item">
+					<button class="btn btn-primary" disabled type="button">{$translations['save-and-go-to-overview']}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/template}
