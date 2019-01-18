@@ -144,6 +144,60 @@ public class CTJournalArticleLocalServiceWrapper
 	}
 
 	@Override
+	public JournalArticle checkArticleResourcePrimKey(
+			long groupId, String articleId, double version)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.checkArticleResourcePrimKey(
+			groupId, articleId, version);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public void checkNewLine(long groupId, String articleId, double version)
+		throws PortalException {
+
+		super.checkNewLine(groupId, articleId, version);
+
+		JournalArticle journalArticle = super.fetchArticle(
+			groupId, articleId, version);
+
+		_registerChange(journalArticle);
+	}
+
+	@Override
+	public JournalArticle copyArticle(
+			long userId, long groupId, String oldArticleId, String newArticleId,
+			boolean autoArticleId, double version)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.copyArticle(
+			userId, groupId, oldArticleId, newArticleId, autoArticleId,
+			version);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public JournalArticle moveArticle(
+			long groupId, String articleId, long newFolderId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.moveArticle(
+			groupId, articleId, newFolderId, serviceContext);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
 	public JournalArticle moveArticleFromTrash(
 			long userId, long groupId, JournalArticle article, long newFolderId,
 			ServiceContext serviceContext)
@@ -177,6 +231,19 @@ public class CTJournalArticleLocalServiceWrapper
 
 		JournalArticle journalArticle = super.moveArticleToTrash(
 			userId, groupId, articleId);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public JournalArticle removeArticleLocale(
+			long groupId, String articleId, double version, String languageId)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.removeArticleLocale(
+			groupId, articleId, version, languageId);
 
 		_registerChange(journalArticle);
 
