@@ -16,12 +16,9 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="change-lists-configuration-sheet sheet sheet-lg">
-	<div class="sheet-header">
-		<h2 class="sheet-title">Change Lists Settings</h2>
-
-		<div class="sheet-text">This is only a placeholder for what's later be added to the change lists configuration screen.</div>
-	</div>
-</div><soy:component-renderer
+<soy:component-renderer
 	componentId="Change-tracking-change-list-configuration-window"
+	context="<%= changeListConfigurationDisplayContext.getConfigurationDisplayContext() %>"
+	module="js/ChangeListConfiguration.es"
+	templateNamespace="com.liferay.change.tracking.change.lists.configuration.web.ChangeListConfiguration.render"
 />
