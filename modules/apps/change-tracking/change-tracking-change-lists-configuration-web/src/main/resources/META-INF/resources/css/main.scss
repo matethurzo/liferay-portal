@@ -24,3 +24,21 @@
 .tooltip:hover .tooltip {
 	opacity: 1;
 }
+
+.loading-indicator {
+	background-color: #FFF;
+	border-color: #E7E7ED;
+	border-radius: 0.25rem;
+	border-style: solid;
+	border-width: 0.063rem;
+	height: 100%;
+	left: 0;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 800px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	z-index: 5;
+}

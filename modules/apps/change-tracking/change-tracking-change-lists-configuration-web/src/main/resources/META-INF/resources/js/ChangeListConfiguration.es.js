@@ -19,6 +19,7 @@ class ChangeListConfiguration extends PortletBase {
 					this.setState(
 						{
 							changeTrackingEnabled: response.changeTrackingEnabled,
+							initFetch: true,
 							tooltipBody: response.supportedContentTypes
 						}
 					);
@@ -176,6 +177,13 @@ ChangeListConfiguration.STATE = {
 	 * @type {Boolean}
 	 */
 	changeTrackingEnabled: Config.bool(),
+
+	/**
+	 * Initial fetch happened?
+	 *
+	 * @type {Boolean}
+	 */
+	initFetch: Config.bool().value(false),
 
 	/**
 	 * PortalURL
