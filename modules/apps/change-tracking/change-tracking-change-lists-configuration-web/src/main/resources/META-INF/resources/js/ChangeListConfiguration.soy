@@ -8,11 +8,16 @@
 	{@param translations: map<string, string>}
 	{@param? changeTrackingEnabled: bool}
 	{@param? handleCheck: any}
+	{@param? initFetch: bool}
 	{@param? save: any}
 	{@param? saveAndGoToOverview: any}
 	{@param? tooltipBody: list<string>}
 
 	<div class="change-lists-configuration-sheet sheet sheet-lg">
+		{if not $initFetch}
+			{call .loading}{/call}
+		{/if}
+
 		<div class="sheet-header">
 			<h2 class="float-left sheet-title ">{$translations['enable-change-lists']}</h2>
 
@@ -65,5 +70,11 @@
 				</div>
 			</div>
 		</div>
+	</div>
+{/template}
+
+{template .loading}
+	<div class="loading-indicator">
+		<span aria-hidden="true" class="loading-animation"></span>
 	</div>
 {/template}
