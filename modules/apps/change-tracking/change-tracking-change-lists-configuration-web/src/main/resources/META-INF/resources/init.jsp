@@ -15,7 +15,15 @@
 --%>
 
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ page import="com.liferay.change.tracking.change.lists.configuration.web.internal.display.context.ChangeListConfigurationDisplayContext" %>
 
 <liferay-theme:defineObjects />
+
+<portlet:defineObjects />
+
+<%
+ChangeListConfigurationDisplayContext changeListConfigurationDisplayContext = new ChangeListConfigurationDisplayContext(renderResponse, request);
+%>
 
 <%@ include file="/init-ext.jsp" %>
