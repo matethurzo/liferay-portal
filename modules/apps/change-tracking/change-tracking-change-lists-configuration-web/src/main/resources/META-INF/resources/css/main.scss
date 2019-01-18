@@ -1,3 +1,26 @@
 .change-lists-configuration-sheet {
 	margin-top: 1.5rem;
 }
+
+.toggle-label-text {
+	line-height: 2.3;
+}
+
+.changelist-helper {
+	color: #272833;
+	font-size: 14px;
+	line-height: 25px;
+	text-align: right;
+}
+
+.changelist-helper .lexicon-icon {
+	margin-right: 0.5rem;
+}
+
+.changelist-helper:hover .tooltip {
+	opacity: 1;
+}
+
+.tooltip:hover .tooltip {
+	opacity: 1;
+}

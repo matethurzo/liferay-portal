@@ -1,7 +1,7 @@
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import Soy from 'metal-soy';
 import {Config} from 'metal-state';
-
+import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 
 import templates from './ChangeListConfiguration.soy';
 
@@ -10,6 +10,157 @@ import templates from './ChangeListConfiguration.soy';
  * ...
  */
 class ChangeListConfiguration extends PortletBase {
+
+	created() {
+		this._getDataRequest(
+			this.urlChangeListConfigApi,
+			response => {
+				if (response) {
+					this.setState(
+						{
+							changeTrackingEnabled: response.changeTrackingEnabled,
+							tooltipBody: response.supportedContentTypes
+						}
+					);
+				}
+			}
+		);
+	}
+
+	handleCheck(event) {
+		this.setState(
+			{changeTrackingEnabled: event.target.checked}
+		);
+	}
+
+	save(event) {
+		event.preventDefault();
+
+		let data = {
+			changeTrackingEnabled: this.changeTrackingEnabled
+		};
+
+		this._putDataRequest(
+			this.urlChangeListConfigApi,
+			data,
+			response => {
+
+				// TODO display response message
+
+				const message = 'saved!';
+
+				openToast(
+					{
+						message,
+						title: Liferay.Language.get('success'),
+						type: 'success'
+					}
+				);
+			}
+		);
+	}
+
+	saveAndGoToOverview(event) {
+		let data = {
+			changeTrackingEnabled: this.changeTrackingEnabled
+		};
+
+		this._putDataRequest(
+			this.urlChangeListConfigApi,
+			data,
+			response => {
+				if (response) {
+
+					// TODO redirect to overview
+					// TODO display response message
+
+					const message = 'saved and navigate!';
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('success'),
+							type: 'success'
+						}
+					);
+				}
+			}
+		);
+	}
+
+	_getDataRequest(url, callback) {
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		const request = {
+			credentials: 'include',
+			headers,
+			method: 'GET'
+		};
+
+		fetch(url, request)
+			.then(
+				response => response.json()
+			)
+			.then(
+				response => {
+					callback(response);
+				}
+			)
+			.catch(
+				(error) => {
+					const message = typeof error === 'string' ?
+						error :
+						Liferay.Language.get('error');
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('error'),
+							type: 'danger'
+						}
+					);
+				}
+			);
+	}
+	_putDataRequest(url, bodyData, callback) {
+		let body = JSON.stringify(bodyData);
+
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		const request = {
+			body,
+			credentials: 'include',
+			headers,
+			method: 'PUT'
+		};
+
+		fetch(url, request)
+			.then(
+				response => response.json()
+			)
+			.then(
+				response => {
+					callback(response);
+				}
+			)
+			.catch(
+				(error) => {
+					const message = typeof error === 'string' ?
+						error :
+						Liferay.Language.get('error');
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('error'),
+							type: 'danger'
+						}
+					);
+				}
+			);
+	}
 }
 
 /**
@@ -20,11 +171,11 @@ class ChangeListConfiguration extends PortletBase {
  */
 ChangeListConfiguration.STATE = {
 	/**
-	 * api url
+	 * change tracking on/off
 	 *
-	 * @type {String}
+	 * @type {Boolean}
 	 */
-	urlChangeListConfigApi: Config.string().required(),
+	changeTrackingEnabled: Config.bool(),
 
 	/**
 	 * PortalURL
@@ -34,11 +185,25 @@ ChangeListConfiguration.STATE = {
 	portalURL: Config.string().required(),
 
 	/**
+	 * api url
+	 *
+	 * @type {String}
+	 */
+	urlChangeListConfigApi: Config.string().required(),
+
+	/**
 	 * Path to images.
 	 *
 	 * @type {String}
 	 */
 	spritemap: Config.string().required(),
+
+	/**
+	 * Lists of supported content types that are used up in tooltip
+	 *
+	 * @type {List<String>}
+	 */
+	tooltipBody: Config.array()
 };
 
 Soy.register(ChangeListConfiguration, templates);
