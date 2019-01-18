@@ -144,6 +144,59 @@ public class CTJournalArticleLocalServiceWrapper
 	}
 
 	@Override
+	public JournalArticle moveArticleFromTrash(
+			long userId, long groupId, JournalArticle article, long newFolderId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.moveArticleFromTrash(
+			userId, groupId, article, newFolderId, serviceContext);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public JournalArticle moveArticleToTrash(
+			long userId, JournalArticle article)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.moveArticleToTrash(
+			userId, article);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public JournalArticle moveArticleToTrash(
+			long userId, long groupId, String articleId)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.moveArticleToTrash(
+			userId, groupId, articleId);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
+	public JournalArticle restoreArticleFromTrash(
+			long userId, JournalArticle article)
+		throws PortalException {
+
+		JournalArticle journalArticle = super.restoreArticleFromTrash(
+			userId, article);
+
+		_registerChange(journalArticle);
+
+		return journalArticle;
+	}
+
+	@Override
 	public JournalArticle updateArticle(
 			long userId, long groupId, long folderId, String articleId,
 			double version, Map<Locale, String> titleMap,
