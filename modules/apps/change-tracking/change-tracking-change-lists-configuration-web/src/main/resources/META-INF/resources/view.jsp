@@ -22,4 +22,6 @@
 
 		<div class="sheet-text">This is only a placeholder for what's later be added to the change lists configuration screen.</div>
 	</div>
-</div>
+</div><soy:component-renderer
+	componentId="Change-tracking-change-list-configuration-window"
+/>
