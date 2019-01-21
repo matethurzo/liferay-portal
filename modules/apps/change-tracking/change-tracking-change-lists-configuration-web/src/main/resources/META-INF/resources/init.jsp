@@ -20,7 +20,7 @@
 taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 
-<%@ page import="com.liferay.change.tracking.change.lists.configuration.web.internal.display.context.ChangeListConfigurationDisplayContext" %>
+<%@ page import="com.liferay.change.tracking.change.lists.configuration.web.internal.display.context.ChangeListsConfigurationDisplayContext" %>
 
 <liferay-frontend:defineObjects />
 
@@ -29,7 +29,7 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <portlet:defineObjects />
 
 <%
-ChangeListConfigurationDisplayContext changeListConfigurationDisplayContext = new ChangeListConfigurationDisplayContext(renderResponse, request);
+ChangeListsConfigurationDisplayContext changeListsConfigurationDisplayContext = new ChangeListsConfigurationDisplayContext(renderResponse, request);
 %>
 
 <%@ include file="/init-ext.jsp" %>
