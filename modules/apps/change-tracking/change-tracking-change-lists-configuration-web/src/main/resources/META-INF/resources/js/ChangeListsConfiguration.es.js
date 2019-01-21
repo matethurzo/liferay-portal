@@ -60,9 +60,7 @@ class ChangeListsConfiguration extends PortletBase {
 			data,
 			response => {
 
-				// TODO display response message
-
-				const message = 'saved!';
+				const message = Liferay.Language.get('the-configuration-has-been-saved');
 
 				openToast(
 					{
@@ -92,10 +90,7 @@ class ChangeListsConfiguration extends PortletBase {
 			response => {
 				if (response) {
 
-					// TODO redirect to overview
-					// TODO display response message
-
-					const message = 'saved and navigate!';
+					const message = Liferay.Language.get('the-configuration-has-been-saved');
 
 					openToast(
 						{
@@ -132,7 +127,7 @@ class ChangeListsConfiguration extends PortletBase {
 				(error) => {
 					const message = typeof error === 'string' ?
 						error :
-						Liferay.Language.get('error');
+						Liferay.Language.get('an-error-occured-when-saving-configuration');
 
 					openToast(
 						{
@@ -171,7 +166,7 @@ class ChangeListsConfiguration extends PortletBase {
 				(error) => {
 					const message = typeof error === 'string' ?
 						error :
-						Liferay.Language.get('error');
+						Liferay.Language.get('an-error-occured-when-saving-configuration');
 
 					openToast(
 						{
