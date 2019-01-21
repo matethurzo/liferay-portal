@@ -16,14 +16,12 @@ package com.liferay.change.tracking.rest.internal.resource;
 
 import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.model.CTCollection;
+import com.liferay.change.tracking.rest.internal.exception.NoSuchProductionCTCollectionException;
 import com.liferay.change.tracking.rest.internal.model.collection.CTCollectionModel;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,8 +31,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ServiceScope;
 
 /**
@@ -59,65 +55,37 @@ public class CTCollectionResource {
 
 		_companyLocalService.getCompany(companyId);
 
+		return _getProductionCTCollectionModel(companyId);
+	}
+
+	private CTCollectionModel _getProductionCTCollectionModel(long companyId)
+		throws PortalException {
+
 		Optional<CTCollection> ctCollectionOptional =
 			_ctEngineManager.getProductionCTCollectionOptional(companyId);
 
-		ctCollectionOptional.ifPresent(
-			ctCollection -> {
-				_addCTCollection(ctCollectionOptional.get());
-			});
-
-		return _getCTCollectionModel(companyId);
-	}
-
-	@Reference(
-		cardinality = ReferenceCardinality.MULTIPLE,
-		policy = ReferencePolicy.DYNAMIC, unbind = "_removeCTCollection"
-	)
-	private void _addCTCollection(CTCollection ctCollection) {
-		_ctCollections.add(ctCollection);
-	}
-
-	private CTCollectionModel _getCTCollectionModel(long companyId)
-		throws PortalException {
+		if (!ctCollectionOptional.isPresent()) {
+			throw new NoSuchProductionCTCollectionException();
+		}
 
 		CTCollectionModel.Builder builder = CTCollectionModel.forCompany(
 			companyId);
 
-		Stream<CTCollection> stream = _ctCollections.stream();
+		CTCollection ctCollection = ctCollectionOptional.get();
 
-		stream.forEach(
-			ctCollection -> {
-				builder.setName(
-					ctCollection.getName()
-				).setDescription(
-					ctCollection.getDescription()
-				).setUserId(
-					ctCollection.getUserId()
-				).setUserName(
-					ctCollection.getUserName()
-				).setCreateDate(
-					ctCollection.getCreateDate()
-				).setStatusByUserId(
-					ctCollection.getStatusByUserId()
-				).setStatusByUserName(
-					ctCollection.getStatusByUserName()
-				).setStatusDate(
-					ctCollection.getStatusDate()
-				);
-			});
-
-		return builder.build();
-	}
-
-	private void _removeCTCollection(CTCollection ctCollection) {
-		_ctCollections.remove(ctCollection);
+		return builder.setName(
+			ctCollection.getName()
+		).setDescription(
+			ctCollection.getDescription()
+		).setStatusByUserName(
+			ctCollection.getStatusByUserName()
+		).setStatusDate(
+			ctCollection.getStatusDate()
+		).build();
 	}
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
-
-	private final Set<CTCollection> _ctCollections = new HashSet<>();
 
 	@Reference
 	private CTEngineManager _ctEngineManager;
