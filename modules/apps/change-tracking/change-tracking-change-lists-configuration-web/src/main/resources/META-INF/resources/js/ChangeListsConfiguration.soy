@@ -1,4 +1,4 @@
-{namespace com.liferay.change.tracking.change.lists.configuration.web.ChangeListConfiguration}
+{namespace com.liferay.change.tracking.change.lists.configuration.web.ChangeListsConfiguration}
 
 /**
  * This renders the Configuration Window element.
@@ -7,11 +7,11 @@
 	{@param spritemap: string}
 	{@param translations: map<string, string>}
 	{@param? changeTrackingEnabled: bool}
-	{@param? handleCheck: any}
 	{@param? initialFetch: bool}
-	{@param? save: any}
-	{@param? saveAndGoToOverview: any}
 	{@param? tooltipBody: list<string>}
+	{@param? _handleCheck: any}
+	{@param? _handleSave: any}
+	{@param? _handleSaveAndGoToOverview: any}
 
 	<div class="change-lists-configuration-sheet sheet sheet-lg">
 		{if not $initialFetch}
@@ -21,7 +21,7 @@
 		<div class="sheet-header">
 			<h2 class="float-left sheet-title ">{$translations['enable-change-lists']}</h2>
 
-			<span class="changelist-helper float-right">
+			<span class="change-lists-helper float-right">
 				<svg class="lexicon-icon">
 					<use href="{$spritemap}#info-circle-open" />
 				</svg>
@@ -45,7 +45,7 @@
 
 		<div class="form-group">
 			<label class="toggle-switch">
-				<input class="toggle-switch-check" data-onchange="{$handleCheck}" {if $changeTrackingEnabled}checked{/if} type="checkbox"/>
+				<input class="toggle-switch-check" data-onchange="{$_handleCheck}" {if $changeTrackingEnabled}checked{/if} type="checkbox"/>
 				<span aria-hidden="true" class="toggle-switch-bar">
 					<span class="toggle-switch-handle"></span>
 				</span>
@@ -60,13 +60,13 @@
 		<div class="sheet-footer sheet-footer-btn-block-sm-down">
 			<div class="btn-group">
 				<div class="btn-group-item">
-					<button class="btn btn-primary" data-onclick="{$save}" type="button">
+					<button class="btn btn-primary" data-onclick="{$_handleSave}" type="button">
 						{msg desc=""}Save{/msg}
 					</button>
 				</div>
 
 				<div class="btn-group-item">
-					<button class="btn btn-primary" data-onclick="{$saveAndGoToOverview}" {if not $changeTrackingEnabled}disabled{/if} type="button">{$translations['save-and-go-to-overview']}</button>
+					<button class="btn btn-primary" data-onclick="{$_handleSaveAndGoToOverview}" {if not $changeTrackingEnabled}disabled{/if} type="button">{$translations['save-and-go-to-overview']}</button>
 				</div>
 			</div>
 		</div>

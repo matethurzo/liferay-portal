@@ -30,9 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author Máté Thurzó
  */
-public class ChangeListConfigurationDisplayContext {
+public class ChangeListsConfigurationDisplayContext {
 
-	public ChangeListConfigurationDisplayContext(
+	public ChangeListsConfigurationDisplayContext(
 		RenderResponse renderResponse, HttpServletRequest request) {
 
 		_renderResponse = renderResponse;
@@ -42,7 +42,7 @@ public class ChangeListConfigurationDisplayContext {
 			WebKeys.THEME_DISPLAY);
 	}
 
-	public SoyContext getConfigurationDisplayContext() {
+	public SoyContext getChangeListsConfigurationContext() {
 		SoyContext soyContext = SoyContextFactoryUtil.createSoyContext();
 
 		soyContext.put(

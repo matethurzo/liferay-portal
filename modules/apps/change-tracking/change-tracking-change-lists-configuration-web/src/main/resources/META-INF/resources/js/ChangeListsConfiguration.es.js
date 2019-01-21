@@ -3,13 +3,13 @@ import Soy from 'metal-soy';
 import {Config} from 'metal-state';
 import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 
-import templates from './ChangeListConfiguration.soy';
+import templates from './ChangeListsConfiguration.soy';
 
 /**
  * Component for the Change Tracking Change Lists configuration screen
  * @review
  */
-class ChangeListConfiguration extends PortletBase {
+class ChangeListsConfiguration extends PortletBase {
 
 	created() {
 		this._getDataRequest(
@@ -34,7 +34,7 @@ class ChangeListConfiguration extends PortletBase {
 	 * @private
 	 * @review
 	 */
-	handleCheck(event) {
+	_handleCheck(event) {
 		this.setState(
 			{
 				changeTrackingEnabled: event.target.checked
@@ -48,7 +48,7 @@ class ChangeListConfiguration extends PortletBase {
 	 * @private
 	 * @review
 	 */
-	save(event) {
+	_handleSave(event) {
 		event.preventDefault();
 
 		let data = {
@@ -81,13 +81,13 @@ class ChangeListConfiguration extends PortletBase {
 	 * @private
 	 * @review
 	 */
-	saveAndGoToOverview(event) {
+	_handleSaveAndGoToOverview(event) {
 		let data = {
 			changeTrackingEnabled: this.changeTrackingEnabled
 		};
 
 		this._putDataRequest(
-			this.urlChangeListConfigApi,
+			this.urlChangeTrackingConfiguration,
 			data,
 			response => {
 				if (response) {
@@ -191,12 +191,12 @@ class ChangeListConfiguration extends PortletBase {
  * @static
  * @type {!Object}
  */
-ChangeListConfiguration.STATE = {
+ChangeListsConfiguration.STATE = {
 
 	/**
 	 * If true, change tracking is enabled
 	 * @instance
-	 * @memberOf ChangeListConfiguration
+	 * @memberOf ChangeListsConfiguration
 	 * @review
 	 * @type {boolean}
 	 */
@@ -207,7 +207,7 @@ ChangeListConfiguration.STATE = {
 	 * If true, an initial fetch has already happened
 	 * @default false
 	 * @instance
-	 * @memberOf ChangeListConfiguration
+	 * @memberOf ChangeListsConfiguration
 	 * @review
 	 * @type {boolean}
 	 */
@@ -219,7 +219,7 @@ ChangeListConfiguration.STATE = {
 	 * tracking configuration endpoint
 	 * @default undefined
 	 * @instance
-	 * @memberOf ChangeListConfiguration
+	 * @memberOf ChangeListsConfiguration
 	 * @review
 	 * @type {!string}
 	 */
@@ -230,7 +230,7 @@ ChangeListConfiguration.STATE = {
 	 * Path of the available icons.
 	 * @default undefined
 	 * @instance
-	 * @memberOf ChangeListConfiguration
+	 * @memberOf ChangeListsConfiguration
 	 * @review
 	 * @type {!string}
 	 */
@@ -240,7 +240,7 @@ ChangeListConfiguration.STATE = {
 	/**
 	 * An array of content types that support change tracking
 	 * @instance
-	 * @memberOf ChangeListConfiguration
+	 * @memberOf ChangeListsConfiguration
 	 * @review
 	 * @type {?array<string>}
 	 */
@@ -248,6 +248,6 @@ ChangeListConfiguration.STATE = {
 	tooltipBody: Config.array()
 };
 
-Soy.register(ChangeListConfiguration, templates);
+Soy.register(ChangeListsConfiguration, templates);
 
-export default ChangeListConfiguration;
+export default ChangeListsConfiguration;
