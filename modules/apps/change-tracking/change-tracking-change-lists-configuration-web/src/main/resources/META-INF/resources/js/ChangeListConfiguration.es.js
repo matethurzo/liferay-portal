@@ -13,13 +13,13 @@ class ChangeListConfiguration extends PortletBase {
 
 	created() {
 		this._getDataRequest(
-			this.urlChangeListConfigApi,
+			this.urlChangeTrackingConfiguration,
 			response => {
 				if (response) {
 					this.setState(
 						{
 							changeTrackingEnabled: response.changeTrackingEnabled,
-							initFetch: true,
+							initialFetch: true,
 							tooltipBody: response.supportedContentTypes
 						}
 					);
@@ -30,7 +30,9 @@ class ChangeListConfiguration extends PortletBase {
 
 	handleCheck(event) {
 		this.setState(
-			{changeTrackingEnabled: event.target.checked}
+			{
+				changeTrackingEnabled: event.target.checked
+			}
 		);
 	}
 
@@ -42,7 +44,7 @@ class ChangeListConfiguration extends PortletBase {
 		};
 
 		this._putDataRequest(
-			this.urlChangeListConfigApi,
+			this.urlChangeTrackingConfiguration,
 			data,
 			response => {
 
@@ -124,6 +126,7 @@ class ChangeListConfiguration extends PortletBase {
 				}
 			);
 	}
+
 	_putDataRequest(url, bodyData, callback) {
 		let body = JSON.stringify(bodyData);
 
@@ -171,11 +174,13 @@ class ChangeListConfiguration extends PortletBase {
  * @type {!Object}
  */
 ChangeListConfiguration.STATE = {
+
 	/**
 	 * change tracking on/off
 	 *
 	 * @type {Boolean}
 	 */
+
 	changeTrackingEnabled: Config.bool(),
 
 	/**
@@ -183,13 +188,15 @@ ChangeListConfiguration.STATE = {
 	 *
 	 * @type {Boolean}
 	 */
-	initFetch: Config.bool().value(false),
+
+	initialFetch: Config.bool().value(false),
 
 	/**
 	 * PortalURL
 	 *
 	 * @type {String}
 	 */
+
 	portalURL: Config.string().required(),
 
 	/**
@@ -197,13 +204,15 @@ ChangeListConfiguration.STATE = {
 	 *
 	 * @type {String}
 	 */
-	urlChangeListConfigApi: Config.string().required(),
+
+	urlChangeTrackingConfiguration: Config.string().required(),
 
 	/**
 	 * Path to images.
 	 *
 	 * @type {String}
 	 */
+
 	spritemap: Config.string().required(),
 
 	/**
@@ -211,6 +220,7 @@ ChangeListConfiguration.STATE = {
 	 *
 	 * @type {List<String>}
 	 */
+
 	tooltipBody: Config.array()
 };
 
