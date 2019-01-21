@@ -1665,6 +1665,7 @@ public abstract class LayoutLocalServiceBaseImpl extends BaseLocalServiceImpl
 		draftLayout.setType(publishedLayout.getType());
 		draftLayout.setTypeSettings(publishedLayout.getTypeSettings());
 		draftLayout.setHidden(publishedLayout.getHidden());
+		draftLayout.setSystem(publishedLayout.getSystem());
 		draftLayout.setFriendlyURL(publishedLayout.getFriendlyURL());
 		draftLayout.setIconImageId(publishedLayout.getIconImageId());
 		draftLayout.setThemeId(publishedLayout.getThemeId());

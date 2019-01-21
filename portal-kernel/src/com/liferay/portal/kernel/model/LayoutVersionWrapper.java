@@ -66,6 +66,7 @@ public class LayoutVersionWrapper extends BaseModelWrapper<LayoutVersion>
 		attributes.put("type", getType());
 		attributes.put("typeSettings", getTypeSettings());
 		attributes.put("hidden", isHidden());
+		attributes.put("system", isSystem());
 		attributes.put("friendlyURL", getFriendlyURL());
 		attributes.put("iconImageId", getIconImageId());
 		attributes.put("themeId", getThemeId());
@@ -226,6 +227,12 @@ public class LayoutVersionWrapper extends BaseModelWrapper<LayoutVersion>
 
 		if (hidden != null) {
 			setHidden(hidden);
+		}
+
+		Boolean system = (Boolean)attributes.get("system");
+
+		if (system != null) {
+			setSystem(system);
 		}
 
 		String friendlyURL = (String)attributes.get("friendlyURL");
@@ -837,6 +844,16 @@ public class LayoutVersionWrapper extends BaseModelWrapper<LayoutVersion>
 	}
 
 	/**
+	* Returns the system of this layout version.
+	*
+	* @return the system of this layout version
+	*/
+	@Override
+	public boolean getSystem() {
+		return model.getSystem();
+	}
+
+	/**
 	* Returns the theme ID of this layout version.
 	*
 	* @return the theme ID of this layout version
@@ -1020,6 +1037,16 @@ public class LayoutVersionWrapper extends BaseModelWrapper<LayoutVersion>
 	@Override
 	public boolean isPrivateLayout() {
 		return model.isPrivateLayout();
+	}
+
+	/**
+	* Returns <code>true</code> if this layout version is system.
+	*
+	* @return <code>true</code> if this layout version is system; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isSystem() {
+		return model.isSystem();
 	}
 
 	@Override
@@ -1509,6 +1536,16 @@ public class LayoutVersionWrapper extends BaseModelWrapper<LayoutVersion>
 	@Override
 	public void setSourcePrototypeLayoutUuid(String sourcePrototypeLayoutUuid) {
 		model.setSourcePrototypeLayoutUuid(sourcePrototypeLayoutUuid);
+	}
+
+	/**
+	* Sets whether this layout version is system.
+	*
+	* @param system the system of this layout version
+	*/
+	@Override
+	public void setSystem(boolean system) {
+		model.setSystem(system);
 	}
 
 	/**

@@ -160,6 +160,8 @@ public class LayoutVersionPersistenceTest {
 
 		newLayoutVersion.setHidden(RandomTestUtil.randomBoolean());
 
+		newLayoutVersion.setSystem(RandomTestUtil.randomBoolean());
+
 		newLayoutVersion.setFriendlyURL(RandomTestUtil.randomString());
 
 		newLayoutVersion.setIconImageId(RandomTestUtil.nextLong());
@@ -234,6 +236,8 @@ public class LayoutVersionPersistenceTest {
 			newLayoutVersion.getTypeSettings());
 		Assert.assertEquals(existingLayoutVersion.isHidden(),
 			newLayoutVersion.isHidden());
+		Assert.assertEquals(existingLayoutVersion.isSystem(),
+			newLayoutVersion.isSystem());
 		Assert.assertEquals(existingLayoutVersion.getFriendlyURL(),
 			newLayoutVersion.getFriendlyURL());
 		Assert.assertEquals(existingLayoutVersion.getIconImageId(),
@@ -677,10 +681,10 @@ public class LayoutVersionPersistenceTest {
 			"parentPlid", true, "leftPlid", true, "rightPlid", true,
 			"privateLayout", true, "layoutId", true, "parentLayoutId", true,
 			"name", true, "title", true, "description", true, "keywords", true,
-			"robots", true, "type", true, "typeSettings", true, "hidden", true,
+			"robots", true, "type", true, "hidden", true, "system", true,
 			"friendlyURL", true, "iconImageId", true, "themeId", true,
-			"colorSchemeId", true, "css", true, "priority", true,
-			"layoutPrototypeUuid", true, "layoutPrototypeLinkEnabled", true,
+			"colorSchemeId", true, "priority", true, "layoutPrototypeUuid",
+			true, "layoutPrototypeLinkEnabled", true,
 			"sourcePrototypeLayoutUuid", true, "lastPublishDate", true);
 	}
 
@@ -967,6 +971,8 @@ public class LayoutVersionPersistenceTest {
 		layoutVersion.setTypeSettings(RandomTestUtil.randomString());
 
 		layoutVersion.setHidden(RandomTestUtil.randomBoolean());
+
+		layoutVersion.setSystem(RandomTestUtil.randomBoolean());
 
 		layoutVersion.setFriendlyURL(RandomTestUtil.randomString());
 

@@ -875,6 +875,27 @@ public interface LayoutVersionModel extends BaseModel<LayoutVersion>,
 	public void setHidden(boolean hidden);
 
 	/**
+	 * Returns the system of this layout version.
+	 *
+	 * @return the system of this layout version
+	 */
+	public boolean getSystem();
+
+	/**
+	 * Returns <code>true</code> if this layout version is system.
+	 *
+	 * @return <code>true</code> if this layout version is system; <code>false</code> otherwise
+	 */
+	public boolean isSystem();
+
+	/**
+	 * Sets whether this layout version is system.
+	 *
+	 * @param system the system of this layout version
+	 */
+	public void setSystem(boolean system);
+
+	/**
 	 * Returns the friendly url of this layout version.
 	 *
 	 * @return the friendly url of this layout version

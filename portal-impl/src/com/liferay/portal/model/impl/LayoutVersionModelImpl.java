@@ -99,13 +99,14 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 			{ "keywords", Types.VARCHAR },
 			{ "robots", Types.VARCHAR },
 			{ "type_", Types.VARCHAR },
-			{ "typeSettings", Types.VARCHAR },
+			{ "typeSettings", Types.CLOB },
 			{ "hidden_", Types.BOOLEAN },
+			{ "system", Types.BOOLEAN },
 			{ "friendlyURL", Types.VARCHAR },
 			{ "iconImageId", Types.BIGINT },
 			{ "themeId", Types.VARCHAR },
 			{ "colorSchemeId", Types.VARCHAR },
-			{ "css", Types.VARCHAR },
+			{ "css", Types.CLOB },
 			{ "priority", Types.INTEGER },
 			{ "layoutPrototypeUuid", Types.VARCHAR },
 			{ "layoutPrototypeLinkEnabled", Types.BOOLEAN },
@@ -137,13 +138,14 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		TABLE_COLUMNS_MAP.put("keywords", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("robots", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("typeSettings", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("typeSettings", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("hidden_", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("system", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("friendlyURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("iconImageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("themeId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("colorSchemeId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("css", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("css", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("priority", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("layoutPrototypeUuid", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("layoutPrototypeLinkEnabled", Types.BOOLEAN);
@@ -151,7 +153,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table LayoutVersion (layoutVersionId LONG not null primary key,version INTEGER,uuid_ VARCHAR(75) null,plid LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,parentPlid LONG,leftPlid LONG,rightPlid LONG,privateLayout BOOLEAN,layoutId LONG,parentLayoutId LONG,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,type_ VARCHAR(75) null,typeSettings VARCHAR(75) null,hidden_ BOOLEAN,friendlyURL VARCHAR(75) null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css VARCHAR(75) null,priority INTEGER,layoutPrototypeUuid VARCHAR(75) null,layoutPrototypeLinkEnabled BOOLEAN,sourcePrototypeLayoutUuid VARCHAR(75) null,lastPublishDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table LayoutVersion (layoutVersionId LONG not null primary key,version INTEGER,uuid_ VARCHAR(75) null,plid LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,parentPlid LONG,leftPlid LONG,rightPlid LONG,privateLayout BOOLEAN,layoutId LONG,parentLayoutId LONG,name STRING null,title STRING null,description STRING null,keywords STRING null,robots STRING null,type_ VARCHAR(75) null,typeSettings TEXT null,hidden_ BOOLEAN,system BOOLEAN,friendlyURL VARCHAR(255) null,iconImageId LONG,themeId VARCHAR(75) null,colorSchemeId VARCHAR(75) null,css TEXT null,priority INTEGER,layoutPrototypeUuid VARCHAR(75) null,layoutPrototypeLinkEnabled BOOLEAN,sourcePrototypeLayoutUuid VARCHAR(75) null,lastPublishDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table LayoutVersion";
 	public static final String ORDER_BY_JPQL = " ORDER BY layoutVersion.version DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LayoutVersion.version DESC";
@@ -248,6 +250,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		attributes.put("type", getType());
 		attributes.put("typeSettings", getTypeSettings());
 		attributes.put("hidden", isHidden());
+		attributes.put("system", isSystem());
 		attributes.put("friendlyURL", getFriendlyURL());
 		attributes.put("iconImageId", getIconImageId());
 		attributes.put("themeId", getThemeId());
@@ -413,6 +416,12 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 			setHidden(hidden);
 		}
 
+		Boolean system = (Boolean)attributes.get("system");
+
+		if (system != null) {
+			setSystem(system);
+		}
+
 		String friendlyURL = (String)attributes.get("friendlyURL");
 
 		if (friendlyURL != null) {
@@ -505,6 +514,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		layout.setType(getType());
 		layout.setTypeSettings(getTypeSettings());
 		layout.setHidden(getHidden());
+		layout.setSystem(getSystem());
 		layout.setFriendlyURL(getFriendlyURL());
 		layout.setIconImageId(getIconImageId());
 		layout.setThemeId(getThemeId());
@@ -1411,6 +1421,21 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 	}
 
 	@Override
+	public boolean getSystem() {
+		return _system;
+	}
+
+	@Override
+	public boolean isSystem() {
+		return _system;
+	}
+
+	@Override
+	public void setSystem(boolean system) {
+		_system = system;
+	}
+
+	@Override
 	public String getFriendlyURL() {
 		if (_friendlyURL == null) {
 			return "";
@@ -1797,6 +1822,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		layoutVersionImpl.setType(getType());
 		layoutVersionImpl.setTypeSettings(getTypeSettings());
 		layoutVersionImpl.setHidden(isHidden());
+		layoutVersionImpl.setSystem(isSystem());
 		layoutVersionImpl.setFriendlyURL(getFriendlyURL());
 		layoutVersionImpl.setIconImageId(getIconImageId());
 		layoutVersionImpl.setThemeId(getThemeId());
@@ -2060,6 +2086,8 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 
 		layoutVersionCacheModel.hidden = isHidden();
 
+		layoutVersionCacheModel.system = isSystem();
+
 		layoutVersionCacheModel.friendlyURL = getFriendlyURL();
 
 		String friendlyURL = layoutVersionCacheModel.friendlyURL;
@@ -2130,7 +2158,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{layoutVersionId=");
 		sb.append(getLayoutVersionId());
@@ -2180,6 +2208,8 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		sb.append(getTypeSettings());
 		sb.append(", hidden=");
 		sb.append(isHidden());
+		sb.append(", system=");
+		sb.append(isSystem());
 		sb.append(", friendlyURL=");
 		sb.append(getFriendlyURL());
 		sb.append(", iconImageId=");
@@ -2207,7 +2237,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(106);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.portal.kernel.model.LayoutVersion");
@@ -2308,6 +2338,10 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 		sb.append(
 			"<column><column-name>hidden</column-name><column-value><![CDATA[");
 		sb.append(isHidden());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>system</column-name><column-value><![CDATA[");
+		sb.append(isSystem());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>friendlyURL</column-name><column-value><![CDATA[");
@@ -2447,6 +2481,11 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 
 			_versionedModelMethodsMap.put(Layout.class.getMethod("getHidden"),
 				LayoutVersion.class.getMethod("getHidden"));
+			_versionedModelMethodsMap.put(Layout.class.getMethod("isSystem"),
+				LayoutVersion.class.getMethod("isSystem"));
+
+			_versionedModelMethodsMap.put(Layout.class.getMethod("getSystem"),
+				LayoutVersion.class.getMethod("getSystem"));
 
 			_versionedModelMethodsMap.put(Layout.class.getMethod(
 					"getFriendlyURL"),
@@ -2546,6 +2585,7 @@ public class LayoutVersionModelImpl extends BaseModelImpl<LayoutVersion>
 	private String _originalType;
 	private String _typeSettings;
 	private boolean _hidden;
+	private boolean _system;
 	private String _friendlyURL;
 	private String _originalFriendlyURL;
 	private long _iconImageId;

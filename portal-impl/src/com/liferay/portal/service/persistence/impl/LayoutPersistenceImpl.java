@@ -12979,6 +12979,203 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIVATELAYOUT_2 = "layout.privateLayout = ? AND ";
 	private static final String _FINDER_COLUMN_G_P_P_LTP_PARENTLAYOUTID_2 = "layout.parentLayoutId = ? AND ";
 	private static final String _FINDER_COLUMN_G_P_P_LTP_PRIORITY_2 = "layout.priority <= ? AND layout.system = [$FALSE$]";
+	public static final FinderPath FINDER_PATH_FETCH_BY_HEADID = new FinderPath(LayoutModelImpl.ENTITY_CACHE_ENABLED,
+			LayoutModelImpl.FINDER_CACHE_ENABLED, LayoutImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByHeadId",
+			new String[] { Long.class.getName() },
+			LayoutModelImpl.HEADID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_HEADID = new FinderPath(LayoutModelImpl.ENTITY_CACHE_ENABLED,
+			LayoutModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHeadId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the layout where headId = &#63; or throws a {@link NoSuchLayoutException} if it could not be found.
+	 *
+	 * @param headId the head ID
+	 * @return the matching layout
+	 * @throws NoSuchLayoutException if a matching layout could not be found
+	 */
+	@Override
+	public Layout findByHeadId(long headId) throws NoSuchLayoutException {
+		Layout layout = fetchByHeadId(headId);
+
+		if (layout == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("headId=");
+			msg.append(headId);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchLayoutException(msg.toString());
+		}
+
+		return layout;
+	}
+
+	/**
+	 * Returns the layout where headId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param headId the head ID
+	 * @return the matching layout, or <code>null</code> if a matching layout could not be found
+	 */
+	@Override
+	public Layout fetchByHeadId(long headId) {
+		return fetchByHeadId(headId, true);
+	}
+
+	/**
+	 * Returns the layout where headId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param headId the head ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching layout, or <code>null</code> if a matching layout could not be found
+	 */
+	@Override
+	public Layout fetchByHeadId(long headId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { headId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_HEADID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Layout) {
+			Layout layout = (Layout)result;
+
+			if ((headId != layout.getHeadId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_LAYOUT_WHERE);
+
+			query.append(_FINDER_COLUMN_HEADID_HEADID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(headId);
+
+				List<Layout> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_HEADID,
+						finderArgs, list);
+				}
+				else {
+					Layout layout = list.get(0);
+
+					result = layout;
+
+					cacheResult(layout);
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_HEADID,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Layout)result;
+		}
+	}
+
+	/**
+	 * Removes the layout where headId = &#63; from the database.
+	 *
+	 * @param headId the head ID
+	 * @return the layout that was removed
+	 */
+	@Override
+	public Layout removeByHeadId(long headId) throws NoSuchLayoutException {
+		Layout layout = findByHeadId(headId);
+
+		return remove(layout);
+	}
+
+	/**
+	 * Returns the number of layouts where headId = &#63;.
+	 *
+	 * @param headId the head ID
+	 * @return the number of matching layouts
+	 */
+	@Override
+	public int countByHeadId(long headId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_HEADID;
+
+		Object[] finderArgs = new Object[] { headId };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_LAYOUT_WHERE);
+
+			query.append(_FINDER_COLUMN_HEADID_HEADID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(headId);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_HEADID_HEADID_2 = "layout.headId = ?";
 
 	public LayoutPersistenceImpl() {
 		setModelClass(Layout.class);
@@ -13027,6 +13224,9 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 				layout.getGroupId(), layout.isPrivateLayout(),
 				layout.getSourcePrototypeLayoutUuid()
 			}, layout);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_HEADID,
+			new Object[] { layout.getHeadId() }, layout);
 
 		layout.resetOriginalValues();
 	}
@@ -13153,6 +13353,13 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_G_P_SPLU, args,
 			Long.valueOf(1), false);
 		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_G_P_SPLU, args,
+			layoutModelImpl, false);
+
+		args = new Object[] { layoutModelImpl.getHeadId() };
+
+		FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_HEADID, args,
+			Long.valueOf(1), false);
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_HEADID, args,
 			layoutModelImpl, false);
 	}
 
@@ -13285,6 +13492,21 @@ public class LayoutPersistenceImpl extends BasePersistenceImpl<Layout>
 
 			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_G_P_SPLU, args);
 			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_G_P_SPLU, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { layoutModelImpl.getHeadId() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_HEADID, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_HEADID, args);
+		}
+
+		if ((layoutModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_HEADID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { layoutModelImpl.getOriginalHeadId() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_HEADID, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_HEADID, args);
 		}
 	}
 

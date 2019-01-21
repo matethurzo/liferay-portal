@@ -79,7 +79,7 @@ public class LayoutCacheModel implements CacheModel<Layout>, Externalizable,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);

@@ -65,7 +65,7 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{layoutVersionId=");
 		sb.append(layoutVersionId);
@@ -115,6 +115,8 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 		sb.append(typeSettings);
 		sb.append(", hidden=");
 		sb.append(hidden);
+		sb.append(", system=");
+		sb.append(system);
 		sb.append(", friendlyURL=");
 		sb.append(friendlyURL);
 		sb.append(", iconImageId=");
@@ -237,6 +239,7 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 		}
 
 		layoutVersionImpl.setHidden(hidden);
+		layoutVersionImpl.setSystem(system);
 
 		if (friendlyURL == null) {
 			layoutVersionImpl.setFriendlyURL("");
@@ -336,6 +339,8 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 		typeSettings = objectInput.readUTF();
 
 		hidden = objectInput.readBoolean();
+
+		system = objectInput.readBoolean();
 		friendlyURL = objectInput.readUTF();
 
 		iconImageId = objectInput.readLong();
@@ -446,6 +451,8 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 
 		objectOutput.writeBoolean(hidden);
 
+		objectOutput.writeBoolean(system);
+
 		if (friendlyURL == null) {
 			objectOutput.writeUTF("");
 		}
@@ -521,6 +528,7 @@ public class LayoutVersionCacheModel implements CacheModel<LayoutVersion>,
 	public String type;
 	public String typeSettings;
 	public boolean hidden;
+	public boolean system;
 	public String friendlyURL;
 	public long iconImageId;
 	public String themeId;
