@@ -140,12 +140,6 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		return sb.toString();
 	}
 
-	@Override
-	@Transactional(enabled = false)
-	public Layout createLayout(long plid) {
-		return layoutPersistence.create(plid);
-	}
-
 	/**
 	 * Adds a layout with additional parameters.
 	 *
@@ -580,6 +574,12 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		return addLayout(
 			userId, groupId, privateLayout, parentLayoutId, name, title,
 			description, type, hidden, false, friendlyURL, serviceContext);
+	}
+
+	@Override
+	@Transactional(enabled = false)
+	public Layout createLayout(long plid) {
+		return layoutPersistence.create(plid);
 	}
 
 	/**
