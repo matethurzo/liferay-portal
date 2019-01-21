@@ -6,8 +6,8 @@ import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 import templates from './ChangeListConfiguration.soy';
 
 /**
- * Turns Change Lists on/off
- * ...
+ * Component for the Change Tracking Change Lists configuration screen
+ * @review
  */
 class ChangeListConfiguration extends PortletBase {
 
@@ -28,6 +28,12 @@ class ChangeListConfiguration extends PortletBase {
 		);
 	}
 
+	/**
+	 * Handles the change of the toggle
+	 * @param {!Event} event
+	 * @private
+	 * @review
+	 */
 	handleCheck(event) {
 		this.setState(
 			{
@@ -36,6 +42,12 @@ class ChangeListConfiguration extends PortletBase {
 		);
 	}
 
+	/**
+	 * Saves the configuration
+	 * @param {!Event} event
+	 * @private
+	 * @review
+	 */
 	save(event) {
 		event.preventDefault();
 
@@ -63,6 +75,12 @@ class ChangeListConfiguration extends PortletBase {
 		);
 	}
 
+	/**
+	 * Saves the configuration and redirects the user to the overview screen
+	 * @param {!Event} event
+	 * @private
+	 * @review
+	 */
 	saveAndGoToOverview(event) {
 		let data = {
 			changeTrackingEnabled: this.changeTrackingEnabled
@@ -169,48 +187,62 @@ class ChangeListConfiguration extends PortletBase {
 
 /**
  * State definition.
- *
+ * @review
  * @static
  * @type {!Object}
  */
 ChangeListConfiguration.STATE = {
 
 	/**
-	 * change tracking on/off
-	 *
-	 * @type {Boolean}
+	 * If true, change tracking is enabled
+	 * @instance
+	 * @memberOf ChangeListConfiguration
+	 * @review
+	 * @type {boolean}
 	 */
 
 	changeTrackingEnabled: Config.bool(),
 
 	/**
-	 * Initial fetch happened?
-	 *
-	 * @type {Boolean}
+	 * If true, an initial fetch has already happened
+	 * @default false
+	 * @instance
+	 * @memberOf ChangeListConfiguration
+	 * @review
+	 * @type {boolean}
 	 */
 
 	initialFetch: Config.bool().value(false),
 
 	/**
-	 * api url
-	 *
-	 * @type {String}
+	 * Property that contains the url for the REST service to the change
+	 * tracking configuration endpoint
+	 * @default undefined
+	 * @instance
+	 * @memberOf ChangeListConfiguration
+	 * @review
+	 * @type {!string}
 	 */
 
 	urlChangeTrackingConfiguration: Config.string().required(),
 
 	/**
-	 * Path to images.
-	 *
-	 * @type {String}
+	 * Path of the available icons.
+	 * @default undefined
+	 * @instance
+	 * @memberOf ChangeListConfiguration
+	 * @review
+	 * @type {!string}
 	 */
 
 	spritemap: Config.string().required(),
 
 	/**
-	 * Lists of supported content types that are used up in tooltip
-	 *
-	 * @type {List<String>}
+	 * An array of content types that support change tracking
+	 * @instance
+	 * @memberOf ChangeListConfiguration
+	 * @review
+	 * @type {?array<string>}
 	 */
 
 	tooltipBody: Config.array()
