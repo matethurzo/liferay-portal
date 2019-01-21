@@ -192,14 +192,6 @@ ChangeListConfiguration.STATE = {
 	initialFetch: Config.bool().value(false),
 
 	/**
-	 * PortalURL
-	 *
-	 * @type {String}
-	 */
-
-	portalURL: Config.string().required(),
-
-	/**
 	 * api url
 	 *
 	 * @type {String}
