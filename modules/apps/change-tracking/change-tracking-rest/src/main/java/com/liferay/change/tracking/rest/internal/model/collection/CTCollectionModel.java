@@ -35,11 +35,6 @@ public class CTCollectionModel {
 	}
 
 	@XmlElement
-	public Date getCreateDate() {
-		return _createDate;
-	}
-
-	@XmlElement
 	public String getDescription() {
 		return _description;
 	}
@@ -47,11 +42,6 @@ public class CTCollectionModel {
 	@XmlElement
 	public String getName() {
 		return _name;
-	}
-
-	@XmlElement
-	public long getStatusByUserId() {
-		return _statusByUserId;
 	}
 
 	@XmlElement
@@ -64,26 +54,10 @@ public class CTCollectionModel {
 		return _statusDate;
 	}
 
-	@XmlElement
-	public long getUserId() {
-		return _userId;
-	}
-
-	@XmlElement
-	public String getUserName() {
-		return _userName;
-	}
-
 	public static class Builder {
 
 		public CTCollectionModel build() {
 			return _ctCollectionModel;
-		}
-
-		public Builder setCreateDate(Date createDate) {
-			_ctCollectionModel._createDate = createDate;
-
-			return this;
 		}
 
 		public Builder setDescription(String description) {
@@ -98,12 +72,6 @@ public class CTCollectionModel {
 			return this;
 		}
 
-		public Builder setStatusByUserId(long statusByUserId) {
-			_ctCollectionModel._statusByUserId = statusByUserId;
-
-			return this;
-		}
-
 		public Builder setStatusByUserName(String statusByUserName) {
 			_ctCollectionModel._statusByUserName = statusByUserName;
 
@@ -112,18 +80,6 @@ public class CTCollectionModel {
 
 		public Builder setStatusDate(Date statusDate) {
 			_ctCollectionModel._statusDate = statusDate;
-
-			return this;
-		}
-
-		public Builder setUserId(long userId) {
-			_ctCollectionModel._userId = userId;
-
-			return this;
-		}
-
-		public Builder setUserName(String userName) {
-			_ctCollectionModel._userName = userName;
 
 			return this;
 		}
@@ -142,13 +98,9 @@ public class CTCollectionModel {
 	}
 
 	private long _companyId;
-	private Date _createDate;
 	private String _description;
 	private String _name;
-	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private long _userId;
-	private String _userName;
 
 }
