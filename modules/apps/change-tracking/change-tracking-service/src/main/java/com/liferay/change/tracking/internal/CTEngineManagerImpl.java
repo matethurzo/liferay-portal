@@ -128,8 +128,16 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			return;
 		}
 
-		_ctCollectionLocalService.deleteCTCollection(
-			ctCollectionOptional.get());
+		try {
+			_ctCollectionLocalService.deleteCTCollection(
+				ctCollectionOptional.get());
+		}
+		catch (PortalException pe) {
+			_log.error(
+				"Unable to delete change tracking collection " +
+					ctCollectionId,
+				pe);
+		}
 	}
 
 	@Override
