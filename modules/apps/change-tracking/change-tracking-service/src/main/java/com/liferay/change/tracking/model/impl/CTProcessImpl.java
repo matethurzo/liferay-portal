@@ -16,24 +16,25 @@ package com.liferay.change.tracking.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+
 /**
- * The extended model implementation for the CTProcess service. Represents a row in the &quot;CTProcess&quot; database table, with each column mapped to a property of this class.
- *
- * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.change.tracking.model.CTProcess} interface.
- * </p>
- *
- * @author Brian Wing Shun Chan
+ * @author Daniel Kocsis
  */
 @ProviderType
 public class CTProcessImpl extends CTProcessBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a ct process model instance should use the {@link com.liferay.change.tracking.model.CTProcess} interface instead.
-	 */
 	public CTProcessImpl() {
+	}
+
+	@Override
+	public int getStatus() throws PortalException {
+		BackgroundTask backgroundTask =
+			BackgroundTaskManagerUtil.getBackgroundTask(getBackgroundTaskId());
+
+		return backgroundTask.getStatus();
 	}
 
 }
