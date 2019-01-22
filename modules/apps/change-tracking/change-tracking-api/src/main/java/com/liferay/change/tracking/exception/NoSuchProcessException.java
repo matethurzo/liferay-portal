@@ -11,17 +11,31 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+package com.liferay.change.tracking.exception;
 
-package com.liferay.change.tracking.uad.constants;
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
- * @generated
  */
-public class CTUADConstants {
-	public static final String[] USER_ID_FIELD_NAMES_CT_COLLECTION = {
-			"userId", "statusByUserId"
-		};
-	public static final String[] USER_ID_FIELD_NAMES_CT_ENTRY = { "userId" };
-	public static final String[] USER_ID_FIELD_NAMES_CT_PROCESS = { "userId" };
+@ProviderType
+public class NoSuchProcessException extends NoSuchModelException {
+
+	public NoSuchProcessException() {
+	}
+
+	public NoSuchProcessException(String msg) {
+		super(msg);
+	}
+
+	public NoSuchProcessException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public NoSuchProcessException(Throwable cause) {
+		super(cause);
+	}
+
 }
