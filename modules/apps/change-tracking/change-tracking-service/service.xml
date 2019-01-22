@@ -85,6 +85,35 @@
 
 		<reference entity="CTCollection" package-path="com.liferay.change.tracking" />
 	</entity>
+	<entity local-service="true" name="CTProcess" remote-service="false" trash-enabled="false" uuid="false">
+
+		<!-- PK fields -->
+
+		<column name="ctProcessId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="backgroundTaskId" type="long" />
+		<column name="ctCollectionId" type="long" />
+
+		<!-- Finder methods -->
+
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="userId" />
+		</finder>
+		<finder name="CollectionId" return-type="Collection">
+			<finder-column name="ctCollectionId" />
+		</finder>
+	</entity>
 	<exceptions>
 		<exception>CTCollectionName</exception>
 		<exception>DuplicateCTEntry</exception>
