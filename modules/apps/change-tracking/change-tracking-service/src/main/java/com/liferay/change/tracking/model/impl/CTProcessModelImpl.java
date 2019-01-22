@@ -69,9 +69,7 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 			{ "ctProcessId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
-			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
-			{ "modifiedDate", Types.TIMESTAMP },
 			{ "backgroundTaskId", Types.BIGINT },
 			{ "ctCollectionId", Types.BIGINT }
 		};
@@ -81,14 +79,12 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		TABLE_COLUMNS_MAP.put("ctProcessId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("backgroundTaskId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("ctCollectionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table CTProcess (ctProcessId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,backgroundTaskId LONG,ctCollectionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table CTProcess (ctProcessId LONG not null primary key,companyId LONG,userId LONG,createDate DATE null,backgroundTaskId LONG,ctCollectionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table CTProcess";
 	public static final String ORDER_BY_JPQL = " ORDER BY ctProcess.ctProcessId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY CTProcess.ctProcessId ASC";
@@ -105,8 +101,9 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 				"value.object.column.bitmask.enabled.com.liferay.change.tracking.model.CTProcess"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long USERID_COLUMN_BITMASK = 2L;
-	public static final long CTPROCESSID_COLUMN_BITMASK = 4L;
+	public static final long CTCOLLECTIONID_COLUMN_BITMASK = 2L;
+	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long CTPROCESSID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.change.tracking.service.util.ServiceProps.get(
 				"lock.expiration.time.com.liferay.change.tracking.model.CTProcess"));
 
@@ -150,9 +147,7 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		attributes.put("ctProcessId", getCtProcessId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("backgroundTaskId", getBackgroundTaskId());
 		attributes.put("ctCollectionId", getCtCollectionId());
 
@@ -182,22 +177,10 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 			setUserId(userId);
 		}
 
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
 		Date createDate = (Date)attributes.get("createDate");
 
 		if (createDate != null) {
 			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
 		}
 
 		Long backgroundTaskId = (Long)attributes.get("backgroundTaskId");
@@ -284,21 +267,6 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 	}
 
 	@Override
-	public String getUserName() {
-		if (_userName == null) {
-			return "";
-		}
-		else {
-			return _userName;
-		}
-	}
-
-	@Override
-	public void setUserName(String userName) {
-		_userName = userName;
-	}
-
-	@Override
 	public Date getCreateDate() {
 		return _createDate;
 	}
@@ -306,22 +274,6 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 	@Override
 	public void setCreateDate(Date createDate) {
 		_createDate = createDate;
-	}
-
-	@Override
-	public Date getModifiedDate() {
-		return _modifiedDate;
-	}
-
-	public boolean hasSetModifiedDate() {
-		return _setModifiedDate;
-	}
-
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_setModifiedDate = true;
-
-		_modifiedDate = modifiedDate;
 	}
 
 	@Override
@@ -341,7 +293,19 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
+		_columnBitmask |= CTCOLLECTIONID_COLUMN_BITMASK;
+
+		if (!_setOriginalCtCollectionId) {
+			_setOriginalCtCollectionId = true;
+
+			_originalCtCollectionId = _ctCollectionId;
+		}
+
 		_ctCollectionId = ctCollectionId;
+	}
+
+	public long getOriginalCtCollectionId() {
+		return _originalCtCollectionId;
 	}
 
 	public long getColumnBitmask() {
@@ -378,9 +342,7 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		ctProcessImpl.setCtProcessId(getCtProcessId());
 		ctProcessImpl.setCompanyId(getCompanyId());
 		ctProcessImpl.setUserId(getUserId());
-		ctProcessImpl.setUserName(getUserName());
 		ctProcessImpl.setCreateDate(getCreateDate());
-		ctProcessImpl.setModifiedDate(getModifiedDate());
 		ctProcessImpl.setBackgroundTaskId(getBackgroundTaskId());
 		ctProcessImpl.setCtCollectionId(getCtCollectionId());
 
@@ -453,7 +415,9 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 
 		ctProcessModelImpl._setOriginalUserId = false;
 
-		ctProcessModelImpl._setModifiedDate = false;
+		ctProcessModelImpl._originalCtCollectionId = ctProcessModelImpl._ctCollectionId;
+
+		ctProcessModelImpl._setOriginalCtCollectionId = false;
 
 		ctProcessModelImpl._columnBitmask = 0;
 	}
@@ -468,14 +432,6 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 
 		ctProcessCacheModel.userId = getUserId();
 
-		ctProcessCacheModel.userName = getUserName();
-
-		String userName = ctProcessCacheModel.userName;
-
-		if ((userName != null) && (userName.length() == 0)) {
-			ctProcessCacheModel.userName = null;
-		}
-
 		Date createDate = getCreateDate();
 
 		if (createDate != null) {
@@ -483,15 +439,6 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		}
 		else {
 			ctProcessCacheModel.createDate = Long.MIN_VALUE;
-		}
-
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			ctProcessCacheModel.modifiedDate = modifiedDate.getTime();
-		}
-		else {
-			ctProcessCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
 		ctProcessCacheModel.backgroundTaskId = getBackgroundTaskId();
@@ -503,7 +450,7 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{ctProcessId=");
 		sb.append(getCtProcessId());
@@ -511,12 +458,8 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		sb.append(getCompanyId());
 		sb.append(", userId=");
 		sb.append(getUserId());
-		sb.append(", userName=");
-		sb.append(getUserName());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
-		sb.append(", modifiedDate=");
-		sb.append(getModifiedDate());
 		sb.append(", backgroundTaskId=");
 		sb.append(getBackgroundTaskId());
 		sb.append(", ctCollectionId=");
@@ -528,7 +471,7 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.change.tracking.model.CTProcess");
@@ -547,16 +490,8 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 		sb.append(getUserId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>userName</column-name><column-value><![CDATA[");
-		sb.append(getUserName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
-		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>backgroundTaskId</column-name><column-value><![CDATA[");
@@ -583,12 +518,11 @@ public class CTProcessModelImpl extends BaseModelImpl<CTProcess>
 	private long _userId;
 	private long _originalUserId;
 	private boolean _setOriginalUserId;
-	private String _userName;
 	private Date _createDate;
-	private Date _modifiedDate;
-	private boolean _setModifiedDate;
 	private long _backgroundTaskId;
 	private long _ctCollectionId;
+	private long _originalCtCollectionId;
+	private boolean _setOriginalCtCollectionId;
 	private long _columnBitmask;
 	private CTProcess _escapedModel;
 }

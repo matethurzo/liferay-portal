@@ -66,7 +66,7 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{ctProcessId=");
 		sb.append(ctProcessId);
@@ -74,12 +74,8 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 		sb.append(companyId);
 		sb.append(", userId=");
 		sb.append(userId);
-		sb.append(", userName=");
-		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
-		sb.append(", modifiedDate=");
-		sb.append(modifiedDate);
 		sb.append(", backgroundTaskId=");
 		sb.append(backgroundTaskId);
 		sb.append(", ctCollectionId=");
@@ -97,25 +93,11 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 		ctProcessImpl.setCompanyId(companyId);
 		ctProcessImpl.setUserId(userId);
 
-		if (userName == null) {
-			ctProcessImpl.setUserName("");
-		}
-		else {
-			ctProcessImpl.setUserName(userName);
-		}
-
 		if (createDate == Long.MIN_VALUE) {
 			ctProcessImpl.setCreateDate(null);
 		}
 		else {
 			ctProcessImpl.setCreateDate(new Date(createDate));
-		}
-
-		if (modifiedDate == Long.MIN_VALUE) {
-			ctProcessImpl.setModifiedDate(null);
-		}
-		else {
-			ctProcessImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
 		ctProcessImpl.setBackgroundTaskId(backgroundTaskId);
@@ -133,9 +115,7 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 		companyId = objectInput.readLong();
 
 		userId = objectInput.readLong();
-		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
-		modifiedDate = objectInput.readLong();
 
 		backgroundTaskId = objectInput.readLong();
 
@@ -150,16 +130,7 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 		objectOutput.writeLong(companyId);
 
 		objectOutput.writeLong(userId);
-
-		if (userName == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(userName);
-		}
-
 		objectOutput.writeLong(createDate);
-		objectOutput.writeLong(modifiedDate);
 
 		objectOutput.writeLong(backgroundTaskId);
 
@@ -169,9 +140,7 @@ public class CTProcessCacheModel implements CacheModel<CTProcess>,
 	public long ctProcessId;
 	public long companyId;
 	public long userId;
-	public String userName;
 	public long createDate;
-	public long modifiedDate;
 	public long backgroundTaskId;
 	public long ctCollectionId;
 }

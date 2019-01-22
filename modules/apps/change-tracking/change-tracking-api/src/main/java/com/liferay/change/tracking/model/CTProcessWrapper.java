@@ -46,9 +46,7 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 		attributes.put("ctProcessId", getCtProcessId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("backgroundTaskId", getBackgroundTaskId());
 		attributes.put("ctCollectionId", getCtCollectionId());
 
@@ -75,22 +73,10 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 			setUserId(userId);
 		}
 
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
 		Date createDate = (Date)attributes.get("createDate");
 
 		if (createDate != null) {
 			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
 		}
 
 		Long backgroundTaskId = (Long)attributes.get("backgroundTaskId");
@@ -157,16 +143,6 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 	}
 
 	/**
-	* Returns the modified date of this ct process.
-	*
-	* @return the modified date of this ct process
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return model.getModifiedDate();
-	}
-
-	/**
 	* Returns the primary key of this ct process.
 	*
 	* @return the primary key of this ct process
@@ -174,6 +150,12 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	@Override
+	public int getStatus()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return model.getStatus();
 	}
 
 	/**
@@ -184,16 +166,6 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 	@Override
 	public long getUserId() {
 		return model.getUserId();
-	}
-
-	/**
-	* Returns the user name of this ct process.
-	*
-	* @return the user name of this ct process
-	*/
-	@Override
-	public String getUserName() {
-		return model.getUserName();
 	}
 
 	/**
@@ -262,16 +234,6 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 	}
 
 	/**
-	* Sets the modified date of this ct process.
-	*
-	* @param modifiedDate the modified date of this ct process
-	*/
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		model.setModifiedDate(modifiedDate);
-	}
-
-	/**
 	* Sets the primary key of this ct process.
 	*
 	* @param primaryKey the primary key of this ct process
@@ -289,16 +251,6 @@ public class CTProcessWrapper extends BaseModelWrapper<CTProcess>
 	@Override
 	public void setUserId(long userId) {
 		model.setUserId(userId);
-	}
-
-	/**
-	* Sets the user name of this ct process.
-	*
-	* @param userName the user name of this ct process
-	*/
-	@Override
-	public void setUserName(String userName) {
-		model.setUserName(userName);
 	}
 
 	/**

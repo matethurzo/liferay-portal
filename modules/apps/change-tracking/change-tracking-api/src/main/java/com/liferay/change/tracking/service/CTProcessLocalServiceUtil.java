@@ -54,6 +54,13 @@ public class CTProcessLocalServiceUtil {
 		return getService().addCTProcess(ctProcess);
 	}
 
+	public static com.liferay.change.tracking.model.CTProcess addCTProcess(
+		long userId, long ctCollectionId,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addCTProcess(userId, ctCollectionId, serviceContext);
+	}
+
 	/**
 	* Creates a new ct process with the primary key. Does not add the ct process to the database.
 	*
@@ -70,9 +77,11 @@ public class CTProcessLocalServiceUtil {
 	*
 	* @param ctProcess the ct process
 	* @return the ct process that was removed
+	* @throws PortalException
 	*/
 	public static com.liferay.change.tracking.model.CTProcess deleteCTProcess(
-		com.liferay.change.tracking.model.CTProcess ctProcess) {
+		com.liferay.change.tracking.model.CTProcess ctProcess)
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteCTProcess(ctProcess);
 	}
 
@@ -212,6 +221,11 @@ public class CTProcessLocalServiceUtil {
 	public static java.util.List<com.liferay.change.tracking.model.CTProcess> getCTProcesses(
 		int start, int end) {
 		return getService().getCTProcesses(start, end);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTProcess> getCTProcesses(
+		long ctCollectionId) {
+		return getService().getCTProcesses(ctCollectionId);
 	}
 
 	/**

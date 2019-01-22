@@ -95,16 +95,19 @@ public interface CTCollectionLocalService extends BaseLocalService,
 	@Transactional(enabled = false)
 	public CTCollection createCTCollection(long ctCollectionId);
 
-	public void deleteCompanyCTCollections(long companyId);
+	public void deleteCompanyCTCollections(long companyId)
+		throws PortalException;
 
 	/**
 	* Deletes the ct collection from the database. Also notifies the appropriate model listeners.
 	*
 	* @param ctCollection the ct collection
 	* @return the ct collection that was removed
+	* @throws PortalException
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public CTCollection deleteCTCollection(CTCollection ctCollection);
+	public CTCollection deleteCTCollection(CTCollection ctCollection)
+		throws PortalException;
 
 	/**
 	* Deletes the ct collection with the primary key from the database. Also notifies the appropriate model listeners.

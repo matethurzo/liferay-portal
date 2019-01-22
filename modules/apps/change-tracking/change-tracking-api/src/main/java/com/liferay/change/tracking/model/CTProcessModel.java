@@ -16,8 +16,6 @@ package com.liferay.change.tracking.model;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
-import com.liferay.portal.kernel.model.AuditedModel;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 
@@ -37,8 +35,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
-	ShardedModel {
+public interface CTProcessModel extends BaseModel<CTProcess>, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -94,7 +91,6 @@ public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
 	 *
 	 * @return the user ID of this ct process
 	 */
-	@Override
 	public long getUserId();
 
 	/**
@@ -102,7 +98,6 @@ public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
 	 *
 	 * @param userId the user ID of this ct process
 	 */
-	@Override
 	public void setUserId(long userId);
 
 	/**
@@ -110,7 +105,6 @@ public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
 	 *
 	 * @return the user uuid of this ct process
 	 */
-	@Override
 	public String getUserUuid();
 
 	/**
@@ -118,32 +112,13 @@ public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
 	 *
 	 * @param userUuid the user uuid of this ct process
 	 */
-	@Override
 	public void setUserUuid(String userUuid);
-
-	/**
-	 * Returns the user name of this ct process.
-	 *
-	 * @return the user name of this ct process
-	 */
-	@AutoEscape
-	@Override
-	public String getUserName();
-
-	/**
-	 * Sets the user name of this ct process.
-	 *
-	 * @param userName the user name of this ct process
-	 */
-	@Override
-	public void setUserName(String userName);
 
 	/**
 	 * Returns the create date of this ct process.
 	 *
 	 * @return the create date of this ct process
 	 */
-	@Override
 	public Date getCreateDate();
 
 	/**
@@ -151,24 +126,7 @@ public interface CTProcessModel extends AuditedModel, BaseModel<CTProcess>,
 	 *
 	 * @param createDate the create date of this ct process
 	 */
-	@Override
 	public void setCreateDate(Date createDate);
-
-	/**
-	 * Returns the modified date of this ct process.
-	 *
-	 * @return the modified date of this ct process
-	 */
-	@Override
-	public Date getModifiedDate();
-
-	/**
-	 * Sets the modified date of this ct process.
-	 *
-	 * @param modifiedDate the modified date of this ct process
-	 */
-	@Override
-	public void setModifiedDate(Date modifiedDate);
 
 	/**
 	 * Returns the background task ID of this ct process.

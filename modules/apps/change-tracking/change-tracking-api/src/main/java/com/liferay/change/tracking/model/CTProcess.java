@@ -53,4 +53,7 @@ public interface CTProcess extends CTProcessModel, PersistedModel {
 				return CTProcess.class;
 			}
 		};
+
+	public int getStatus()
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

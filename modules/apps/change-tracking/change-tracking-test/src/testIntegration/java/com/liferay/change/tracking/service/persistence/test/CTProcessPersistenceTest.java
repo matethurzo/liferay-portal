@@ -126,11 +126,7 @@ public class CTProcessPersistenceTest {
 
 		newCTProcess.setUserId(RandomTestUtil.nextLong());
 
-		newCTProcess.setUserName(RandomTestUtil.randomString());
-
 		newCTProcess.setCreateDate(RandomTestUtil.nextDate());
-
-		newCTProcess.setModifiedDate(RandomTestUtil.nextDate());
 
 		newCTProcess.setBackgroundTaskId(RandomTestUtil.nextLong());
 
@@ -146,14 +142,9 @@ public class CTProcessPersistenceTest {
 			newCTProcess.getCompanyId());
 		Assert.assertEquals(existingCTProcess.getUserId(),
 			newCTProcess.getUserId());
-		Assert.assertEquals(existingCTProcess.getUserName(),
-			newCTProcess.getUserName());
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingCTProcess.getCreateDate()),
 			Time.getShortTimestamp(newCTProcess.getCreateDate()));
-		Assert.assertEquals(Time.getShortTimestamp(
-				existingCTProcess.getModifiedDate()),
-			Time.getShortTimestamp(newCTProcess.getModifiedDate()));
 		Assert.assertEquals(existingCTProcess.getBackgroundTaskId(),
 			newCTProcess.getBackgroundTaskId());
 		Assert.assertEquals(existingCTProcess.getCtCollectionId(),
@@ -172,6 +163,13 @@ public class CTProcessPersistenceTest {
 		_persistence.countByUserId(RandomTestUtil.nextLong());
 
 		_persistence.countByUserId(0L);
+	}
+
+	@Test
+	public void testCountByCollectionId() throws Exception {
+		_persistence.countByCollectionId(RandomTestUtil.nextLong());
+
+		_persistence.countByCollectionId(0L);
 	}
 
 	@Test
@@ -198,9 +196,8 @@ public class CTProcessPersistenceTest {
 
 	protected OrderByComparator<CTProcess> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("CTProcess", "ctProcessId",
-			true, "companyId", true, "userId", true, "userName", true,
-			"createDate", true, "modifiedDate", true, "backgroundTaskId", true,
-			"ctCollectionId", true);
+			true, "companyId", true, "userId", true, "createDate", true,
+			"backgroundTaskId", true, "ctCollectionId", true);
 	}
 
 	@Test
@@ -404,11 +401,7 @@ public class CTProcessPersistenceTest {
 
 		ctProcess.setUserId(RandomTestUtil.nextLong());
 
-		ctProcess.setUserName(RandomTestUtil.randomString());
-
 		ctProcess.setCreateDate(RandomTestUtil.nextDate());
-
-		ctProcess.setModifiedDate(RandomTestUtil.nextDate());
 
 		ctProcess.setBackgroundTaskId(RandomTestUtil.nextLong());
 

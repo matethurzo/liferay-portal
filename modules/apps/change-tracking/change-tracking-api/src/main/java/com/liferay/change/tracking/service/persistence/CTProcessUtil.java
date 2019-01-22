@@ -440,6 +440,167 @@ public class CTProcessUtil {
 	}
 
 	/**
+	* Returns all the ct processes where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @return the matching ct processes
+	*/
+	public static List<CTProcess> findByCollectionId(long ctCollectionId) {
+		return getPersistence().findByCollectionId(ctCollectionId);
+	}
+
+	/**
+	* Returns a range of all the ct processes where ctCollectionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param start the lower bound of the range of ct processes
+	* @param end the upper bound of the range of ct processes (not inclusive)
+	* @return the range of matching ct processes
+	*/
+	public static List<CTProcess> findByCollectionId(long ctCollectionId,
+		int start, int end) {
+		return getPersistence().findByCollectionId(ctCollectionId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the ct processes where ctCollectionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param start the lower bound of the range of ct processes
+	* @param end the upper bound of the range of ct processes (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching ct processes
+	*/
+	public static List<CTProcess> findByCollectionId(long ctCollectionId,
+		int start, int end, OrderByComparator<CTProcess> orderByComparator) {
+		return getPersistence()
+				   .findByCollectionId(ctCollectionId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the ct processes where ctCollectionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CTProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param start the lower bound of the range of ct processes
+	* @param end the upper bound of the range of ct processes (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching ct processes
+	*/
+	public static List<CTProcess> findByCollectionId(long ctCollectionId,
+		int start, int end, OrderByComparator<CTProcess> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCollectionId(ctCollectionId, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first ct process in the ordered set where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching ct process
+	* @throws NoSuchProcessException if a matching ct process could not be found
+	*/
+	public static CTProcess findByCollectionId_First(long ctCollectionId,
+		OrderByComparator<CTProcess> orderByComparator)
+		throws com.liferay.change.tracking.exception.NoSuchProcessException {
+		return getPersistence()
+				   .findByCollectionId_First(ctCollectionId, orderByComparator);
+	}
+
+	/**
+	* Returns the first ct process in the ordered set where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching ct process, or <code>null</code> if a matching ct process could not be found
+	*/
+	public static CTProcess fetchByCollectionId_First(long ctCollectionId,
+		OrderByComparator<CTProcess> orderByComparator) {
+		return getPersistence()
+				   .fetchByCollectionId_First(ctCollectionId, orderByComparator);
+	}
+
+	/**
+	* Returns the last ct process in the ordered set where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching ct process
+	* @throws NoSuchProcessException if a matching ct process could not be found
+	*/
+	public static CTProcess findByCollectionId_Last(long ctCollectionId,
+		OrderByComparator<CTProcess> orderByComparator)
+		throws com.liferay.change.tracking.exception.NoSuchProcessException {
+		return getPersistence()
+				   .findByCollectionId_Last(ctCollectionId, orderByComparator);
+	}
+
+	/**
+	* Returns the last ct process in the ordered set where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching ct process, or <code>null</code> if a matching ct process could not be found
+	*/
+	public static CTProcess fetchByCollectionId_Last(long ctCollectionId,
+		OrderByComparator<CTProcess> orderByComparator) {
+		return getPersistence()
+				   .fetchByCollectionId_Last(ctCollectionId, orderByComparator);
+	}
+
+	/**
+	* Returns the ct processes before and after the current ct process in the ordered set where ctCollectionId = &#63;.
+	*
+	* @param ctProcessId the primary key of the current ct process
+	* @param ctCollectionId the ct collection ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next ct process
+	* @throws NoSuchProcessException if a ct process with the primary key could not be found
+	*/
+	public static CTProcess[] findByCollectionId_PrevAndNext(long ctProcessId,
+		long ctCollectionId, OrderByComparator<CTProcess> orderByComparator)
+		throws com.liferay.change.tracking.exception.NoSuchProcessException {
+		return getPersistence()
+				   .findByCollectionId_PrevAndNext(ctProcessId, ctCollectionId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the ct processes where ctCollectionId = &#63; from the database.
+	*
+	* @param ctCollectionId the ct collection ID
+	*/
+	public static void removeByCollectionId(long ctCollectionId) {
+		getPersistence().removeByCollectionId(ctCollectionId);
+	}
+
+	/**
+	* Returns the number of ct processes where ctCollectionId = &#63;.
+	*
+	* @param ctCollectionId the ct collection ID
+	* @return the number of matching ct processes
+	*/
+	public static int countByCollectionId(long ctCollectionId) {
+		return getPersistence().countByCollectionId(ctCollectionId);
+	}
+
+	/**
 	* Caches the ct process in the entity cache if it is enabled.
 	*
 	* @param ctProcess the ct process

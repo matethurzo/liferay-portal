@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -70,6 +71,9 @@ public interface CTProcessLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public CTProcess addCTProcess(CTProcess ctProcess);
 
+	public CTProcess addCTProcess(long userId, long ctCollectionId,
+		ServiceContext serviceContext) throws PortalException;
+
 	/**
 	* Creates a new ct process with the primary key. Does not add the ct process to the database.
 	*
@@ -84,9 +88,11 @@ public interface CTProcessLocalService extends BaseLocalService,
 	*
 	* @param ctProcess the ct process
 	* @return the ct process that was removed
+	* @throws PortalException
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public CTProcess deleteCTProcess(CTProcess ctProcess);
+	public CTProcess deleteCTProcess(CTProcess ctProcess)
+		throws PortalException;
 
 	/**
 	* Deletes the ct process with the primary key from the database. Also notifies the appropriate model listeners.
@@ -200,6 +206,9 @@ public interface CTProcessLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTProcess> getCTProcesses(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTProcess> getCTProcesses(long ctCollectionId);
 
 	/**
 	* Returns the number of ct processes.
