@@ -100,6 +100,10 @@ public class CTEngineManagerTest {
 
 	@After
 	public void tearDown() throws Exception {
+
+		// If the change tracking was enabled originally, then leave it in the
+		// same state
+
 		if (_originallyEnabled) {
 			_ctEngineManager.enableChangeTracking(
 				TestPropsValues.getCompanyId(), TestPropsValues.getUserId());
