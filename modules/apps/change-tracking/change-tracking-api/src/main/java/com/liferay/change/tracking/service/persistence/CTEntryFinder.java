@@ -22,7 +22,10 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface CTEntryFinder {
-	public java.util.List<com.liferay.change.tracking.model.CTEntry> findByCTCollectionId(
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> findByC_R(
 		long collectionId, long resourcePrimKey,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition);
+
+	public com.liferay.change.tracking.model.CTEntry findByC_C_C(
+		long collectionId, long classNameId, long classPK);
 }
