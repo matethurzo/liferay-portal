@@ -87,6 +87,13 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		return ctEntryPersistence.fetchByC_C(classNameId, classPK);
 	}
 
+	@Override
+	public CTEntry fetchCTEntry(
+		long ctCollectionId, long classNameId, long classPK) {
+
+		return ctEntryFinder.findByC_C_C(ctCollectionId, classNameId, classPK);
+	}
+
 	private void _validate(long classNameId, long classPK, long ctCollectionId)
 		throws PortalException {
 
