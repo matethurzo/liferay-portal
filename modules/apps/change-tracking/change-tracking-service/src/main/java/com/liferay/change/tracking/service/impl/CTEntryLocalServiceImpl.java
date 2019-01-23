@@ -68,18 +68,18 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 	@Override
 	public List<CTEntry> fetchCTEntries(
-		long collectionId, long resourcePrimKey,
+		long ctCollectionId, long resourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
 
 		return ctEntryFinder.findByC_R(
-			collectionId, resourcePrimKey, queryDefinition);
+			ctCollectionId, resourcePrimKey, queryDefinition);
 	}
 
 	@Override
 	public List<CTEntry> fetchCTEntries(
-		long collectionId, QueryDefinition<CTEntry> queryDefinition) {
+		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition) {
 
-		return ctEntryFinder.findByC_R(collectionId, 0, queryDefinition);
+		return ctEntryFinder.findByC_R(ctCollectionId, 0, queryDefinition);
 	}
 
 	@Override

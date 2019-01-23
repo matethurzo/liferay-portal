@@ -40,7 +40,7 @@ public class CTEntryFinderImpl
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<CTEntry> findByC_R(
-		long collectionId, long resourcePrimKey,
+		long ctCollectionId, long resourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
 
 		Session session = null;
@@ -64,7 +64,7 @@ public class CTEntryFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			qPos.add(collectionId);
+			qPos.add(ctCollectionId);
 
 			if (resourcePrimKey > 0) {
 				qPos.add(resourcePrimKey);
@@ -85,7 +85,7 @@ public class CTEntryFinderImpl
 	@Override
 	@SuppressWarnings("unchecked")
 	public CTEntry findByC_C_C(
-		long collectionId, long classNameId, long classPK) {
+		long ctCollectionId, long classNameId, long classPK) {
 
 		Session session = null;
 
@@ -105,7 +105,7 @@ public class CTEntryFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
-			qPos.add(collectionId);
+			qPos.add(ctCollectionId);
 
 			qPos.add(classNameId);
 
