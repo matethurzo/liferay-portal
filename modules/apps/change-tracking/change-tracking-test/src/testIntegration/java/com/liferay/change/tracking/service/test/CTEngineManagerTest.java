@@ -148,8 +148,9 @@ public class CTEngineManagerTest {
 		_backgroundTaskManager.addBackgroundTask(
 			_user.getUserId(), TestPropsValues.getGroupId(),
 			ctCollection.getName(),
-			CTConstants.CT_PUBLISH_BACKGROUND_TASK_EXECUTOR, taskContextMap,
-			serviceContext);
+			"com.liferay.change.tracking.internal.background.task." +
+				"CTPublishBackgroundTaskExecutor",
+			taskContextMap, serviceContext);
 
 		ctEntries = _ctEntryLocalService.getCTCollectionCTEntries(
 			productionCTCollection.getCtCollectionId());

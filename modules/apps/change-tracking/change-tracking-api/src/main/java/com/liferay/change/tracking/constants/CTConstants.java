@@ -22,8 +22,4 @@ public interface CTConstants {
 	public static final String CT_COLLECTION_NAME_PRODUCTION =
 		"productionCTCollectionName";
 
-	public static final String CT_PUBLISH_BACKGROUND_TASK_EXECUTOR =
-		"com.liferay.change.tracking.internal.background.task." +
-			"CTPublishBackgroundTaskExecutor";
-
 }
