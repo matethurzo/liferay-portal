@@ -230,17 +230,17 @@ public class CTEntryLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
-		long collectionId, long resourcePrimKey,
+		long ctCollectionId, long resourcePrimKey,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
 		return getService()
-				   .fetchCTEntries(collectionId, resourcePrimKey,
+				   .fetchCTEntries(ctCollectionId, resourcePrimKey,
 			queryDefinition);
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry> fetchCTEntries(
-		long collectionId,
+		long ctCollectionId,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
-		return getService().fetchCTEntries(collectionId, queryDefinition);
+		return getService().fetchCTEntries(ctCollectionId, queryDefinition);
 	}
 
 	public static com.liferay.change.tracking.model.CTEntry fetchCTEntry(
@@ -251,6 +251,11 @@ public class CTEntryLocalServiceUtil {
 	public static com.liferay.change.tracking.model.CTEntry fetchCTEntry(
 		long classNameId, long classPK) {
 		return getService().fetchCTEntry(classNameId, classPK);
+	}
+
+	public static com.liferay.change.tracking.model.CTEntry fetchCTEntry(
+		long ctCollectionId, long classNameId, long classPK) {
+		return getService().fetchCTEntry(ctCollectionId, classNameId, classPK);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
