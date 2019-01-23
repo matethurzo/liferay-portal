@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.change.tracking.client.test.internal.activator;
+package com.liferay.change.tracking.rest.test.internal.activator;
 
 import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -25,8 +25,7 @@ import org.osgi.framework.ServiceReference;
 /**
  * @author Daniel Kocsis
  */
-public class ChangeTrackingClientTestBundleActivator
-	implements BundleActivator {
+public class ChangeTrackingRestTestBundleActivator implements BundleActivator {
 
 	@Override
 	public void start(BundleContext bundleContext) throws PortalException {
