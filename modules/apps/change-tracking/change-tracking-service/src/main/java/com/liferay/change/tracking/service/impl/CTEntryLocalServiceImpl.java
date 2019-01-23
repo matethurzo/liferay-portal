@@ -71,7 +71,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		long collectionId, long resourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
 
-		return ctEntryFinder.findByCTCollectionId(
+		return ctEntryFinder.findByC_R(
 			collectionId, resourcePrimKey, queryDefinition);
 	}
 
@@ -79,8 +79,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	public List<CTEntry> fetchCTEntries(
 		long collectionId, QueryDefinition<CTEntry> queryDefinition) {
 
-		return ctEntryFinder.findByCTCollectionId(
-			collectionId, 0, queryDefinition);
+		return ctEntryFinder.findByC_R(collectionId, 0, queryDefinition);
 	}
 
 	@Override
