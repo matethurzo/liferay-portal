@@ -140,8 +140,17 @@ public class CTManagerImpl implements CTManager {
 			return Optional.empty();
 		}
 
+		Optional<CTCollection> ctCollectionOptional =
+			_ctEngineManager.getActiveCTCollectionOptional(userId);
+
+		long ctCollectionId = ctCollectionOptional.map(
+			CTCollection::getCtCollectionId
+		).orElse(
+			0L
+		);
+
 		CTEntry ctEntry = _ctEntryLocalService.fetchCTEntry(
-			classNameId, classPK);
+			ctCollectionId, classNameId, classPK);
 
 		return Optional.ofNullable(ctEntry);
 	}
