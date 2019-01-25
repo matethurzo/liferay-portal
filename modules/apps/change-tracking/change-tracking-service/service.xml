@@ -113,6 +113,10 @@
 		<finder name="CollectionId" return-type="Collection">
 			<finder-column name="ctCollectionId" />
 		</finder>
+
+		<!-- References -->
+
+		<reference entity="Company" package-path="com.liferay.portal" />
 	</entity>
 	<exceptions>
 		<exception>CTCollectionName</exception>
