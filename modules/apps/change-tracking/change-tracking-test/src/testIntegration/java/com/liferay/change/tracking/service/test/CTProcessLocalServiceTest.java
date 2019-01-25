@@ -63,8 +63,7 @@ public class CTProcessLocalServiceTest {
 		Assert.assertNotNull(ctProcess);
 		Assert.assertEquals(
 			_ctCollection.getCtCollectionId(), ctProcess.getCtCollectionId());
-		Assert.assertEquals(
-			TestPropsValues.getUserId(), ctProcess.getUserId());
+		Assert.assertEquals(TestPropsValues.getUserId(), ctProcess.getUserId());
 		Assert.assertNotEquals(0, ctProcess.getBackgroundTaskId());
 		Assert.assertEquals(
 			BackgroundTaskConstants.STATUS_SUCCESSFUL, ctProcess.getStatus());
