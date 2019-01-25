@@ -53,24 +53,15 @@ public class CTProcessLocalServiceImpl extends CTProcessLocalServiceBaseImpl {
 		ctProcess.setUserId(user.getUserId());
 
 		ctProcess.setCreateDate(serviceContext.getCreateDate(new Date()));
-		ctProcess.setCtCollectionId(ctCollectionId);
 
 		// starting the publication process in the background
 
-		Map<String, Serializable> taskContextMap = new HashMap<>();
+		long backgroundTaskId = _addBackgroundTask(
+			user, ctCollectionId, ctProcessId, serviceContext);
 
-		taskContextMap.put("ctCollectionId", ctCollectionId);
-		taskContextMap.put("ctProcessId", ctProcessId);
+		ctProcess.setBackgroundTaskId(backgroundTaskId);
 
-		Company company = companyLocalService.getCompany(user.getCompanyId());
-
-		BackgroundTask backgroundTask =
-			BackgroundTaskManagerUtil.addBackgroundTask(
-				userId, company.getGroupId(), String.valueOf(ctCollectionId),
-				null, CTPublishBackgroundTaskExecutor.class, taskContextMap,
-				serviceContext);
-
-		ctProcess.setBackgroundTaskId(backgroundTask.getBackgroundTaskId());
+		ctProcess.setCtCollectionId(ctCollectionId);
 
 		return ctProcessPersistence.update(ctProcess);
 	}
@@ -90,6 +81,28 @@ public class CTProcessLocalServiceImpl extends CTProcessLocalServiceBaseImpl {
 	@Override
 	public List<CTProcess> getCTProcesses(long ctCollectionId) {
 		return ctProcessPersistence.findByCollectionId(ctCollectionId);
+	}
+
+	private long _addBackgroundTask(
+			User user, long ctCollectionId, long ctProcessId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		Company company = companyLocalService.getCompany(user.getCompanyId());
+
+		Map<String, Serializable> taskContextMap = new HashMap<>();
+
+		taskContextMap.put("ctCollectionId", ctCollectionId);
+		taskContextMap.put("ctProcessId", ctProcessId);
+
+		BackgroundTask backgroundTask =
+			BackgroundTaskManagerUtil.addBackgroundTask(
+				user.getUserId(), company.getGroupId(),
+				String.valueOf(ctCollectionId), null,
+				CTPublishBackgroundTaskExecutor.class, taskContextMap,
+				serviceContext);
+
+		return backgroundTask.getBackgroundTaskId();
 	}
 
 	private void _validate(long ctCollectionId) throws PortalException {
