@@ -31,22 +31,9 @@ String navigation = ParamUtil.get(renderRequest, "navigation", "overview");
 						navigationItem.setHref(renderResponse.createRenderURL());
 						navigationItem.setLabel(LanguageUtil.get(request, "overview"));
 					});
-				add(
-					navigationItem -> {
-						navigationItem.setActive(navigation.equals("history"));
-						navigationItem.setHref(renderResponse.createRenderURL(), "navigation", "history");
-						navigationItem.setLabel(LanguageUtil.get(request, "history"));
-					});
 			}
 		}
 	%>"
 />
 
-<c:choose>
-	<c:when test='<%= navigation.equals("overview") %>'>
-		<liferay-util:include page="/overview.jsp" servletContext="<%= application %>" />
-	</c:when>
-	<c:otherwise>
-		<liferay-util:include page="/history.jsp" servletContext="<%= application %>" />
-	</c:otherwise>
-</c:choose>
+<liferay-util:include page="/overview.jsp" servletContext="<%= application %>" />
