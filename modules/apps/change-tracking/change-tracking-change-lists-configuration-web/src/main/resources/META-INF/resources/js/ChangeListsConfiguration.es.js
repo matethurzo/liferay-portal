@@ -18,7 +18,13 @@ class ChangeListsConfiguration extends PortletBase {
 				if (response) {
 					this.changeTrackingEnabled = response.changeTrackingEnabled;
 					this.initialFetch = true;
-					this.tooltipBody = response.supportedContentType;
+					this.tooltipBody = '';
+
+					response.supportedContentTypes.forEach(
+						(supportedContentType) => {
+							this.tooltipBody = this.tooltipBody.concat(supportedContentType);
+						}
+					);
 				}
 			}
 		);
@@ -215,7 +221,7 @@ ChangeListsConfiguration.STATE = {
 	 * @instance
 	 * @memberOf ChangeListsConfiguration
 	 * @review
-	 * @type {?array<string>}
+	 * @type {string}
 	 */
 
 	tooltipBody: Config.string()
