@@ -16,7 +16,7 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="change-lists-sheet sheet sheet-lg">
+<div class="change-lists-history-sheet sheet sheet-lg">
 	<div class="sheet-header">
 		<h2 class="sheet-title">Change Lists History</h2>
 
