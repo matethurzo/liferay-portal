@@ -5,10 +5,9 @@
  */
 {template .render}
 	{@param spritemap: string}
-	{@param translations: map<string, string>}
 	{@param? changeTrackingEnabled: bool}
 	{@param? initialFetch: bool}
-	{@param? tooltipBody: list<string>}
+	{@param? tooltipBody: string}
 	{@param? _handleCheck: any}
 	{@param? _handleSave: any}
 	{@param? _handleSaveAndGoToOverview: any}
@@ -19,29 +18,30 @@
 		{/if}
 
 		<div class="sheet-header">
-			<h2 class="float-left sheet-title ">{$translations['enable-change-lists']}</h2>
+			<h2 class="float-left sheet-title ">{msg desc=""}enable-change-lists{/msg}</h2>
 
-			<span class="change-lists-helper float-right">
+			{let $changeListsHelperAttributes kind="attributes"}
+				class="change-lists-helper float-right
+					{if $tooltipBody}
+						{sp}lfr-portal-tooltip
+					{/if}
+				"
+
+				{if $tooltipBody}
+					title="{$tooltipBody}"
+				{/if}
+			{/let}
+
+			<span {$changeListsHelperAttributes}>
 				<svg class="lexicon-icon">
 					<use href="{$spritemap}#info-circle-open" />
 				</svg>
 
-				<div class="clay-tooltip-bottom tooltip" role="tooltip">
-					<div class="arrow"></div>
-					<div class="tooltip-inner">
-						{if $tooltipBody}
-							{foreach $item in $tooltipBody}
-								<div id="tooltip-item-{$item}"> {$item} </div>
-							{/foreach}
-						{/if}
-					</div>
-				</div>
-
-				<span class="helper-text">{$translations['supported-content-types']}</span>
+				<span class="helper-text">{msg desc=""}supported-content-types{/msg}</span>
 			</span>
 		</div>
 
-		<div class="sheet-text">{$translations['change-lists-help']}</div>
+		<div class="sheet-text">{msg desc=""}change-lists-help{/msg}</div>
 
 		<div class="form-group">
 			<label class="toggle-switch">
@@ -51,7 +51,7 @@
 				</span>
 				<span class="toggle-label-text">
 					<span class="custom-control-label-text">
-						{msg desc=""}Yes{/msg}
+						{msg desc=""}yes{/msg}
 					</span>
 				</span>
 			</label>
@@ -61,12 +61,12 @@
 			<div class="btn-group">
 				<div class="btn-group-item">
 					<button class="btn btn-primary" data-onclick="{$_handleSave}" type="button">
-						{msg desc=""}Save{/msg}
+						{msg desc=""}save{/msg}
 					</button>
 				</div>
 
 				<div class="btn-group-item">
-					<button class="btn btn-primary" data-onclick="{$_handleSaveAndGoToOverview}" {if not $changeTrackingEnabled}disabled{/if} type="button">{$translations['save-and-go-to-overview']}</button>
+					<button class="btn btn-primary" data-onclick="{$_handleSaveAndGoToOverview}" {if not $changeTrackingEnabled}disabled{/if} type="button">{msg desc=""}save-and-go-to-overview{/msg}</button>
 				</div>
 			</div>
 		</div>

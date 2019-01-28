@@ -16,13 +16,9 @@ class ChangeListsConfiguration extends PortletBase {
 			this.urlChangeTrackingConfiguration,
 			response => {
 				if (response) {
-					this.setState(
-						{
-							changeTrackingEnabled: response.changeTrackingEnabled,
-							initialFetch: true,
-							tooltipBody: response.supportedContentTypes
-						}
-					);
+					this.changeTrackingEnabled = response.changeTrackingEnabled;
+					this.initialFetch = true;
+					this.tooltipBody = response.supportedContentType;
 				}
 			}
 		);
@@ -35,11 +31,7 @@ class ChangeListsConfiguration extends PortletBase {
 	 * @review
 	 */
 	_handleCheck(event) {
-		this.setState(
-			{
-				changeTrackingEnabled: event.target.checked
-			}
-		);
+		this.changeTrackingEnabled = event.target.checked;
 	}
 
 	/**
@@ -59,7 +51,6 @@ class ChangeListsConfiguration extends PortletBase {
 			this.urlChangeTrackingConfiguration,
 			data,
 			response => {
-
 				const message = Liferay.Language.get('the-configuration-has-been-saved');
 
 				openToast(
@@ -89,7 +80,6 @@ class ChangeListsConfiguration extends PortletBase {
 			data,
 			response => {
 				if (response) {
-
 					const message = Liferay.Language.get('the-configuration-has-been-saved');
 
 					openToast(
@@ -115,14 +105,8 @@ class ChangeListsConfiguration extends PortletBase {
 		};
 
 		fetch(url, request)
-			.then(
-				response => response.json()
-			)
-			.then(
-				response => {
-					callback(response);
-				}
-			)
+			.then(response => response.json())
+			.then(response => callback(response))
 			.catch(
 				(error) => {
 					const message = typeof error === 'string' ?
@@ -154,14 +138,8 @@ class ChangeListsConfiguration extends PortletBase {
 		};
 
 		fetch(url, request)
-			.then(
-				response => response.json()
-			)
-			.then(
-				response => {
-					callback(response);
-				}
-			)
+			.then(response => response.json())
+			.then(response => callback(response))
 			.catch(
 				(error) => {
 					const message = typeof error === 'string' ?
@@ -240,7 +218,7 @@ ChangeListsConfiguration.STATE = {
 	 * @type {?array<string>}
 	 */
 
-	tooltipBody: Config.array()
+	tooltipBody: Config.string()
 };
 
 Soy.register(ChangeListsConfiguration, templates);
