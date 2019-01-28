@@ -54,8 +54,25 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class CTCollectionResource {
 
 	@GET
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CTCollectionModel> getActiveCTConfiguration(
+	public CTCollectionModel getCTCollectionModel(
+		@PathParam("id") long ctCollectionId) {
+
+		Optional<CTCollection> ctCollectionOptional =
+			_ctEngineManager.getCTCollectionOptional(ctCollectionId);
+
+		CTCollection ctCollection = ctCollectionOptional.orElseThrow(
+			() -> new IllegalArgumentException(
+				"Unable to find change tracking collection with id " +
+					ctCollectionId));
+
+		return _getCTCollectionModel(ctCollection);
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<CTCollectionModel> getCTCollectionModels(
 			@QueryParam("companyId") long companyId,
 			@QueryParam("userId") long userId,
 			@DefaultValue(_TYPE_ALL) @QueryParam("type") String type)
@@ -101,23 +118,6 @@ public class CTCollectionResource {
 		).collect(
 			Collectors.toList()
 		);
-	}
-
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public CTCollectionModel getCTCollection(
-		@PathParam("id") long ctCollectionId) {
-
-		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getCTCollectionOptional(ctCollectionId);
-
-		CTCollection ctCollection = ctCollectionOptional.orElseThrow(
-			() -> new IllegalArgumentException(
-				"Unable to find change tracking collection with id " +
-					ctCollectionId));
-
-		return _getCTCollectionModel(ctCollection);
 	}
 
 	private CTCollectionModel _getCTCollectionModel(CTCollection ctCollection) {
