@@ -14,14 +14,10 @@
 
 package com.liferay.change.tracking.change.lists.configuration.web.internal.display.context;
 
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.template.soy.util.SoyContext;
 import com.liferay.portal.template.soy.util.SoyContextFactoryUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.portlet.RenderResponse;
 
@@ -55,23 +51,6 @@ public class ChangeListsConfigurationDisplayContext {
 		soyContext.put(
 			"spritemap",
 			_themeDisplay.getPathThemeImages() + "/lexicon/icons.svg");
-
-		Map<String, String> translations = new HashMap<>();
-
-		translations.put(
-			"change-lists-help",
-			LanguageUtil.get(_request, "change-lists-help"));
-		translations.put(
-			"enable-change-lists",
-			LanguageUtil.get(_request, "enable-change-lists"));
-		translations.put(
-			"save-and-go-to-overview",
-			LanguageUtil.get(_request, "save-and-go-to-overview"));
-		translations.put(
-			"supported-content-types",
-			LanguageUtil.get(_request, "supported-content-types"));
-
-		soyContext.put("translations", translations);
 
 		return soyContext;
 	}
