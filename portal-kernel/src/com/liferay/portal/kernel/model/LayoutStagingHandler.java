@@ -301,16 +301,16 @@ public class LayoutStagingHandler implements InvocationHandler, Serializable {
 		Arrays.asList(
 			"getColorScheme", "getColorSchemeId", "getCss", "getCssText",
 			"getDescription", "getGroupId", "getHTMLTitle", "getIconImage",
-			"getIconImageId", "getKeywords", "getLayoutSet", "getName",
-			"getRobots", "getTheme", "getThemeId", "getThemeSetting",
+			"getIconImageId", "getKeywords", "getLayoutSet", "getModifiedDate",
+			"getName", "getRobots", "getTheme", "getThemeId", "getThemeSetting",
 			"getTitle", "getTypeSettings", "getTypeSettingsProperties",
 			"getTypeSettingsProperty", "isContentDisplayPage", "isEscapedModel",
 			"isIconImage", "isInheritLookAndFeel", "setColorSchemeId", "setCss",
 			"setDescription", "setDescriptionMap", "setEscapedModel",
 			"setGroupId", "setIconImage", "setIconImageId", "setKeywords",
-			"setKeywordsMap", "setName", "setNameMap", "setRobots",
-			"setRobotsMap", "setThemeId", "setTitle", "setTitleMap",
-			"setTypeSettings", "setTypeSettingsProperties"));
+			"setKeywordsMap", "setModifiedDate", "setName", "setNameMap",
+			"setRobots", "setRobotsMap", "setThemeId", "setTitle",
+			"setTitleMap", "setTypeSettings", "setTypeSettingsProperties"));
 
 	private final Layout _layout;
 	private LayoutRevision _layoutRevision;
