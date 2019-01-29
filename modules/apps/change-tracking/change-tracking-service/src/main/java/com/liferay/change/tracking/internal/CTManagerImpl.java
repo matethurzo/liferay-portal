@@ -171,7 +171,7 @@ public class CTManagerImpl implements CTManager {
 			_ctEngineManager.getActiveCTCollectionOptional(userId);
 
 		if (!ctCollectionOptional.isPresent()) {
-			return null;
+			return Optional.empty();
 		}
 
 		CTCollection ctCollection = ctCollectionOptional.get();
