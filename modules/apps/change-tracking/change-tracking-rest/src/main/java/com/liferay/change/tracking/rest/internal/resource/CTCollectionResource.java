@@ -54,10 +54,10 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class CTCollectionResource {
 
 	@GET
-	@Path("/{id}")
+	@Path("/{ctCollectionId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public CTCollectionModel getCTCollectionModel(
-		@PathParam("id") long ctCollectionId) {
+		@PathParam("ctCollectionId") long ctCollectionId) {
 
 		Optional<CTCollection> ctCollectionOptional =
 			_ctEngineManager.getCTCollectionOptional(ctCollectionId);
