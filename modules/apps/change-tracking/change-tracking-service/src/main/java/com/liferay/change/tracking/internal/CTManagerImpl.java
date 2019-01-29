@@ -47,6 +47,31 @@ import org.osgi.service.component.annotations.Reference;
 public class CTManagerImpl implements CTManager {
 
 	@Override
+	public Optional<CTEntry> getActiveCTCollectionCTEntryOptional(
+		long userId, long classNameId, long classPK) {
+
+		long companyId = _getCompanyId(userId);
+
+		if (companyId <= 0) {
+			return Optional.empty();
+		}
+
+		Optional<CTCollection> ctCollectionOptional =
+			_ctEngineManager.getActiveCTCollectionOptional(userId);
+
+		long ctCollectionId = ctCollectionOptional.map(
+			CTCollection::getCtCollectionId
+		).orElse(
+			0L
+		);
+
+		CTEntry ctEntry = _getCTentry(
+			companyId, ctCollectionId, classNameId, classPK);
+
+		return Optional.ofNullable(ctEntry);
+	}
+
+	@Override
 	public Optional<CTEntry> getLatestModelChangeCTEntryOptional(
 		long userId, long resourcePrimKey) {
 
@@ -121,21 +146,29 @@ public class CTManagerImpl implements CTManager {
 	public Optional<CTEntry> getModelChangeCTEntryOptional(
 		long userId, long classNameId, long classPK) {
 
+		Optional<CTEntry> ctEntryOptional =
+			getActiveCTCollectionCTEntryOptional(userId, classNameId, classPK);
+
+		if (ctEntryOptional.isPresent()) {
+			return ctEntryOptional;
+		}
+
+		return getProductionCTCollectionCTEntryOptional(
+			userId, classNameId, classPK);
+	}
+
+	@Override
+	public Optional<CTEntry> getProductionCTCollectionCTEntryOptional(
+		long userId, long classNameId, long classPK) {
+
 		long companyId = _getCompanyId(userId);
 
 		if (companyId <= 0) {
 			return Optional.empty();
 		}
 
-		if (!_ctEngineManager.isChangeTrackingEnabled(companyId) ||
-			!_ctEngineManager.isChangeTrackingSupported(
-				companyId, classNameId)) {
-
-			return Optional.empty();
-		}
-
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(userId);
+			_ctEngineManager.getProductionCTCollectionOptional(companyId);
 
 		long ctCollectionId = ctCollectionOptional.map(
 			CTCollection::getCtCollectionId
@@ -143,8 +176,8 @@ public class CTManagerImpl implements CTManager {
 			0L
 		);
 
-		CTEntry ctEntry = _ctEntryLocalService.fetchCTEntry(
-			ctCollectionId, classNameId, classPK);
+		CTEntry ctEntry = _getCTentry(
+			companyId, ctCollectionId, classNameId, classPK);
 
 		return Optional.ofNullable(ctEntry);
 	}
@@ -224,6 +257,20 @@ public class CTManagerImpl implements CTManager {
 		}
 
 		return user.getCompanyId();
+	}
+
+	private CTEntry _getCTentry(
+		long companyId, long ctCollectionId, long classNameId, long classPK) {
+
+		if (!_ctEngineManager.isChangeTrackingEnabled(companyId) ||
+			!_ctEngineManager.isChangeTrackingSupported(
+				companyId, classNameId)) {
+
+			return null;
+		}
+
+		return _ctEntryLocalService.fetchCTEntry(
+			ctCollectionId, classNameId, classPK);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(CTManagerImpl.class);
