@@ -1295,6 +1295,7 @@ AUI.add(
 
 											instance.setValue(
 												{
+													classPK: itemValue.fileEntryId,
 													groupId: itemValue.groupId,
 													title: itemValue.title,
 													type: itemValue.type,
