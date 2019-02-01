@@ -15,7 +15,8 @@
 package com.liferay.dynamic.data.mapping.exportimport.content.processor;
 
 import com.liferay.document.library.kernel.exception.NoSuchFileEntryException;
-import com.liferay.document.library.kernel.service.DLAppService;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
 import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
@@ -24,6 +25,8 @@ import com.liferay.dynamic.data.mapping.util.DDMFormFieldValueTransformer;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesTransformer;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
@@ -37,11 +40,15 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
+
+import java.io.Serializable;
 
 import java.util.Locale;
 import java.util.Map;
@@ -98,7 +105,7 @@ public class DDMFormValuesExportImportContentProcessor
 
 		ddmFormValuesTransformer.addTransformer(
 			new FileEntryImportDDMFormFieldValueTransformer(
-				portletDataContext));
+				portletDataContext, stagedModel));
 		ddmFormValuesTransformer.addTransformer(
 			new JournalArticleImportDDMFormFieldValueTransformer(
 				portletDataContext));
@@ -116,8 +123,8 @@ public class DDMFormValuesExportImportContentProcessor
 	}
 
 	@Reference(unbind = "-")
-	protected void setDLAppService(DLAppService dlAppService) {
-		_dlAppService = dlAppService;
+	protected void setDLAppLocalService(DLAppLocalService dlAppLocalService) {
+		_dlAppLocalService = dlAppLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -127,10 +134,37 @@ public class DDMFormValuesExportImportContentProcessor
 		_layoutLocalService = layoutLocalService;
 	}
 
+	private boolean _hasExportableStatus(StagedModel stagedModel, int status) {
+		StagedModelDataHandler<?> stagedModelDataHandler =
+			StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(
+				stagedModel.getModelClassName());
+
+		return ArrayUtil.contains(
+			stagedModelDataHandler.getExportableStatuses(), status);
+	}
+
+	private boolean _isReferenceDisposable(
+		Class clazz, StagedModel parentStagedModel, long groupId, String uuid,
+		PortletDataContext portletDataContext) {
+
+		Element parentElement = portletDataContext.getImportDataElement(
+			parentStagedModel);
+
+		Element disposableElement = portletDataContext.getReferenceElement(
+			parentElement, clazz, groupId, uuid,
+			PortletDataContext.REFERENCE_TYPE_DEPENDENCY_DISPOSABLE);
+
+		if (disposableElement != null) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMFormValuesExportImportContentProcessor.class);
 
-	private DLAppService _dlAppService;
+	private DLAppLocalService _dlAppLocalService;
 
 	@Reference
 	private JournalArticleLocalService _journalArticleLocalService;
@@ -245,20 +279,35 @@ public class DDMFormValuesExportImportContentProcessor
 				}
 
 				FileEntry fileEntry =
-					_dlAppService.getFileEntryByUuidAndGroupId(uuid, groupId);
+					_dlAppLocalService.getFileEntryByUuidAndGroupId(
+						uuid, groupId);
 
-				if (_exportReferencedContent) {
+				FileVersion fileVersion = fileEntry.getFileVersion();
+
+				boolean disposableDependency = !_hasExportableStatus(
+					fileEntry, fileVersion.getStatus());
+
+				if (_exportReferencedContent && !disposableDependency) {
 					StagedModelDataHandlerUtil.exportReferenceStagedModel(
 						_portletDataContext, _stagedModel, fileEntry,
-						_portletDataContext.REFERENCE_TYPE_DEPENDENCY);
+						PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
 				}
 				else {
 					Element entityElement =
 						_portletDataContext.getExportDataElement(_stagedModel);
 
+					String referenceType =
+						PortletDataContext.REFERENCE_TYPE_DEPENDENCY;
+
+					if (disposableDependency) {
+						referenceType =
+							PortletDataContext.
+								REFERENCE_TYPE_DEPENDENCY_DISPOSABLE;
+					}
+
 					_portletDataContext.addReferenceElement(
-						_stagedModel, entityElement, fileEntry,
-						PortletDataContext.REFERENCE_TYPE_DEPENDENCY, true);
+						_stagedModel, entityElement, fileEntry, referenceType,
+						!disposableDependency);
 				}
 			}
 		}
@@ -273,9 +322,10 @@ public class DDMFormValuesExportImportContentProcessor
 		implements DDMFormFieldValueTransformer {
 
 		public FileEntryImportDDMFormFieldValueTransformer(
-			PortletDataContext portletDataContext) {
+			PortletDataContext portletDataContext, StagedModel stagedModel) {
 
 			_portletDataContext = portletDataContext;
+			_stagedModel = stagedModel;
 		}
 
 		@Override
@@ -312,6 +362,42 @@ public class DDMFormValuesExportImportContentProcessor
 				PortletDataContext portletDataContext, JSONObject jsonObject)
 			throws PortalException {
 
+			long classPK = GetterUtil.getLong(jsonObject.get("classPK"));
+
+			Map<Long, Long> classPKs =
+				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+					DLFileEntry.class);
+
+			long newClassPK = MapUtil.getLong(classPKs, classPK);
+
+			if (newClassPK > 0) {
+				Element disposableElement =
+					portletDataContext.getReferenceElement(
+						_stagedModel, DLFileEntry.class, (Serializable)classPK);
+
+				try {
+					return _dlAppLocalService.getFileEntry(newClassPK);
+				}
+				catch (NoSuchFileEntryException nsfee) {
+					if (PortletDataContext.
+							REFERENCE_TYPE_DEPENDENCY_DISPOSABLE.equals(
+								disposableElement.attribute("type"))) {
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"Unable to find file entry with fileEntryId " +
+									newClassPK,
+								nsfee);
+						}
+					}
+					else {
+						throw nsfee;
+					}
+				}
+			}
+
+			// Importing Legacy Data
+
 			Map<Long, Long> groupIds =
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 					Group.class);
@@ -319,20 +405,29 @@ public class DDMFormValuesExportImportContentProcessor
 			long groupId = jsonObject.getLong("groupId");
 			String uuid = jsonObject.getString("uuid");
 
+			boolean disposable = _isReferenceDisposable(
+				DLFileEntry.class, _stagedModel, groupId, uuid,
+				portletDataContext);
+
 			groupId = MapUtil.getLong(groupIds, groupId, groupId);
 
 			if ((groupId > 0) && Validator.isNotNull(uuid)) {
 				try {
-					return _dlAppService.getFileEntryByUuidAndGroupId(
+					return _dlAppLocalService.getFileEntryByUuidAndGroupId(
 						uuid, groupId);
 				}
 				catch (NoSuchFileEntryException nsfee) {
-					if (_log.isWarnEnabled()) {
-						_log.warn(
-							StringBundler.concat(
-								"Unable to find file entry with uuid ", uuid,
-								" and groupId ", groupId),
-							nsfee);
+					if (disposable || (newClassPK == 0)) {
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								StringBundler.concat(
+									"Unable to find file entry with uuid ",
+									uuid, " and groupId ", groupId),
+								nsfee);
+						}
+					}
+					else {
+						throw nsfee;
 					}
 				}
 			}
@@ -343,6 +438,7 @@ public class DDMFormValuesExportImportContentProcessor
 		protected String toJSON(FileEntry fileEntry, String type) {
 			JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
 
+			jsonObject.put("classPK", fileEntry.getFileEntryId());
 			jsonObject.put("groupId", fileEntry.getGroupId());
 			jsonObject.put("title", fileEntry.getTitle());
 			jsonObject.put("type", type);
@@ -352,6 +448,7 @@ public class DDMFormValuesExportImportContentProcessor
 		}
 
 		private final PortletDataContext _portletDataContext;
+		private final StagedModel _stagedModel;
 
 	}
 
