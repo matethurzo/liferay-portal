@@ -162,6 +162,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
 
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -449,7 +450,6 @@ public class StagingImpl implements Staging {
 		Map<String, Serializable> settingsMap =
 			exportImportConfiguration.getSettingsMap();
 
-		long targetGroupId = MapUtil.getLong(settingsMap, "targetGroupId");
 		String remoteAddress = MapUtil.getString(settingsMap, "remoteAddress");
 		int remotePort = MapUtil.getInteger(settingsMap, "remotePort");
 		String remotePathContext = MapUtil.getString(
@@ -1661,6 +1661,27 @@ public class StagingImpl implements Staging {
 				String.valueOf(
 					UploadServletRequestConfigurationHelperUtil.getMaxSize()));
 			errorType = ServletResponseConstants.SC_FILE_SIZE_EXCEPTION;
+		}
+		else if (e.getCause() instanceof ConnectException) {
+			Map settingsMap = exportImportConfiguration.getSettingsMap();
+
+			String remoteAddress = (String)settingsMap.get("remoteAddress");
+			String remotePort = String.valueOf(settingsMap.get("remotePort"));
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(remoteAddress);
+			sb.append(":");
+			sb.append(remotePort);
+
+			errorMessage = LanguageUtil.format(
+				resourceBundle,
+				"could-not-connect-to-address-x.-please-verify-that-the-" +
+					"specified-port-is-correct-and-that-the-remote-server-is-" +
+						"configured-to-accept-requests-from-this-server",
+				sb.toString());
+
+			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
 		else {
 			errorMessage = e.getLocalizedMessage();
