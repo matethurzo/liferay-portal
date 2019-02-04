@@ -457,10 +457,6 @@ public class StagingImpl implements Staging {
 		boolean secureConnection = MapUtil.getBoolean(
 			settingsMap, "secureConnection");
 
-		_groupLocalService.validateRemote(
-			exportImportConfiguration.getGroupId(), remoteAddress, remotePort,
-			remotePathContext, secureConnection, targetGroupId);
-
 		boolean remotePrivateLayout = MapUtil.getBoolean(
 			settingsMap, "remotePrivateLayout");
 
@@ -524,10 +520,6 @@ public class StagingImpl implements Staging {
 			int remotePort, String remotePathContext, boolean secureConnection,
 			long remoteGroupId, boolean remotePrivateLayout)
 		throws PortalException {
-
-		_groupLocalService.validateRemote(
-			sourceGroupId, remoteAddress, remotePort, remotePathContext,
-			secureConnection, remoteGroupId);
 
 		PermissionChecker permissionChecker =
 			PermissionThreadLocal.getPermissionChecker();
