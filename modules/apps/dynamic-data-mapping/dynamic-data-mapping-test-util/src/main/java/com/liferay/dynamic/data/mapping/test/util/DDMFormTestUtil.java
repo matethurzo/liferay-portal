@@ -18,6 +18,7 @@ import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 
 import java.util.LinkedHashSet;
@@ -38,6 +39,24 @@ public class DDMFormTestUtil {
 		for (DDMFormField ddmFormField : ddmFormFieldsArray) {
 			ddmFormFields.add(ddmFormField);
 		}
+	}
+
+	public static DDMFormField addDocumentLibraryDDMFormFields(
+		DDMForm ddmForm, String fieldName) {
+
+		List<DDMFormField> ddmFormFields = ddmForm.getDDMFormFields();
+
+		DDMFormField ddmFormField = createDDMFormField(
+			fieldName, RandomTestUtil.randomString(), "ddm-documentlibrary",
+			"document-library", true, false, true);
+
+		ddmFormField.setDDMForm(ddmForm);
+		ddmFormField.setLocalizable(true);
+		ddmFormField.setFieldNamespace("ddm");
+
+		ddmFormFields.add(ddmFormField);
+
+		return ddmFormField;
 	}
 
 	public static void addNestedTextDDMFormFields(
