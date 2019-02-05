@@ -15,8 +15,10 @@
 package com.liferay.dynamic.data.mapping.helper;
 
 import com.liferay.dynamic.data.mapping.model.DDMForm;
+import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceSettings;
+import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
@@ -25,8 +27,12 @@ import com.liferay.dynamic.data.mapping.test.util.DDMFormTestUtil;
 import com.liferay.dynamic.data.mapping.test.util.DDMFormValuesTestUtil;
 import com.liferay.dynamic.data.mapping.test.util.DDMStructureTestHelper;
 import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
+import com.liferay.dynamic.data.mapping.util.DDMUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
@@ -35,8 +41,11 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Lino Alves
@@ -131,6 +140,63 @@ public class DDMFormInstanceTestHelper {
 			TestPropsValues.getUserId(), _group.getGroupId(),
 			ddmStructure.getStructureId(), nameMap, descriptionMap,
 			settingsDDMFormValues, serviceContext);
+	}
+
+	public DDMFormInstance addDDMFormInstanceWithDocLibField(
+			DDMStructure ddmStructure, FileEntry fileEntry)
+		throws Exception {
+
+		Map<Locale, String> nameMap = new HashMap<>();
+
+		nameMap.put(LocaleUtil.US, RandomTestUtil.randomString());
+
+		Map<Locale, String> descriptionMap = new HashMap<>();
+
+		descriptionMap.put(LocaleUtil.US, RandomTestUtil.randomString());
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(_group.getGroupId());
+		DDMForm fileEntryDDMForm = new DDMForm();
+
+		Set<Locale> availableLocales = new LinkedHashSet<>();
+
+		availableLocales.add(LocaleUtil.US);
+
+		fileEntryDDMForm.setAvailableLocales(availableLocales);
+
+		fileEntryDDMForm.setDefaultLocale(LocaleUtil.US);
+
+		DDMFormTestUtil.addDocumentLibraryDDMFormFields(
+			fileEntryDDMForm, "DocumentsAndMedia9t17");
+
+		DDMFormValues ddmFormValues = new DDMFormValues(fileEntryDDMForm);
+
+		ddmFormValues.setAvailableLocales(availableLocales);
+		ddmFormValues.setDefaultLocale(LocaleUtil.US);
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		jsonObject.put("classPK", fileEntry.getFileEntryId());
+		jsonObject.put("groupId", fileEntry.getGroupId());
+		jsonObject.put("title", fileEntry.getTitle());
+		jsonObject.put("type", "document");
+		jsonObject.put("uuid", fileEntry.getUuid());
+
+		List<DDMFormField> ddmFormFields = fileEntryDDMForm.getDDMFormFields();
+
+		for (DDMFormField ddmFormField : ddmFormFields) {
+			ddmFormValues.addDDMFormFieldValue(
+				DDMFormValuesTestUtil.createLocalizedDDMFormFieldValue(
+					ddmFormField.getName(), jsonObject.toString()));
+		}
+
+		DDMFormLayout ddmFormLayout = DDMUtil.getDefaultDDMFormLayout(
+			fileEntryDDMForm);
+
+		return DDMFormInstanceLocalServiceUtil.addFormInstance(
+			TestPropsValues.getUserId(), _group.getGroupId(), nameMap,
+			descriptionMap, fileEntryDDMForm, ddmFormLayout, ddmFormValues,
+			serviceContext);
 	}
 
 	public DDMFormInstance updateFormInstance(
