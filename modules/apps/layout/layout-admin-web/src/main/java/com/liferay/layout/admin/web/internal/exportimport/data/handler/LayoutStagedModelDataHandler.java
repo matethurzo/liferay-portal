@@ -40,7 +40,6 @@ import com.liferay.fragment.service.FragmentEntryLinkLocalService;
 import com.liferay.layout.admin.web.internal.exportimport.data.handler.util.LayoutPageTemplateStructureDataHandlerUtil;
 import com.liferay.layout.constants.LayoutConstants;
 import com.liferay.layout.page.template.model.LayoutPageTemplateStructure;
-import com.liferay.layout.page.template.service.LayoutPageTemplateEntryLocalService;
 import com.liferay.layout.page.template.service.LayoutPageTemplateStructureLocalService;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
@@ -271,27 +270,6 @@ public class LayoutStagedModelDataHandler
 		populateElementLayoutMetadata(layoutElement, layout);
 
 		layoutElement.addAttribute(Constants.ACTION, Constants.ADD);
-
-		String layoutPrototypeUuid = layout.getLayoutPrototypeUuid();
-
-		if (Validator.isNotNull(layoutPrototypeUuid)) {
-			LayoutPrototype layoutPrototype =
-				_layoutPrototypeLocalService.
-					getLayoutPrototypeByUuidAndCompanyId(
-						layoutPrototypeUuid, layout.getCompanyId());
-
-			boolean globalTemplate = false;
-
-			Group companyGroup = _groupLocalService.getCompanyGroup(
-				layoutPrototype.getCompanyId());
-
-			if (layoutPrototype.getGroupId() == companyGroup.getGroupId()) {
-				globalTemplate = true;
-			}
-
-			layoutElement.addAttribute(
-				"global-layout-prototype", String.valueOf(globalTemplate));
-		}
 
 		portletDataContext.setPlid(layout.getPlid());
 
@@ -1825,6 +1803,18 @@ public class LayoutStagedModelDataHandler
 			layoutElement.addAttribute(
 				"layout-prototype-name",
 				layoutPrototype.getName(LocaleUtil.getDefault()));
+
+			boolean globalTemplate = false;
+
+			Group companyGroup = _groupLocalService.getCompanyGroup(
+				layoutPrototype.getCompanyId());
+
+			if (layoutPrototype.getGroupId() == companyGroup.getGroupId()) {
+				globalTemplate = true;
+			}
+
+			layoutElement.addAttribute(
+				"global-layout-prototype", String.valueOf(globalTemplate));
 		}
 	}
 
@@ -2056,10 +2046,6 @@ public class LayoutStagedModelDataHandler
 	private LayoutFriendlyURLLocalService _layoutFriendlyURLLocalService;
 	private LayoutLocalService _layoutLocalService;
 	private LayoutLocalServiceHelper _layoutLocalServiceHelper;
-
-	@Reference
-	private LayoutPageTemplateEntryLocalService
-		_layoutPageTemplateEntryLocalService;
 
 	@Reference
 	private LayoutPageTemplateStructureDataHandlerUtil
