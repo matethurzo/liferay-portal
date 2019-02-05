@@ -35,6 +35,15 @@ public class CTPortletKeys {
 			"MyChangeListsPortlet";
 
 	public static final String SITE_CHANGE_LISTS =
-		"com_liferay_change_tracking_web_portlet_SiteChangeListsPortlet";
+		"com_liferay_change_tracking_site_change_lists_web_portlet_" +
+			"SiteChangeListsPortlet";
+
+	public static final String SITE_CHANGE_LISTS_CONFIGURATION =
+		"com_liferay_change_tracking_site_change_lists_web_portlet_" +
+			"SiteChangeListsConfigurationPortlet";
+
+	public static final String SITE_CHANGE_LISTS_HISTORY =
+		"com_liferay_change_tracking_site_change_lists_history_web_portlet_" +
+			"SiteChangeListsHistoryPortlet";
 
 }

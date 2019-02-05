@@ -16,10 +16,10 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="sheet sheet-lg">
+<div class="sheet sheet-lg site-change-lists-sheet">
 	<div class="sheet-header">
-		<h2 class="sheet-title">Change Lists example screen</h2>
+		<h2 class="sheet-title">Site Change Lists example screen</h2>
 
-		<div class="sheet-text">This is only a placeholder for what's later be added to the change lists screen.</div>
+		<div class="sheet-text">This is only a placeholder for what's later be added to the site change lists screen.</div>
 	</div>
 </div>
