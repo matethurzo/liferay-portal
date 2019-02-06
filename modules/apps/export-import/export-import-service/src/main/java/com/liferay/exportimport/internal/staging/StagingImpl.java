@@ -1668,18 +1668,14 @@ public class StagingImpl implements Staging {
 			String remoteAddress = (String)settingsMap.get("remoteAddress");
 			String remotePort = String.valueOf(settingsMap.get("remotePort"));
 
-			StringBuilder sb = new StringBuilder();
-
-			sb.append(remoteAddress);
-			sb.append(":");
-			sb.append(remotePort);
+			String argument = remoteAddress + ":" + remotePort;
 
 			errorMessage = LanguageUtil.format(
 				resourceBundle,
 				"could-not-connect-to-address-x.-please-verify-that-the-" +
 					"specified-port-is-correct-and-that-the-remote-server-is-" +
 						"configured-to-accept-requests-from-this-server",
-				sb.toString());
+				argument);
 
 			errorType = ServletResponseConstants.SC_FILE_CUSTOM_EXCEPTION;
 		}
