@@ -15,6 +15,9 @@
 package com.liferay.exportimport.internal.verify.system.event;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -37,6 +40,20 @@ public class SystemEventVerifyProcess extends VerifyProcess {
 	protected void deleteInvalidSystemEvents() throws PortalException {
 		ActionableDynamicQuery actionableDynamicQuery =
 			_groupLocalService.getActionableDynamicQuery();
+
+		actionableDynamicQuery.setAddCriteriaMethod(
+			dynamicQuery -> {
+				Property liveGroupIdProperty = PropertyFactoryUtil.forName(
+					"liveGroupId");
+
+				Property remoteStagingGroupCountProperty =
+					PropertyFactoryUtil.forName("remoteStagingGroupCount");
+
+				dynamicQuery.add(
+					RestrictionsFactoryUtil.or(
+						liveGroupIdProperty.ne(0L),
+						remoteStagingGroupCountProperty.gt(0)));
+			});
 
 		actionableDynamicQuery.setPerformActionMethod(
 			(Group group) -> {
