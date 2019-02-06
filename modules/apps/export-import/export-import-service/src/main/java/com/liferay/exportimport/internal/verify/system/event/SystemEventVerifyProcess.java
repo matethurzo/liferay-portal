@@ -57,11 +57,14 @@ public class SystemEventVerifyProcess extends VerifyProcess {
 
 		actionableDynamicQuery.setPerformActionMethod(
 			(Group group) -> {
-				if (!_systemEventLocalService.validateGroup(
-						group.getGroupId())) {
+				long liveGroupId = group.getLiveGroupId();
 
-					_systemEventLocalService.deleteSystemEvents(
-						group.getGroupId());
+				if (liveGroupId == 0) {
+					liveGroupId = group.getGroupId();
+				}
+
+				if (!_systemEventLocalService.validateGroup(liveGroupId)) {
+					_systemEventLocalService.deleteSystemEvents(liveGroupId);
 				}
 			});
 
