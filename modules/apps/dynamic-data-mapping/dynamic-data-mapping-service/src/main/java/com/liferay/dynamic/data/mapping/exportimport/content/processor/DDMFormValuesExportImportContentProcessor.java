@@ -110,7 +110,7 @@ public class DDMFormValuesExportImportContentProcessor
 				portletDataContext, stagedModel));
 		ddmFormValuesTransformer.addTransformer(
 			new JournalArticleImportDDMFormFieldValueTransformer(
-				portletDataContext));
+				portletDataContext, stagedModel));
 		ddmFormValuesTransformer.addTransformer(
 			new LayoutImportDDMFormFieldValueTransformer(portletDataContext));
 
@@ -437,18 +437,30 @@ public class DDMFormValuesExportImportContentProcessor
 
 				value.addString(locale, jsonObject.toString());
 
-				if (_exportReferencedContent) {
+				boolean disposableDependency = _hasNotExportableStatus(
+					journalArticle, journalArticle.getStatus());
+
+				if (_exportReferencedContent && !disposableDependency) {
 					StagedModelDataHandlerUtil.exportReferenceStagedModel(
 						_portletDataContext, _stagedModel, journalArticle,
-						_portletDataContext.REFERENCE_TYPE_DEPENDENCY);
+						PortletDataContext.REFERENCE_TYPE_DEPENDENCY);
 				}
 				else {
+					String referenceType =
+						PortletDataContext.REFERENCE_TYPE_DEPENDENCY;
+
+					if (disposableDependency) {
+						referenceType =
+							PortletDataContext.
+								REFERENCE_TYPE_DEPENDENCY_DISPOSABLE;
+					}
+
 					Element entityElement =
 						_portletDataContext.getExportDataElement(_stagedModel);
 
 					_portletDataContext.addReferenceElement(
 						_stagedModel, entityElement, journalArticle,
-						PortletDataContext.REFERENCE_TYPE_DEPENDENCY, true);
+						referenceType, true);
 				}
 			}
 		}
@@ -463,9 +475,10 @@ public class DDMFormValuesExportImportContentProcessor
 		implements DDMFormFieldValueTransformer {
 
 		public JournalArticleImportDDMFormFieldValueTransformer(
-			PortletDataContext portletDataContext) {
+			PortletDataContext portletDataContext, StagedModel stagedModel) {
 
 			_portletDataContext = portletDataContext;
+			_stagedModel = stagedModel;
 		}
 
 		@Override
@@ -485,18 +498,7 @@ public class DDMFormValuesExportImportContentProcessor
 				JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
 					valueString);
 
-				String uuid = jsonObject.getString("uuid");
-				long groupId = jsonObject.getLong("groupId");
-
-				Map<Long, Long> groupIds =
-					(Map<Long, Long>)_portletDataContext.getNewPrimaryKeysMap(
-						Group.class);
-
-				groupId = MapUtil.getLong(groupIds, groupId);
-
-				JournalArticle journalArticle =
-					_journalArticleLocalService.
-						fetchJournalArticleByUuidAndGroupId(uuid, groupId);
+				JournalArticle journalArticle = fetchJournalArticle(jsonObject);
 
 				if (journalArticle == null) {
 					continue;
@@ -508,7 +510,66 @@ public class DDMFormValuesExportImportContentProcessor
 			}
 		}
 
+		protected JournalArticle fetchJournalArticle(JSONObject jsonObject)
+			throws PortalException {
+
+			long classPK = GetterUtil.getLong(jsonObject.get("classPK"));
+
+			Map<Long, Long> classPKs =
+				(Map<Long, Long>)_portletDataContext.getNewPrimaryKeysMap(
+					JournalArticle.class);
+
+			long newClassPK = MapUtil.getLong(classPKs, classPK);
+
+			if (newClassPK > 0) {
+				Element disposableElement =
+					_portletDataContext.getReferenceElement(
+						_stagedModel, JournalArticle.class,
+						(Serializable)classPK);
+
+				try {
+					return _journalArticleLocalService.getLatestArticle(
+						newClassPK);
+				}
+				catch (NoSuchFileEntryException nsfee) {
+					if (PortletDataContext.
+							REFERENCE_TYPE_DEPENDENCY_DISPOSABLE.equals(
+								disposableElement.attribute("type"))) {
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"Unable to find journal article with " +
+									"primaryKey " +
+										newClassPK,
+								nsfee);
+						}
+					}
+					else {
+						throw nsfee;
+					}
+				}
+			}
+
+			// Legacy import
+
+			String uuid = jsonObject.getString("uuid");
+			long groupId = jsonObject.getLong("groupId");
+
+			Map<Long, Long> groupIds =
+				(Map<Long, Long>)_portletDataContext.getNewPrimaryKeysMap(
+					Group.class);
+
+			groupId = MapUtil.getLong(groupIds, groupId);
+
+			JournalArticle journalArticle =
+				_journalArticleLocalService.fetchJournalArticleByUuidAndGroupId(
+					uuid, groupId);
+
+			return journalArticle;
+		}
+
 		private final PortletDataContext _portletDataContext;
+		private final StagedModel _stagedModel;
 
 	}
 
