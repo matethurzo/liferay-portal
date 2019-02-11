@@ -529,9 +529,7 @@ public class LayoutStagedModelDataHandler
 		Layout importedLayout = null;
 
 		if (existingLayout == null) {
-			long plid = _counterLocalService.increment();
-
-			importedLayout = _layoutLocalService.createLayout(plid);
+			importedLayout = _layoutLocalService.create();
 
 			if (layoutsImportMode.equals(
 					PortletDataHandlerKeys.
