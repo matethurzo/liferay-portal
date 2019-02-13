@@ -194,8 +194,7 @@ public class CTPublishBackgroundTaskExecutor
 		ctEntryStream.peek(
 			CTProcessMessageSenderUtil::logCTEntryPublished
 		).forEach(
-			ctEntry -> CTEntryLocalServiceUtil.addCTCollectionCTEntry(
-				productionCTCollectionId, ctEntry)
+			ctEntry -> _publishCTEntry(ctEntry, productionCTCollectionId)
 		);
 
 		Optional<CTCollection> ctCollectionOptional =
@@ -219,6 +218,16 @@ public class CTPublishBackgroundTaskExecutor
 
 			throw pe;
 		}
+	}
+
+	private void _publishCTEntry(
+		CTEntry ctEntry, long productionCTCollectionId) {
+
+		CTEntryLocalServiceUtil.addCTCollectionCTEntry(
+			productionCTCollectionId, ctEntry);
+
+		CTEntryLocalServiceUtil.updateStatus(
+			ctEntry.getCtEntryId(), WorkflowConstants.STATUS_APPROVED);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
