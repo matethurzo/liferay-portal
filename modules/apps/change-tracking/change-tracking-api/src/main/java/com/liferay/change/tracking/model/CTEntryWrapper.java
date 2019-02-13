@@ -53,6 +53,7 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 		attributes.put("classPK", getClassPK());
 		attributes.put("resourcePrimKey", getResourcePrimKey());
 		attributes.put("changeType", getChangeType());
+		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -117,6 +118,12 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 
 		if (changeType != null) {
 			setChangeType(changeType);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
@@ -218,6 +225,16 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 	@Override
 	public long getResourcePrimKey() {
 		return model.getResourcePrimKey();
+	}
+
+	/**
+	* Returns the status of this ct entry.
+	*
+	* @return the status of this ct entry
+	*/
+	@Override
+	public int getStatus() {
+		return model.getStatus();
 	}
 
 	/**
@@ -353,6 +370,16 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 	@Override
 	public void setResourcePrimKey(long resourcePrimKey) {
 		model.setResourcePrimKey(resourcePrimKey);
+	}
+
+	/**
+	* Sets the status of this ct entry.
+	*
+	* @param status the status of this ct entry
+	*/
+	@Override
+	public void setStatus(int status) {
+		model.setStatus(status);
 	}
 
 	/**

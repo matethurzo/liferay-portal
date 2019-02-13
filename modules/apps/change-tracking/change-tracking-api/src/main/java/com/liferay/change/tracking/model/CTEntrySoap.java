@@ -43,6 +43,7 @@ public class CTEntrySoap implements Serializable {
 		soapModel.setClassPK(model.getClassPK());
 		soapModel.setResourcePrimKey(model.getResourcePrimKey());
 		soapModel.setChangeType(model.getChangeType());
+		soapModel.setStatus(model.getStatus());
 
 		return soapModel;
 	}
@@ -175,6 +176,14 @@ public class CTEntrySoap implements Serializable {
 		_changeType = changeType;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	private long _ctEntryId;
 	private long _companyId;
 	private long _userId;
@@ -185,4 +194,5 @@ public class CTEntrySoap implements Serializable {
 	private long _classPK;
 	private long _resourcePrimKey;
 	private int _changeType;
+	private int _status;
 }

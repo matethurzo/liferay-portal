@@ -30,7 +30,8 @@ create table CTEntry (
 	classNameId LONG,
 	classPK LONG,
 	resourcePrimKey LONG,
-	changeType INTEGER
+	changeType INTEGER,
+	status INTEGER
 );
 
 create table CTProcess (

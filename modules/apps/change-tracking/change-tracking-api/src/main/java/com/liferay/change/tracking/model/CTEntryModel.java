@@ -244,4 +244,18 @@ public interface CTEntryModel extends AttachedModel, AuditedModel,
 	 * @param changeType the change type of this ct entry
 	 */
 	public void setChangeType(int changeType);
+
+	/**
+	 * Returns the status of this ct entry.
+	 *
+	 * @return the status of this ct entry
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this ct entry.
+	 *
+	 * @param status the status of this ct entry
+	 */
+	public void setStatus(int status);
 }

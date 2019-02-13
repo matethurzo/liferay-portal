@@ -141,6 +141,8 @@ public class CTEntryPersistenceTest {
 
 		newCTEntry.setChangeType(RandomTestUtil.nextInt());
 
+		newCTEntry.setStatus(RandomTestUtil.nextInt());
+
 		_ctEntries.add(_persistence.update(newCTEntry));
 
 		CTEntry existingCTEntry = _persistence.findByPrimaryKey(newCTEntry.getPrimaryKey());
@@ -166,6 +168,7 @@ public class CTEntryPersistenceTest {
 			newCTEntry.getResourcePrimKey());
 		Assert.assertEquals(existingCTEntry.getChangeType(),
 			newCTEntry.getChangeType());
+		Assert.assertEquals(existingCTEntry.getStatus(), newCTEntry.getStatus());
 	}
 
 	@Test
@@ -209,7 +212,8 @@ public class CTEntryPersistenceTest {
 		return OrderByComparatorFactoryUtil.create("CTEntry", "ctEntryId",
 			true, "companyId", true, "userId", true, "userName", true,
 			"createDate", true, "modifiedDate", true, "classNameId", true,
-			"classPK", true, "resourcePrimKey", true, "changeType", true);
+			"classPK", true, "resourcePrimKey", true, "changeType", true,
+			"status", true);
 	}
 
 	@Test
@@ -442,6 +446,8 @@ public class CTEntryPersistenceTest {
 		ctEntry.setResourcePrimKey(RandomTestUtil.nextLong());
 
 		ctEntry.setChangeType(RandomTestUtil.nextInt());
+
+		ctEntry.setStatus(RandomTestUtil.nextInt());
 
 		_ctEntries.add(_persistence.update(ctEntry));
 
