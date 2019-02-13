@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -83,6 +84,22 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		long ctCollectionId, long classNameId, long classPK) {
 
 		return ctEntryFinder.findByC_C_C(ctCollectionId, classNameId, classPK);
+	}
+
+	@Override
+	public CTEntry updateStatus(long ctEntryId, int status) {
+		if ((status != WorkflowConstants.STATUS_APPROVED) &&
+			(status != WorkflowConstants.STATUS_DRAFT)) {
+
+			throw new IllegalArgumentException(
+				"Change status value is invalid");
+		}
+
+		CTEntry ctEntry = ctEntryPersistence.fetchByPrimaryKey(ctEntryId);
+
+		ctEntry.setStatus(status);
+
+		return ctEntryPersistence.update(ctEntry);
 	}
 
 	private CTEntry _addCTEntry(
