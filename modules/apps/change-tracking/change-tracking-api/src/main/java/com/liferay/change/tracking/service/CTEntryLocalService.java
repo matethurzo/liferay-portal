@@ -307,4 +307,6 @@ public interface CTEntryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public CTEntry updateCTEntry(CTEntry ctEntry);
+
+	public CTEntry updateStatus(long ctEntryId, int status);
 }

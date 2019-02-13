@@ -380,6 +380,11 @@ public class CTEntryLocalServiceUtil {
 		return getService().updateCTEntry(ctEntry);
 	}
 
+	public static com.liferay.change.tracking.model.CTEntry updateStatus(
+		long ctEntryId, int status) {
+		return getService().updateStatus(ctEntryId, status);
+	}
+
 	public static CTEntryLocalService getService() {
 		return _serviceTracker.getService();
 	}

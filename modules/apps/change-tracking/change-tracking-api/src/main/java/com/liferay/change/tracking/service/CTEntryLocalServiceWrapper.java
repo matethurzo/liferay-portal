@@ -413,6 +413,12 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
+	public com.liferay.change.tracking.model.CTEntry updateStatus(
+		long ctEntryId, int status) {
+		return _ctEntryLocalService.updateStatus(ctEntryId, status);
+	}
+
+	@Override
 	public CTEntryLocalService getWrappedService() {
 		return _ctEntryLocalService;
 	}
