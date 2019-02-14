@@ -48,8 +48,10 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portlet.PortletPreferencesImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -348,7 +350,17 @@ public class JournalContentExportImportPortletPreferencesProcessor
 						}
 					}
 
-					if (portletDataContext.getPlid() > 0) {
+					int prefOwnerType = -1;
+
+					if (portletPreferences instanceof PortletPreferencesImpl) {
+						prefOwnerType =
+							((PortletPreferencesImpl)portletPreferences).
+								getOwnerType();
+					}
+
+					if ((portletDataContext.getPlid() > 0) && (prefOwnerType !=
+							PortletKeys.PREFS_OWNER_TYPE_ARCHIVED)) {
+
 						Layout layout = _layoutLocalService.fetchLayout(
 							portletDataContext.getPlid());
 
