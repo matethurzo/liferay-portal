@@ -16,6 +16,7 @@ package com.liferay.change.tracking.service.impl;
 
 import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.exception.DuplicateCTEntryException;
+import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.base.CTEntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
@@ -123,6 +124,18 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		ctEntry.setClassPK(classPK);
 		ctEntry.setResourcePrimKey(resourcePrimKey);
 		ctEntry.setChangeType(changeType);
+
+		int status = WorkflowConstants.STATUS_DRAFT;
+
+		CTCollection productionCTCollection =
+			ctCollectionLocalService.fetchCTCollection(
+				user.getCompanyId(), CTConstants.CT_COLLECTION_NAME_PRODUCTION);
+
+		if (ctCollectionId == productionCTCollection.getCtCollectionId()) {
+			status = WorkflowConstants.STATUS_APPROVED;
+		}
+
+		ctEntry.setStatus(status);
 
 		ctEntry = ctEntryPersistence.update(ctEntry);
 
