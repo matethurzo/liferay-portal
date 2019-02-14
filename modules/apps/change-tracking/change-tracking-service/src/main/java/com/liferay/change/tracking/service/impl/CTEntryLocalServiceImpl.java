@@ -88,6 +88,24 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	}
 
 	@Override
+	public List<CTEntry> getCTCollectionCTEntries(long ctCollectionId) {
+		if (_isProductionCTCollectionId(ctCollectionId)) {
+			return super.getCTCollectionCTEntries(ctCollectionId);
+		}
+
+		return getCTCollectionCTEntriesByStatus(
+			ctCollectionId, WorkflowConstants.STATUS_DRAFT);
+	}
+
+	@Override
+	public List<CTEntry> getCTCollectionCTEntriesByStatus(
+		long ctCollectionId, int status) {
+
+		return ctEntryFinder.findByC_S(
+			ctCollectionId, status, new QueryDefinition<>());
+	}
+
+	@Override
 	public CTEntry updateStatus(long ctEntryId, int status) {
 		if ((status != WorkflowConstants.STATUS_APPROVED) &&
 			(status != WorkflowConstants.STATUS_DRAFT)) {
@@ -127,11 +145,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 		int status = WorkflowConstants.STATUS_DRAFT;
 
-		CTCollection productionCTCollection =
-			ctCollectionLocalService.fetchCTCollection(
-				user.getCompanyId(), CTConstants.CT_COLLECTION_NAME_PRODUCTION);
-
-		if (ctCollectionId == productionCTCollection.getCtCollectionId()) {
+		if (_isProductionCTCollectionId(ctCollectionId)) {
 			status = WorkflowConstants.STATUS_APPROVED;
 		}
 
@@ -143,6 +157,13 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 			ctEntry.getCtEntryId(), ctCollectionId);
 
 		return ctEntry;
+	}
+
+	private boolean _isProductionCTCollectionId(long ctCollectionId) {
+		CTCollection ctCollection = ctCollectionLocalService.fetchCTCollection(
+			ctCollectionId);
+
+		return ctCollection.isProduction();
 	}
 
 	private CTEntry _updateCTEntry(
