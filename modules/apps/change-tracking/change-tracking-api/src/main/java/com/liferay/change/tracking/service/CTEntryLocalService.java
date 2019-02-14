@@ -228,6 +228,10 @@ public interface CTEntryLocalService extends BaseLocalService,
 		int start, int end, OrderByComparator<CTEntry> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTEntry> getCTCollectionCTEntriesByStatus(long ctCollectionId,
+		int status);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCTCollectionCTEntriesCount(long ctCollectionId);
 
 	/**
