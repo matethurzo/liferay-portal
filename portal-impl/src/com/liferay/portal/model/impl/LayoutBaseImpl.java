@@ -16,6 +16,8 @@ package com.liferay.portal.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 
@@ -44,7 +46,12 @@ public abstract class LayoutBaseImpl extends LayoutModelImpl implements Layout {
 			LayoutLocalServiceUtil.addLayout(this);
 		}
 		else {
-			LayoutLocalServiceUtil.updateLayout(this);
+			try {
+				LayoutLocalServiceUtil.updateLayout(this);
+			}
+			catch (PortalException pe) {
+				throw new SystemException(pe);
+			}
 		}
 	}
 }
