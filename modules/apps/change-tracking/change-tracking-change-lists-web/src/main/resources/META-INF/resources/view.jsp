@@ -17,8 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <%
-SearchContainer<CTCollection> ctCollectionSearchContainer =
-	changeListsDisplayContext.getSearchContainer();
+SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
 %>
 
 <clay:management-toolbar
