@@ -24,6 +24,7 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
+import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -168,8 +169,11 @@ public class ChangeListsDisplayContext {
 
 	public SearchContainer<CTCollection> getSearchContainer() {
 		SearchContainer<CTCollection> searchContainer = new SearchContainer<>(
-			_renderRequest, _getIteratorURL(), null,
-			"there-are-no-change-lists");
+			_renderRequest, new DisplayTerms(_renderRequest), null,
+			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
+			_getIteratorURL(), null, "there-are-no-change-lists");
+
+		DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 		CTEngineManager ctEngineManager = _serviceTracker.getService();
 
@@ -182,17 +186,20 @@ public class ChangeListsDisplayContext {
 
 		queryDefinition.setOrderByComparator(orderByComparator);
 
-		List<CTCollection> ctCollections = ctEngineManager.getCTCollections(
+		queryDefinition.setAttribute("keywords", displayTerms.getKeywords());
+
+		List<CTCollection> ctCollections = ctEngineManager.searchByKeywords(
 			_themeDisplay.getCompanyId(), queryDefinition);
 
 		Stream<CTCollection> stream = ctCollections.stream();
 
-		searchContainer.setResults(
-			stream.filter(
-				ctCollection -> !ctCollection.isProduction()
-			).collect(
-				Collectors.toList()
-			));
+		ctCollections = stream.filter(
+			ctCollection -> !ctCollection.isProduction()
+		).collect(
+			Collectors.toList()
+		);
+
+		searchContainer.setResults(ctCollections);
 
 		searchContainer.setTotal(ctCollections.size());
 
@@ -207,6 +214,15 @@ public class ChangeListsDisplayContext {
 			Objects.equals(getOrderByType(), "asc") ? "desc" : "asc");
 
 		return sortingURL.toString();
+	}
+
+	public String getViewSearchActionURL() {
+		PortletURL portletURL = _renderResponse.createRenderURL();
+
+		portletURL.setParameter("mvcRenderCommandName", "/change_lists/view");
+		portletURL.setParameter("select", "true");
+
+		return portletURL.toString();
 	}
 
 	public List<ViewTypeItem> getViewTypeItems() {
