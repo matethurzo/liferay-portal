@@ -546,6 +546,7 @@ create table Image (
 create table Layout (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
+	headId LONG,
 	plid LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
@@ -577,7 +578,8 @@ create table Layout (
 	layoutPrototypeUuid VARCHAR(75) null,
 	layoutPrototypeLinkEnabled BOOLEAN,
 	sourcePrototypeLayoutUuid VARCHAR(75) null,
-	lastPublishDate DATE null
+	lastPublishDate DATE null,
+	head BOOLEAN
 );
 
 create table LayoutBranch (
@@ -711,6 +713,44 @@ create table LayoutSetPrototype (
 	description TEXT null,
 	settings_ STRING null,
 	active_ BOOLEAN
+);
+
+create table LayoutVersion (
+	layoutVersionId LONG not null primary key,
+	version INTEGER,
+	uuid_ VARCHAR(75) null,
+	plid LONG,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	parentPlid LONG,
+	leftPlid LONG,
+	rightPlid LONG,
+	privateLayout BOOLEAN,
+	layoutId LONG,
+	parentLayoutId LONG,
+	name STRING null,
+	title STRING null,
+	description STRING null,
+	keywords STRING null,
+	robots STRING null,
+	type_ VARCHAR(75) null,
+	typeSettings VARCHAR(75) null,
+	hidden_ BOOLEAN,
+	system BOOLEAN,
+	friendlyURL VARCHAR(75) null,
+	iconImageId LONG,
+	themeId VARCHAR(75) null,
+	colorSchemeId VARCHAR(75) null,
+	css VARCHAR(75) null,
+	priority INTEGER,
+	layoutPrototypeUuid VARCHAR(75) null,
+	layoutPrototypeLinkEnabled BOOLEAN,
+	sourcePrototypeLayoutUuid VARCHAR(75) null,
+	lastPublishDate DATE null
 );
 
 create table ListType (
