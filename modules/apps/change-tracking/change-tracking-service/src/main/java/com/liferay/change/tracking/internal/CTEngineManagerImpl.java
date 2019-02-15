@@ -428,13 +428,14 @@ public class CTEngineManagerImpl implements CTEngineManager {
 					"description", _wildcard(keyword)));
 		}
 
-		DynamicQuery query = _ctCollectionLocalService.dynamicQuery();
+		DynamicQuery dynamicQuery = _ctCollectionLocalService.dynamicQuery();
 
-		query.add(RestrictionsFactoryUtil.eq("companyId", companyId));
-		query.add(disjunction);
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("companyId", companyId));
+
+		dynamicQuery.add(disjunction);
 
 		return _ctCollectionLocalService.dynamicQuery(
-			query, queryDefinition.getStart(), queryDefinition.getEnd(),
+			dynamicQuery, queryDefinition.getStart(), queryDefinition.getEnd(),
 			queryDefinition.getOrderByComparator());
 	}
 
