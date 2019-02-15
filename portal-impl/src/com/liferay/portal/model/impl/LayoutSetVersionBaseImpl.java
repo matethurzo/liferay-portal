@@ -31,11 +31,13 @@ import com.liferay.portal.kernel.model.LayoutSetVersion;
  * @generated
  */
 @ProviderType
-public abstract class LayoutSetVersionBaseImpl extends LayoutSetVersionModelImpl
-	implements LayoutSetVersion {
+public abstract class LayoutSetVersionBaseImpl
+	extends LayoutSetVersionModelImpl implements LayoutSetVersion {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never modify or reference this class directly. All methods that expect a layout set version model instance should use the <code>LayoutSetVersion</code> interface instead.
 	 */
+
 }

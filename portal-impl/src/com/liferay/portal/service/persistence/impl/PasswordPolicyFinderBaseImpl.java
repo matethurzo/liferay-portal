@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.service.persistence.PasswordPolicyPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -34,12 +32,6 @@ public class PasswordPolicyFinderBaseImpl
 
 	public PasswordPolicyFinderBaseImpl() {
 		setModelClass(PasswordPolicy.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("uuid", "uuid_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

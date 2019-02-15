@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.model.ServiceComponent;
 import com.liferay.portal.kernel.service.persistence.ServiceComponentPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -34,12 +32,6 @@ public class ServiceComponentFinderBaseImpl
 
 	public ServiceComponentFinderBaseImpl() {
 		setModelClass(ServiceComponent.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("data", "data_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

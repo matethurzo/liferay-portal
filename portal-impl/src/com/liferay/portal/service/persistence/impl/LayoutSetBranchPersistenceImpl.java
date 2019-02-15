@@ -50,7 +50,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -3236,12 +3235,6 @@ public class LayoutSetBranchPersistenceImpl
 		setModelImplClass(LayoutSetBranchImpl.class);
 		setModelPKClass(long.class);
 		setEntityCacheEnabled(LayoutSetBranchModelImpl.ENTITY_CACHE_ENABLED);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("settings", "settings_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	/**

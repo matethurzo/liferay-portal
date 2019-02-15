@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.MVCCModel;
@@ -37,8 +36,9 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
-	Externalizable, MVCCModel {
+public class LayoutSetCacheModel
+	implements CacheModel<LayoutSet>, Externalizable, MVCCModel {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -52,7 +52,8 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 		LayoutSetCacheModel layoutSetCacheModel = (LayoutSetCacheModel)obj;
 
 		if ((layoutSetId == layoutSetCacheModel.layoutSetId) &&
-				(mvccVersion == layoutSetCacheModel.mvccVersion)) {
+			(mvccVersion == layoutSetCacheModel.mvccVersion)) {
+
 			return true;
 		}
 
@@ -123,6 +124,7 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 
 		layoutSetImpl.setMvccVersion(mvccVersion);
 		layoutSetImpl.setHeadId(headId);
+		layoutSetImpl.setHead(head);
 		layoutSetImpl.setLayoutSetId(layoutSetId);
 		layoutSetImpl.setGroupId(groupId);
 		layoutSetImpl.setCompanyId(companyId);
@@ -181,12 +183,13 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 			layoutSetImpl.setLayoutSetPrototypeUuid(layoutSetPrototypeUuid);
 		}
 
-		layoutSetImpl.setLayoutSetPrototypeLinkEnabled(layoutSetPrototypeLinkEnabled);
-		layoutSetImpl.setHead(head);
+		layoutSetImpl.setLayoutSetPrototypeLinkEnabled(
+			layoutSetPrototypeLinkEnabled);
 
 		layoutSetImpl.resetOriginalValues();
 
-		layoutSetImpl.setCompanyFallbackVirtualHostname(_companyFallbackVirtualHostname);
+		layoutSetImpl.setCompanyFallbackVirtualHostname(
+			_companyFallbackVirtualHostname);
 
 		layoutSetImpl.setVirtualHostname(_virtualHostname);
 
@@ -196,9 +199,12 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 	@Override
 	public void readExternal(ObjectInput objectInput)
 		throws ClassNotFoundException, IOException {
+
 		mvccVersion = objectInput.readLong();
 
 		headId = objectInput.readLong();
+
+		head = objectInput.readBoolean();
 
 		layoutSetId = objectInput.readLong();
 
@@ -221,18 +227,17 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 
 		layoutSetPrototypeLinkEnabled = objectInput.readBoolean();
 
-		head = objectInput.readBoolean();
-
 		_companyFallbackVirtualHostname = (String)objectInput.readObject();
 		_virtualHostname = (String)objectInput.readObject();
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(mvccVersion);
 
 		objectOutput.writeLong(headId);
+
+		objectOutput.writeBoolean(head);
 
 		objectOutput.writeLong(layoutSetId);
 
@@ -285,14 +290,13 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 
 		objectOutput.writeBoolean(layoutSetPrototypeLinkEnabled);
 
-		objectOutput.writeBoolean(head);
-
 		objectOutput.writeObject(_companyFallbackVirtualHostname);
 		objectOutput.writeObject(_virtualHostname);
 	}
 
 	public long mvccVersion;
 	public long headId;
+	public boolean head;
 	public long layoutSetId;
 	public long groupId;
 	public long companyId;
@@ -307,7 +311,7 @@ public class LayoutSetCacheModel implements CacheModel<LayoutSet>,
 	public String settings;
 	public String layoutSetPrototypeUuid;
 	public boolean layoutSetPrototypeLinkEnabled;
-	public boolean head;
 	public String _companyFallbackVirtualHostname;
 	public String _virtualHostname;
+
 }
