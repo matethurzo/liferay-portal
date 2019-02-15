@@ -99,6 +99,8 @@ insert into Counter (name, currentId)
 		max(layoutVersionId) as currentId
 	from LayoutVersion;
 
+COMMIT_TRANSACTION;
+
 create index IX_FBF6F939 on LayoutVersion (companyId, layoutPrototypeUuid[$COLUMN_LENGTH:75$], version);
 create index IX_DEFEF354 on LayoutVersion (companyId, version);
 create index IX_D0513E86 on LayoutVersion (groupId, leftPlid, rightPlid, privateLayout, version);
