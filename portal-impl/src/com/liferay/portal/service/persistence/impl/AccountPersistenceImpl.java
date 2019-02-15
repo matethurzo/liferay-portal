@@ -47,7 +47,6 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -90,13 +89,6 @@ public class AccountPersistenceImpl
 		setModelImplClass(AccountImpl.class);
 		setModelPKClass(long.class);
 		setEntityCacheEnabled(AccountModelImpl.ENTITY_CACHE_ENABLED);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("type", "type_");
-		dbColumnNames.put("size", "size_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	/**

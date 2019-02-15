@@ -42,7 +42,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1244,14 +1243,6 @@ public class CountryPersistenceImpl
 		setModelImplClass(CountryImpl.class);
 		setModelPKClass(long.class);
 		setEntityCacheEnabled(CountryModelImpl.ENTITY_CACHE_ENABLED);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("number", "number_");
-		dbColumnNames.put("idd", "idd_");
-		dbColumnNames.put("active", "active_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	/**

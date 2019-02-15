@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.service.persistence.OrganizationPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -34,14 +32,6 @@ public class OrganizationFinderBaseImpl
 
 	public OrganizationFinderBaseImpl() {
 		setModelClass(Organization.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("uuid", "uuid_");
-		dbColumnNames.put("type", "type_");
-		dbColumnNames.put("groups", "groups_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	@Override

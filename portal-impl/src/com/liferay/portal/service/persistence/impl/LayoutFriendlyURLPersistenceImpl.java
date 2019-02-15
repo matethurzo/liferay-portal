@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -5253,12 +5252,6 @@ public class LayoutFriendlyURLPersistenceImpl
 		setModelImplClass(LayoutFriendlyURLImpl.class);
 		setModelPKClass(long.class);
 		setEntityCacheEnabled(LayoutFriendlyURLModelImpl.ENTITY_CACHE_ENABLED);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("uuid", "uuid_");
-
-		setDBColumnNames(dbColumnNames);
 	}
 
 	/**
