@@ -16,9 +16,17 @@
 
 <%@ include file="/init.jsp" %>
 
+<%
+SearchContainer<CTCollection> ctCollectionSearchContainer =
+	changeListsDisplayContext.getSearchContainer();
+%>
+
 <clay:management-toolbar
+	clearResultsURL="<%= changeListsDisplayContext.getViewSearchActionURL() %>"
 	creationMenu="<%= changeListsDisplayContext.getCreationMenu() %>"
 	filterDropdownItems="<%= changeListsDisplayContext.getFilterDropdownItems() %>"
+	itemsTotal="<%= ctCollectionSearchContainer.getTotal() %>"
+	searchActionURL="<%= changeListsDisplayContext.getViewSearchActionURL() %>"
 	searchContainerId="changeLists"
 	selectable="<%= false %>"
 	showCreationMenu="<%= true %>"
@@ -31,7 +39,7 @@
 <div class="closed container-fluid-1280">
 	<liferay-ui:search-container
 		id="changeLists"
-		searchContainer="<%= changeListsDisplayContext.getSearchContainer() %>"
+		searchContainer="<%= ctCollectionSearchContainer %>"
 	>
 		<liferay-ui:search-container-row
 			className="com.liferay.change.tracking.model.CTCollection"
