@@ -604,8 +604,12 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		layoutVersionStream.forEach(
 			layoutVersion -> {
 				if (layoutVersion.getUserId() == userId) {
+					layoutVersionPersistence.removeByPlid(
+						layoutVersion.getPlid());
+
 					layoutVersion.setUserId(anonymousUser.getUserId());
 					layoutVersion.setUserName(anonymousUser.getFullName());
+					layoutVersion.setNew(true);
 
 					layoutVersionPersistence.update(layoutVersion);
 				}
@@ -649,12 +653,6 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			Layout layout, boolean updateLayoutSet,
 			ServiceContext serviceContext)
 		throws PortalException {
-
-		if (!layout.isHead()) {
-			deleteDraft(layout);
-			layout = layoutPersistence.fetchByPrimaryKey(
-				layout.getHeadId() * -1);
-		}
 
 		// First layout validation
 
@@ -741,15 +739,9 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			layout.getCompanyId(), Layout.class.getName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, layout.getPlid());
 
-		long plid = layout.getPlid();
-
 		// Layout
 
-		layout = layoutPersistence.remove(layout);
-
-		// LayoutVersion
-
-		layoutVersionPersistence.removeByPlid(plid);
+		layout = delete(layout);
 
 		// Layout set
 
