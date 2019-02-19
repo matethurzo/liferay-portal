@@ -261,8 +261,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.portlet.PortletPreferences;
 
@@ -2209,13 +2207,16 @@ public class DataFactory {
 	public List<LayoutSetVersionModel> newLayoutSetVersionModels(
 		List<LayoutSetModel> layoutSetModels) {
 
-		Stream<LayoutSetModel> layoutSetModelStream = layoutSetModels.stream();
+		List<LayoutSetVersionModel> layoutSetVersionModels = new ArrayList<>(
+			layoutSetModels.size());
 
-		return layoutSetModelStream.map(
-			this::newLayoutSetVersionModel
-		).collect(
-			Collectors.toList()
-		);
+		layoutSetModels.forEach(
+			layoutSetModel -> {
+				layoutSetVersionModels.add(
+					newLayoutSetVersionModel(layoutSetModel));
+			});
+
+		return layoutSetVersionModels;
 	}
 
 	public List<MBCategoryModel> newMBCategoryModels(long groupId) {
