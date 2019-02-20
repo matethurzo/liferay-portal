@@ -927,6 +927,14 @@ public class DDMStructureLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.dynamic.data.mapping.model.DDMStructure> getStructures(
+		long companyId, long[] groupIds, long classNameId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.dynamic.data.mapping.model.DDMStructure> orderByComparator) {
+		return getService()
+				   .getStructures(companyId, groupIds, classNameId, start, end,
+			orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.dynamic.data.mapping.model.DDMStructure> getStructures(
 		long groupId, String name, String description) {
 		return getService().getStructures(groupId, name, description);
 	}
@@ -980,6 +988,13 @@ public class DDMStructureLocalServiceUtil {
 	public static java.util.List<com.liferay.dynamic.data.mapping.model.DDMStructure> getStructures(
 		long[] groupIds, long classNameId, int start, int end) {
 		return getService().getStructures(groupIds, classNameId, start, end);
+	}
+
+	public static java.util.List<com.liferay.dynamic.data.mapping.model.DDMStructure> getStructures(
+		long[] groupIds, long classNameId,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.dynamic.data.mapping.model.DDMStructure> orderByComparator) {
+		return getService()
+				   .getStructures(groupIds, classNameId, orderByComparator);
 	}
 
 	/**

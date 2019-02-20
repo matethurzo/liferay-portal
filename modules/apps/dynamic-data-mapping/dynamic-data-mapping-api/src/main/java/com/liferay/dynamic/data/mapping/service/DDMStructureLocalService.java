@@ -788,6 +788,11 @@ public interface DDMStructureLocalService extends BaseLocalService,
 		int start, int end, OrderByComparator<DDMStructure> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<DDMStructure> getStructures(long companyId, long[] groupIds,
+		long classNameId, int start, int end,
+		OrderByComparator<DDMStructure> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<DDMStructure> getStructures(long groupId, String name,
 		String description);
 
@@ -836,6 +841,10 @@ public interface DDMStructureLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<DDMStructure> getStructures(long[] groupIds, long classNameId,
 		int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<DDMStructure> getStructures(long[] groupIds, long classNameId,
+		OrderByComparator<DDMStructure> orderByComparator);
 
 	/**
 	* Returns an ordered range of all the structures matching the group, class
