@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
@@ -175,7 +176,11 @@ public class DDMSearchHelper {
 				long entryClassPK = GetterUtil.getLong(
 					document.get(Field.ENTRY_CLASS_PK));
 
-				models.add(getModelUnsafeFunction.apply(entryClassPK));
+				Optional.ofNullable(
+					getModelUnsafeFunction.apply(entryClassPK)
+				).ifPresent(
+					models::add
+				);
 			}
 
 			return models;
