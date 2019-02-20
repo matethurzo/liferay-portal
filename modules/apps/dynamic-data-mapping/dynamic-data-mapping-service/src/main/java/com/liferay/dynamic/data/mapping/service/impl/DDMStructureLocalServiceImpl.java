@@ -1106,6 +1106,16 @@ public class DDMStructureLocalServiceImpl
 
 	@Override
 	public List<DDMStructure> getStructures(
+		long companyId, long[] groupIds, long classNameId, int start, int end,
+		OrderByComparator<DDMStructure> orderByComparator) {
+
+		return ddmStructureFinder.filterFindByC_G_C_S(
+			companyId, groupIds, classNameId, WorkflowConstants.STATUS_ANY,
+			start, end, orderByComparator);
+	}
+
+	@Override
+	public List<DDMStructure> getStructures(
 		long groupId, String name, String description) {
 
 		return ddmStructurePersistence.findByG_N_D(groupId, name, description);
@@ -1163,6 +1173,16 @@ public class DDMStructureLocalServiceImpl
 
 		return ddmStructurePersistence.findByG_C(
 			groupIds, classNameId, start, end);
+	}
+
+	@Override
+	public List<DDMStructure> getStructures(
+		long[] groupIds, long classNameId,
+		OrderByComparator<DDMStructure> orderByComparator) {
+
+		return ddmStructurePersistence.findByG_C(
+			groupIds, classNameId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			orderByComparator);
 	}
 
 	/**

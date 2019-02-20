@@ -478,9 +478,8 @@ public class DDMStructureServiceImpl extends DDMStructureServiceBaseImpl {
 		long companyId, long[] groupIds, long classNameId, int start, int end,
 		OrderByComparator<DDMStructure> orderByComparator) {
 
-		return ddmStructureFinder.filterFindByC_G_C_S(
-			companyId, groupIds, classNameId, WorkflowConstants.STATUS_ANY,
-			start, end, orderByComparator);
+		return ddmStructureLocalService.getStructures(
+			companyId, groupIds, classNameId, start, end, orderByComparator);
 	}
 
 	@Override
@@ -602,7 +601,7 @@ public class DDMStructureServiceImpl extends DDMStructureServiceBaseImpl {
 
 			return _ddmSearchHelper.doSearch(
 				searchContext, DDMStructure.class,
-				ddmStructurePersistence::findByPrimaryKey);
+				ddmStructureLocalService::fetchStructure);
 		}
 		catch (PrincipalException pe) {
 			if (_log.isDebugEnabled()) {

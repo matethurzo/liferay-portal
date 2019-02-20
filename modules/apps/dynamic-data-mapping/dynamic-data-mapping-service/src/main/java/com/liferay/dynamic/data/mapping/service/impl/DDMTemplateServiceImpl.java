@@ -703,7 +703,7 @@ public class DDMTemplateServiceImpl extends DDMTemplateServiceBaseImpl {
 
 			return _ddmSearchHelper.doSearch(
 				searchContext, DDMTemplate.class,
-				ddmTemplatePersistence::findByPrimaryKey);
+				ddmTemplateLocalService::fetchTemplate);
 		}
 		catch (PrincipalException pe) {
 			if (_log.isDebugEnabled()) {
