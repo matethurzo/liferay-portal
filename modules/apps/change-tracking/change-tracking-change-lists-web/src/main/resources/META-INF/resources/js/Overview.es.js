@@ -13,37 +13,7 @@ import templates from './Overview.soy';
 class Overview extends PortletBase {
 
 	created() {
-		let urls = [this.urlActiveCollection, this.urlProductionInformation];
-
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		let init = {
-			credentials: 'include',
-			headers,
-			method: 'GET'
-		};
-
-		this._fetchAll(
-			urls,
-			init
-		)
-			.then(result => this._populateFields(result))
-			.catch(
-				error => {
-					const message = typeof error === 'string' ?
-						error :
-						Liferay.Language.get('an-error-occured-while-parsing-data');
-
-					openToast(
-						{
-							message,
-							title: Liferay.Language.get('error'),
-							type: 'danger'
-						}
-					);
-				}
-			);
+		this._render();
 	}
 
 	_fetchAll(urls, init) {
@@ -101,6 +71,36 @@ class Overview extends PortletBase {
 			);
 	}
 
+	_fetchRecentCollections(url, type) {
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		let init = {
+			credentials: 'include',
+			headers,
+			method: type
+		};
+
+		fetch(url, init)
+			.then(r => r.json())
+			.then(response => this._populateChangeListsDropdown(response))
+			.catch(
+				error => {
+					const message = typeof error === 'string' ?
+						error :
+						Liferay.Util.sub(Liferay.Language.get('an-error-occured-while-getting-data-from-x'), url);
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('error'),
+							type: 'danger'
+						}
+					);
+				}
+			);
+	}
+
 	_handleClickPublish(event) {
 		new PublishChangeList(
 			{
@@ -112,10 +112,63 @@ class Overview extends PortletBase {
 		);
 	}
 
+	_handleClickRecentCollections(event) {
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		let body = {
+			credentials: 'include',
+			headers,
+			method: 'POST'
+		};
+
+		let collectionId = event.target.getAttribute('data-collection-id');
+
+		let url = this.urlBaseCollections + '/' + collectionId + '/checkout?userId=' + Liferay.ThemeDisplay.getUserId();
+
+		fetch(url, body)
+			.then(
+				response => {
+					if (response.status === 202) {
+						this._render();
+					}
+					else if (response.status === 400) {
+						response.json()
+							.then(
+								data => {
+									openToast(
+										{
+											message: Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-checkout-x-x'), this.changeListName, data.message),
+											title: Liferay.Language.get('error'),
+											type: 'danger'
+										}
+									);
+								}
+							);
+					}
+				}
+			)
+			.catch(
+				error => {
+					const message = typeof error === 'string' ?
+						error :
+						Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-checkout-x'), this.changeListName);
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('error'),
+							type: 'danger'
+						}
+					);
+				}
+			);
+	}
+
 	_populateChangeEntries(changeEntriesResult) {
 		this.changeEntries = [];
 
-		changeEntriesResult.forEach(
+		changeEntriesResult.items.forEach(
 			changeEntry => {
 				let changeTypeStr = Liferay.Language.get('added');
 
@@ -152,6 +205,22 @@ class Overview extends PortletBase {
 		if (this.changeEntries.length === 0) {
 			this.headerButtonDisabled = true;
 		}
+	}
+
+	_populateChangeListsDropdown(collectionResults) {
+
+		// Change Lists dropdown Menu
+
+		this.changeListsDropdownMenu = [];
+
+		collectionResults.forEach(
+			ctCollection => {
+				this.changeListsDropdownMenu.push({
+					label: ctCollection.name,
+					ctCollectionId: ctCollection.ctCollectionId
+				});
+			}
+		);
 	}
 
 	_populateFields(requestResult) {
@@ -192,20 +261,7 @@ class Overview extends PortletBase {
 
 		// Change Lists dropdown Menu
 
-		this.changeListsDropdownMenu = [
-			{
-				label: 'Change List 01',
-				link: 'link01'
-			},
-			{
-				label: 'Change List 02',
-				link: 'link02'
-			},
-			{
-				label: 'Change List 03',
-				link: 'link03'
-			}
-		];
+		this._fetchRecentCollections(this.urlRecentCollections, "GET");
 
 		// Active Change List Header Title
 
@@ -239,6 +295,41 @@ class Overview extends PortletBase {
 		};
 	}
 
+	_render() {
+		let urls = [this.urlActiveCollection, this.urlProductionInformation];
+
+		this.initialFetch = false;
+
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		let init = {
+			credentials: 'include',
+			headers,
+			method: 'GET'
+		};
+
+		this._fetchAll(
+			urls,
+			init
+		)
+			.then(result => this._populateFields(result))
+			.catch(
+				error => {
+					const message = typeof error === 'string' ?
+						error :
+						Liferay.Language.get('an-error-occured-while-parsing-data');
+
+					openToast(
+						{
+							message,
+							title: Liferay.Language.get('error'),
+							type: 'danger'
+						}
+					);
+				}
+			);
+	}
 }
 
 /**
@@ -335,7 +426,7 @@ Overview.STATE = {
 		Config.shapeOf(
 			{
 				label: Config.string(),
-				link: Config.string()
+				ctCollectionId: Config.string()
 			}
 		)
 	),
@@ -401,6 +492,17 @@ Overview.STATE = {
 	),
 
 	/**
+	 * BBase REST API URL to collection resource
+	 * @default
+	 * @instance
+	 * @memberOf Overview
+	 * @review
+	 * @type {string}
+	 */
+
+	urlBaseCollections: Config.string(),
+
+	/**
 	 * REST API URL to the active CT Collection
 	 * @default
 	 * @instance
@@ -412,6 +514,17 @@ Overview.STATE = {
 	urlActiveCollection: Config.string().required(),
 
 	urlActiveCollectionPublish: Config.object(),
+
+	/**
+	 * The URL for the REST service to the get recently used collections
+	 * @default
+	 * @instance
+	 * @memberOf Overview
+	 * @review
+	 * @type {string}
+	 */
+
+	urlRecentCollections: Config.string(),
 
 	/**
 	 * The URL for the REST service to the change entries

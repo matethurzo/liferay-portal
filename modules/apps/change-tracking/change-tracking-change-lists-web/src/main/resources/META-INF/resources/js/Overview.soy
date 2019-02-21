@@ -26,7 +26,7 @@
 	{@param? descriptionProductionInformation: string}
 	{@param? changeListsDropdownMenu: list<[
 		label: string,
-		link: string
+		ctCollectionId: string
 	]>}
 	{@param? headerButtonDisabled: bool}
 	{@param? headerTitleActiveChangeList: string}
@@ -39,6 +39,7 @@
 		userName: string
 	]}
 	{@param? _handleClickPublish: any}
+	{@param? _handleClickRecentCollections: any}
 
 	{let $headerButtonLabel kind="text"}
 		{msg desc=""}publish{/msg}
@@ -95,6 +96,7 @@
 						{param headerTitle: $headerTitleActiveChangeList /}
 						{param spritemap: $spritemap /}
 						{param _handleClickPublish: $_handleClickPublish /}
+						{param _handleClickRecentCollections: $_handleClickRecentCollections /}
 					{/call}
 				</div>
 
@@ -157,7 +159,7 @@
 	]>}
 	{@param? changeListsDropdownMenu: list<[
 		label: string,
-		link: string
+		ctCollectionId: string
 	]>}
 	{@param? changeListsDropdownMenuTitle: string}
 	{@param? changes: [
@@ -190,6 +192,7 @@
 	{@param? publishedByTitle: string}
 	{@param? urlSelectChangeList: string}
 	{@param? _handleClickPublish: any}
+	{@param? _handleClickRecentCollections: any}
 
 	<div class="overview-card-sheet {$cardState}">
 		{call .overviewCardHeader}
@@ -203,6 +206,7 @@
 			{param headerTitle: $headerTitle /}
 			{param spritemap: $spritemap /}
 			{param _handleClickPublish: $_handleClickPublish /}
+			{param _handleClickRecentCollections: $_handleClickRecentCollections /}
 		{/call}
 
 		<div class="overview-card-sheet-divider"></div>
@@ -225,7 +229,7 @@
 	{@param  spritemap: string}
 	{@param? changeListsDropdownMenu: list<[
 		label: string,
-		link: string
+		ctCollectionId: string
 	]>}
 	{@param? changeListsDropdownMenuTitle: string}
 	{@param? headerButton: [
@@ -240,6 +244,7 @@
 	{@param? headerTitle: string}
 	{@param? urlSelectChangeList: string}
 	{@param? _handleClickPublish: any}
+	{@param? _handleClickRecentCollections: any}
 
 	{let $twoColumns: $headerButton /}
 
@@ -270,9 +275,9 @@
 
 						<div aria-labelledby="" class="dropdown-menu">
 							{foreach $changeListsDropdownMenuItem in $changeListsDropdownMenu}
-								<a class="dropdown-item" href="{$changeListsDropdownMenuItem.link}">{$changeListsDropdownMenuItem.label}</a>
+								<a class="dropdown-item"  data-collection-id="{$changeListsDropdownMenuItem.ctCollectionId}" onclick="{$_handleClickRecentCollections}">{$changeListsDropdownMenuItem.label}</a>
 							{/foreach}
-							<a class="dropdown-item dropdown-item-last" href="{$urlSelectChangeList}">{$changeListsDropdownMenuTitle}</a>
+							<a class="dropdown-item dropdown-item-last" href="{$urlSelectChangeList}" data-qa-id="selectChangeListMenuItem">{$changeListsDropdownMenuTitle}</a>
 						</div>
 					</div>
 				{/if}
