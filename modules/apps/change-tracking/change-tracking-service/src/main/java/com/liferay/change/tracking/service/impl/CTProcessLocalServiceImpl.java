@@ -19,6 +19,7 @@ import com.liferay.change.tracking.model.CTProcess;
 import com.liferay.change.tracking.service.base.CTProcessLocalServiceBaseImpl;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
+import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
@@ -87,6 +88,24 @@ public class CTProcessLocalServiceImpl extends CTProcessLocalServiceBaseImpl {
 	@Override
 	public List<CTProcess> getCTProcesses(long ctCollectionId) {
 		return ctProcessPersistence.findByCollectionId(ctCollectionId);
+	}
+
+	@Override
+	public List<CTProcess> getCTProcesses(
+		long companyId, int status, QueryDefinition<?> queryDefinition) {
+
+		return ctProcessFinder.findByC_S(
+			companyId, status, queryDefinition.getStart(),
+			queryDefinition.getEnd(), queryDefinition.getOrderByComparator());
+	}
+
+	@Override
+	public List<CTProcess> getCTProcesses(
+		long companyId, QueryDefinition<?> queryDefinition) {
+
+		return ctProcessFinder.findByCompanyId(
+			companyId, queryDefinition.getStart(), queryDefinition.getEnd(),
+			queryDefinition.getOrderByComparator());
 	}
 
 	private long _addBackgroundTask(

@@ -35,7 +35,10 @@ import org.osgi.service.component.annotations.ServiceScope;
  * @author Máté Thurzó
  */
 @Component(
-	property = {"osgi.jaxrs.extension=true", "osgi.jaxrs.name=CTUser"},
+	property = {
+		"osgi.jaxrs.application.select=(osgi.jaxrs.name=change-tracking-application)",
+		"osgi.jaxrs.extension=true", "osgi.jaxrs.name=CTUser"
+	},
 	scope = ServiceScope.PROTOTYPE, service = ContextProvider.class
 )
 @Provider

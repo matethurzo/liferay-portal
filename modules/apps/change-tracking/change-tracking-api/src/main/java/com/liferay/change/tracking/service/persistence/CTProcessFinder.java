@@ -12,34 +12,21 @@
  * details.
  */
 
-package com.liferay.change.tracking.model.impl;
+package com.liferay.change.tracking.service.persistence;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
-import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
-import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
-
 /**
- * @author Daniel Kocsis
+ * @author Brian Wing Shun Chan
+ * @generated
  */
 @ProviderType
-public class CTProcessImpl extends CTProcessBaseImpl {
+public interface CTProcessFinder {
+	public java.util.List<com.liferay.change.tracking.model.CTProcess> findByCompanyId(
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<?> orderByComparator);
 
-	public CTProcessImpl() {
-	}
-
-	@Override
-	public int getStatus() {
-		BackgroundTask backgroundTask =
-			BackgroundTaskManagerUtil.fetchBackgroundTask(
-				getBackgroundTaskId());
-
-		if (backgroundTask == null) {
-			return BackgroundTaskConstants.STATUS_SUCCESSFUL;
-		}
-
-		return backgroundTask.getStatus();
-	}
-
+	public java.util.List<com.liferay.change.tracking.model.CTProcess> findByC_S(
+		long companyId, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<?> orderByComparator);
 }

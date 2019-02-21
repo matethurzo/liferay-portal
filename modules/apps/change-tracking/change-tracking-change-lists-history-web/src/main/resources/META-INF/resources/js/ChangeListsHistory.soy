@@ -1,0 +1,95 @@
+{namespace com.liferay.change.tracking.change.lists.history.web.ChangeListsHistory}
+
+{template .render}
+	{@param spritemap: string}
+	{@param? processEntries: list<[
+		name: string,
+		description: string,
+		timestamp: string,
+		userName: string,
+		state: string
+	]>}
+	{@param? loaded: bool}
+
+	{if not $loaded}
+		{call .loading /}
+	{else}
+		{if $processEntries}
+			{foreach $processEntry in $processEntries}
+
+				{let $cardState: ($processEntry.state == 'published') ? 'border-left-green' : (($processEntry.state == 'in-progress') ? 'border-left-orange' : 'border-left-red') /}
+
+				{let $labelState: ($processEntry.state == 'published') ? 'success' : (($processEntry.state == 'in-progress') ? 'warning' : 'danger') /}
+
+				{call .processCard}
+					{param cardState: $cardState /}
+					{param changeListName: $processEntry.name /}
+					{param changeListDescription: $processEntry.description /}
+					{param labelState: $labelState /}
+					{param labelText: $processEntry.state /}
+					{param spritemap: $spritemap /}
+					{param timestamp: $processEntry.timestamp /}
+					{param userName: $processEntry.userName /}
+					{param userInitials: 'TT' /}
+					{param userPortraitURL: '' /}
+				{/call}
+			{/foreach}
+		{/if}
+	{/if}
+{/template}
+
+{template .processCard}
+	{@param spritemap: string}
+	{@param? cardState: string}
+	{@param? changeListName: string}
+	{@param? changeListDescription: string}
+	{@param? labelState: string}
+	{@param? labelText: string}
+	{@param? timestamp: string}
+	{@param? userName: string}
+	{@param? userInitials: string}
+	{@param? userPortraitURL: string}
+
+	<div class="process-card {$cardState}">
+		<div class="process-card-text">
+			<div class="row">
+				<div class="col-sm-6">
+					<h4>{$changeListName}</h4>
+
+					<div class="text">
+						{$changeListDescription}
+					</div>
+
+					{call ClayLabel.render}
+						{param spritemap: $spritemap /}
+						{param label: $labelText /}
+						{param style: $labelState /}
+					{/call}
+				</div>
+
+				<div class="col-sm-6">
+					<div class="autofit-row">
+						<div class="text">
+							{$timestamp} {msg desc=""}by{/msg} {$userName}
+
+							{if $userInitials}
+								<div class="user-icon user-icon-color-9 user-icon-default user-icon-lg">
+									<span data-qa-id="userInitials">{$userInitials}</span>
+								</div>
+							{elseif $userPortraitURL}
+								<div class="aspect-ratio-bg-cover user-icon user-icon-lg" style="background-image:url({$userPortraitURL})">
+								</div>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{/template}
+
+{template .loading}
+	<div class="loading-indicator">
+		<span aria-hidden="true" class="loading-animation"></span>
+	</div>
+{/template}

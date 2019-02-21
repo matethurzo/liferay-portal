@@ -14,12 +14,22 @@
  */
 --%>
 
-<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %><%@
+taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
+taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+
+<%@ page import="com.liferay.change.tracking.change.lists.history.web.internal.display.context.ChangeListsHistoryDisplayContext" %>
 
 <liferay-theme:defineObjects />
 
-<%@ include file="/init-ext.jsp" %>
+<portlet:defineObjects />
 
 <%
 portletDisplay.setShowStagingIcon(false);
+
+ChangeListsHistoryDisplayContext changeListsHistoryDisplayContext = new ChangeListsHistoryDisplayContext(request, renderRequest, renderResponse);
 %>
+
+<%@ include file="/init-ext.jsp" %>

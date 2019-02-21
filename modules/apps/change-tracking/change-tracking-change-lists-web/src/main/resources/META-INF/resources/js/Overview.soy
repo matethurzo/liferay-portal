@@ -32,6 +32,7 @@
 	{@param? headerTitleActiveChangeList: string}
 	{@param? headerTitleProductionInformation: string}
 	{@param? initialFetch: bool}
+	{@param? productionFound: bool}
 	{@param? publishedBy: [
 		dateTime: string,
 		userInitials: string,
@@ -68,7 +69,8 @@
 			<div class="row">
 				<div class="col-sm-6">
 					{call .overviewCard}
-						{param cardState: 'border-left-blue' /}
+						{param cardEmpty: false /}
+						{param cardStateColor: 'border-left-blue' /}
 						{param changes: [
 							'added': $changes.added,
 							'addedLabel': $addedLabel,
@@ -102,7 +104,8 @@
 
 				<div class="col-sm-6">
 					{call .overviewCard}
-						{param cardState: 'border-left-green' /}
+						{param cardEmpty: not $productionFound /}
+						{param cardStateColor: 'border-left-green' /}
 						{param description: $descriptionProductionInformation /}
 						{param descriptionTitle kind="text"}
 							{msg desc=""}description{/msg}
@@ -126,7 +129,8 @@
 			<div class="row">
 				<div class="col-sm-12">
 					{call .overviewCard}
-						{param cardState: 'border-left-blue' /}
+						{param cardEmpty: false /}
+						{param cardStateColor: 'border-left-blue' /}
 						{param changeEntries: $changeEntries /}
 						{param headerSubTitle kind="text"}
 							{msg desc=""}latest-changes-in{/msg} {$headerTitleActiveChangeList}
@@ -146,7 +150,8 @@
  */
 {template .overviewCard}
 	{@param  spritemap: string}
-	{@param? cardState: string}
+	{@param? cardEmpty: bool}
+	{@param? cardStateColor: string}
 	{@param? changeEntries: list<[
 		title: string,
 		conflict: bool,
@@ -194,8 +199,9 @@
 	{@param? _handleClickPublish: any}
 	{@param? _handleClickRecentCollections: any}
 
-	<div class="overview-card-sheet {$cardState}">
+	<div class="overview-card-sheet {$cardStateColor}">
 		{call .overviewCardHeader}
+			{param cardEmpty: $cardEmpty /}
 			{param headerButton: $headerButton /}
 			{param headerButtonDisabled: $headerButtonDisabled /}
 			{param changeListsDropdownMenu: $changeListsDropdownMenu /}
@@ -209,24 +215,31 @@
 			{param _handleClickRecentCollections: $_handleClickRecentCollections /}
 		{/call}
 
-		<div class="overview-card-sheet-divider"></div>
+		{if not $cardEmpty}
+			<div class="overview-card-sheet-divider"></div>
 
-		{call .overviewCardBody}
-			{param changes: $changes /}
-			{param changeEntries: $changeEntries /}
-			{param changesLabel: $changesLabel /}
-			{param description: $description /}
-			{param descriptionTitle: $descriptionTitle /}
-			{param publishedBy: $publishedBy /}
-			{param publishedByTitle: $publishedByTitle /}
-			{param spritemap: $spritemap /}
-		{/call}
+			{call .overviewCardBody}
+				{param changes: $changes /}
+				{param changeEntries: $changeEntries /}
+				{param changesLabel: $changesLabel /}
+				{param description: $description /}
+				{param descriptionTitle: $descriptionTitle /}
+				{param publishedBy: $publishedBy /}
+				{param publishedByTitle: $publishedByTitle /}
+				{param spritemap: $spritemap /}
+			{/call}
+		{else}
+			<div class="sheet-text text-center">
+				{msg desc=""}no-change-list-published-list{/msg}
+			</div>
+		{/if}
 
 	</div>
 {/template}
 
 {template .overviewCardHeader}
 	{@param  spritemap: string}
+	{@param? cardEmpty: bool}
 	{@param? changeListsDropdownMenu: list<[
 		label: string,
 		ctCollectionId: string
@@ -254,14 +267,17 @@
 				{if $headerSubTitle}
 					<h3 data-qa-id="headerSubTitle">{$headerSubTitle}</h3>
 				{/if}
+
 				{if $headerTitle}
 					<div class="overview-card-sheet-title" data-qa-id="headerTitle">{$headerTitle}</div>
 				{/if}
-				{if $headerLink}
+
+				{if $headerLink and not $cardEmpty}
 					<div class="header-line">
 						<a data-qa-id="headerLink" href="{$headerLink.link}" onclick="" target="_blank">{$headerLink.label}</a>
 					</div>
 				{/if}
+
 				{if $changeListsDropdownMenu and $changeListsDropdownMenuTitle}
 					<div class="header-line">
 						<a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-qa-id="headerDropDownMenu" data-toggle="dropdown" href="#1" role="button">

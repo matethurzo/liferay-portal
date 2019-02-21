@@ -1,0 +1,17 @@
+{
+	"build": {
+		"dependencies": [
+			"clay-button",
+			"clay-checkbox",
+			"clay-dropdown",
+			"clay-icon",
+			"clay-label",
+			"clay-link",
+			"clay-management-toolbar",
+			"clay-portal",
+			"clay-radio",
+			"com.liferay.frontend.js.web",
+			"com.liferay.frontend.taglib"
+		]
+	}
+}

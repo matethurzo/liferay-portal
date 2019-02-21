@@ -14,4 +14,23 @@
 				CTCollections_CTEntries.ctCollectionId = ?
 		]]>
 	</sql>
+	<sql id="com.liferay.change.tracking.service.persistence.CTProcessFinder.findByC_S">
+		<![CDATA[
+			SELECT
+				{CTProcess.*}
+			FROM
+				CTProcess
+			INNER JOIN
+				CTCollection ON
+					CTProcess.ctCollectionId = CTCollection.ctCollectionId
+			INNER JOIN
+				BackgroundTask ON
+					CTProcess.backgroundTaskId = BackgroundTask.backgroundTaskId
+			WHERE
+				(CTProcess.companyId = ?) AND
+				(BackgroundTask.status = ?)
+			ORDER BY
+				CTProcess.createDate DESC
+		]]>
+	</sql>
 </custom-sql>

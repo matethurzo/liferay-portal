@@ -16,10 +16,18 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="change-lists-history-sheet sheet sheet-lg">
-	<div class="sheet-header">
-		<h2 class="sheet-title">Change Lists History</h2>
+<clay:management-toolbar
+	filterDropdownItems="<%= changeListsHistoryDisplayContext.getFilterDropdownItems() %>"
+	searchActionURL="<%= changeListsHistoryDisplayContext.getViewSearchActionURL() %>"
+	selectable="<%= false %>"
+	showCreationMenu="<%= false %>"
+	showSearch="<%= true %>"
+	sortingOrder="<%= changeListsHistoryDisplayContext.getOrderByType() %>"
+	sortingURL="<%= changeListsHistoryDisplayContext.getSortingURL() %>"
+/>
 
-		<div class="sheet-text">This is only a placeholder for what's later be added to the change lists history screen.</div>
-	</div>
-</div>
+<soy:component-renderer
+	context="<%= changeListsHistoryDisplayContext.getChangeListsHistoryContext() %>"
+	module="js/ChangeListsHistory.es"
+	templateNamespace="com.liferay.change.tracking.change.lists.history.web.ChangeListsHistory.render"
+/>

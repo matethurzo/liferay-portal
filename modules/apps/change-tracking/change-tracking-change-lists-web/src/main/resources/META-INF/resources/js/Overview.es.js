@@ -254,10 +254,6 @@ class Overview extends PortletBase {
 
 		this.descriptionActiveChangeList = activeCollection.description;
 
-		// Production Information Description
-
-		this.descriptionProductionInformation = productionInformation.ctcollection.description;
-
 		// Change Lists dropdown Menu
 
 		let urlRecentCollections = this.urlCollectionsBase + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&limit=5&sort=modifiedDate:desc';
@@ -268,32 +264,44 @@ class Overview extends PortletBase {
 
 		this.headerTitleActiveChangeList = activeCollection.name;
 
-		// Production Information Header Title
-
-		this.headerTitleProductionInformation = productionInformation.ctcollection.name;
-
 		// Initial Fetch
 
 		this.initialFetch = true;
 
-		// Production Information Published By
+		if ((productionInformation !== undefined) && (productionInformation.ctcollection !== undefined)) {
 
-		let publishDate = new Date(productionInformation.date);
+			// Production Information Description
 
-		this.publishedBy = {
-			dateTime: new Intl.DateTimeFormat(
-				Liferay.ThemeDisplay.getBCP47LanguageId(),
-				{
-					day: 'numeric',
-					hour: 'numeric',
-					minute: 'numeric',
-					month: 'numeric',
-					year: 'numeric'
-				}).format(publishDate),
-			userInitials: productionInformation.userInitials,
-			userName: productionInformation.userName,
-			userPortraitURL: productionInformation.userPortraitURL
-		};
+			this.descriptionProductionInformation = productionInformation.ctcollection.description;
+
+			// Production Information Header Title
+
+			this.headerTitleProductionInformation = productionInformation.ctcollection.name;
+
+			// Production Information Published By
+
+			let publishDate = new Date(productionInformation.date);
+
+			this.publishedBy = {
+				dateTime: new Intl.DateTimeFormat(
+					Liferay.ThemeDisplay.getBCP47LanguageId(),
+					{
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric',
+						month: 'numeric',
+						year: 'numeric'
+					}).format(publishDate),
+				userInitials: productionInformation.userInitials,
+				userName: productionInformation.userName,
+				userPortraitURL: productionInformation.userPortraitURL
+			};
+
+			this.productionFound = true;
+		}
+		else {
+			this.productionFound = false;
+		}
 	}
 
 	_render() {
@@ -476,6 +484,8 @@ Overview.STATE = {
 	 */
 
 	initialFetch: Config.bool().value(false),
+
+	productionFound: Config.bool().value(false),
 
 	/**
 	 * Information of who published to production
