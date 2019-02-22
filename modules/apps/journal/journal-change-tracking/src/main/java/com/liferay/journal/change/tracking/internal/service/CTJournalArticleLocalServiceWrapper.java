@@ -1446,7 +1446,7 @@ public class CTJournalArticleLocalServiceWrapper
 				journalArticle.getId(), journalArticle.getResourcePrimKey(),
 				changeType, force);
 
-			_registerRelatedChanges(journalArticle);
+			_registerRelatedChanges(journalArticle, force);
 		}
 		catch (CTException cte) {
 			if (cte instanceof CTEntryException) {
@@ -1460,7 +1460,9 @@ public class CTJournalArticleLocalServiceWrapper
 		}
 	}
 
-	private void _registerRelatedChanges(JournalArticle journalArticle) {
+	private void _registerRelatedChanges(
+		JournalArticle journalArticle, boolean force) {
+
 		Optional<CTEntry> journalArticleCTEntryOptional =
 			_ctManager.getModelChangeCTEntryOptional(
 				PrincipalThreadLocal.getUserId(),
@@ -1484,7 +1486,7 @@ public class CTJournalArticleLocalServiceWrapper
 					_ctManager.addRelatedCTEntry(
 						PrincipalThreadLocal.getUserId(),
 						journalArticleCTEntryOptional.get(),
-						ddmStructureVersionCTEntry));
+						ddmStructureVersionCTEntry, force));
 		}
 
 		DDMTemplate ddmTemplate = journalArticle.getDDMTemplate();
@@ -1500,7 +1502,7 @@ public class CTJournalArticleLocalServiceWrapper
 					_ctManager.addRelatedCTEntry(
 						PrincipalThreadLocal.getUserId(),
 						journalArticleCTEntryOptional.get(),
-						ddmTemplateVersionCTEntry));
+						ddmTemplateVersionCTEntry, force));
 		}
 	}
 
