@@ -30,6 +30,8 @@ if (ctCollection != null) {
 	description = ctCollection.getDescription();
 	name = ctCollection.getName();
 }
+
+int nameMaxLength = ModelHintsUtil.getMaxLength(CTCollection.class.getName(), "name");
 %>
 
 <liferay-portlet:actionURL name="/change_lists/edit_ct_collection" var="actionURL" />
@@ -40,6 +42,7 @@ if (ctCollection != null) {
 
 		<aui:input label="name" name="name" placeholder="change-list-name-placeholder" value="<%= name %>">
 			<aui:validator name="required" />
+			<aui:validator name="maxLength"><%= nameMaxLength %></aui:validator>
 		</aui:input>
 
 		<aui:input label="description" name="description" placeholder="change-list-description-placeholder" value="<%= description %>" />
