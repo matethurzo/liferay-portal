@@ -38,6 +38,8 @@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 
 <%
 ChangeListsDisplayContext changeListsDisplayContext = new ChangeListsDisplayContext(request, renderRequest, renderResponse);
+
+portletDisplay.setShowStagingIcon(false);
 %>
 
 <%@ include file="/init-ext.jsp" %>

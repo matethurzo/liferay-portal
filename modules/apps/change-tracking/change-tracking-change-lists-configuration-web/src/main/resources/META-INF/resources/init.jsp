@@ -30,6 +30,8 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 
 <%
 ChangeListsConfigurationDisplayContext changeListsConfigurationDisplayContext = new ChangeListsConfigurationDisplayContext(request, renderResponse);
+
+portletDisplay.setShowStagingIcon(false);
 %>
 
 <%@ include file="/init-ext.jsp" %>
