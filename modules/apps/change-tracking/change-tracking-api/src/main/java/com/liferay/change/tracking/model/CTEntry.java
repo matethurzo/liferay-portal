@@ -52,7 +52,7 @@ public interface CTEntry extends CTEntryModel, PersistedModel {
 			}
 		};
 
-	public java.util.List<CTEntryBag> getCTEntryBags();
+	public java.util.List<CTEntryAggregate> getCTEntryBAggregates();
 
-	public boolean hasCTEntryBag();
+	public boolean hasCTEntryAggregate();
 }

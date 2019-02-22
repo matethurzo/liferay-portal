@@ -25,25 +25,25 @@ import java.util.Map;
 
 /**
  * <p>
- * This class is a wrapper for {@link CTEntryBag}.
+ * This class is a wrapper for {@link CTEntryAggregate}.
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see CTEntryBag
+ * @see CTEntryAggregate
  * @generated
  */
 @ProviderType
-public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
-	implements CTEntryBag, ModelWrapper<CTEntryBag> {
-	public CTEntryBagWrapper(CTEntryBag ctEntryBag) {
-		super(ctEntryBag);
+public class CTEntryAggregateWrapper extends BaseModelWrapper<CTEntryAggregate>
+	implements CTEntryAggregate, ModelWrapper<CTEntryAggregate> {
+	public CTEntryAggregateWrapper(CTEntryAggregate ctEntryAggregate) {
+		super(ctEntryAggregate);
 	}
 
 	@Override
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("ctEntryBagId", getCtEntryBagId());
+		attributes.put("ctEntryAggregateId", getCtEntryAggregateId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -57,10 +57,10 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long ctEntryBagId = (Long)attributes.get("ctEntryBagId");
+		Long ctEntryAggregateId = (Long)attributes.get("ctEntryAggregateId");
 
-		if (ctEntryBagId != null) {
-			setCtEntryBagId(ctEntryBagId);
+		if (ctEntryAggregateId != null) {
+			setCtEntryAggregateId(ctEntryAggregateId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -107,9 +107,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the company ID of this ct entry bag.
+	* Returns the company ID of this ct entry aggregate.
 	*
-	* @return the company ID of this ct entry bag
+	* @return the company ID of this ct entry aggregate
 	*/
 	@Override
 	public long getCompanyId() {
@@ -117,9 +117,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the create date of this ct entry bag.
+	* Returns the create date of this ct entry aggregate.
 	*
-	* @return the create date of this ct entry bag
+	* @return the create date of this ct entry aggregate
 	*/
 	@Override
 	public Date getCreateDate() {
@@ -127,9 +127,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the ct collection ID of this ct entry bag.
+	* Returns the ct collection ID of this ct entry aggregate.
 	*
-	* @return the ct collection ID of this ct entry bag
+	* @return the ct collection ID of this ct entry aggregate
 	*/
 	@Override
 	public long getCtCollectionId() {
@@ -137,19 +137,19 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the ct entry bag ID of this ct entry bag.
+	* Returns the ct entry aggregate ID of this ct entry aggregate.
 	*
-	* @return the ct entry bag ID of this ct entry bag
+	* @return the ct entry aggregate ID of this ct entry aggregate
 	*/
 	@Override
-	public long getCtEntryBagId() {
-		return model.getCtEntryBagId();
+	public long getCtEntryAggregateId() {
+		return model.getCtEntryAggregateId();
 	}
 
 	/**
-	* Returns the modified date of this ct entry bag.
+	* Returns the modified date of this ct entry aggregate.
 	*
-	* @return the modified date of this ct entry bag
+	* @return the modified date of this ct entry aggregate
 	*/
 	@Override
 	public Date getModifiedDate() {
@@ -157,9 +157,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the owner ct entry ID of this ct entry bag.
+	* Returns the owner ct entry ID of this ct entry aggregate.
 	*
-	* @return the owner ct entry ID of this ct entry bag
+	* @return the owner ct entry ID of this ct entry aggregate
 	*/
 	@Override
 	public long getOwnerCTEntryId() {
@@ -167,9 +167,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the primary key of this ct entry bag.
+	* Returns the primary key of this ct entry aggregate.
 	*
-	* @return the primary key of this ct entry bag
+	* @return the primary key of this ct entry aggregate
 	*/
 	@Override
 	public long getPrimaryKey() {
@@ -182,9 +182,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the user ID of this ct entry bag.
+	* Returns the user ID of this ct entry aggregate.
 	*
-	* @return the user ID of this ct entry bag
+	* @return the user ID of this ct entry aggregate
 	*/
 	@Override
 	public long getUserId() {
@@ -192,9 +192,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the user name of this ct entry bag.
+	* Returns the user name of this ct entry aggregate.
 	*
-	* @return the user name of this ct entry bag
+	* @return the user name of this ct entry aggregate
 	*/
 	@Override
 	public String getUserName() {
@@ -202,9 +202,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Returns the user uuid of this ct entry bag.
+	* Returns the user uuid of this ct entry aggregate.
 	*
-	* @return the user uuid of this ct entry bag
+	* @return the user uuid of this ct entry aggregate
 	*/
 	@Override
 	public String getUserUuid() {
@@ -217,9 +217,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the company ID of this ct entry bag.
+	* Sets the company ID of this ct entry aggregate.
 	*
-	* @param companyId the company ID of this ct entry bag
+	* @param companyId the company ID of this ct entry aggregate
 	*/
 	@Override
 	public void setCompanyId(long companyId) {
@@ -227,9 +227,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the create date of this ct entry bag.
+	* Sets the create date of this ct entry aggregate.
 	*
-	* @param createDate the create date of this ct entry bag
+	* @param createDate the create date of this ct entry aggregate
 	*/
 	@Override
 	public void setCreateDate(Date createDate) {
@@ -237,9 +237,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the ct collection ID of this ct entry bag.
+	* Sets the ct collection ID of this ct entry aggregate.
 	*
-	* @param ctCollectionId the ct collection ID of this ct entry bag
+	* @param ctCollectionId the ct collection ID of this ct entry aggregate
 	*/
 	@Override
 	public void setCtCollectionId(long ctCollectionId) {
@@ -247,19 +247,19 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the ct entry bag ID of this ct entry bag.
+	* Sets the ct entry aggregate ID of this ct entry aggregate.
 	*
-	* @param ctEntryBagId the ct entry bag ID of this ct entry bag
+	* @param ctEntryAggregateId the ct entry aggregate ID of this ct entry aggregate
 	*/
 	@Override
-	public void setCtEntryBagId(long ctEntryBagId) {
-		model.setCtEntryBagId(ctEntryBagId);
+	public void setCtEntryAggregateId(long ctEntryAggregateId) {
+		model.setCtEntryAggregateId(ctEntryAggregateId);
 	}
 
 	/**
-	* Sets the modified date of this ct entry bag.
+	* Sets the modified date of this ct entry aggregate.
 	*
-	* @param modifiedDate the modified date of this ct entry bag
+	* @param modifiedDate the modified date of this ct entry aggregate
 	*/
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
@@ -267,9 +267,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the owner ct entry ID of this ct entry bag.
+	* Sets the owner ct entry ID of this ct entry aggregate.
 	*
-	* @param ownerCTEntryId the owner ct entry ID of this ct entry bag
+	* @param ownerCTEntryId the owner ct entry ID of this ct entry aggregate
 	*/
 	@Override
 	public void setOwnerCTEntryId(long ownerCTEntryId) {
@@ -277,9 +277,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the primary key of this ct entry bag.
+	* Sets the primary key of this ct entry aggregate.
 	*
-	* @param primaryKey the primary key of this ct entry bag
+	* @param primaryKey the primary key of this ct entry aggregate
 	*/
 	@Override
 	public void setPrimaryKey(long primaryKey) {
@@ -287,9 +287,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the user ID of this ct entry bag.
+	* Sets the user ID of this ct entry aggregate.
 	*
-	* @param userId the user ID of this ct entry bag
+	* @param userId the user ID of this ct entry aggregate
 	*/
 	@Override
 	public void setUserId(long userId) {
@@ -297,9 +297,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the user name of this ct entry bag.
+	* Sets the user name of this ct entry aggregate.
 	*
-	* @param userName the user name of this ct entry bag
+	* @param userName the user name of this ct entry aggregate
 	*/
 	@Override
 	public void setUserName(String userName) {
@@ -307,9 +307,9 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	/**
-	* Sets the user uuid of this ct entry bag.
+	* Sets the user uuid of this ct entry aggregate.
 	*
-	* @param userUuid the user uuid of this ct entry bag
+	* @param userUuid the user uuid of this ct entry aggregate
 	*/
 	@Override
 	public void setUserUuid(String userUuid) {
@@ -317,7 +317,7 @@ public class CTEntryBagWrapper extends BaseModelWrapper<CTEntryBag>
 	}
 
 	@Override
-	protected CTEntryBagWrapper wrap(CTEntryBag ctEntryBag) {
-		return new CTEntryBagWrapper(ctEntryBag);
+	protected CTEntryAggregateWrapper wrap(CTEntryAggregate ctEntryAggregate) {
+		return new CTEntryAggregateWrapper(ctEntryAggregate);
 	}
 }

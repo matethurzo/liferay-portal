@@ -337,24 +337,24 @@ public interface CTEntryPersistence extends BasePersistence<CTEntry> {
 	public int countAll();
 
 	/**
-	* Returns the primaryKeys of ct entry bags associated with the ct entry.
+	* Returns the primaryKeys of ct entry aggregates associated with the ct entry.
 	*
 	* @param pk the primary key of the ct entry
-	* @return long[] of the primaryKeys of ct entry bags associated with the ct entry
+	* @return long[] of the primaryKeys of ct entry aggregates associated with the ct entry
 	*/
-	public long[] getCTEntryBagPrimaryKeys(long pk);
+	public long[] getCTEntryAggregatePrimaryKeys(long pk);
 
 	/**
-	* Returns all the ct entry bags associated with the ct entry.
+	* Returns all the ct entry aggregates associated with the ct entry.
 	*
 	* @param pk the primary key of the ct entry
-	* @return the ct entry bags associated with the ct entry
+	* @return the ct entry aggregates associated with the ct entry
 	*/
-	public java.util.List<com.liferay.change.tracking.model.CTEntryBag> getCTEntryBags(
+	public java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> getCTEntryAggregates(
 		long pk);
 
 	/**
-	* Returns a range of all the ct entry bags associated with the ct entry.
+	* Returns a range of all the ct entry aggregates associated with the ct entry.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CTEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -363,13 +363,13 @@ public interface CTEntryPersistence extends BasePersistence<CTEntry> {
 	* @param pk the primary key of the ct entry
 	* @param start the lower bound of the range of ct entries
 	* @param end the upper bound of the range of ct entries (not inclusive)
-	* @return the range of ct entry bags associated with the ct entry
+	* @return the range of ct entry aggregates associated with the ct entry
 	*/
-	public java.util.List<com.liferay.change.tracking.model.CTEntryBag> getCTEntryBags(
+	public java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> getCTEntryAggregates(
 		long pk, int start, int end);
 
 	/**
-	* Returns an ordered range of all the ct entry bags associated with the ct entry.
+	* Returns an ordered range of all the ct entry aggregates associated with the ct entry.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CTEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -379,128 +379,128 @@ public interface CTEntryPersistence extends BasePersistence<CTEntry> {
 	* @param start the lower bound of the range of ct entries
 	* @param end the upper bound of the range of ct entries (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of ct entry bags associated with the ct entry
+	* @return the ordered range of ct entry aggregates associated with the ct entry
 	*/
-	public java.util.List<com.liferay.change.tracking.model.CTEntryBag> getCTEntryBags(
+	public java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> getCTEntryAggregates(
 		long pk, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.change.tracking.model.CTEntryBag> orderByComparator);
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.change.tracking.model.CTEntryAggregate> orderByComparator);
 
 	/**
-	* Returns the number of ct entry bags associated with the ct entry.
+	* Returns the number of ct entry aggregates associated with the ct entry.
 	*
 	* @param pk the primary key of the ct entry
-	* @return the number of ct entry bags associated with the ct entry
+	* @return the number of ct entry aggregates associated with the ct entry
 	*/
-	public int getCTEntryBagsSize(long pk);
+	public int getCTEntryAggregatesSize(long pk);
 
 	/**
-	* Returns <code>true</code> if the ct entry bag is associated with the ct entry.
+	* Returns <code>true</code> if the ct entry aggregate is associated with the ct entry.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPK the primary key of the ct entry bag
-	* @return <code>true</code> if the ct entry bag is associated with the ct entry; <code>false</code> otherwise
+	* @param ctEntryAggregatePK the primary key of the ct entry aggregate
+	* @return <code>true</code> if the ct entry aggregate is associated with the ct entry; <code>false</code> otherwise
 	*/
-	public boolean containsCTEntryBag(long pk, long ctEntryBagPK);
+	public boolean containsCTEntryAggregate(long pk, long ctEntryAggregatePK);
 
 	/**
-	* Returns <code>true</code> if the ct entry has any ct entry bags associated with it.
+	* Returns <code>true</code> if the ct entry has any ct entry aggregates associated with it.
 	*
-	* @param pk the primary key of the ct entry to check for associations with ct entry bags
-	* @return <code>true</code> if the ct entry has any ct entry bags associated with it; <code>false</code> otherwise
+	* @param pk the primary key of the ct entry to check for associations with ct entry aggregates
+	* @return <code>true</code> if the ct entry has any ct entry aggregates associated with it; <code>false</code> otherwise
 	*/
-	public boolean containsCTEntryBags(long pk);
+	public boolean containsCTEntryAggregates(long pk);
 
 	/**
-	* Adds an association between the ct entry and the ct entry bag. Also notifies the appropriate model listeners and clears the mapping table finder cache.
-	*
-	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPK the primary key of the ct entry bag
-	*/
-	public void addCTEntryBag(long pk, long ctEntryBagPK);
-
-	/**
-	* Adds an association between the ct entry and the ct entry bag. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Adds an association between the ct entry and the ct entry aggregate. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBag the ct entry bag
+	* @param ctEntryAggregatePK the primary key of the ct entry aggregate
 	*/
-	public void addCTEntryBag(long pk,
-		com.liferay.change.tracking.model.CTEntryBag ctEntryBag);
+	public void addCTEntryAggregate(long pk, long ctEntryAggregatePK);
 
 	/**
-	* Adds an association between the ct entry and the ct entry bags. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Adds an association between the ct entry and the ct entry aggregate. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPKs the primary keys of the ct entry bags
+	* @param ctEntryAggregate the ct entry aggregate
 	*/
-	public void addCTEntryBags(long pk, long[] ctEntryBagPKs);
+	public void addCTEntryAggregate(long pk,
+		com.liferay.change.tracking.model.CTEntryAggregate ctEntryAggregate);
 
 	/**
-	* Adds an association between the ct entry and the ct entry bags. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Adds an association between the ct entry and the ct entry aggregates. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBags the ct entry bags
+	* @param ctEntryAggregatePKs the primary keys of the ct entry aggregates
 	*/
-	public void addCTEntryBags(long pk,
-		java.util.List<com.liferay.change.tracking.model.CTEntryBag> ctEntryBags);
+	public void addCTEntryAggregates(long pk, long[] ctEntryAggregatePKs);
 
 	/**
-	* Clears all associations between the ct entry and its ct entry bags. Also notifies the appropriate model listeners and clears the mapping table finder cache.
-	*
-	* @param pk the primary key of the ct entry to clear the associated ct entry bags from
-	*/
-	public void clearCTEntryBags(long pk);
-
-	/**
-	* Removes the association between the ct entry and the ct entry bag. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Adds an association between the ct entry and the ct entry aggregates. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPK the primary key of the ct entry bag
+	* @param ctEntryAggregates the ct entry aggregates
 	*/
-	public void removeCTEntryBag(long pk, long ctEntryBagPK);
+	public void addCTEntryAggregates(long pk,
+		java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> ctEntryAggregates);
 
 	/**
-	* Removes the association between the ct entry and the ct entry bag. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Clears all associations between the ct entry and its ct entry aggregates. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
-	* @param pk the primary key of the ct entry
-	* @param ctEntryBag the ct entry bag
+	* @param pk the primary key of the ct entry to clear the associated ct entry aggregates from
 	*/
-	public void removeCTEntryBag(long pk,
-		com.liferay.change.tracking.model.CTEntryBag ctEntryBag);
+	public void clearCTEntryAggregates(long pk);
 
 	/**
-	* Removes the association between the ct entry and the ct entry bags. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Removes the association between the ct entry and the ct entry aggregate. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPKs the primary keys of the ct entry bags
+	* @param ctEntryAggregatePK the primary key of the ct entry aggregate
 	*/
-	public void removeCTEntryBags(long pk, long[] ctEntryBagPKs);
+	public void removeCTEntryAggregate(long pk, long ctEntryAggregatePK);
 
 	/**
-	* Removes the association between the ct entry and the ct entry bags. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Removes the association between the ct entry and the ct entry aggregate. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBags the ct entry bags
+	* @param ctEntryAggregate the ct entry aggregate
 	*/
-	public void removeCTEntryBags(long pk,
-		java.util.List<com.liferay.change.tracking.model.CTEntryBag> ctEntryBags);
+	public void removeCTEntryAggregate(long pk,
+		com.liferay.change.tracking.model.CTEntryAggregate ctEntryAggregate);
 
 	/**
-	* Sets the ct entry bags associated with the ct entry, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Removes the association between the ct entry and the ct entry aggregates. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBagPKs the primary keys of the ct entry bags to be associated with the ct entry
+	* @param ctEntryAggregatePKs the primary keys of the ct entry aggregates
 	*/
-	public void setCTEntryBags(long pk, long[] ctEntryBagPKs);
+	public void removeCTEntryAggregates(long pk, long[] ctEntryAggregatePKs);
 
 	/**
-	* Sets the ct entry bags associated with the ct entry, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	* Removes the association between the ct entry and the ct entry aggregates. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	*
 	* @param pk the primary key of the ct entry
-	* @param ctEntryBags the ct entry bags to be associated with the ct entry
+	* @param ctEntryAggregates the ct entry aggregates
 	*/
-	public void setCTEntryBags(long pk,
-		java.util.List<com.liferay.change.tracking.model.CTEntryBag> ctEntryBags);
+	public void removeCTEntryAggregates(long pk,
+		java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> ctEntryAggregates);
+
+	/**
+	* Sets the ct entry aggregates associated with the ct entry, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the ct entry
+	* @param ctEntryAggregatePKs the primary keys of the ct entry aggregates to be associated with the ct entry
+	*/
+	public void setCTEntryAggregates(long pk, long[] ctEntryAggregatePKs);
+
+	/**
+	* Sets the ct entry aggregates associated with the ct entry, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the ct entry
+	* @param ctEntryAggregates the ct entry aggregates to be associated with the ct entry
+	*/
+	public void setCTEntryAggregates(long pk,
+		java.util.List<com.liferay.change.tracking.model.CTEntryAggregate> ctEntryAggregates);
 
 	/**
 	* Returns the primaryKeys of ct collections associated with the ct entry.

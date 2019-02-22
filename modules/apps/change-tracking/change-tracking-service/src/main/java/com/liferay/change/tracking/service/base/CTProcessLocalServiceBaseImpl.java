@@ -19,7 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.change.tracking.model.CTProcess;
 import com.liferay.change.tracking.service.CTProcessLocalService;
 import com.liferay.change.tracking.service.persistence.CTCollectionPersistence;
-import com.liferay.change.tracking.service.persistence.CTEntryBagPersistence;
+import com.liferay.change.tracking.service.persistence.CTEntryAggregatePersistence;
 import com.liferay.change.tracking.service.persistence.CTEntryFinder;
 import com.liferay.change.tracking.service.persistence.CTEntryPersistence;
 import com.liferay.change.tracking.service.persistence.CTProcessPersistence;
@@ -413,41 +413,41 @@ public abstract class CTProcessLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
-	 * Returns the ct entry bag local service.
+	 * Returns the ct entry aggregate local service.
 	 *
-	 * @return the ct entry bag local service
+	 * @return the ct entry aggregate local service
 	 */
-	public com.liferay.change.tracking.service.CTEntryBagLocalService getCTEntryBagLocalService() {
-		return ctEntryBagLocalService;
+	public com.liferay.change.tracking.service.CTEntryAggregateLocalService getCTEntryAggregateLocalService() {
+		return ctEntryAggregateLocalService;
 	}
 
 	/**
-	 * Sets the ct entry bag local service.
+	 * Sets the ct entry aggregate local service.
 	 *
-	 * @param ctEntryBagLocalService the ct entry bag local service
+	 * @param ctEntryAggregateLocalService the ct entry aggregate local service
 	 */
-	public void setCTEntryBagLocalService(
-		com.liferay.change.tracking.service.CTEntryBagLocalService ctEntryBagLocalService) {
-		this.ctEntryBagLocalService = ctEntryBagLocalService;
+	public void setCTEntryAggregateLocalService(
+		com.liferay.change.tracking.service.CTEntryAggregateLocalService ctEntryAggregateLocalService) {
+		this.ctEntryAggregateLocalService = ctEntryAggregateLocalService;
 	}
 
 	/**
-	 * Returns the ct entry bag persistence.
+	 * Returns the ct entry aggregate persistence.
 	 *
-	 * @return the ct entry bag persistence
+	 * @return the ct entry aggregate persistence
 	 */
-	public CTEntryBagPersistence getCTEntryBagPersistence() {
-		return ctEntryBagPersistence;
+	public CTEntryAggregatePersistence getCTEntryAggregatePersistence() {
+		return ctEntryAggregatePersistence;
 	}
 
 	/**
-	 * Sets the ct entry bag persistence.
+	 * Sets the ct entry aggregate persistence.
 	 *
-	 * @param ctEntryBagPersistence the ct entry bag persistence
+	 * @param ctEntryAggregatePersistence the ct entry aggregate persistence
 	 */
-	public void setCTEntryBagPersistence(
-		CTEntryBagPersistence ctEntryBagPersistence) {
-		this.ctEntryBagPersistence = ctEntryBagPersistence;
+	public void setCTEntryAggregatePersistence(
+		CTEntryAggregatePersistence ctEntryAggregatePersistence) {
+		this.ctEntryAggregatePersistence = ctEntryAggregatePersistence;
 	}
 
 	/**
@@ -700,10 +700,10 @@ public abstract class CTProcessLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected CTEntryPersistence ctEntryPersistence;
 	@BeanReference(type = CTEntryFinder.class)
 	protected CTEntryFinder ctEntryFinder;
-	@BeanReference(type = com.liferay.change.tracking.service.CTEntryBagLocalService.class)
-	protected com.liferay.change.tracking.service.CTEntryBagLocalService ctEntryBagLocalService;
-	@BeanReference(type = CTEntryBagPersistence.class)
-	protected CTEntryBagPersistence ctEntryBagPersistence;
+	@BeanReference(type = com.liferay.change.tracking.service.CTEntryAggregateLocalService.class)
+	protected com.liferay.change.tracking.service.CTEntryAggregateLocalService ctEntryAggregateLocalService;
+	@BeanReference(type = CTEntryAggregatePersistence.class)
+	protected CTEntryAggregatePersistence ctEntryAggregatePersistence;
 	@BeanReference(type = CTProcessLocalService.class)
 	protected CTProcessLocalService ctProcessLocalService;
 	@BeanReference(type = CTProcessPersistence.class)

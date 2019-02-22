@@ -12,15 +12,31 @@
  * details.
  */
 
-package com.liferay.change.tracking.uad.exporter;
+package com.liferay.change.tracking.exception;
 
-import com.liferay.user.associated.data.exporter.UADExporter;
+import aQute.bnd.annotation.ProviderType;
 
-import org.osgi.service.component.annotations.Component;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@Component(immediate = true, service = UADExporter.class)
-public class CTEntryBagUADExporter extends BaseCTEntryBagUADExporter {
+@ProviderType
+public class NoSuchEntryAggregateException extends NoSuchModelException {
+
+	public NoSuchEntryAggregateException() {
+	}
+
+	public NoSuchEntryAggregateException(String msg) {
+		super(msg);
+	}
+
+	public NoSuchEntryAggregateException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public NoSuchEntryAggregateException(Throwable cause) {
+		super(cause);
+	}
+
 }

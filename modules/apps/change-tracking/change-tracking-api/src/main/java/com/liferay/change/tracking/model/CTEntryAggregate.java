@@ -21,24 +21,25 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the CTEntryBag service. Represents a row in the &quot;CTEntryBag&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the CTEntryAggregate service. Represents a row in the &quot;CTEntryAggregate&quot; database table, with each column mapped to a property of this class.
  *
  * @author Brian Wing Shun Chan
- * @see CTEntryBagModel
+ * @see CTEntryAggregateModel
  * @generated
  */
-@ImplementationClassName("com.liferay.change.tracking.model.impl.CTEntryBagImpl")
+@ImplementationClassName("com.liferay.change.tracking.model.impl.CTEntryAggregateImpl")
 @ProviderType
-public interface CTEntryBag extends CTEntryBagModel, PersistedModel {
+public interface CTEntryAggregate extends CTEntryAggregateModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to <code>com.liferay.change.tracking.model.impl.CTEntryBagImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>com.liferay.change.tracking.model.impl.CTEntryAggregateImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<CTEntryBag, Long> CT_ENTRY_BAG_ID_ACCESSOR = new Accessor<CTEntryBag, Long>() {
+	public static final Accessor<CTEntryAggregate, Long> CT_ENTRY_AGGREGATE_ID_ACCESSOR =
+		new Accessor<CTEntryAggregate, Long>() {
 			@Override
-			public Long get(CTEntryBag ctEntryBag) {
-				return ctEntryBag.getCtEntryBagId();
+			public Long get(CTEntryAggregate ctEntryAggregate) {
+				return ctEntryAggregate.getCtEntryAggregateId();
 			}
 
 			@Override
@@ -47,8 +48,8 @@ public interface CTEntryBag extends CTEntryBagModel, PersistedModel {
 			}
 
 			@Override
-			public Class<CTEntryBag> getTypeClass() {
-				return CTEntryBag.class;
+			public Class<CTEntryAggregate> getTypeClass() {
+				return CTEntryAggregate.class;
 			}
 		};
 

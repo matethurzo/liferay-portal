@@ -188,8 +188,8 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 	}
 
 	@Override
-	public java.util.List<CTEntryBag> getCTEntryBags() {
-		return model.getCTEntryBags();
+	public java.util.List<CTEntryAggregate> getCTEntryBAggregates() {
+		return model.getCTEntryBAggregates();
 	}
 
 	/**
@@ -273,8 +273,8 @@ public class CTEntryWrapper extends BaseModelWrapper<CTEntry> implements CTEntry
 	}
 
 	@Override
-	public boolean hasCTEntryBag() {
-		return model.hasCTEntryBag();
+	public boolean hasCTEntryAggregate() {
+		return model.hasCTEntryAggregate();
 	}
 
 	@Override

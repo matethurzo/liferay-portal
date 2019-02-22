@@ -19,7 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.CTEntryLocalService;
 import com.liferay.change.tracking.service.persistence.CTCollectionPersistence;
-import com.liferay.change.tracking.service.persistence.CTEntryBagPersistence;
+import com.liferay.change.tracking.service.persistence.CTEntryAggregatePersistence;
 import com.liferay.change.tracking.service.persistence.CTEntryFinder;
 import com.liferay.change.tracking.service.persistence.CTEntryPersistence;
 import com.liferay.change.tracking.service.persistence.CTProcessPersistence;
@@ -322,129 +322,141 @@ public abstract class CTEntryLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 */
 	@Override
-	public void addCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		ctEntryBagPersistence.addCTEntry(ctEntryBagId, ctEntryId);
+	public void addCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		ctEntryAggregatePersistence.addCTEntry(ctEntryAggregateId, ctEntryId);
 	}
 
 	/**
 	 */
 	@Override
-	public void addCTEntryBagCTEntry(long ctEntryBagId, CTEntry ctEntry) {
-		ctEntryBagPersistence.addCTEntry(ctEntryBagId, ctEntry);
+	public void addCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		CTEntry ctEntry) {
+		ctEntryAggregatePersistence.addCTEntry(ctEntryAggregateId, ctEntry);
 	}
 
 	/**
 	 */
 	@Override
-	public void addCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		ctEntryBagPersistence.addCTEntries(ctEntryBagId, ctEntryIds);
+	public void addCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		ctEntryAggregatePersistence.addCTEntries(ctEntryAggregateId, ctEntryIds);
 	}
 
 	/**
 	 */
 	@Override
-	public void addCTEntryBagCTEntries(long ctEntryBagId,
+	public void addCTEntryAggregateCTEntries(long ctEntryAggregateId,
 		List<CTEntry> ctEntries) {
-		ctEntryBagPersistence.addCTEntries(ctEntryBagId, ctEntries);
+		ctEntryAggregatePersistence.addCTEntries(ctEntryAggregateId, ctEntries);
 	}
 
 	/**
 	 */
 	@Override
-	public void clearCTEntryBagCTEntries(long ctEntryBagId) {
-		ctEntryBagPersistence.clearCTEntries(ctEntryBagId);
+	public void clearCTEntryAggregateCTEntries(long ctEntryAggregateId) {
+		ctEntryAggregatePersistence.clearCTEntries(ctEntryAggregateId);
 	}
 
 	/**
 	 */
 	@Override
-	public void deleteCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		ctEntryBagPersistence.removeCTEntry(ctEntryBagId, ctEntryId);
+	public void deleteCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		ctEntryAggregatePersistence.removeCTEntry(ctEntryAggregateId, ctEntryId);
 	}
 
 	/**
 	 */
 	@Override
-	public void deleteCTEntryBagCTEntry(long ctEntryBagId, CTEntry ctEntry) {
-		ctEntryBagPersistence.removeCTEntry(ctEntryBagId, ctEntry);
+	public void deleteCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		CTEntry ctEntry) {
+		ctEntryAggregatePersistence.removeCTEntry(ctEntryAggregateId, ctEntry);
 	}
 
 	/**
 	 */
 	@Override
-	public void deleteCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		ctEntryBagPersistence.removeCTEntries(ctEntryBagId, ctEntryIds);
+	public void deleteCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		ctEntryAggregatePersistence.removeCTEntries(ctEntryAggregateId,
+			ctEntryIds);
 	}
 
 	/**
 	 */
 	@Override
-	public void deleteCTEntryBagCTEntries(long ctEntryBagId,
+	public void deleteCTEntryAggregateCTEntries(long ctEntryAggregateId,
 		List<CTEntry> ctEntries) {
-		ctEntryBagPersistence.removeCTEntries(ctEntryBagId, ctEntries);
+		ctEntryAggregatePersistence.removeCTEntries(ctEntryAggregateId,
+			ctEntries);
 	}
 
 	/**
-	 * Returns the ctEntryBagIds of the ct entry bags associated with the ct entry.
+	 * Returns the ctEntryAggregateIds of the ct entry aggregates associated with the ct entry.
 	 *
 	 * @param ctEntryId the ctEntryId of the ct entry
-	 * @return long[] the ctEntryBagIds of ct entry bags associated with the ct entry
+	 * @return long[] the ctEntryAggregateIds of ct entry aggregates associated with the ct entry
 	 */
 	@Override
-	public long[] getCTEntryBagPrimaryKeys(long ctEntryId) {
-		return ctEntryPersistence.getCTEntryBagPrimaryKeys(ctEntryId);
+	public long[] getCTEntryAggregatePrimaryKeys(long ctEntryId) {
+		return ctEntryPersistence.getCTEntryAggregatePrimaryKeys(ctEntryId);
 	}
 
 	/**
 	 */
 	@Override
-	public List<CTEntry> getCTEntryBagCTEntries(long ctEntryBagId) {
-		return ctEntryBagPersistence.getCTEntries(ctEntryBagId);
+	public List<CTEntry> getCTEntryAggregateCTEntries(long ctEntryAggregateId) {
+		return ctEntryAggregatePersistence.getCTEntries(ctEntryAggregateId);
 	}
 
 	/**
 	 */
 	@Override
-	public List<CTEntry> getCTEntryBagCTEntries(long ctEntryBagId, int start,
-		int end) {
-		return ctEntryBagPersistence.getCTEntries(ctEntryBagId, start, end);
+	public List<CTEntry> getCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		int start, int end) {
+		return ctEntryAggregatePersistence.getCTEntries(ctEntryAggregateId,
+			start, end);
 	}
 
 	/**
 	 */
 	@Override
-	public List<CTEntry> getCTEntryBagCTEntries(long ctEntryBagId, int start,
-		int end, OrderByComparator<CTEntry> orderByComparator) {
-		return ctEntryBagPersistence.getCTEntries(ctEntryBagId, start, end,
-			orderByComparator);
+	public List<CTEntry> getCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		int start, int end, OrderByComparator<CTEntry> orderByComparator) {
+		return ctEntryAggregatePersistence.getCTEntries(ctEntryAggregateId,
+			start, end, orderByComparator);
 	}
 
 	/**
 	 */
 	@Override
-	public int getCTEntryBagCTEntriesCount(long ctEntryBagId) {
-		return ctEntryBagPersistence.getCTEntriesSize(ctEntryBagId);
+	public int getCTEntryAggregateCTEntriesCount(long ctEntryAggregateId) {
+		return ctEntryAggregatePersistence.getCTEntriesSize(ctEntryAggregateId);
 	}
 
 	/**
 	 */
 	@Override
-	public boolean hasCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		return ctEntryBagPersistence.containsCTEntry(ctEntryBagId, ctEntryId);
+	public boolean hasCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		return ctEntryAggregatePersistence.containsCTEntry(ctEntryAggregateId,
+			ctEntryId);
 	}
 
 	/**
 	 */
 	@Override
-	public boolean hasCTEntryBagCTEntries(long ctEntryBagId) {
-		return ctEntryBagPersistence.containsCTEntries(ctEntryBagId);
+	public boolean hasCTEntryAggregateCTEntries(long ctEntryAggregateId) {
+		return ctEntryAggregatePersistence.containsCTEntries(ctEntryAggregateId);
 	}
 
 	/**
 	 */
 	@Override
-	public void setCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		ctEntryBagPersistence.setCTEntries(ctEntryBagId, ctEntryIds);
+	public void setCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		ctEntryAggregatePersistence.setCTEntries(ctEntryAggregateId, ctEntryIds);
 	}
 
 	/**
@@ -669,41 +681,41 @@ public abstract class CTEntryLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
-	 * Returns the ct entry bag local service.
+	 * Returns the ct entry aggregate local service.
 	 *
-	 * @return the ct entry bag local service
+	 * @return the ct entry aggregate local service
 	 */
-	public com.liferay.change.tracking.service.CTEntryBagLocalService getCTEntryBagLocalService() {
-		return ctEntryBagLocalService;
+	public com.liferay.change.tracking.service.CTEntryAggregateLocalService getCTEntryAggregateLocalService() {
+		return ctEntryAggregateLocalService;
 	}
 
 	/**
-	 * Sets the ct entry bag local service.
+	 * Sets the ct entry aggregate local service.
 	 *
-	 * @param ctEntryBagLocalService the ct entry bag local service
+	 * @param ctEntryAggregateLocalService the ct entry aggregate local service
 	 */
-	public void setCTEntryBagLocalService(
-		com.liferay.change.tracking.service.CTEntryBagLocalService ctEntryBagLocalService) {
-		this.ctEntryBagLocalService = ctEntryBagLocalService;
+	public void setCTEntryAggregateLocalService(
+		com.liferay.change.tracking.service.CTEntryAggregateLocalService ctEntryAggregateLocalService) {
+		this.ctEntryAggregateLocalService = ctEntryAggregateLocalService;
 	}
 
 	/**
-	 * Returns the ct entry bag persistence.
+	 * Returns the ct entry aggregate persistence.
 	 *
-	 * @return the ct entry bag persistence
+	 * @return the ct entry aggregate persistence
 	 */
-	public CTEntryBagPersistence getCTEntryBagPersistence() {
-		return ctEntryBagPersistence;
+	public CTEntryAggregatePersistence getCTEntryAggregatePersistence() {
+		return ctEntryAggregatePersistence;
 	}
 
 	/**
-	 * Sets the ct entry bag persistence.
+	 * Sets the ct entry aggregate persistence.
 	 *
-	 * @param ctEntryBagPersistence the ct entry bag persistence
+	 * @param ctEntryAggregatePersistence the ct entry aggregate persistence
 	 */
-	public void setCTEntryBagPersistence(
-		CTEntryBagPersistence ctEntryBagPersistence) {
-		this.ctEntryBagPersistence = ctEntryBagPersistence;
+	public void setCTEntryAggregatePersistence(
+		CTEntryAggregatePersistence ctEntryAggregatePersistence) {
+		this.ctEntryAggregatePersistence = ctEntryAggregatePersistence;
 	}
 
 	/**
@@ -919,10 +931,10 @@ public abstract class CTEntryLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected CTEntryPersistence ctEntryPersistence;
 	@BeanReference(type = CTEntryFinder.class)
 	protected CTEntryFinder ctEntryFinder;
-	@BeanReference(type = com.liferay.change.tracking.service.CTEntryBagLocalService.class)
-	protected com.liferay.change.tracking.service.CTEntryBagLocalService ctEntryBagLocalService;
-	@BeanReference(type = CTEntryBagPersistence.class)
-	protected CTEntryBagPersistence ctEntryBagPersistence;
+	@BeanReference(type = com.liferay.change.tracking.service.CTEntryAggregateLocalService.class)
+	protected com.liferay.change.tracking.service.CTEntryAggregateLocalService ctEntryAggregateLocalService;
+	@BeanReference(type = CTEntryAggregatePersistence.class)
+	protected CTEntryAggregatePersistence ctEntryAggregatePersistence;
 	@BeanReference(type = com.liferay.change.tracking.service.CTProcessLocalService.class)
 	protected com.liferay.change.tracking.service.CTProcessLocalService ctProcessLocalService;
 	@BeanReference(type = CTProcessPersistence.class)

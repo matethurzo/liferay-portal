@@ -16,7 +16,7 @@ package com.liferay.change.tracking.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.change.tracking.model.CTEntryBag;
+import com.liferay.change.tracking.model.CTEntryAggregate;
 
 import com.liferay.petra.lang.HashUtil;
 import com.liferay.petra.string.StringBundler;
@@ -31,13 +31,13 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 /**
- * The cache model class for representing CTEntryBag in entity cache.
+ * The cache model class for representing CTEntryAggregate in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
 @ProviderType
-public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
+public class CTEntryAggregateCacheModel implements CacheModel<CTEntryAggregate>,
 	Externalizable {
 	@Override
 	public boolean equals(Object obj) {
@@ -45,13 +45,13 @@ public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
 			return true;
 		}
 
-		if (!(obj instanceof CTEntryBagCacheModel)) {
+		if (!(obj instanceof CTEntryAggregateCacheModel)) {
 			return false;
 		}
 
-		CTEntryBagCacheModel ctEntryBagCacheModel = (CTEntryBagCacheModel)obj;
+		CTEntryAggregateCacheModel ctEntryAggregateCacheModel = (CTEntryAggregateCacheModel)obj;
 
-		if (ctEntryBagId == ctEntryBagCacheModel.ctEntryBagId) {
+		if (ctEntryAggregateId == ctEntryAggregateCacheModel.ctEntryAggregateId) {
 			return true;
 		}
 
@@ -60,15 +60,15 @@ public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, ctEntryBagId);
+		return HashUtil.hash(0, ctEntryAggregateId);
 	}
 
 	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(17);
 
-		sb.append("{ctEntryBagId=");
-		sb.append(ctEntryBagId);
+		sb.append("{ctEntryAggregateId=");
+		sb.append(ctEntryAggregateId);
 		sb.append(", companyId=");
 		sb.append(companyId);
 		sb.append(", userId=");
@@ -89,45 +89,45 @@ public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
 	}
 
 	@Override
-	public CTEntryBag toEntityModel() {
-		CTEntryBagImpl ctEntryBagImpl = new CTEntryBagImpl();
+	public CTEntryAggregate toEntityModel() {
+		CTEntryAggregateImpl ctEntryAggregateImpl = new CTEntryAggregateImpl();
 
-		ctEntryBagImpl.setCtEntryBagId(ctEntryBagId);
-		ctEntryBagImpl.setCompanyId(companyId);
-		ctEntryBagImpl.setUserId(userId);
+		ctEntryAggregateImpl.setCtEntryAggregateId(ctEntryAggregateId);
+		ctEntryAggregateImpl.setCompanyId(companyId);
+		ctEntryAggregateImpl.setUserId(userId);
 
 		if (userName == null) {
-			ctEntryBagImpl.setUserName("");
+			ctEntryAggregateImpl.setUserName("");
 		}
 		else {
-			ctEntryBagImpl.setUserName(userName);
+			ctEntryAggregateImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
-			ctEntryBagImpl.setCreateDate(null);
+			ctEntryAggregateImpl.setCreateDate(null);
 		}
 		else {
-			ctEntryBagImpl.setCreateDate(new Date(createDate));
+			ctEntryAggregateImpl.setCreateDate(new Date(createDate));
 		}
 
 		if (modifiedDate == Long.MIN_VALUE) {
-			ctEntryBagImpl.setModifiedDate(null);
+			ctEntryAggregateImpl.setModifiedDate(null);
 		}
 		else {
-			ctEntryBagImpl.setModifiedDate(new Date(modifiedDate));
+			ctEntryAggregateImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		ctEntryBagImpl.setOwnerCTEntryId(ownerCTEntryId);
-		ctEntryBagImpl.setCtCollectionId(ctCollectionId);
+		ctEntryAggregateImpl.setOwnerCTEntryId(ownerCTEntryId);
+		ctEntryAggregateImpl.setCtCollectionId(ctCollectionId);
 
-		ctEntryBagImpl.resetOriginalValues();
+		ctEntryAggregateImpl.resetOriginalValues();
 
-		return ctEntryBagImpl;
+		return ctEntryAggregateImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		ctEntryBagId = objectInput.readLong();
+		ctEntryAggregateId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
 
@@ -144,7 +144,7 @@ public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
-		objectOutput.writeLong(ctEntryBagId);
+		objectOutput.writeLong(ctEntryAggregateId);
 
 		objectOutput.writeLong(companyId);
 
@@ -165,7 +165,7 @@ public class CTEntryBagCacheModel implements CacheModel<CTEntryBag>,
 		objectOutput.writeLong(ctCollectionId);
 	}
 
-	public long ctEntryBagId;
+	public long ctEntryAggregateId;
 	public long companyId;
 	public long userId;
 	public String userName;

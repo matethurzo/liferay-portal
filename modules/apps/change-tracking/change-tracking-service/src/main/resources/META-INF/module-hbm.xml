@@ -4,7 +4,7 @@
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="com.liferay.change.tracking.model.CTCollection" />
 	<import class="com.liferay.change.tracking.model.CTEntry" />
-	<import class="com.liferay.change.tracking.model.CTEntryBag" />
+	<import class="com.liferay.change.tracking.model.CTEntryAggregate" />
 	<import class="com.liferay.change.tracking.model.CTProcess" />
 	<class name="com.liferay.change.tracking.model.impl.CTCollectionImpl" table="CTCollection">
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="ctCollectionId" type="long">
@@ -37,8 +37,8 @@
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="changeType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
-	<class name="com.liferay.change.tracking.model.impl.CTEntryBagImpl" table="CTEntryBag">
-		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="ctEntryBagId" type="long">
+	<class name="com.liferay.change.tracking.model.impl.CTEntryAggregateImpl" table="CTEntryAggregate">
+		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="ctEntryAggregateId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

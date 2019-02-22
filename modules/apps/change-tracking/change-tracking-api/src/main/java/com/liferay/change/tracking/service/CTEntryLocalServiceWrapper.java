@@ -77,25 +77,31 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public void addCTEntryBagCTEntries(long ctEntryBagId,
+	public void addCTEntryAggregateCTEntries(long ctEntryAggregateId,
 		java.util.List<com.liferay.change.tracking.model.CTEntry> ctEntries) {
-		_ctEntryLocalService.addCTEntryBagCTEntries(ctEntryBagId, ctEntries);
+		_ctEntryLocalService.addCTEntryAggregateCTEntries(ctEntryAggregateId,
+			ctEntries);
 	}
 
 	@Override
-	public void addCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		_ctEntryLocalService.addCTEntryBagCTEntries(ctEntryBagId, ctEntryIds);
+	public void addCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		_ctEntryLocalService.addCTEntryAggregateCTEntries(ctEntryAggregateId,
+			ctEntryIds);
 	}
 
 	@Override
-	public void addCTEntryBagCTEntry(long ctEntryBagId,
+	public void addCTEntryAggregateCTEntry(long ctEntryAggregateId,
 		com.liferay.change.tracking.model.CTEntry ctEntry) {
-		_ctEntryLocalService.addCTEntryBagCTEntry(ctEntryBagId, ctEntry);
+		_ctEntryLocalService.addCTEntryAggregateCTEntry(ctEntryAggregateId,
+			ctEntry);
 	}
 
 	@Override
-	public void addCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		_ctEntryLocalService.addCTEntryBagCTEntry(ctEntryBagId, ctEntryId);
+	public void addCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		_ctEntryLocalService.addCTEntryAggregateCTEntry(ctEntryAggregateId,
+			ctEntryId);
 	}
 
 	@Override
@@ -104,8 +110,8 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public void clearCTEntryBagCTEntries(long ctEntryBagId) {
-		_ctEntryLocalService.clearCTEntryBagCTEntries(ctEntryBagId);
+	public void clearCTEntryAggregateCTEntries(long ctEntryAggregateId) {
+		_ctEntryLocalService.clearCTEntryAggregateCTEntries(ctEntryAggregateId);
 	}
 
 	/**
@@ -172,25 +178,31 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public void deleteCTEntryBagCTEntries(long ctEntryBagId,
+	public void deleteCTEntryAggregateCTEntries(long ctEntryAggregateId,
 		java.util.List<com.liferay.change.tracking.model.CTEntry> ctEntries) {
-		_ctEntryLocalService.deleteCTEntryBagCTEntries(ctEntryBagId, ctEntries);
+		_ctEntryLocalService.deleteCTEntryAggregateCTEntries(ctEntryAggregateId,
+			ctEntries);
 	}
 
 	@Override
-	public void deleteCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		_ctEntryLocalService.deleteCTEntryBagCTEntries(ctEntryBagId, ctEntryIds);
+	public void deleteCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		_ctEntryLocalService.deleteCTEntryAggregateCTEntries(ctEntryAggregateId,
+			ctEntryIds);
 	}
 
 	@Override
-	public void deleteCTEntryBagCTEntry(long ctEntryBagId,
+	public void deleteCTEntryAggregateCTEntry(long ctEntryAggregateId,
 		com.liferay.change.tracking.model.CTEntry ctEntry) {
-		_ctEntryLocalService.deleteCTEntryBagCTEntry(ctEntryBagId, ctEntry);
+		_ctEntryLocalService.deleteCTEntryAggregateCTEntry(ctEntryAggregateId,
+			ctEntry);
 	}
 
 	@Override
-	public void deleteCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		_ctEntryLocalService.deleteCTEntryBagCTEntry(ctEntryBagId, ctEntryId);
+	public void deleteCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		_ctEntryLocalService.deleteCTEntryAggregateCTEntry(ctEntryAggregateId,
+			ctEntryId);
 	}
 
 	/**
@@ -412,40 +424,40 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryBagCTEntries(
-		long ctEntryBagId) {
-		return _ctEntryLocalService.getCTEntryBagCTEntries(ctEntryBagId);
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryAggregateCTEntries(
+		long ctEntryAggregateId) {
+		return _ctEntryLocalService.getCTEntryAggregateCTEntries(ctEntryAggregateId);
 	}
 
 	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryBagCTEntries(
-		long ctEntryBagId, int start, int end) {
-		return _ctEntryLocalService.getCTEntryBagCTEntries(ctEntryBagId, start,
-			end);
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryAggregateCTEntries(
+		long ctEntryAggregateId, int start, int end) {
+		return _ctEntryLocalService.getCTEntryAggregateCTEntries(ctEntryAggregateId,
+			start, end);
 	}
 
 	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryBagCTEntries(
-		long ctEntryBagId, int start, int end,
+	public java.util.List<com.liferay.change.tracking.model.CTEntry> getCTEntryAggregateCTEntries(
+		long ctEntryAggregateId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
-		return _ctEntryLocalService.getCTEntryBagCTEntries(ctEntryBagId, start,
-			end, orderByComparator);
+		return _ctEntryLocalService.getCTEntryAggregateCTEntries(ctEntryAggregateId,
+			start, end, orderByComparator);
 	}
 
 	@Override
-	public int getCTEntryBagCTEntriesCount(long ctEntryBagId) {
-		return _ctEntryLocalService.getCTEntryBagCTEntriesCount(ctEntryBagId);
+	public int getCTEntryAggregateCTEntriesCount(long ctEntryAggregateId) {
+		return _ctEntryLocalService.getCTEntryAggregateCTEntriesCount(ctEntryAggregateId);
 	}
 
 	/**
-	* Returns the ctEntryBagIds of the ct entry bags associated with the ct entry.
+	* Returns the ctEntryAggregateIds of the ct entry aggregates associated with the ct entry.
 	*
 	* @param ctEntryId the ctEntryId of the ct entry
-	* @return long[] the ctEntryBagIds of ct entry bags associated with the ct entry
+	* @return long[] the ctEntryAggregateIds of ct entry aggregates associated with the ct entry
 	*/
 	@Override
-	public long[] getCTEntryBagPrimaryKeys(long ctEntryId) {
-		return _ctEntryLocalService.getCTEntryBagPrimaryKeys(ctEntryId);
+	public long[] getCTEntryAggregatePrimaryKeys(long ctEntryId) {
+		return _ctEntryLocalService.getCTEntryAggregatePrimaryKeys(ctEntryId);
 	}
 
 	@Override
@@ -489,13 +501,15 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public boolean hasCTEntryBagCTEntries(long ctEntryBagId) {
-		return _ctEntryLocalService.hasCTEntryBagCTEntries(ctEntryBagId);
+	public boolean hasCTEntryAggregateCTEntries(long ctEntryAggregateId) {
+		return _ctEntryLocalService.hasCTEntryAggregateCTEntries(ctEntryAggregateId);
 	}
 
 	@Override
-	public boolean hasCTEntryBagCTEntry(long ctEntryBagId, long ctEntryId) {
-		return _ctEntryLocalService.hasCTEntryBagCTEntry(ctEntryBagId, ctEntryId);
+	public boolean hasCTEntryAggregateCTEntry(long ctEntryAggregateId,
+		long ctEntryId) {
+		return _ctEntryLocalService.hasCTEntryAggregateCTEntry(ctEntryAggregateId,
+			ctEntryId);
 	}
 
 	@Override
@@ -504,8 +518,10 @@ public class CTEntryLocalServiceWrapper implements CTEntryLocalService,
 	}
 
 	@Override
-	public void setCTEntryBagCTEntries(long ctEntryBagId, long[] ctEntryIds) {
-		_ctEntryLocalService.setCTEntryBagCTEntries(ctEntryBagId, ctEntryIds);
+	public void setCTEntryAggregateCTEntries(long ctEntryAggregateId,
+		long[] ctEntryIds) {
+		_ctEntryLocalService.setCTEntryAggregateCTEntries(ctEntryAggregateId,
+			ctEntryIds);
 	}
 
 	/**

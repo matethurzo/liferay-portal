@@ -29,11 +29,11 @@ import java.util.List;
  * @generated
  */
 @ProviderType
-public class CTEntryBagSoap implements Serializable {
-	public static CTEntryBagSoap toSoapModel(CTEntryBag model) {
-		CTEntryBagSoap soapModel = new CTEntryBagSoap();
+public class CTEntryAggregateSoap implements Serializable {
+	public static CTEntryAggregateSoap toSoapModel(CTEntryAggregate model) {
+		CTEntryAggregateSoap soapModel = new CTEntryAggregateSoap();
 
-		soapModel.setCtEntryBagId(model.getCtEntryBagId());
+		soapModel.setCtEntryAggregateId(model.getCtEntryAggregateId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setUserName(model.getUserName());
@@ -45,8 +45,8 @@ public class CTEntryBagSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static CTEntryBagSoap[] toSoapModels(CTEntryBag[] models) {
-		CTEntryBagSoap[] soapModels = new CTEntryBagSoap[models.length];
+	public static CTEntryAggregateSoap[] toSoapModels(CTEntryAggregate[] models) {
+		CTEntryAggregateSoap[] soapModels = new CTEntryAggregateSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -55,14 +55,15 @@ public class CTEntryBagSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CTEntryBagSoap[][] toSoapModels(CTEntryBag[][] models) {
-		CTEntryBagSoap[][] soapModels = null;
+	public static CTEntryAggregateSoap[][] toSoapModels(
+		CTEntryAggregate[][] models) {
+		CTEntryAggregateSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new CTEntryBagSoap[models.length][models[0].length];
+			soapModels = new CTEntryAggregateSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new CTEntryBagSoap[0][0];
+			soapModels = new CTEntryAggregateSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -72,33 +73,34 @@ public class CTEntryBagSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CTEntryBagSoap[] toSoapModels(List<CTEntryBag> models) {
-		List<CTEntryBagSoap> soapModels = new ArrayList<CTEntryBagSoap>(models.size());
+	public static CTEntryAggregateSoap[] toSoapModels(
+		List<CTEntryAggregate> models) {
+		List<CTEntryAggregateSoap> soapModels = new ArrayList<CTEntryAggregateSoap>(models.size());
 
-		for (CTEntryBag model : models) {
+		for (CTEntryAggregate model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new CTEntryBagSoap[soapModels.size()]);
+		return soapModels.toArray(new CTEntryAggregateSoap[soapModels.size()]);
 	}
 
-	public CTEntryBagSoap() {
+	public CTEntryAggregateSoap() {
 	}
 
 	public long getPrimaryKey() {
-		return _ctEntryBagId;
+		return _ctEntryAggregateId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setCtEntryBagId(pk);
+		setCtEntryAggregateId(pk);
 	}
 
-	public long getCtEntryBagId() {
-		return _ctEntryBagId;
+	public long getCtEntryAggregateId() {
+		return _ctEntryAggregateId;
 	}
 
-	public void setCtEntryBagId(long ctEntryBagId) {
-		_ctEntryBagId = ctEntryBagId;
+	public void setCtEntryAggregateId(long ctEntryAggregateId) {
+		_ctEntryAggregateId = ctEntryAggregateId;
 	}
 
 	public long getCompanyId() {
@@ -157,7 +159,7 @@ public class CTEntryBagSoap implements Serializable {
 		_ctCollectionId = ctCollectionId;
 	}
 
-	private long _ctEntryBagId;
+	private long _ctEntryAggregateId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;

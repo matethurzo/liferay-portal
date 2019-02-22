@@ -118,15 +118,19 @@ public class CTEntryModelImpl extends BaseModelImpl<CTEntry>
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 	public static final long RESOURCEPRIMKEY_COLUMN_BITMASK = 4L;
 	public static final long CTENTRYID_COLUMN_BITMASK = 8L;
-	public static final String MAPPING_TABLE_CTENTRYBAGS_CTENTRIES_NAME = "CTEntryBags_CTEntries";
-	public static final Object[][] MAPPING_TABLE_CTENTRYBAGS_CTENTRIES_COLUMNS = {
+	public static final String MAPPING_TABLE_CTENTRYAGGREGATES_CTENTRIES_NAME = "CTEntryAggregates_CTEntries";
+	public static final Object[][] MAPPING_TABLE_CTENTRYAGGREGATES_CTENTRIES_COLUMNS =
+		{
 			{ "companyId", Types.BIGINT },
 			{ "ctEntryId", Types.BIGINT },
-			{ "ctEntryBagId", Types.BIGINT }
+			{ "ctEntryAggregateId", Types.BIGINT }
 		};
-	public static final String MAPPING_TABLE_CTENTRYBAGS_CTENTRIES_SQL_CREATE = "create table CTEntryBags_CTEntries (companyId LONG not null,ctEntryId LONG not null,ctEntryBagId LONG not null,primary key (ctEntryId, ctEntryBagId))";
-	public static final boolean FINDER_CACHE_ENABLED_CTENTRYBAGS_CTENTRIES = GetterUtil.getBoolean(com.liferay.change.tracking.service.util.ServiceProps.get(
-				"value.object.finder.cache.enabled.CTEntryBags_CTEntries"), true);
+	public static final String MAPPING_TABLE_CTENTRYAGGREGATES_CTENTRIES_SQL_CREATE =
+		"create table CTEntryAggregates_CTEntries (companyId LONG not null,ctEntryId LONG not null,ctEntryAggregateId LONG not null,primary key (ctEntryId, ctEntryAggregateId))";
+	public static final boolean FINDER_CACHE_ENABLED_CTENTRYAGGREGATES_CTENTRIES =
+		GetterUtil.getBoolean(com.liferay.change.tracking.service.util.ServiceProps.get(
+				"value.object.finder.cache.enabled.CTEntryAggregates_CTEntries"),
+			true);
 	public static final String MAPPING_TABLE_CTCOLLECTIONS_CTENTRIES_NAME = "CTCollections_CTEntries";
 	public static final Object[][] MAPPING_TABLE_CTCOLLECTIONS_CTENTRIES_COLUMNS =
 		{

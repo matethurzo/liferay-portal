@@ -7,6 +7,12 @@ create index IX_6EA8BE62 on CTCollections_CTEntries (ctEntryId);
 create unique index IX_776391C on CTEntry (classNameId, classPK);
 create index IX_C57DDD34 on CTEntry (resourcePrimKey);
 
+create index IX_D769663F on CTEntryAggregate (ownerCTEntryId, ctCollectionId);
+
+create index IX_5C08EBAD on CTEntryAggregates_CTEntries (companyId);
+create index IX_4E879A48 on CTEntryAggregates_CTEntries (ctEntryAggregateId);
+create index IX_1AEE37B1 on CTEntryAggregates_CTEntries (ctEntryId);
+
 create index IX_14B1CD88 on CTEntryBag (ownerCTEntryId, ctCollectionId);
 
 create index IX_60232A36 on CTEntryBags_CTEntries (companyId);

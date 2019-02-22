@@ -23,8 +23,8 @@ import com.liferay.change.tracking.configuration.builder.CTConfigurationBuilder;
 import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
-import com.liferay.change.tracking.model.CTEntryBag;
-import com.liferay.change.tracking.service.CTEntryBagLocalService;
+import com.liferay.change.tracking.model.CTEntryAggregate;
+import com.liferay.change.tracking.service.CTEntryAggregateLocalService;
 import com.liferay.change.tracking.service.CTEntryLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ClassName;
@@ -129,23 +129,25 @@ public class CTManagerTest {
 			CTConstants.CT_CHANGE_TYPE_ADDITION, ctCollectionId,
 			new ServiceContext());
 
-		CTEntryBag ctEntryBag = _ctEntryBagLocalService.fetchLatestCTEntryBag(
-			ownerCTEntry.getCtEntryId(), ctCollectionId);
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ownerCTEntry.getCtEntryId(), ctCollectionId);
 
-		Assert.assertNull(ctEntryBag);
+		Assert.assertNull(ctEntryAggregate);
 
 		CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			RandomTestUtil.nextLong(), 1L, CTConstants.CT_CHANGE_TYPE_ADDITION,
 			ctCollectionId, new ServiceContext());
 
-		Optional<CTEntryBag> ctEntryBagOptionalA = _ctManager.addRelatedCTEntry(
-			_user.getUserId(), ownerCTEntry, ctEntry);
+		Optional<CTEntryAggregate> ctEntryAggregateOptionalA =
+			_ctManager.addRelatedCTEntry(
+				_user.getUserId(), ownerCTEntry, ctEntry);
 
-		Assert.assertTrue(ctEntryBagOptionalA.isPresent());
+		Assert.assertTrue(ctEntryAggregateOptionalA.isPresent());
 
-		int ctEntryBagSize = ctEntryBagOptionalA.map(
-			CTEntryBag::getRelatedCTEntries
+		int ctEntryAggregateSize = ctEntryAggregateOptionalA.map(
+			CTEntryAggregate::getRelatedCTEntries
 		).map(
 			List::size
 		).orElse(
@@ -153,20 +155,22 @@ public class CTManagerTest {
 		);
 
 		Assert.assertEquals(
-			"There must be two change tracking entries", 2, ctEntryBagSize);
+			"There must be two change tracking entries", 2,
+			ctEntryAggregateSize);
 
 		ctEntry = _ctEntryLocalService.addCTEntry(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
 			RandomTestUtil.nextLong(), 2L, CTConstants.CT_CHANGE_TYPE_ADDITION,
 			ctCollectionId, new ServiceContext());
 
-		Optional<CTEntryBag> ctEntryBagOptionalB = _ctManager.addRelatedCTEntry(
-			_user.getUserId(), ownerCTEntry, ctEntry);
+		Optional<CTEntryAggregate> ctEntryAggregateOptionalB =
+			_ctManager.addRelatedCTEntry(
+				_user.getUserId(), ownerCTEntry, ctEntry);
 
-		Assert.assertTrue(ctEntryBagOptionalB.isPresent());
+		Assert.assertTrue(ctEntryAggregateOptionalB.isPresent());
 
-		ctEntryBagSize = ctEntryBagOptionalB.map(
-			CTEntryBag::getRelatedCTEntries
+		ctEntryAggregateSize = ctEntryAggregateOptionalB.map(
+			CTEntryAggregate::getRelatedCTEntries
 		).map(
 			List::size
 		).orElse(
@@ -174,9 +178,11 @@ public class CTManagerTest {
 		);
 
 		Assert.assertEquals(
-			"There must be three change tracking entries", 3, ctEntryBagSize);
+			"There must be three change tracking entries", 3,
+			ctEntryAggregateSize);
 
-		Assert.assertEquals(ctEntryBagOptionalA, ctEntryBagOptionalB);
+		Assert.assertEquals(
+			ctEntryAggregateOptionalA, ctEntryAggregateOptionalB);
 	}
 
 	@Test
@@ -196,10 +202,11 @@ public class CTManagerTest {
 			CTConstants.CT_CHANGE_TYPE_ADDITION, ctCollectionId,
 			new ServiceContext());
 
-		CTEntryBag ctEntryBag = _ctEntryBagLocalService.fetchLatestCTEntryBag(
-			ownerCTEntry.getCtEntryId(), ctCollectionId);
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ownerCTEntry.getCtEntryId(), ctCollectionId);
 
-		Assert.assertNull(ctEntryBag);
+		Assert.assertNull(ctEntryAggregate);
 
 		CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
@@ -207,13 +214,14 @@ public class CTManagerTest {
 			CTConstants.CT_CHANGE_TYPE_ADDITION, ctCollectionId,
 			new ServiceContext());
 
-		Optional<CTEntryBag> ctEntryBagOptionalA = _ctManager.addRelatedCTEntry(
-			_user.getUserId(), ownerCTEntry, ctEntry);
+		Optional<CTEntryAggregate> ctEntryAggregateOptionalA =
+			_ctManager.addRelatedCTEntry(
+				_user.getUserId(), ownerCTEntry, ctEntry);
 
-		Assert.assertTrue(ctEntryBagOptionalA.isPresent());
+		Assert.assertTrue(ctEntryAggregateOptionalA.isPresent());
 
-		int ctEntryBagSize = ctEntryBagOptionalA.map(
-			CTEntryBag::getRelatedCTEntries
+		int ctEntryAggregateSize = ctEntryAggregateOptionalA.map(
+			CTEntryAggregate::getRelatedCTEntries
 		).map(
 			List::size
 		).orElse(
@@ -221,7 +229,8 @@ public class CTManagerTest {
 		);
 
 		Assert.assertEquals(
-			"There must be two change tracking entries", 2, ctEntryBagSize);
+			"There must be two change tracking entries", 2,
+			ctEntryAggregateSize);
 
 		ctEntry = _ctEntryLocalService.addCTEntry(
 			_user.getUserId(), _testVersionClassClassName.getClassNameId(),
@@ -229,13 +238,14 @@ public class CTManagerTest {
 			CTConstants.CT_CHANGE_TYPE_ADDITION, ctCollectionId,
 			new ServiceContext());
 
-		Optional<CTEntryBag> ctEntryBagOptionalB = _ctManager.addRelatedCTEntry(
-			_user.getUserId(), ownerCTEntry, ctEntry);
+		Optional<CTEntryAggregate> ctEntryAggregateOptionalB =
+			_ctManager.addRelatedCTEntry(
+				_user.getUserId(), ownerCTEntry, ctEntry);
 
-		Assert.assertTrue(ctEntryBagOptionalB.isPresent());
+		Assert.assertTrue(ctEntryAggregateOptionalB.isPresent());
 
-		ctEntryBagSize = ctEntryBagOptionalB.map(
-			CTEntryBag::getRelatedCTEntries
+		ctEntryAggregateSize = ctEntryAggregateOptionalB.map(
+			CTEntryAggregate::getRelatedCTEntries
 		).map(
 			List::size
 		).orElse(
@@ -243,9 +253,11 @@ public class CTManagerTest {
 		);
 
 		Assert.assertEquals(
-			"There must be two change tracking entries", 2, ctEntryBagSize);
+			"There must be two change tracking entries", 2,
+			ctEntryAggregateSize);
 
-		Assert.assertEquals(ctEntryBagOptionalA, ctEntryBagOptionalB);
+		Assert.assertEquals(
+			ctEntryAggregateOptionalA, ctEntryAggregateOptionalB);
 	}
 
 	@Test
@@ -484,7 +496,7 @@ public class CTManagerTest {
 	private CTEngineManager _ctEngineManager;
 
 	@Inject
-	private CTEntryBagLocalService _ctEntryBagLocalService;
+	private CTEntryAggregateLocalService _ctEntryAggregateLocalService;
 
 	@Inject
 	private CTEntryLocalService _ctEntryLocalService;
