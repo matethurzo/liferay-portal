@@ -37,9 +37,10 @@ import java.util.Optional;
 public interface CTManager {
 
 	/**
-	 * Puts a model change to a change entry aggregate associated with the owner model
-	 * change. If there is no change aggregate associated with the owner it creates a
-	 * new one.
+	 * Puts a model change to a change entry aggregate associated with the owner
+	 * model change. If there is no change aggregate associated with the owner
+	 * it creates a new one. Also creates a new aggregate if the related entry
+	 * was already part of the aggregate, and it is being changed.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  ownerCTEntry the owner of the change bag
@@ -48,6 +49,23 @@ public interface CTManager {
 	 */
 	public Optional<CTEntryAggregate> addRelatedCTEntry(
 		long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry);
+
+	/**
+	 * Puts a model change to a change entry aggregate associated with the owner
+	 * model change. If there is no change aggregate associated with the owner
+	 * it creates a new one. Also creates a new aggregate if the related entry
+	 * was already part of the aggregate, and it is being changed, except when
+	 * the <code>force</code> attribute is <code>true</code>.
+	 *
+	 * @param  userId the primary key of the user
+	 * @param  ownerCTEntry the owner of the change bag
+	 * @param  relatedCTEntry the change to add to the bag
+	 * @param  force forces to ovveride existing change entry in aggregate
+	 * @return the created or updated change entry aggregate
+	 */
+	public Optional<CTEntryAggregate> addRelatedCTEntry(
+		long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry,
+		boolean force);
 
 	/**
 	 * Executes a model addition or update using the given supplier, with
