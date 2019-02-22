@@ -172,10 +172,10 @@ class Overview extends PortletBase {
 			changeEntry => {
 				let changeTypeStr = Liferay.Language.get('added');
 
-				if (changeEntry.changeType === 2) {
+				if (changeEntry.changeType === 1) {
 					changeTypeStr = Liferay.Language.get('deleted');
 				}
-				else if (changeEntry.changeType === 3) {
+				else if (changeEntry.changeType === 2) {
 					changeTypeStr = Liferay.Language.get('modified');
 				}
 
