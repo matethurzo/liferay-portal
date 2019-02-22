@@ -14,26 +14,115 @@
 
 package com.liferay.change.tracking.service.impl;
 
+import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.change.tracking.service.base.CTEntryAggregateLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.LongStream;
 
 /**
- * The implementation of the ct entry aggregate local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.liferay.change.tracking.service.CTEntryAggregateLocalService</code> interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
- *
- * @author Brian Wing Shun Chan
- * @see CTEntryAggregateLocalServiceBaseImpl
+ * @author Daniel Kocsis
  */
 public class CTEntryAggregateLocalServiceImpl
 	extends CTEntryAggregateLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Use <code>com.liferay.change.tracking.service.CTEntryAggregateLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.liferay.change.tracking.service.CTEntryAggregateLocalServiceUtil</code>.
-	 */
+
+	@Override
+	public void addCTEntry(CTEntryAggregate ctEntryAggregate, CTEntry ctEntry) {
+		if ((ctEntryAggregate == null) || (ctEntry == null) ||
+			hasCTEntry(ctEntryAggregate, ctEntry)) {
+
+			return;
+		}
+
+		ctEntryAggregatePersistence.addCTEntry(
+			ctEntryAggregate.getCtEntryAggregateId(), ctEntry.getCtEntryId());
+	}
+
+	@Override
+	public CTEntryAggregate createCTEntryAggregate(
+			long userId, long ownerCTEntryId, long ctCollectionId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		long ctEntryAggregateId = counterLocalService.increment();
+
+		CTEntryAggregate ctEntryAggregate = ctEntryAggregatePersistence.create(
+			ctEntryAggregateId);
+
+		User user = userLocalService.getUser(userId);
+
+		ctEntryAggregate.setCompanyId(user.getCompanyId());
+		ctEntryAggregate.setUserId(user.getUserId());
+		ctEntryAggregate.setUserName(user.getFullName());
+
+		Date now = new Date();
+
+		ctEntryAggregate.setCreateDate(serviceContext.getCreateDate(now));
+		ctEntryAggregate.setModifiedDate(serviceContext.getModifiedDate(now));
+
+		ctEntryAggregate.setOwnerCTEntryId(ownerCTEntryId);
+		ctEntryAggregate.setCtCollectionId(ctCollectionId);
+
+		ctEntryAggregatePersistence.update(ctEntryAggregate);
+
+		ctEntryAggregatePersistence.addCTEntry(
+			ctEntryAggregate.getCtEntryAggregateId(), ownerCTEntryId);
+
+		return ctEntryAggregate;
+	}
+
+	@Override
+	public List<CTEntryAggregate> fetchCTEntryBags(
+		long ownerCTEntryId, long ctCollectionId) {
+
+		return ctEntryAggregatePersistence.findByO_C(
+			ownerCTEntryId, ctCollectionId);
+	}
+
+	@Override
+	public CTEntryAggregate fetchLatestCTEntryAggregate(
+		long ownerCTEntryId, long ctCollectionId) {
+
+		return ctEntryAggregatePersistence.fetchByO_C_Last(
+			ownerCTEntryId, ctCollectionId,
+			OrderByComparatorFactoryUtil.create(
+				"CTEntryAggregate", "createDate", false));
+	}
+
+	@Override
+	public boolean hasCTEntry(
+		CTEntryAggregate ctEntryAggregate, CTEntry ctEntry) {
+
+		LongStream ctEntryIdsStream = Arrays.stream(
+			getCTEntryPrimaryKeys(ctEntryAggregate.getCtEntryAggregateId()));
+
+		if (ctEntryIdsStream.anyMatch(
+				aggregateCTEntryId ->
+					aggregateCTEntryId == ctEntry.getCtEntryId())) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public void removeCTEntry(
+		CTEntryAggregate ctEntryAggregate, CTEntry ctEntry) {
+
+		if (!hasCTEntry(ctEntryAggregate, ctEntry)) {
+			return;
+		}
+
+		ctEntryAggregatePersistence.removeCTEntry(
+			ctEntryAggregate.getCtEntryAggregateId(), ctEntry.getCtEntryId());
+	}
+
 }

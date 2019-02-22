@@ -16,22 +16,23 @@ package com.liferay.change.tracking.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.change.tracking.service.CTEntryLocalServiceUtil;
+
+import java.util.List;
+
 /**
- * The extended model implementation for the CTEntryAggregate service. Represents a row in the &quot;CTEntryAggregate&quot; database table, with each column mapped to a property of this class.
- *
- * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>com.liferay.change.tracking.model.CTEntryAggregate<code> interface.
- * </p>
- *
- * @author Brian Wing Shun Chan
+ * @author Daniel Kocsis
  */
 @ProviderType
 public class CTEntryAggregateImpl extends CTEntryAggregateBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a ct entry aggregate model instance should use the {@link com.liferay.change.tracking.model.CTEntryAggregate} interface instead.
-	 */
+
 	public CTEntryAggregateImpl() {
 	}
+
+	public List<CTEntry> getRelatedCTEntries() {
+		return CTEntryLocalServiceUtil.getCTEntryAggregateCTEntries(
+			getCtEntryAggregateId());
+	}
+
 }

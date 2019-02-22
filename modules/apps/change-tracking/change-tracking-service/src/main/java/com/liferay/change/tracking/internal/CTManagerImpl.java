@@ -22,8 +22,8 @@ import com.liferay.change.tracking.exception.DuplicateCTEntryException;
 import com.liferay.change.tracking.internal.util.ChangeTrackingThreadLocal;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
-import com.liferay.change.tracking.model.CTEntryBag;
-import com.liferay.change.tracking.service.CTEntryBagLocalService;
+import com.liferay.change.tracking.model.CTEntryAggregate;
+import com.liferay.change.tracking.service.CTEntryAggregateLocalService;
 import com.liferay.change.tracking.service.CTEntryLocalService;
 import com.liferay.change.tracking.util.comparator.CTEntryCreateDateComparator;
 import com.liferay.petra.function.UnsafeSupplier;
@@ -56,7 +56,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = CTManager.class)
 public class CTManagerImpl implements CTManager {
 
-	public Optional<CTEntryBag> addRelatedCTEntry(
+	public Optional<CTEntryAggregate> addRelatedCTEntry(
 		long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry) {
 
 		Optional<CTCollection> activeCTCollectionOptional =
@@ -73,16 +73,17 @@ public class CTManagerImpl implements CTManager {
 		);
 
 		try {
-			CTEntryBag ctEntryBag = TransactionInvokerUtil.invoke(
-				_transactionConfig,
-				() -> _createCTEntryBag(
-					userId, ownerCTEntry, relatedCTEntry,
-					activeCTCollectionId));
+			CTEntryAggregate ctEntryctEntryAggregate =
+				TransactionInvokerUtil.invoke(
+					_transactionConfig,
+					() -> _createCTEntryAggregate(
+						userId, ownerCTEntry, relatedCTEntry,
+						activeCTCollectionId));
 
-			return Optional.of(ctEntryBag);
+			return Optional.of(ctEntryctEntryAggregate);
 		}
 		catch (Throwable t) {
-			_log.error("Unable to create change tracking entry bag", t);
+			_log.error("Unable to create change tracking entry aggregate", t);
 
 			return Optional.empty();
 		}
@@ -208,7 +209,7 @@ public class CTManagerImpl implements CTManager {
 	}
 
 	@Override
-	public Optional<CTEntryBag> getModelChangeCTEntryBagOptional(
+	public Optional<CTEntryAggregate> getModelChangeCTEntryAggregateOptional(
 		long userId, long classNameId, long classPK) {
 
 		Optional<CTEntry> ctEntryOptional = getModelChangeCTEntryOptional(
@@ -231,11 +232,12 @@ public class CTManagerImpl implements CTManager {
 			0L
 		);
 
-		CTEntryBag ctEntryBag = _ctEntryBagLocalService.fetchLatestCTEntryBag(
-			ctEntryId, ctCollectionId);
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ctEntryId, ctCollectionId);
 
-		if (ctEntryBag != null) {
-			return Optional.of(ctEntryBag);
+		if (ctEntryAggregate != null) {
+			return Optional.of(ctEntryAggregate);
 		}
 
 		ctCollectionOptional =
@@ -247,10 +249,11 @@ public class CTManagerImpl implements CTManager {
 			0L
 		);
 
-		ctEntryBag = _ctEntryBagLocalService.fetchLatestCTEntryBag(
-			ctEntryId, ctCollectionId);
+		ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ctEntryId, ctCollectionId);
 
-		return Optional.ofNullable(ctEntryBag);
+		return Optional.ofNullable(ctEntryAggregate);
 	}
 
 	@Override
@@ -403,9 +406,9 @@ public class CTManagerImpl implements CTManager {
 	}
 
 	private boolean _containsResource(
-		CTEntryBag ctEntryBag, long resourcePrimKey) {
+		CTEntryAggregate ctEntryAggregate, long resourcePrimKey) {
 
-		List<CTEntry> relatedCTEntries = ctEntryBag.getRelatedCTEntries();
+		List<CTEntry> relatedCTEntries = ctEntryAggregate.getRelatedCTEntries();
 
 		Stream<CTEntry> relatedCTEntriesStream =
 			relatedCTEntries.parallelStream();
@@ -419,47 +422,54 @@ public class CTManagerImpl implements CTManager {
 		return false;
 	}
 
-	private CTEntryBag _copyCTEntryBag(CTEntryBag ctEntryBag)
+	private CTEntryAggregate _copyCTEntryAggregate(
+			CTEntryAggregate ctEntryAggregate)
 		throws PortalException {
 
-		CTEntryBag ctEntryBagCopy = _ctEntryBagLocalService.createCTEntryBag(
-			PrincipalThreadLocal.getUserId(), ctEntryBag.getOwnerCTEntryId(),
-			ctEntryBag.getCtCollectionId(), new ServiceContext());
+		CTEntryAggregate ctEntryAggregateCopy =
+			_ctEntryAggregateLocalService.createCTEntryAggregate(
+				PrincipalThreadLocal.getUserId(),
+				ctEntryAggregate.getOwnerCTEntryId(),
+				ctEntryAggregate.getCtCollectionId(), new ServiceContext());
 
-		_ctEntryLocalService.addCTEntryBagCTEntries(
-			ctEntryBagCopy.getCtEntryBagId(),
-			_ctEntryBagLocalService.getCTEntryPrimaryKeys(
-				ctEntryBag.getCtEntryBagId()));
+		_ctEntryLocalService.addCTEntryAggregateCTEntries(
+			ctEntryAggregateCopy.getCtEntryAggregateId(),
+			_ctEntryAggregateLocalService.getCTEntryPrimaryKeys(
+				ctEntryAggregate.getCtEntryAggregateId()));
 
-		return ctEntryBagCopy;
+		return ctEntryAggregateCopy;
 	}
 
-	private CTEntryBag _createCTEntryBag(
+	private CTEntryAggregate _createCTEntryAggregate(
 			long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry,
 			long activeCTCollectionId)
 		throws PortalException {
 
-		CTEntryBag ctEntryBag = _ctEntryBagLocalService.fetchLatestCTEntryBag(
-			ownerCTEntry.getCtEntryId(), activeCTCollectionId);
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ownerCTEntry.getCtEntryId(), activeCTCollectionId);
 
-		if (ctEntryBag == null) {
-			ctEntryBag = _ctEntryBagLocalService.createCTEntryBag(
-				userId, ownerCTEntry.getCtEntryId(), activeCTCollectionId,
-				new ServiceContext());
+		if (ctEntryAggregate == null) {
+			ctEntryAggregate =
+				_ctEntryAggregateLocalService.createCTEntryAggregate(
+					userId, ownerCTEntry.getCtEntryId(), activeCTCollectionId,
+					new ServiceContext());
 
-			_ctEntryBagLocalService.addCTEntry(ctEntryBag, relatedCTEntry);
+			_ctEntryAggregateLocalService.addCTEntry(
+				ctEntryAggregate, relatedCTEntry);
 		}
 		else if (!_containsResource(
-					ctEntryBag, relatedCTEntry.getResourcePrimKey())) {
+					ctEntryAggregate, relatedCTEntry.getResourcePrimKey())) {
 
-			_ctEntryBagLocalService.addCTEntry(ctEntryBag, relatedCTEntry);
+			_ctEntryAggregateLocalService.addCTEntry(
+				ctEntryAggregate, relatedCTEntry);
 		}
 		else {
-			_updateCTEntryInCTEntryBag(
-				_copyCTEntryBag(ctEntryBag), relatedCTEntry);
+			_updateCTEntryInCTEntryAggregate(
+				_copyCTEntryAggregate(ctEntryAggregate), relatedCTEntry);
 		}
 
-		return ctEntryBag;
+		return ctEntryAggregate;
 	}
 
 	private long _getCompanyId(long userId) {
@@ -497,10 +507,10 @@ public class CTManagerImpl implements CTManager {
 			ctCollectionId, classNameId, classPK);
 	}
 
-	private void _updateCTEntryInCTEntryBag(
-		CTEntryBag ctEntryBag, CTEntry ctEntry) {
+	private void _updateCTEntryInCTEntryAggregate(
+		CTEntryAggregate ctEntryAggregate, CTEntry ctEntry) {
 
-		List<CTEntry> relatedCTEntries = ctEntryBag.getRelatedCTEntries();
+		List<CTEntry> relatedCTEntries = ctEntryAggregate.getRelatedCTEntries();
 
 		Stream<CTEntry> relatedCTEntriesStream = relatedCTEntries.stream();
 
@@ -513,10 +523,11 @@ public class CTManagerImpl implements CTManager {
 
 		previousCTEntryOptional.ifPresent(
 			previousCTEntry -> {
-				_ctEntryBagLocalService.removeCTEntry(
-					ctEntryBag, previousCTEntry);
+				_ctEntryAggregateLocalService.removeCTEntry(
+					ctEntryAggregate, previousCTEntry);
 
-				_ctEntryBagLocalService.addCTEntry(ctEntryBag, ctEntry);
+				_ctEntryAggregateLocalService.addCTEntry(
+					ctEntryAggregate, ctEntry);
 			});
 	}
 
@@ -526,7 +537,7 @@ public class CTManagerImpl implements CTManager {
 	private CTEngineManager _ctEngineManager;
 
 	@Reference
-	private CTEntryBagLocalService _ctEntryBagLocalService;
+	private CTEntryAggregateLocalService _ctEntryAggregateLocalService;
 
 	@Reference
 	private CTEntryLocalService _ctEntryLocalService;

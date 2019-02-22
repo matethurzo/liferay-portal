@@ -18,7 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.model.CTEntry;
-import com.liferay.change.tracking.model.CTEntryBag;
+import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -37,16 +37,16 @@ import java.util.Optional;
 public interface CTManager {
 
 	/**
-	 * Puts a model change to a change bag associated with the owner model
-	 * change. If there is no change bag associated with the owner it creates a
+	 * Puts a model change to a change entry aggregate associated with the owner model
+	 * change. If there is no change aggregate associated with the owner it creates a
 	 * new one.
 	 *
 	 * @param  userId the primary key of the user
 	 * @param  ownerCTEntry the owner of the change bag
 	 * @param  relatedCTEntry the change to add to the bag
-	 * @return the created or updated change bag
+	 * @return the created or updated change entry aggregate
 	 */
-	public Optional<CTEntryBag> addRelatedCTEntry(
+	public Optional<CTEntryAggregate> addRelatedCTEntry(
 		long userId, CTEntry ownerCTEntry, CTEntry relatedCTEntry);
 
 	/**
@@ -123,7 +123,7 @@ public interface CTManager {
 	 * @param  classPK the primary key of the changed version model
 	 * @return the change tracking entry representing the model change
 	 */
-	public Optional<CTEntryBag> getModelChangeCTEntryBagOptional(
+	public Optional<CTEntryAggregate> getModelChangeCTEntryAggregateOptional(
 		long userId, long classNameId, long classPK);
 
 	/**
