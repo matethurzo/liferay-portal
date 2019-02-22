@@ -138,7 +138,7 @@ class Overview extends PortletBase {
 								data => {
 									openToast(
 										{
-											message: Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-checkout-x-x'), this.changeListName, data.message),
+											message: Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-to-check-x-out-x'), this.changeListName, data.message),
 											title: Liferay.Language.get('error'),
 											type: 'danger'
 										}
@@ -152,7 +152,7 @@ class Overview extends PortletBase {
 				error => {
 					const message = typeof error === 'string' ?
 						error :
-						Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-checkout-x'), this.changeListName);
+						Liferay.Util.sub(Liferay.Language.get('an-error-occured-when-trying-to-check-x-out'), this.changeListName);
 
 					openToast(
 						{
