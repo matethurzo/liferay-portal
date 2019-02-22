@@ -308,6 +308,15 @@ public class CTCollectionLocalServiceWrapper implements CTCollectionLocalService
 			queryDefinition);
 	}
 
+	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTCollection> getCTCollections(
+		long companyId,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTCollection> queryDefinition,
+		boolean includeProduction) {
+		return _ctCollectionLocalService.getCTCollections(companyId,
+			queryDefinition, includeProduction);
+	}
+
 	/**
 	* Returns the number of ct collections.
 	*

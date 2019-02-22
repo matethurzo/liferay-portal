@@ -282,6 +282,15 @@ public class CTCollectionLocalServiceUtil {
 		return getService().getCTCollections(companyId, queryDefinition);
 	}
 
+	public static java.util.List<com.liferay.change.tracking.model.CTCollection> getCTCollections(
+		long companyId,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition<com.liferay.change.tracking.model.CTCollection> queryDefinition,
+		boolean includeProduction) {
+		return getService()
+				   .getCTCollections(companyId, queryDefinition,
+			includeProduction);
+	}
+
 	/**
 	* Returns the number of ct collections.
 	*

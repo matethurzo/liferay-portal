@@ -240,6 +240,10 @@ public interface CTCollectionLocalService extends BaseLocalService,
 	public List<CTCollection> getCTCollections(long companyId,
 		QueryDefinition<CTCollection> queryDefinition);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTCollection> getCTCollections(long companyId,
+		QueryDefinition<CTCollection> queryDefinition, boolean includeProduction);
+
 	/**
 	* Returns the number of ct collections.
 	*
