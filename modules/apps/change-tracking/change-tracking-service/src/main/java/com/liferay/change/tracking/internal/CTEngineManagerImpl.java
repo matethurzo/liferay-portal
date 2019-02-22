@@ -327,7 +327,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		return _ctCollectionLocalService.getCTCollections(
-			companyId, queryDefinition);
+			companyId, queryDefinition, false);
 	}
 
 	@Override
