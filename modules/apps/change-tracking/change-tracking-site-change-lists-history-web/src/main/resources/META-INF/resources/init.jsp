@@ -19,3 +19,7 @@
 <liferay-theme:defineObjects />
 
 <%@ include file="/init-ext.jsp" %>
+
+<%
+portletDisplay.setShowStagingIcon(false);
+%>
