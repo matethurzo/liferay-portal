@@ -78,20 +78,8 @@ public class ChangeListsDisplayContext {
 			"spritemap",
 			_themeDisplay.getPathThemeImages() + "/lexicon/icons.svg");
 		soyContext.put(
-			"urlActiveCollection",
-			_themeDisplay.getPortalURL() +
-				"/o/change-tracking/collections?type=active&userId=" +
-					_themeDisplay.getUserId());
-		soyContext.put(
 			"urlBaseCollections",
 			_themeDisplay.getPortalURL() + "/o/change-tracking/collections");
-		soyContext.put(
-			"urlRecentCollections",
-			StringBundler.concat(
-				_themeDisplay.getPortalURL(),
-				"/o/change-tracking/collections/recent?companyId=",
-				_themeDisplay.getCompanyId(), "&userId=",
-				_themeDisplay.getUserId()));
 		soyContext.put(
 			"urlProductionInformation",
 			StringBundler.concat(

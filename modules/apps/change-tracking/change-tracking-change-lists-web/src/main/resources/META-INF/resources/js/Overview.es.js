@@ -208,17 +208,16 @@ class Overview extends PortletBase {
 	}
 
 	_populateChangeListsDropdown(collectionResults) {
-
-		// Change Lists dropdown Menu
-
 		this.changeListsDropdownMenu = [];
 
 		collectionResults.forEach(
 			ctCollection => {
-				this.changeListsDropdownMenu.push({
-					label: ctCollection.name,
-					ctCollectionId: ctCollection.ctCollectionId
-				});
+				this.changeListsDropdownMenu.push(
+					{
+						ctCollectionId: ctCollection.ctCollectionId,
+						label: ctCollection.name
+					}
+				);
 			}
 		);
 	}
@@ -261,7 +260,9 @@ class Overview extends PortletBase {
 
 		// Change Lists dropdown Menu
 
-		this._fetchRecentCollections(this.urlRecentCollections, "GET");
+		let urlRecentCollections = this.urlBaseCollections + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&limit=5&sort=modifiedDate:desc';
+
+		this._fetchRecentCollections(urlRecentCollections, 'GET');
 
 		// Active Change List Header Title
 
@@ -296,7 +297,9 @@ class Overview extends PortletBase {
 	}
 
 	_render() {
-		let urls = [this.urlActiveCollection, this.urlProductionInformation];
+		let urlActiveCollection = this.urlBaseCollections + '?type=active&userId=' + Liferay.ThemeDisplay.getUserId();
+
+		let urls = [urlActiveCollection, this.urlProductionInformation];
 
 		this.initialFetch = false;
 
@@ -425,8 +428,8 @@ Overview.STATE = {
 	changeListsDropdownMenu: Config.arrayOf(
 		Config.shapeOf(
 			{
-				label: Config.string(),
-				ctCollectionId: Config.string()
+				ctCollectionId: Config.string(),
+				label: Config.string()
 			}
 		)
 	),
@@ -502,29 +505,7 @@ Overview.STATE = {
 
 	urlBaseCollections: Config.string(),
 
-	/**
-	 * REST API URL to the active CT Collection
-	 * @default
-	 * @instance
-	 * @memberOf Overview
-	 * @review
-	 * @type {!string}
-	 */
-
-	urlActiveCollection: Config.string().required(),
-
 	urlActiveCollectionPublish: Config.object(),
-
-	/**
-	 * The URL for the REST service to the get recently used collections
-	 * @default
-	 * @instance
-	 * @memberOf Overview
-	 * @review
-	 * @type {string}
-	 */
-
-	urlRecentCollections: Config.string(),
 
 	/**
 	 * The URL for the REST service to the change entries
