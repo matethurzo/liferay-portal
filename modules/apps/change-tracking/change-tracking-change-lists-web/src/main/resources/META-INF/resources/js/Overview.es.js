@@ -124,7 +124,7 @@ class Overview extends PortletBase {
 
 		let collectionId = event.target.getAttribute('data-collection-id');
 
-		let url = this.urlBaseCollections + '/' + collectionId + '/checkout?userId=' + Liferay.ThemeDisplay.getUserId();
+		let url = this.urlCollectionsBase + '/' + collectionId + '/checkout?userId=' + Liferay.ThemeDisplay.getUserId();
 
 		fetch(url, body)
 			.then(
@@ -260,7 +260,7 @@ class Overview extends PortletBase {
 
 		// Change Lists dropdown Menu
 
-		let urlRecentCollections = this.urlBaseCollections + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&limit=5&sort=modifiedDate:desc';
+		let urlRecentCollections = this.urlCollectionsBase + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&limit=5&sort=modifiedDate:desc';
 
 		this._fetchRecentCollections(urlRecentCollections, 'GET');
 
@@ -297,7 +297,7 @@ class Overview extends PortletBase {
 	}
 
 	_render() {
-		let urlActiveCollection = this.urlBaseCollections + '?type=active&userId=' + Liferay.ThemeDisplay.getUserId();
+		let urlActiveCollection = this.urlCollectionsBase + '?type=active&userId=' + Liferay.ThemeDisplay.getUserId();
 
 		let urls = [urlActiveCollection, this.urlProductionInformation];
 
@@ -503,7 +503,7 @@ Overview.STATE = {
 	 * @type {string}
 	 */
 
-	urlBaseCollections: Config.string(),
+	urlCollectionsBase: Config.string(),
 
 	urlActiveCollectionPublish: Config.object(),
 
