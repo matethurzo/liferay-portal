@@ -16,12 +16,11 @@ package com.liferay.journal.change.tracking.internal.configuration;
 
 import com.liferay.change.tracking.configuration.CTConfigurationRegistrar;
 import com.liferay.change.tracking.configuration.builder.CTConfigurationBuilder;
-import com.liferay.change.tracking.function.CTFunction;
+import com.liferay.change.tracking.function.CTFunctions;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleResource;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalArticleResourceLocalService;
-import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import org.osgi.service.component.annotations.Activate;
@@ -52,8 +51,8 @@ public class JournalCTConfigurationRegistrar {
 			).setVersionEntityByVersionEntityIdFunction(
 				_journalArticleLocalService::fetchJournalArticle
 			).setVersionEntityDetails(
-				CTFunction.fetchSiteName(), JournalArticle::getTitle,
-				JournalArticle::getVersion
+				CTFunctions.getFetchSiteNameFunction(),
+				JournalArticle::getTitle, JournalArticle::getVersion
 			).setEntityIdsFromVersionEntityFunctions(
 				JournalArticle::getResourcePrimKey, JournalArticle::getId
 			).setVersionEntityStatusInfo(

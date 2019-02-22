@@ -16,7 +16,7 @@ package com.liferay.dynamic.data.mapping.change.tracking.internal.configuration;
 
 import com.liferay.change.tracking.configuration.CTConfigurationRegistrar;
 import com.liferay.change.tracking.configuration.builder.CTConfigurationBuilder;
-import com.liferay.change.tracking.function.CTFunction;
+import com.liferay.change.tracking.function.CTFunctions;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersion;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
@@ -58,7 +58,7 @@ public class DDMStructureCTConfigurationRegistrar {
 			).setVersionEntityByVersionEntityIdFunction(
 				_ddmStructureVersionLocalService::fetchDDMStructureVersion
 			).setVersionEntityDetails(
-				CTFunction.fetchSiteName(),
+				CTFunctions.getFetchSiteNameFunction(),
 				ddmStructureVersion -> ddmStructureVersion.getName(
 					LocaleUtil.getMostRelevantLocale()),
 				DDMStructureVersion::getVersion

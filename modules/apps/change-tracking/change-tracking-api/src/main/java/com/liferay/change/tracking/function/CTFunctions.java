@@ -29,10 +29,10 @@ import java.util.function.Function;
 /**
  * @author Máté Thurzó
  */
-public class CTFunction {
+public class CTFunctions {
 
 	public static <T extends ClassedModel> Function<T, Optional<Group>>
-		fetchGroup() {
+		getFetchGroupFunction() {
 
 		return classedModel -> {
 			long groupId = BeanPropertiesUtil.getLongSilent(
@@ -44,9 +44,12 @@ public class CTFunction {
 		};
 	}
 
-	public static <T extends ClassedModel> Function<T, String> fetchSiteName() {
+	public static <T extends ClassedModel> Function<T, String>
+		getFetchSiteNameFunction() {
+
 		return classedModel -> {
-			Optional<Group> groupOptional = fetchGroup().apply(classedModel);
+			Optional<Group> groupOptional =
+				getFetchGroupFunction().apply(classedModel);
 
 			if (!groupOptional.isPresent()) {
 				return StringPool.BLANK;
@@ -70,6 +73,6 @@ public class CTFunction {
 		};
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(CTFunction.class);
+	private static final Log _log = LogFactoryUtil.getLog(CTFunctions.class);
 
 }
