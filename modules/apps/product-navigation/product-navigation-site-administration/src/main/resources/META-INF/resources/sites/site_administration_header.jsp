@@ -93,7 +93,7 @@ PanelCategory panelCategory = siteAdministrationPanelCategoryDisplayContext.getP
 			<span class="site-name truncate-text">
 				<%= HtmlUtil.escape(siteAdministrationPanelCategoryDisplayContext.getGroupName()) %>
 
-				<c:if test="<%= siteAdministrationPanelCategoryDisplayContext.isShowStagingInfo() %>">
+				<c:if test="<%= siteAdministrationPanelCategoryDisplayContext.isShowStagingInfo() && !siteAdministrationPanelCategoryDisplayContext.getGroup().isStagedRemotely() %>">
 					<span class="site-sub-name"> - <liferay-ui:message key="<%= siteAdministrationPanelCategoryDisplayContext.getStagingLabel() %>" /></span>
 				</c:if>
 			</span>
