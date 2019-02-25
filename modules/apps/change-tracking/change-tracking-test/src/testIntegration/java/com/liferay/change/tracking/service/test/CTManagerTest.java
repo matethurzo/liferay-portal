@@ -131,7 +131,7 @@ public class CTManagerTest {
 
 		CTEntryAggregate ctEntryAggregate =
 			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-				ownerCTEntry.getCtEntryId(), ctCollectionId);
+				ctCollectionId, ownerCTEntry.getCtEntryId());
 
 		Assert.assertNull(ctEntryAggregate);
 
@@ -204,7 +204,7 @@ public class CTManagerTest {
 
 		CTEntryAggregate ctEntryAggregate =
 			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-				ownerCTEntry.getCtEntryId(), ctCollectionId);
+				ctCollectionId, ownerCTEntry.getCtEntryId());
 
 		Assert.assertNull(ctEntryAggregate);
 
