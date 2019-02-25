@@ -91,7 +91,7 @@ public class CTEntryAggregateLocalServiceImpl
 		long ctCollectionId, long ownerCTEntryId) {
 
 		return ctEntryAggregatePersistence.fetchByC_O_Last(
-			ownerCTEntryId, ctCollectionId,
+			ctCollectionId, ownerCTEntryId,
 			OrderByComparatorFactoryUtil.create(
 				"CTEntryAggregate", "createDate", false));
 	}
