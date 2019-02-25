@@ -444,41 +444,6 @@ public class CTManagerImpl implements CTManager {
 		return ctEntryAggregate;
 	}
 
-	private boolean _containsResource(
-		CTEntryAggregate ctEntryAggregate, long resourcePrimKey) {
-
-		List<CTEntry> relatedCTEntries = ctEntryAggregate.getRelatedCTEntries();
-
-		Stream<CTEntry> relatedCTEntriesStream =
-			relatedCTEntries.parallelStream();
-
-		if (relatedCTEntriesStream.anyMatch(
-				ctEntry -> ctEntry.getResourcePrimKey() == resourcePrimKey)) {
-
-			return true;
-		}
-
-		return false;
-	}
-
-	private CTEntryAggregate _copyCTEntryAggregate(
-			CTEntryAggregate ctEntryAggregate)
-		throws PortalException {
-
-		CTEntryAggregate ctEntryAggregateCopy =
-			_ctEntryAggregateLocalService.addCTEntryAggregate(
-				PrincipalThreadLocal.getUserId(),
-				ctEntryAggregate.getCtCollectionId(),
-				ctEntryAggregate.getOwnerCTEntryId(), new ServiceContext());
-
-		_ctEntryLocalService.addCTEntryAggregateCTEntries(
-			ctEntryAggregateCopy.getCtEntryAggregateId(),
-			_ctEntryAggregateLocalService.getCTEntryPrimaryKeys(
-				ctEntryAggregate.getCtEntryAggregateId()));
-
-		return ctEntryAggregateCopy;
-	}
-
 	private CTEntryAggregate _addCTEntryAggregate(
 			long userId, long activeCTCollectionId, CTEntry ownerCTEntry,
 			CTEntry relatedCTEntry, boolean force)
@@ -515,6 +480,41 @@ public class CTManagerImpl implements CTManager {
 		}
 
 		return ctEntryAggregate;
+	}
+
+	private boolean _containsResource(
+		CTEntryAggregate ctEntryAggregate, long resourcePrimKey) {
+
+		List<CTEntry> relatedCTEntries = ctEntryAggregate.getRelatedCTEntries();
+
+		Stream<CTEntry> relatedCTEntriesStream =
+			relatedCTEntries.parallelStream();
+
+		if (relatedCTEntriesStream.anyMatch(
+				ctEntry -> ctEntry.getResourcePrimKey() == resourcePrimKey)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private CTEntryAggregate _copyCTEntryAggregate(
+			CTEntryAggregate ctEntryAggregate)
+		throws PortalException {
+
+		CTEntryAggregate ctEntryAggregateCopy =
+			_ctEntryAggregateLocalService.addCTEntryAggregate(
+				PrincipalThreadLocal.getUserId(),
+				ctEntryAggregate.getCtCollectionId(),
+				ctEntryAggregate.getOwnerCTEntryId(), new ServiceContext());
+
+		_ctEntryLocalService.addCTEntryAggregateCTEntries(
+			ctEntryAggregateCopy.getCtEntryAggregateId(),
+			_ctEntryAggregateLocalService.getCTEntryPrimaryKeys(
+				ctEntryAggregate.getCtEntryAggregateId()));
+
+		return ctEntryAggregateCopy;
 	}
 
 	private long _getCompanyId(long userId) {
