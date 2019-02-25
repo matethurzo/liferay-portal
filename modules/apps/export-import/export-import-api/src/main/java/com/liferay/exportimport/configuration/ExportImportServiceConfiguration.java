@@ -36,6 +36,18 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 public interface ExportImportServiceConfiguration {
 
 	@Meta.AD(
+		deflt = "true", description = "validate-file-entry-references-help",
+		name = "validate-file-entry-references", required = false
+	)
+	public boolean validateFileEntryReferences();
+
+	@Meta.AD(
+		deflt = "true", description = "validate-journal-feed-references-help",
+		name = "validate-journal-feed-references", required = false
+	)
+	public boolean validateJournalFeedReferences();
+
+	@Meta.AD(
 		deflt = "true", description = "validate-layout-references-help",
 		name = "validate-layout-references", required = false
 	)

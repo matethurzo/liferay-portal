@@ -14,6 +14,7 @@
 
 package com.liferay.exportimport.internal.content.processor;
 
+import com.liferay.exportimport.configuration.ExportImportServiceConfiguration;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.exception.ExportImportContentProcessorException;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -226,6 +228,13 @@ public class LinksToLayoutsExportImportContentProcessor
 		return content;
 	}
 
+	@Reference(unbind = "-")
+	protected void setConfigurationProvider(
+		ConfigurationProvider configurationProvider) {
+
+		_configurationProvider = configurationProvider;
+	}
+
 	protected void validateLinksToLayoutsReferences(String content)
 		throws PortalException {
 
@@ -244,6 +253,14 @@ public class LinksToLayoutsExportImportContentProcessor
 				groupId, privateLayout, layoutId);
 
 			if (layout == null) {
+				ExportImportServiceConfiguration configuration =
+					_configurationProvider.getSystemConfiguration(
+						ExportImportServiceConfiguration.class);
+
+				if (!configuration.validateLayoutReferences()) {
+					continue;
+				}
+
 				ExportImportContentValidationException eicve =
 					new ExportImportContentValidationException(
 						LinksToLayoutsExportImportContentProcessor.class.
@@ -275,6 +292,8 @@ public class LinksToLayoutsExportImportContentProcessor
 		"\\[([\\d]+)@(private(-group|-user)?|public)(@([\\d]+))?\\]");
 	private static final Pattern _importLinksToLayoutPattern = Pattern.compile(
 		"\\[([\\d]+)@(private(-group|-user)?|public)@([\\d]+)(@([\\d]+))?\\]");
+
+	private ConfigurationProvider _configurationProvider;
 
 	@Reference
 	private LayoutLocalService _layoutLocalService;

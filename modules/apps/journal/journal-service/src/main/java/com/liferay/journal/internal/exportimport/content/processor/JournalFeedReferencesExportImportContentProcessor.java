@@ -14,6 +14,7 @@
 
 package com.liferay.journal.internal.exportimport.content.processor;
 
+import com.liferay.exportimport.configuration.ExportImportServiceConfiguration;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.exception.ExportImportContentProcessorException;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -360,8 +362,23 @@ public class JournalFeedReferencesExportImportContentProcessor
 		return content;
 	}
 
+	@Reference(unbind = "-")
+	protected void setConfigurationProvider(
+		ConfigurationProvider configurationProvider) {
+
+		_configurationProvider = configurationProvider;
+	}
+
 	protected void validateJournalFeedReferences(long groupId, String content)
 		throws PortalException {
+
+		ExportImportServiceConfiguration configuration =
+			_configurationProvider.getSystemConfiguration(
+				ExportImportServiceConfiguration.class);
+
+		if (!configuration.validateJournalFeedReferences()) {
+			return;
+		}
 
 		String[] patterns = {_JOURNAL_FEED_FRIENDLY_URL};
 
@@ -412,6 +429,8 @@ public class JournalFeedReferencesExportImportContentProcessor
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
+
+	private ConfigurationProvider _configurationProvider;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
