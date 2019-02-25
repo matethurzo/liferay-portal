@@ -65,7 +65,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public Group fetchLiveGroup(long groupId) {
-		return fetchLiveGroup(_fetchGroup(groupId));
+		return fetchLiveGroup(_groupLocalService.fetchGroup(groupId));
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public Group fetchLocalLiveGroup(long groupId) {
-		return fetchLocalLiveGroup(_fetchGroup(groupId));
+		return fetchLocalLiveGroup(_groupLocalService.fetchGroup(groupId));
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public Group fetchLocalStagingGroup(long groupId) {
-		return fetchLocalStagingGroup(_fetchGroup(groupId));
+		return fetchLocalStagingGroup(_groupLocalService.fetchGroup(groupId));
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public Group fetchRemoteLiveGroup(long groupId) {
-		return fetchRemoteLiveGroup(_fetchGroup(groupId));
+		return fetchRemoteLiveGroup(_groupLocalService.fetchGroup(groupId));
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isLiveGroup(group);
@@ -187,7 +187,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isLocalLiveGroup(group);
@@ -209,7 +209,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalStagingGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isLocalStagingGroup(group);
@@ -229,7 +229,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalStagingOrLocalLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isLocalStagingOrLocalLiveGroup(group);
@@ -251,7 +251,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isRemoteLiveGroup(group);
@@ -270,7 +270,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteStagingGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isRemoteStagingGroup(group);
@@ -290,7 +290,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isRemoteStagingOrRemoteLiveGroup(group);
@@ -310,7 +310,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagedPortlet(long groupId, String portletId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		return isStagedPortlet(group, portletId);
 	}
@@ -360,7 +360,7 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagingGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isStagingGroup(group);
@@ -380,17 +380,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagingOrLiveGroup(long groupId) {
-		Group group = _fetchGroup(groupId);
+		Group group = _groupLocalService.fetchGroup(groupId);
 
 		if (group != null) {
 			return isStagingOrLiveGroup(group);
 		}
 
 		return false;
-	}
-
-	private Group _fetchGroup(long groupId) {
-		return _groupLocalService.fetchGroup(groupId);
 	}
 
 	private Group _getParentGroupForScopeGroup(Group group) {
