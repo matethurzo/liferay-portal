@@ -162,7 +162,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLiveGroup(long groupId) {
-		return isLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -181,7 +187,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalLiveGroup(long groupId) {
-		return isLocalLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isLocalLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -197,7 +209,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalStagingGroup(long groupId) {
-		return isLocalStagingGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isLocalStagingGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -211,7 +229,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isLocalStagingOrLocalLiveGroup(long groupId) {
-		return isLocalStagingOrLocalLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isLocalStagingOrLocalLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -227,7 +251,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteLiveGroup(long groupId) {
-		return isRemoteLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isRemoteLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -240,7 +270,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteStagingGroup(long groupId) {
-		return isRemoteStagingGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isRemoteStagingGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -254,7 +290,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isRemoteStagingOrRemoteLiveGroup(long groupId) {
-		return isRemoteStagingOrRemoteLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isRemoteStagingOrRemoteLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -318,7 +360,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagingGroup(long groupId) {
-		return isStagingGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isStagingGroup(group);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -332,7 +380,13 @@ public class StagingGroupHelperImpl implements StagingGroupHelper {
 
 	@Override
 	public boolean isStagingOrLiveGroup(long groupId) {
-		return isStagingOrLiveGroup(_fetchGroup(groupId));
+		Group group = _fetchGroup(groupId);
+
+		if (group != null) {
+			return isStagingOrLiveGroup(group);
+		}
+
+		return false;
 	}
 
 	private Group _fetchGroup(long groupId) {
