@@ -212,6 +212,13 @@ public class CTManagerImpl implements CTManager {
 	public Optional<CTEntryAggregate> getModelChangeCTEntryAggregateOptional(
 		long userId, long classNameId, long classPK) {
 
+		Optional<CTEntry> ctEntryOptional = getModelChangeCTEntryOptional(
+			userId, classNameId, classPK);
+
+		if (!ctEntryOptional.isPresent()) {
+			return Optional.empty();
+		}
+
 		Optional<CTCollection> ctCollectionOptional =
 			_ctEngineManager.getActiveCTCollectionOptional(userId);
 
@@ -220,13 +227,6 @@ public class CTManagerImpl implements CTManager {
 		).orElse(
 			0L
 		);
-
-		Optional<CTEntry> ctEntryOptional = getModelChangeCTEntryOptional(
-			userId, classNameId, classPK);
-
-		if (!ctEntryOptional.isPresent()) {
-			return Optional.empty();
-		}
 
 		long ctEntryId = ctEntryOptional.map(
 			CTEntry::getCtEntryId
