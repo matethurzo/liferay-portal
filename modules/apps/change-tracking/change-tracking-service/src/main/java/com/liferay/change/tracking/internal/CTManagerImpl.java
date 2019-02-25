@@ -414,44 +414,12 @@ public class CTManagerImpl implements CTManager {
 
 	private CTEntryAggregate _addCTEntryAggregate(
 			long userId, long activeCTCollectionId, CTEntry ownerCTEntry,
-			CTEntry relatedCTEntry)
-		throws PortalException {
-
-		CTEntryAggregate ctEntryAggregate =
-			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-				activeCTCollectionId, ownerCTEntry.getCtEntryId());
-
-		if (ctEntryAggregate == null) {
-			ctEntryAggregate =
-				_ctEntryAggregateLocalService.addCTEntryAggregate(
-					userId, activeCTCollectionId, ownerCTEntry.getCtEntryId(),
-					new ServiceContext());
-
-			_ctEntryAggregateLocalService.addCTEntry(
-				ctEntryAggregate, relatedCTEntry);
-		}
-		else if (!_containsResource(
-					ctEntryAggregate, relatedCTEntry.getResourcePrimKey())) {
-
-			_ctEntryAggregateLocalService.addCTEntry(
-				ctEntryAggregate, relatedCTEntry);
-		}
-		else {
-			_updateCTEntryInCTEntryAggregate(
-				_copyCTEntryAggregate(ctEntryAggregate), relatedCTEntry);
-		}
-
-		return ctEntryAggregate;
-	}
-
-	private CTEntryAggregate _addCTEntryAggregate(
-			long userId, long activeCTCollectionId, CTEntry ownerCTEntry,
 			CTEntry relatedCTEntry, boolean force)
 		throws PortalException {
 
 		CTEntryAggregate ctEntryAggregate =
 			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
-				ownerCTEntry.getCtEntryId(), activeCTCollectionId);
+				activeCTCollectionId, ownerCTEntry.getCtEntryId());
 
 		if (ctEntryAggregate == null) {
 			ctEntryAggregate =
