@@ -26,6 +26,7 @@ import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersion;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceWrapper;
+import com.liferay.dynamic.data.mapping.service.DDMStructureVersionLocalService;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -93,7 +94,7 @@ public class CTDDMStructureLocalServiceWrapper
 		DDMStructure ddmStructure = super.fetchStructure(structureId);
 
 		if (_isRetrievable(ddmStructure)) {
-			return ddmStructure;
+			return _populateDDMStructure(ddmStructure);
 		}
 
 		return null;
@@ -108,7 +109,7 @@ public class CTDDMStructureLocalServiceWrapper
 			groupId, classNameId, structureKey, includeAncestorStructures);
 
 		if (_isRetrievable(ddmStructure)) {
-			return ddmStructure;
+			return _populateDDMStructure(ddmStructure);
 		}
 
 		return null;
@@ -143,6 +144,8 @@ public class CTDDMStructureLocalServiceWrapper
 			start
 		).limit(
 			end
+		).map(
+			this::_populateDDMStructure
 		).collect(
 			Collectors.toList()
 		);
@@ -178,6 +181,8 @@ public class CTDDMStructureLocalServiceWrapper
 
 				return ctEntryOptional.isPresent();
 			}
+		).map(
+			this::_populateDDMStructure
 		).collect(
 			Collectors.toList()
 		);
@@ -245,6 +250,48 @@ public class CTDDMStructureLocalServiceWrapper
 		return ctEntryOptional.isPresent();
 	}
 
+	private DDMStructure _populateDDMStructure(DDMStructure ddmStructure) {
+		Optional<CTEntry> ctEntryOptional =
+			_ctManager.getLatestModelChangeCTEntryOptional(
+				PrincipalThreadLocal.getUserId(),
+				ddmStructure.getStructureId());
+
+		if (!ctEntryOptional.isPresent()) {
+			return ddmStructure;
+		}
+
+		Optional<DDMStructureVersion> ddmStructureVersionOptional =
+			ctEntryOptional.map(
+				CTEntry::getClassPK
+			).map(
+				_ddmStructureVersionLocalService::fetchDDMStructureVersion
+			);
+
+		if (!ddmStructureVersionOptional.isPresent()) {
+			return ddmStructure;
+		}
+
+		DDMStructureVersion ddmStructureVersion =
+			ddmStructureVersionOptional.get();
+
+		ddmStructure.setStructureId(ddmStructureVersion.getStructureId());
+		ddmStructure.setGroupId(ddmStructureVersion.getGroupId());
+		ddmStructure.setCompanyId(ddmStructureVersion.getCompanyId());
+		ddmStructure.setUserId(ddmStructureVersion.getUserId());
+		ddmStructure.setUserName(ddmStructureVersion.getUserName());
+		ddmStructure.setModifiedDate(ddmStructureVersion.getCreateDate());
+		ddmStructure.setParentStructureId(
+			ddmStructureVersion.getParentStructureId());
+		ddmStructure.setVersion(ddmStructureVersion.getVersion());
+		ddmStructure.setName(ddmStructureVersion.getName());
+		ddmStructure.setDescription(ddmStructureVersion.getDescription());
+		ddmStructure.setDefinition(ddmStructureVersion.getDefinition());
+		ddmStructure.setStorageType(ddmStructureVersion.getStorageType());
+		ddmStructure.setType(ddmStructureVersion.getType());
+
+		return ddmStructure;
+	}
+
 	private void _registerChange(
 			DDMStructureVersion ddmStructureVersion, int changeType)
 		throws CTException {
@@ -288,6 +335,9 @@ public class CTDDMStructureLocalServiceWrapper
 
 	@Reference
 	private CTManager _ctManager;
+
+	@Reference
+	private DDMStructureVersionLocalService _ddmStructureVersionLocalService;
 
 	@Reference
 	private Portal _portal;
