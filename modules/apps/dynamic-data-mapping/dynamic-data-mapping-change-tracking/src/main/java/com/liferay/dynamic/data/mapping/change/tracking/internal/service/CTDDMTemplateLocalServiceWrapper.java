@@ -88,7 +88,7 @@ public class CTDDMTemplateLocalServiceWrapper
 	public DDMTemplate fetchTemplate(long templateId) {
 		DDMTemplate ddmTemplate = super.fetchTemplate(templateId);
 
-		if (_isBasicWebContent(ddmTemplate)) {
+		if (_isRetrievable(ddmTemplate)) {
 			return ddmTemplate;
 		}
 
@@ -155,7 +155,7 @@ public class CTDDMTemplateLocalServiceWrapper
 			return false;
 		}
 
-		if (_ctEngineManager.isChangeTrackingEnabled(
+		if (!_ctEngineManager.isChangeTrackingEnabled(
 				ddmTemplate.getCompanyId()) ||
 			_isBasicWebContent(ddmTemplate)) {
 
