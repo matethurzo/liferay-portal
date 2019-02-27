@@ -586,6 +586,11 @@ public class LayoutStagedModelDataHandler
 			importedLayout = existingLayout;
 		}
 
+		long plid = importedLayout.getPlid();
+
+		Layout draftImportedLayout = _layoutLocalService.getDraft(
+			importedLayout);
+
 		Map<Long, Long> layoutPlids =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 				Layout.class);
@@ -613,11 +618,11 @@ public class LayoutStagedModelDataHandler
 			importedLayout.setPublishDate(draftLayout.getModifiedDate());
 		}
 
-		layoutPlids.put(layout.getPlid(), importedLayout.getPlid());
+		layoutPlids.put(layout.getPlid(), plid);
 
 		layouts.put(oldLayoutId, importedLayout);
 
-		portletDataContext.setPlid(importedLayout.getPlid());
+		portletDataContext.setPlid(plid);
 		portletDataContext.setOldPlid(layout.getPlid());
 
 		long parentPlid = layout.getParentPlid();
@@ -662,20 +667,20 @@ public class LayoutStagedModelDataHandler
 			_log.debug(sb.toString());
 		}
 
-		importedLayout.setCompanyId(portletDataContext.getCompanyId());
+		draftImportedLayout.setCompanyId(portletDataContext.getCompanyId());
 
 		if (layout.getLayoutPrototypeUuid() != null) {
-			importedLayout.setModifiedDate(new Date());
+			draftImportedLayout.setModifiedDate(new Date());
 		}
 
-		importedLayout.setParentPlid(parentPlid);
-		importedLayout.setParentLayoutId(parentLayoutId);
-		importedLayout.setName(layout.getName());
-		importedLayout.setTitle(layout.getTitle());
-		importedLayout.setDescription(layout.getDescription());
-		importedLayout.setKeywords(layout.getKeywords());
-		importedLayout.setRobots(layout.getRobots());
-		importedLayout.setType(layout.getType());
+		draftImportedLayout.setParentPlid(parentPlid);
+		draftImportedLayout.setParentLayoutId(parentLayoutId);
+		draftImportedLayout.setName(layout.getName());
+		draftImportedLayout.setTitle(layout.getTitle());
+		draftImportedLayout.setDescription(layout.getDescription());
+		draftImportedLayout.setKeywords(layout.getKeywords());
+		draftImportedLayout.setRobots(layout.getRobots());
+		draftImportedLayout.setType(layout.getType());
 
 		String portletsMergeMode = MapUtil.getString(
 			portletDataContext.getParameterMap(),
@@ -696,26 +701,26 @@ public class LayoutStagedModelDataHandler
 			importLinkedLayout(
 				portletDataContext, layout, importedLayout, layoutElement);
 
-			updateTypeSettings(importedLayout, layout);
+			updateTypeSettings(draftImportedLayout, layout);
 		}
 		else {
-			updateTypeSettings(importedLayout, layout);
+			updateTypeSettings(draftImportedLayout, layout);
 		}
 
-		importedLayout.setHidden(layout.isHidden());
-		importedLayout.setSystem(layout.isSystem());
-		importedLayout.setFriendlyURL(
+		draftImportedLayout.setHidden(layout.isHidden());
+		draftImportedLayout.setSystem(layout.isSystem());
+		draftImportedLayout.setFriendlyURL(
 			getUniqueFriendlyURL(
 				portletDataContext, importedLayout, friendlyURL));
 
 		if (layout.getIconImageId() > 0) {
 			importLayoutIconImage(
-				portletDataContext, importedLayout, layoutElement);
+				portletDataContext, draftImportedLayout, layoutElement);
 		}
 		else if (importedLayout.getIconImageId() > 0) {
 			_imageLocalService.deleteImage(importedLayout.getIconImageId());
 
-			importedLayout.setIconImageId(0);
+			draftImportedLayout.setIconImageId(0);
 		}
 
 		if (existingLayout == null) {
@@ -735,7 +740,7 @@ public class LayoutStagedModelDataHandler
 
 					});
 
-				importedLayout.setPriority(priority);
+				draftImportedLayout.setPriority(priority);
 			}
 			catch (Throwable t) {
 				ReflectionUtil.throwException(t);
@@ -745,24 +750,25 @@ public class LayoutStagedModelDataHandler
 		String layoutPrototypeUuid = _getLayoutPrototypeUuid(
 			portletDataContext.getCompanyId(), layout, layoutElement);
 
-		importedLayout.setLayoutPrototypeUuid(layoutPrototypeUuid);
+		draftImportedLayout.setLayoutPrototypeUuid(layoutPrototypeUuid);
 
-		importedLayout.setLayoutPrototypeLinkEnabled(
+		draftImportedLayout.setLayoutPrototypeLinkEnabled(
 			layout.isLayoutPrototypeLinkEnabled());
 
 		ServiceContext serviceContext = portletDataContext.createServiceContext(
 			layout);
 
-		importedLayout.setExpandoBridgeAttributes(serviceContext);
+		draftImportedLayout.setExpandoBridgeAttributes(serviceContext);
 
 		_staging.updateLastImportSettings(
-			layoutElement, importedLayout, portletDataContext);
+			layoutElement, draftImportedLayout, portletDataContext);
 
-		fixImportTypeSettings(importedLayout);
+		fixImportTypeSettings(draftImportedLayout);
 
-		importTheme(portletDataContext, layout, importedLayout);
+		importTheme(portletDataContext, layout, draftImportedLayout);
 
-		_layoutLocalService.updateLayout(importedLayout);
+		importedLayout = _layoutLocalService.publishDraft(draftImportedLayout);
+		//_layoutLocalService.updateLayout(importedLayout);
 
 		_layoutSetLocalService.updatePageCount(groupId, privateLayout);
 
