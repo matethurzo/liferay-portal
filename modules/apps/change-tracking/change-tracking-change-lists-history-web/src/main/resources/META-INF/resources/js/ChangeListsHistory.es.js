@@ -1,3 +1,6 @@
+import 'clay-label';
+import 'clay-progress-bar';
+import 'clay-sticker';
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 
@@ -64,6 +67,7 @@ class ChangeListsHistory extends PortletBase {
 					{
 						description: processEntry.ctcollection.description,
 						name: processEntry.ctcollection.name,
+						percentage: processEntry.percentage,
 						state: ChangeListsHistory._getState(processEntry.status),
 						timestamp: new Intl.DateTimeFormat(
 							Liferay.ThemeDisplay.getBCP47LanguageId(),
@@ -74,6 +78,7 @@ class ChangeListsHistory extends PortletBase {
 								month: 'numeric',
 								year: 'numeric'
 							}).format(new Date(processEntry.date)),
+						userInitials: processEntry.userInitials,
 						userName: processEntry.userName
 					}
 				);
@@ -106,8 +111,10 @@ ChangeListsHistory.STATE = {
 			{
 				description: Config.string(),
 				name: Config.string(),
+				percentage: Config.number(),
 				state: Config.string(),
 				timestamp: Config.string(),
+				userInitials: Config.string(),
 				userName: Config.string()
 			}
 		)
