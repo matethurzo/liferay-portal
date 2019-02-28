@@ -24,6 +24,7 @@ import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateVersion;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceWrapper;
+import com.liferay.dynamic.data.mapping.service.DDMTemplateVersionLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -213,8 +214,15 @@ public class CTDDMTemplateLocalServiceWrapper
 	@Reference
 	private CTManager _ctManager;
 
+	// only needed for synchronization purposes
+
 	@Reference
 	private DDMTemplateLocalService _ddmTemplateLocalService;
+
+	// only needed for synchronization purposes
+
+	@Reference
+	private DDMTemplateVersionLocalService _ddmTemplateVersionLocalService;
 
 	@Reference
 	private Portal _portal;
