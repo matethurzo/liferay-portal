@@ -80,7 +80,7 @@ public class CTDDMTemplateLocalServiceWrapper
 			ddmTemplate.getTemplateVersion();
 
 		_registerChange(
-			ddmTemplateVersion, CTConstants.CT_CHANGE_TYPE_ADDITION);
+			ddmTemplateVersion, CTConstants.CT_CHANGE_TYPE_ADDITION, true);
 
 		return ddmTemplate;
 	}
@@ -90,7 +90,7 @@ public class CTDDMTemplateLocalServiceWrapper
 		DDMTemplate ddmTemplate = super.fetchTemplate(templateId);
 
 		if (_isRetrievable(ddmTemplate)) {
-			return ddmTemplate;
+			return _populateDDMTemplate(ddmTemplate);
 		}
 
 		return null;
@@ -105,7 +105,7 @@ public class CTDDMTemplateLocalServiceWrapper
 			groupId, classNameId, templateKey, includeAncestorTemplates);
 
 		if (_isRetrievable(ddmTemplate)) {
-			return ddmTemplate;
+			return _populateDDMTemplate(ddmTemplate);
 		}
 
 		return null;
@@ -168,6 +168,42 @@ public class CTDDMTemplateLocalServiceWrapper
 				PrincipalThreadLocal.getUserId(), ddmTemplate.getTemplateId());
 
 		return ctEntryOptional.isPresent();
+	}
+
+	private DDMTemplate _populateDDMTemplate(DDMTemplate ddmTemplate) {
+		Optional<CTEntry> ctEntryOptional =
+			_ctManager.getLatestModelChangeCTEntryOptional(
+				PrincipalThreadLocal.getUserId(), ddmTemplate.getTemplateId());
+
+		if (!ctEntryOptional.isPresent()) {
+			return ddmTemplate;
+		}
+
+		Optional<DDMTemplateVersion> ddmTemplateVersionOptional =
+			ctEntryOptional.map(
+				CTEntry::getClassPK
+			).map(
+				_ddmTemplateVersionLocalService::fetchDDMTemplateVersion
+			);
+
+		if (!ddmTemplateVersionOptional.isPresent()) {
+			return ddmTemplate;
+		}
+
+		DDMTemplateVersion ddmTemplateVersion =
+			ddmTemplateVersionOptional.get();
+
+		ddmTemplate.setVersionUserId(ddmTemplateVersion.getUserId());
+		ddmTemplate.setVersionUserName(ddmTemplateVersion.getUserName());
+		ddmTemplate.setClassNameId(ddmTemplateVersion.getClassNameId());
+		ddmTemplate.setClassPK(ddmTemplateVersion.getClassPK());
+		ddmTemplate.setVersion(ddmTemplateVersion.getVersion());
+		ddmTemplate.setNameMap(ddmTemplateVersion.getNameMap());
+		ddmTemplate.setDescriptionMap(ddmTemplateVersion.getDescriptionMap());
+		ddmTemplate.setLanguage(ddmTemplateVersion.getLanguage());
+		ddmTemplate.setScript(ddmTemplateVersion.getScript());
+
+		return ddmTemplate;
 	}
 
 	private void _registerChange(
