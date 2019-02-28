@@ -18,6 +18,8 @@ class PublishChangeList extends Component {
 	_handlePublishClick(event) {
 		if (this._publishChangeList()) {
 			this.refs.modal.visible = false;
+
+			Liferay.Util.navigate(this.urlChangeListsHistory);
 		}
 	}
 
@@ -111,6 +113,8 @@ PublishChangeList.STATE = {
 	 * @type {String}
 	 */
 	spritemap: Config.string().required(),
+
+	urlChangeListsHistory: Config.string().required(),
 
 	urlPublishChangeList: Config.object()
 

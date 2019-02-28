@@ -54,6 +54,16 @@ public class CTProcessModel {
 	}
 
 	@XmlElement
+	public int getPercentage() {
+		return _percentage;
+	}
+
+	@XmlElement
+	public String getStatus() {
+		return _status;
+	}
+
+	@XmlElement
 	public String getUserInitials() {
 		return _userInitials;
 	}
@@ -102,6 +112,18 @@ public class CTProcessModel {
 			return this;
 		}
 
+		public Builder setPercentage(int percentage) {
+			_ctProcessModel._percentage = percentage;
+
+			return this;
+		}
+
+		public Builder setStatus(String status) {
+			_ctProcessModel._status = status;
+
+			return this;
+		}
+
 		public Builder setUserInitials(String userInitials) {
 			_ctProcessModel._userInitials = userInitials;
 
@@ -130,6 +152,8 @@ public class CTProcessModel {
 	private long _companyId;
 	private CTCollectionModel _ctCollection;
 	private Date _date;
+	private int _percentage;
+	private String _status;
 	private String _userInitials;
 	private String _userName;
 	private String _userPortraitURL;

@@ -68,6 +68,11 @@
 				</div>
 
 				<div class="col-sm-6">
+					{call ClayProgressBar.render}
+						{param spritemap: $spritemap /}
+						{param value: 30 /}
+					{/call}
+
 					<div class="autofit-row">
 						<div class="text">
 							{$timestamp} {msg desc=""}by{/msg} {$userName}

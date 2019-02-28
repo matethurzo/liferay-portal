@@ -89,6 +89,12 @@ public class ChangeListsDisplayContext {
 		soyContext.put("urlProductionView", _themeDisplay.getPortalURL());
 
 		PortletURL portletURL = PortletURLFactoryUtil.create(
+			_renderRequest, CTPortletKeys.CHANGE_LISTS_HISTORY,
+			PortletRequest.RENDER_PHASE);
+
+		soyContext.put("urlChangeListsHistory", portletURL.toString());
+
+		portletURL = PortletURLFactoryUtil.create(
 			_renderRequest, CTPortletKeys.CHANGE_LISTS,
 			PortletRequest.RENDER_PHASE);
 

@@ -16,6 +16,7 @@ package com.liferay.change.tracking.internal.background.task;
 
 import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.exception.CTException;
+import com.liferay.change.tracking.internal.background.task.display.CTPublishBackgroundTaskDisplay;
 import com.liferay.change.tracking.internal.process.log.CTProcessLog;
 import com.liferay.change.tracking.internal.process.util.CTProcessMessageSenderUtil;
 import com.liferay.change.tracking.model.CTCollection;
@@ -107,7 +108,7 @@ public class CTPublishBackgroundTaskExecutor
 	public BackgroundTaskDisplay getBackgroundTaskDisplay(
 		BackgroundTask backgroundTask) {
 
-		return null;
+		return new CTPublishBackgroundTaskDisplay(backgroundTask);
 	}
 
 	private void _attachLogs(BackgroundTask backgroundTask)

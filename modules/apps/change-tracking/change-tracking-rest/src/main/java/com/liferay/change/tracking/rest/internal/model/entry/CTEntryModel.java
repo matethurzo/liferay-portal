@@ -106,7 +106,7 @@ public class CTEntryModel {
 
 	@XmlElement
 	public String getUserName() {
-		return "Test Mokka";
+		return _userName;
 	}
 
 	@XmlElement

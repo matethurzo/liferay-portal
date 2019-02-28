@@ -21,7 +21,12 @@ import com.liferay.change.tracking.rest.internal.util.CTJaxRsUtil;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.change.tracking.service.CTProcessLocalService;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.background.task.model.BackgroundTask;
+import com.liferay.portal.background.task.service.BackgroundTaskLocalService;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutorRegistry;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
+import com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplay;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
@@ -119,9 +124,30 @@ public class CTProcessResource {
 		return Collections.emptyList();
 	}
 
+	private Optional<com.liferay.portal.kernel.backgroundtask.BackgroundTask>
+		_fetchPortalKernelBackgroundTaskOptional(
+			BackgroundTask backgroundTask) {
+
+		try {
+			return Optional.of(
+				_backgroundTaskManager.getBackgroundTask(
+					backgroundTask.getBackgroundTaskId()));
+		}
+		catch (PortalException pe) {
+			return Optional.empty();
+		}
+	}
+
 	private CTProcessModel _getCTProcessModel(CTProcess ctProcess) {
 		CTCollection ctCollection = _ctCollectionLocalService.fetchCTCollection(
 			ctProcess.getCtCollectionId());
+
+		BackgroundTask backgroundTask =
+			_backgroundTaskLocalService.fetchBackgroundTask(
+				ctProcess.getBackgroundTaskId());
+
+		Optional<BackgroundTask> backgroundTaskOptional = Optional.ofNullable(
+			backgroundTask);
 
 		User user = _userLocalService.fetchUser(ctProcess.getUserId());
 
@@ -134,6 +160,40 @@ public class CTProcessResource {
 			ctCollection
 		).setDate(
 			ctProcess.getCreateDate()
+		).setStatus(
+			backgroundTaskOptional.map(
+				BackgroundTask::getStatusLabel
+			).orElse(
+				StringPool.BLANK
+			)
+		).setPercentage(
+			backgroundTaskOptional.flatMap(
+				this::_fetchPortalKernelBackgroundTaskOptional
+			).map(
+				com.liferay.portal.kernel.backgroundtask.BackgroundTask::
+					getTaskExecutorClassName
+			).map(
+				_backgroundTaskExecutorRegistry::getBackgroundTaskExecutor
+			).flatMap(
+				backgroundTaskExecutor -> {
+					Optional<com.liferay.portal.kernel.backgroundtask.BackgroundTask>
+						portalKernelBackgroundTaskOptional =
+							_fetchPortalKernelBackgroundTaskOptional(
+								backgroundTask);
+
+					if (portalKernelBackgroundTaskOptional.isPresent()) {
+						return Optional.of(
+							backgroundTaskExecutor.getBackgroundTaskDisplay(
+								portalKernelBackgroundTaskOptional.get()));
+					}
+
+					return Optional.empty();
+				}
+			).map(
+				BackgroundTaskDisplay::getPercentage
+			).orElse(
+				100
+			)
 		).setUserInitials(
 			userOptional.map(
 				User::getInitials
@@ -251,6 +311,15 @@ public class CTProcessResource {
 
 	private static final Set<String> _orderByColumnNames = new HashSet<>(
 		Arrays.asList("publishDate", "name"));
+
+	@Reference
+	private BackgroundTaskExecutorRegistry _backgroundTaskExecutorRegistry;
+
+	@Reference
+	private BackgroundTaskLocalService _backgroundTaskLocalService;
+
+	@Reference
+	private BackgroundTaskManager _backgroundTaskManager;
 
 	@Reference
 	private CompanyLocalService _companyLocalService;

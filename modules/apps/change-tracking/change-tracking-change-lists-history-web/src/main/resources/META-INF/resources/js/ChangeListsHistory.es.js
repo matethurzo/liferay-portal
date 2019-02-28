@@ -1,5 +1,3 @@
-import ClayManagementToolbar from 'clay-management-toolbar';
-
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 
@@ -7,7 +5,6 @@ import Soy from 'metal-soy';
 import {Config} from 'metal-state';
 
 import templates from './ChangeListsHistory.soy';
-
 
 /**
  * Handles the tags of the selected
@@ -50,6 +47,14 @@ class ChangeListsHistory extends PortletBase {
 			);
 	}
 
+	static _getState(processEntryStatus) {
+		if (processEntryStatus === 'successful') {
+			return 'published';
+		}
+
+		return processEntryStatus;
+	}
+
 	_populateProcessEntries(processEntries) {
 		this.processEntries = [];
 
@@ -57,8 +62,9 @@ class ChangeListsHistory extends PortletBase {
 			processEntry => {
 				this.processEntries.push(
 					{
-						name: processEntry.ctcollection.name,
 						description: processEntry.ctcollection.description,
+						name: processEntry.ctcollection.name,
+						state: ChangeListsHistory._getState(processEntry.status),
 						timestamp: new Intl.DateTimeFormat(
 							Liferay.ThemeDisplay.getBCP47LanguageId(),
 							{
@@ -67,8 +73,7 @@ class ChangeListsHistory extends PortletBase {
 								minute: 'numeric',
 								month: 'numeric',
 								year: 'numeric'
-							}).format(processEntry.date),
-						state: 'published',
+							}).format(new Date(processEntry.date)),
 						userName: processEntry.userName
 					}
 				);
@@ -99,11 +104,11 @@ ChangeListsHistory.STATE = {
 	processEntries: Config.arrayOf(
 		Config.shapeOf(
 			{
-				name: Config.string(),
 				description: Config.string(),
+				name: Config.string(),
+				state: Config.string(),
 				timestamp: Config.string(),
-				userName: Config.string(),
-				state: Config.string()
+				userName: Config.string()
 			}
 		)
 	),

@@ -107,6 +107,7 @@ class Overview extends PortletBase {
 				changeListDescription: this.descriptionActiveChangeList,
 				changeListName: this.headerTitleActiveChangeList,
 				spritemap: themeDisplay.getPathThemeImages() + '/lexicon/icons.svg',
+				urlChangeListsHistory: this.urlChangeListsHistory,
 				urlPublishChangeList: this.urlActiveCollectionPublish
 			}
 		);
@@ -192,7 +193,7 @@ class Overview extends PortletBase {
 								minute: 'numeric',
 								month: 'numeric',
 								year: 'numeric'
-							}).format(changeEntry.modifiedDate),
+							}).format(new Date(changeEntry.modifiedDate)),
 						site: changeEntry.siteName,
 						title: changeEntry.title,
 						userName: changeEntry.userName,
@@ -516,6 +517,8 @@ Overview.STATE = {
 	urlCollectionsBase: Config.string(),
 
 	urlActiveCollectionPublish: Config.object(),
+
+	urlChangeListsHistory: Config.string().required(),
 
 	/**
 	 * The URL for the REST service to the change entries
