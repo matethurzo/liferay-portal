@@ -216,12 +216,12 @@ public interface CTProcessLocalService
 	public List<CTProcess> getCTProcesses(long ctCollectionId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CTProcess> getCTProcesses(long companyId, int status,
-		QueryDefinition<?> queryDefinition);
+	public List<CTProcess> getCTProcesses(
+		long companyId, int status, QueryDefinition<?> queryDefinition);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CTProcess> getCTProcesses(long companyId,
-		QueryDefinition<?> queryDefinition);
+	public List<CTProcess> getCTProcesses(
+		long companyId, QueryDefinition<?> queryDefinition);
 
 	/**
 	 * Returns the number of ct processes.
