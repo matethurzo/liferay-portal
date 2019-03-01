@@ -20,10 +20,12 @@ import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.base.CTEntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
@@ -89,20 +91,36 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 	@Override
 	public List<CTEntry> getCTCollectionCTEntries(long ctCollectionId) {
-		if (_isProductionCTCollectionId(ctCollectionId)) {
-			return super.getCTCollectionCTEntries(ctCollectionId);
-		}
-
-		return getCTCollectionCTEntriesByStatus(
-			ctCollectionId, WorkflowConstants.STATUS_DRAFT);
+		return getCTCollectionCTEntries(
+			ctCollectionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	@Override
-	public List<CTEntry> getCTCollectionCTEntriesByStatus(
-		long ctCollectionId, int status) {
+	public List<CTEntry> getCTCollectionCTEntries(
+		long ctCollectionId, int start, int end) {
 
-		return ctEntryFinder.findByC_S(
-			ctCollectionId, status, new QueryDefinition<>());
+		return getCTCollectionCTEntries(ctCollectionId, start, end, null);
+	}
+
+	@Override
+	public List<CTEntry> getCTCollectionCTEntries(
+		long ctCollectionId, int start, int end,
+		OrderByComparator<CTEntry> orderByComparator) {
+
+		if (_isProductionCTCollectionId(ctCollectionId)) {
+			return super.getCTCollectionCTEntries(
+				ctCollectionId, start, end, orderByComparator);
+		}
+
+		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>();
+
+		queryDefinition.setEnd(end);
+		queryDefinition.setOrderByComparator(orderByComparator);
+		queryDefinition.setStart(start);
+		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return ctEntryFinder.findByCTCollectionId(
+			ctCollectionId, queryDefinition);
 	}
 
 	@Override
