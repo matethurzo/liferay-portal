@@ -269,6 +269,7 @@ public class StagingGroupHelperTest {
 		Assert.assertFalse(
 			_stagingGroupHelper.isLiveGroup(_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isLiveGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isLiveGroup(-1));
 	}
 
@@ -321,6 +322,7 @@ public class StagingGroupHelperTest {
 		Assert.assertFalse(
 			_stagingGroupHelper.isLocalLiveGroup(_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isLocalLiveGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isLocalLiveGroup(-1));
 	}
 
@@ -376,6 +378,7 @@ public class StagingGroupHelperTest {
 			_stagingGroupHelper.isLocalStagingGroup(
 				_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isLocalStagingGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isLocalStagingGroup(-1));
 	}
 
@@ -440,6 +443,8 @@ public class StagingGroupHelperTest {
 				_regularGroup.getGroupId()));
 
 		Assert.assertFalse(
+			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(null));
+		Assert.assertFalse(
 			_stagingGroupHelper.isLocalStagingOrLocalLiveGroup(-1));
 	}
 
@@ -494,6 +499,7 @@ public class StagingGroupHelperTest {
 		Assert.assertFalse(
 			_stagingGroupHelper.isRemoteLiveGroup(_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isRemoteLiveGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isRemoteLiveGroup(-1));
 	}
 
@@ -549,6 +555,7 @@ public class StagingGroupHelperTest {
 			_stagingGroupHelper.isRemoteStagingGroup(
 				_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isRemoteStagingGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isRemoteStagingGroup(-1));
 	}
 
@@ -613,6 +620,8 @@ public class StagingGroupHelperTest {
 			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(
 				_regularGroup.getGroupId()));
 
+		Assert.assertFalse(
+			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(null));
 		Assert.assertFalse(
 			_stagingGroupHelper.isRemoteStagingOrRemoteLiveGroup(-1));
 	}
@@ -741,6 +750,8 @@ public class StagingGroupHelperTest {
 				_regularGroup.getGroupId(), _PORTLET_ID_BLOGS));
 
 		Assert.assertFalse(
+			_stagingGroupHelper.isStagedPortlet(null, _PORTLET_ID_BLOGS));
+		Assert.assertFalse(
 			_stagingGroupHelper.isStagedPortlet(-1, _PORTLET_ID_BLOGS));
 	}
 
@@ -791,6 +802,7 @@ public class StagingGroupHelperTest {
 		Assert.assertFalse(
 			_stagingGroupHelper.isStagingGroup(_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isStagingGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isStagingGroup(-1));
 	}
 
@@ -846,6 +858,7 @@ public class StagingGroupHelperTest {
 			_stagingGroupHelper.isStagingOrLiveGroup(
 				_regularGroup.getGroupId()));
 
+		Assert.assertFalse(_stagingGroupHelper.isStagingOrLiveGroup(null));
 		Assert.assertFalse(_stagingGroupHelper.isStagingOrLiveGroup(-1));
 	}
 
