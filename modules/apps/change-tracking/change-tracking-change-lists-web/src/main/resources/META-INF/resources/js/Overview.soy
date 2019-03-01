@@ -22,6 +22,9 @@
 		deleted: number,
 		modified: number
 	]}
+	{@param? collisionLoading: bool}
+	{@param? collisionsCount: number}
+	{@param? collisionTooltip: string}
 	{@param? descriptionActiveChangeList: string}
 	{@param? descriptionProductionInformation: string}
 	{@param? changeListsDropdownMenu: list<[
@@ -81,6 +84,9 @@
 						{param changesLabel kind="text"}
 							{msg desc=""}changes{/msg}
 						{/param}
+						{param collisionLoading: $collisionLoading /}
+						{param collisionsCount: $collisionsCount /}
+						{param collisionTooltip: $collisionTooltip /}
 						{param description: $descriptionActiveChangeList /}
 						{param descriptionTitle kind="text"}
 							{msg desc=""}description{/msg}
@@ -176,6 +182,9 @@
 		modifiedLabel: string
 	]}
 	{@param? changesLabel: string}
+	{@param? collisionLoading : bool}
+	{@param? collisionsCount: number}
+	{@param? collisionTooltip: string}
 	{@param? description: string}
 	{@param? descriptionTitle: string}
 	{@param? headerButton: [
@@ -206,6 +215,9 @@
 			{param headerButtonDisabled: $headerButtonDisabled /}
 			{param changeListsDropdownMenu: $changeListsDropdownMenu /}
 			{param changeListsDropdownMenuTitle: $changeListsDropdownMenuTitle /}
+			{param collisionLoading: $collisionLoading /}
+			{param collisionsCount: $collisionsCount /}
+			{param collisionTooltip: $collisionTooltip /}
 			{param urlSelectChangeList: $urlSelectChangeList /}
 			{param headerLink: $headerLink /}
 			{param headerSubTitle: $headerSubTitle /}
@@ -245,6 +257,9 @@
 		ctCollectionId: string
 	]>}
 	{@param? changeListsDropdownMenuTitle: string}
+	{@param? collisionLoading: bool}
+	{@param? collisionsCount: number}
+	{@param? collisionTooltip: string}
 	{@param? headerButton: [
 		label: string
 	]}
@@ -304,9 +319,28 @@
 					<div class="navbar-nav stick-to-right">
 						<div class="btn-group">
 							<div class="btn-group-item">
-								<svg class="lexicon-icon lexicon-icon-exclamation-circle" focusable="false" role="presentation">
-									<use xlink:href="{$spritemap}#exclamation-circle" />
-								</svg>
+								{if $collisionLoading}
+									<span class="change-lists-helper float-right lfr-portal-tooltip" title="{msg desc=""}collision-detection{/msg}">
+										{call .smallLoading /}
+									</span>
+								{else}
+									{if $collisionsCount > 0}
+
+										<span class="change-lists-helper float-right lfr-portal-tooltip" title="{$collisionTooltip}">
+											{call ClayIcon.render}
+												{param spritemap: $spritemap /}
+												{param symbol: 'exclamation-circle' /}
+											{/call}
+										</span>
+									{else}
+										<span class="change-lists-helper float-right lfr-portal-tooltip" title="{msg desc=""}no-collision{/msg}">
+											{call ClayIcon.render}
+												{param spritemap: $spritemap /}
+												{param symbol: 'check-circle' /}
+											{/call}
+										</span>
+									{/if}
+								{/if}
 							</div>
 							{if $headerButton}
 								<div class="btn-group-item">
@@ -532,5 +566,11 @@
 {template .loading}
 	<div class="loading-indicator">
 		<span aria-hidden="true" class="loading-animation"></span>
+	</div>
+{/template}
+
+{template .smallLoading}
+	<div class="small-loading-indicator">
+		<span aria-hidden="true" class="loading-animation loading-animation-sm"></span>
 	</div>
 {/template}
