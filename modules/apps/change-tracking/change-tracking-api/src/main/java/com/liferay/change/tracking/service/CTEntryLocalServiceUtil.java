@@ -380,13 +380,6 @@ public class CTEntryLocalServiceUtil {
 			ctCollectionId, start, end, orderByComparator);
 	}
 
-	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
-		getCTCollectionCTEntriesByStatus(long ctCollectionId, int status) {
-
-		return getService().getCTCollectionCTEntriesByStatus(
-			ctCollectionId, status);
-	}
-
 	public static int getCTCollectionCTEntriesCount(long ctCollectionId) {
 		return getService().getCTCollectionCTEntriesCount(ctCollectionId);
 	}

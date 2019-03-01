@@ -416,14 +416,6 @@ public class CTEntryLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry>
-		getCTCollectionCTEntriesByStatus(long ctCollectionId, int status) {
-
-		return _ctEntryLocalService.getCTCollectionCTEntriesByStatus(
-			ctCollectionId, status);
-	}
-
-	@Override
 	public int getCTCollectionCTEntriesCount(long ctCollectionId) {
 		return _ctEntryLocalService.getCTCollectionCTEntriesCount(
 			ctCollectionId);
