@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -213,6 +214,14 @@ public interface CTProcessLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTProcess> getCTProcesses(long ctCollectionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTProcess> getCTProcesses(
+		long companyId, int status, QueryDefinition<?> queryDefinition);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTProcess> getCTProcesses(
+		long companyId, QueryDefinition<?> queryDefinition);
 
 	/**
 	 * Returns the number of ct processes.

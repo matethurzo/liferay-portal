@@ -22,6 +22,7 @@ import com.liferay.change.tracking.service.persistence.CTCollectionPersistence;
 import com.liferay.change.tracking.service.persistence.CTEntryAggregatePersistence;
 import com.liferay.change.tracking.service.persistence.CTEntryFinder;
 import com.liferay.change.tracking.service.persistence.CTEntryPersistence;
+import com.liferay.change.tracking.service.persistence.CTProcessFinder;
 import com.liferay.change.tracking.service.persistence.CTProcessPersistence;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -519,6 +520,24 @@ public abstract class CTProcessLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the ct process finder.
+	 *
+	 * @return the ct process finder
+	 */
+	public CTProcessFinder getCTProcessFinder() {
+		return ctProcessFinder;
+	}
+
+	/**
+	 * Sets the ct process finder.
+	 *
+	 * @param ctProcessFinder the ct process finder
+	 */
+	public void setCTProcessFinder(CTProcessFinder ctProcessFinder) {
+		this.ctProcessFinder = ctProcessFinder;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -776,6 +795,9 @@ public abstract class CTProcessLocalServiceBaseImpl
 
 	@BeanReference(type = CTProcessPersistence.class)
 	protected CTProcessPersistence ctProcessPersistence;
+
+	@BeanReference(type = CTProcessFinder.class)
+	protected CTProcessFinder ctProcessFinder;
 
 	@ServiceReference(
 		type = com.liferay.counter.kernel.service.CounterLocalService.class
