@@ -17,8 +17,8 @@ package com.liferay.change.tracking.model.impl;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 
 /**
  * @author Daniel Kocsis
@@ -30,9 +30,14 @@ public class CTProcessImpl extends CTProcessBaseImpl {
 	}
 
 	@Override
-	public int getStatus() throws PortalException {
+	public int getStatus() {
 		BackgroundTask backgroundTask =
-			BackgroundTaskManagerUtil.getBackgroundTask(getBackgroundTaskId());
+			BackgroundTaskManagerUtil.fetchBackgroundTask(
+				getBackgroundTaskId());
+
+		if (backgroundTask == null) {
+			return BackgroundTaskConstants.STATUS_SUCCESSFUL;
+		}
 
 		return backgroundTask.getStatus();
 	}
