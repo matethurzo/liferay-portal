@@ -513,10 +513,23 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				_getCompanyId(userId),
 				"Unable to create production change collection"));
 
-		_generateCTEntriesForExistingAssets(userId, _productionCTCollection);
+		_generateCTEntriesForAllCTConfigurations(
+			userId, _productionCTCollection);
 
 		checkoutCTCollection(
 			userId, _productionCTCollection.getCtCollectionId());
+	}
+
+	@SuppressWarnings("unchecked")
+	private void _generateCTEntriesForAllCTConfigurations(
+		long userId, CTCollection ctCollection) {
+
+		List<CTConfiguration<?, ?>> ctConfigurations =
+			_ctConfigurationRegistry.getAllCTConfigurations();
+
+		ctConfigurations.forEach(
+			ctConfiguration -> _generateCTEntriesForCTConfiguration(
+				userId, ctConfiguration, ctCollection));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -544,18 +557,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				userId, ctConfiguration, ctCollection, resourceEntity,
 				resourcePrimKey);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void _generateCTEntriesForExistingAssets(
-		long userId, CTCollection ctCollection) {
-
-		List<CTConfiguration<?, ?>> ctConfigurations =
-			_ctConfigurationRegistry.getAllCTConfigurations();
-
-		ctConfigurations.forEach(
-			ctConfiguration -> _generateCTEntriesForCTConfiguration(
-				userId, ctConfiguration, ctCollection));
 	}
 
 	@SuppressWarnings("unchecked")
