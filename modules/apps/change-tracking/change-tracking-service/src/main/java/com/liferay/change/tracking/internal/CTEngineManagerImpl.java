@@ -511,7 +511,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		_productionCTCollection = ctCollectionOptional.orElseThrow(
 			() -> new CTException(
 				_getCompanyId(userId),
-				"Unable to create production change collection"));
+				"Unable to create production change tracking collection"));
 
 		_generateCTEntriesForAllCTConfigurations(
 			userId, _productionCTCollection);
