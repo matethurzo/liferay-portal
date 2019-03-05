@@ -483,6 +483,171 @@ public abstract class CTCollectionLocalServiceBaseImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addCTEntryAggregateCTCollection(
+		long ctEntryAggregateId, long ctCollectionId) {
+
+		ctEntryAggregatePersistence.addCTCollection(
+			ctEntryAggregateId, ctCollectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void addCTEntryAggregateCTCollection(
+		long ctEntryAggregateId, CTCollection ctCollection) {
+
+		ctEntryAggregatePersistence.addCTCollection(
+			ctEntryAggregateId, ctCollection);
+	}
+
+	/**
+	 */
+	@Override
+	public void addCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, long[] ctCollectionIds) {
+
+		ctEntryAggregatePersistence.addCTCollections(
+			ctEntryAggregateId, ctCollectionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void addCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, List<CTCollection> ctCollections) {
+
+		ctEntryAggregatePersistence.addCTCollections(
+			ctEntryAggregateId, ctCollections);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearCTEntryAggregateCTCollections(long ctEntryAggregateId) {
+		ctEntryAggregatePersistence.clearCTCollections(ctEntryAggregateId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteCTEntryAggregateCTCollection(
+		long ctEntryAggregateId, long ctCollectionId) {
+
+		ctEntryAggregatePersistence.removeCTCollection(
+			ctEntryAggregateId, ctCollectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteCTEntryAggregateCTCollection(
+		long ctEntryAggregateId, CTCollection ctCollection) {
+
+		ctEntryAggregatePersistence.removeCTCollection(
+			ctEntryAggregateId, ctCollection);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, long[] ctCollectionIds) {
+
+		ctEntryAggregatePersistence.removeCTCollections(
+			ctEntryAggregateId, ctCollectionIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, List<CTCollection> ctCollections) {
+
+		ctEntryAggregatePersistence.removeCTCollections(
+			ctEntryAggregateId, ctCollections);
+	}
+
+	/**
+	 * Returns the ctEntryAggregateIds of the ct entry aggregates associated with the ct collection.
+	 *
+	 * @param ctCollectionId the ctCollectionId of the ct collection
+	 * @return long[] the ctEntryAggregateIds of ct entry aggregates associated with the ct collection
+	 */
+	@Override
+	public long[] getCTEntryAggregatePrimaryKeys(long ctCollectionId) {
+		return ctCollectionPersistence.getCTEntryAggregatePrimaryKeys(
+			ctCollectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<CTCollection> getCTEntryAggregateCTCollections(
+		long ctEntryAggregateId) {
+
+		return ctEntryAggregatePersistence.getCTCollections(ctEntryAggregateId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<CTCollection> getCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, int start, int end) {
+
+		return ctEntryAggregatePersistence.getCTCollections(
+			ctEntryAggregateId, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<CTCollection> getCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, int start, int end,
+		OrderByComparator<CTCollection> orderByComparator) {
+
+		return ctEntryAggregatePersistence.getCTCollections(
+			ctEntryAggregateId, start, end, orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getCTEntryAggregateCTCollectionsCount(long ctEntryAggregateId) {
+		return ctEntryAggregatePersistence.getCTCollectionsSize(
+			ctEntryAggregateId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasCTEntryAggregateCTCollection(
+		long ctEntryAggregateId, long ctCollectionId) {
+
+		return ctEntryAggregatePersistence.containsCTCollection(
+			ctEntryAggregateId, ctCollectionId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasCTEntryAggregateCTCollections(long ctEntryAggregateId) {
+		return ctEntryAggregatePersistence.containsCTCollections(
+			ctEntryAggregateId);
+	}
+
+	/**
+	 */
+	@Override
+	public void setCTEntryAggregateCTCollections(
+		long ctEntryAggregateId, long[] ctCollectionIds) {
+
+		ctEntryAggregatePersistence.setCTCollections(
+			ctEntryAggregateId, ctCollectionIds);
+	}
+
+	/**
 	 * Returns the ct collection local service.
 	 *
 	 * @return the ct collection local service
