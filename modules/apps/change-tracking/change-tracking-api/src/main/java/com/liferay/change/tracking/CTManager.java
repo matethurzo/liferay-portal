@@ -117,7 +117,7 @@ public interface CTManager {
 	 * @return the change entry aggregate containing the given change entry and
 	 *         associated with the given change entry collection.
 	 */
-	public Optional<CTEntryAggregate> getCTEntryAggregate(
+	public Optional<CTEntryAggregate> getCTEntryAggregateOptional(
 		CTEntry ctEntry, CTCollection ctCollection);
 
 	/**

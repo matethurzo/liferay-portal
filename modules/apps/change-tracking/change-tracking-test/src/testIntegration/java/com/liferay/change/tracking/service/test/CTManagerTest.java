@@ -262,7 +262,7 @@ public class CTManagerTest {
 	}
 
 	@Test
-	public void testGetCTEntryAggregate() throws Exception {
+	public void testGetCTEntryAggregateOptional() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
 			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
 
@@ -290,14 +290,15 @@ public class CTManagerTest {
 		Assert.assertTrue(ctEntryAggregateOptionalA.isPresent());
 
 		Optional<CTEntryAggregate> ctEntryAggregateOptionalB =
-			_ctManager.getCTEntryAggregate(ctEntry, ctCollectionOptional.get());
+			_ctManager.getCTEntryAggregateOptional(
+				ctEntry, ctCollectionOptional.get());
 
 		Assert.assertTrue(ctEntryAggregateOptionalB.isPresent());
 		Assert.assertEquals(
 			ctEntryAggregateOptionalA, ctEntryAggregateOptionalB);
 
 		Optional<CTEntryAggregate> ctEntryAggregateOptionalC =
-			_ctManager.getCTEntryAggregate(
+			_ctManager.getCTEntryAggregateOptional(
 				ownerCTEntry, ctCollectionOptional.get());
 
 		Assert.assertTrue(ctEntryAggregateOptionalC.isPresent());

@@ -164,7 +164,7 @@ public class CTManagerImpl implements CTManager {
 	}
 
 	@Override
-	public Optional<CTEntryAggregate> getCTEntryAggregate(
+	public Optional<CTEntryAggregate> getCTEntryAggregateOptional(
 		CTEntry ctEntry, CTCollection ctCollection) {
 
 		if ((ctEntry == null) || !ctEntry.hasCTEntryAggregate()) {
@@ -348,7 +348,7 @@ public class CTManagerImpl implements CTManager {
 		CTEntry ctEntry, CTCollection ctCollection) {
 
 		Optional<CTEntryAggregate> ctEntryAggregateOptional =
-			getCTEntryAggregate(ctEntry, ctCollection);
+			getCTEntryAggregateOptional(ctEntry, ctCollection);
 
 		List<CTEntry> ctEntries = ctEntryAggregateOptional.map(
 			CTEntryAggregate::getRelatedCTEntries
@@ -412,16 +412,16 @@ public class CTManagerImpl implements CTManager {
 			Optional<CTEntry> previousModelChangeCTEntryOptional =
 				getLatestModelChangeCTEntryOptional(userId, resourcePrimKey);
 
-			// creating a new change entry
+			// Creating a new change entry
 
 			CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
 				userId, classNameId, classPK, resourcePrimKey, changeType,
 				ctCollection.getCtCollectionId(), serviceContext);
 
-			// updating existing related change entry aggregate
+			// Updating existing related change entry aggregate
 
 			previousModelChangeCTEntryOptional.flatMap(
-				latestModelChangeCTEntry -> getCTEntryAggregate(
+				latestModelChangeCTEntry -> getCTEntryAggregateOptional(
 					latestModelChangeCTEntry, ctCollection)
 			).ifPresent(
 				ctEntryAggregate -> _updateCTEntryInCTEntryAggregate(
