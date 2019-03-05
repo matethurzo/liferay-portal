@@ -472,6 +472,20 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			_ctCollectionLocalService.addCTEntryCTCollection(
 				ctEntry.getCtEntryId(), ctCollection);
 		}
+
+		List<CTEntryAggregate> productionCTEntryAggregates =
+			productionCTCollectionOptional.map(
+				CTCollection::getCtCollectionId
+			).map(
+				this::getCTEntryAggregates
+			).orElse(
+				Collections.emptyList()
+			);
+
+		for (CTEntryAggregate ctEntryAggregate : productionCTEntryAggregates) {
+			_ctCollectionLocalService.addCTEntryAggregateCTCollection(
+				ctEntryAggregate.getCtEntryAggregateId(), ctCollection);
+		}
 	}
 
 	private Optional<CTCollection> _createCTCollection(
