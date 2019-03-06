@@ -331,6 +331,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			companyId, queryDefinition, false);
 	}
 
+	@Override
 	public Optional<CTCollection> getProductionCTCollectionOptional(
 		long companyId) {
 
@@ -348,6 +349,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		return Optional.ofNullable(productionCTCollection);
 	}
 
+	@Override
 	public long getRecentCTCollectionId(long userId) {
 		User user = _userLocalService.fetchUser(userId);
 
