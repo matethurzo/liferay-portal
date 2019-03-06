@@ -52,6 +52,7 @@ public class CTEntryAggregateWrapper
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("ownerCTEntryId", getOwnerCTEntryId());
+		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -98,6 +99,12 @@ public class CTEntryAggregateWrapper
 
 		if (ownerCTEntryId != null) {
 			setOwnerCTEntryId(ownerCTEntryId);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
@@ -164,6 +171,16 @@ public class CTEntryAggregateWrapper
 	@Override
 	public java.util.List<CTEntry> getRelatedCTEntries() {
 		return model.getRelatedCTEntries();
+	}
+
+	/**
+	 * Returns the status of this ct entry aggregate.
+	 *
+	 * @return the status of this ct entry aggregate
+	 */
+	@Override
+	public int getStatus() {
+		return model.getStatus();
 	}
 
 	/**
@@ -259,6 +276,16 @@ public class CTEntryAggregateWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the status of this ct entry aggregate.
+	 *
+	 * @param status the status of this ct entry aggregate
+	 */
+	@Override
+	public void setStatus(int status) {
+		model.setStatus(status);
 	}
 
 	/**

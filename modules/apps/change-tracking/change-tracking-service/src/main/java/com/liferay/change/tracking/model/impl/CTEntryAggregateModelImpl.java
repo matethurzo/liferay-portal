@@ -70,7 +70,7 @@ public class CTEntryAggregateModelImpl
 		{"ctEntryAggregateId", Types.BIGINT}, {"companyId", Types.BIGINT},
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
-		{"ownerCTEntryId", Types.BIGINT}
+		{"ownerCTEntryId", Types.BIGINT}, {"status", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -84,10 +84,11 @@ public class CTEntryAggregateModelImpl
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("ownerCTEntryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table CTEntryAggregate (ctEntryAggregateId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,ownerCTEntryId LONG)";
+		"create table CTEntryAggregate (ctEntryAggregateId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,ownerCTEntryId LONG,status INTEGER)";
 
 	public static final String TABLE_SQL_DROP = "drop table CTEntryAggregate";
 
@@ -306,6 +307,10 @@ public class CTEntryAggregateModelImpl
 			"ownerCTEntryId",
 			(BiConsumer<CTEntryAggregate, Long>)
 				CTEntryAggregate::setOwnerCTEntryId);
+		attributeGetterFunctions.put("status", CTEntryAggregate::getStatus);
+		attributeSetterBiConsumers.put(
+			"status",
+			(BiConsumer<CTEntryAggregate, Integer>)CTEntryAggregate::setStatus);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -422,6 +427,16 @@ public class CTEntryAggregateModelImpl
 		return _originalOwnerCTEntryId;
 	}
 
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -461,6 +476,7 @@ public class CTEntryAggregateModelImpl
 		ctEntryAggregateImpl.setCreateDate(getCreateDate());
 		ctEntryAggregateImpl.setModifiedDate(getModifiedDate());
 		ctEntryAggregateImpl.setOwnerCTEntryId(getOwnerCTEntryId());
+		ctEntryAggregateImpl.setStatus(getStatus());
 
 		ctEntryAggregateImpl.resetOriginalValues();
 
@@ -572,6 +588,8 @@ public class CTEntryAggregateModelImpl
 
 		ctEntryAggregateCacheModel.ownerCTEntryId = getOwnerCTEntryId();
 
+		ctEntryAggregateCacheModel.status = getStatus();
+
 		return ctEntryAggregateCacheModel;
 	}
 
@@ -654,6 +672,7 @@ public class CTEntryAggregateModelImpl
 	private long _ownerCTEntryId;
 	private long _originalOwnerCTEntryId;
 	private boolean _setOriginalOwnerCTEntryId;
+	private int _status;
 	private long _columnBitmask;
 	private CTEntryAggregate _escapedModel;
 

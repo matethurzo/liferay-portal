@@ -183,4 +183,18 @@ public interface CTEntryAggregateModel
 	 */
 	public void setOwnerCTEntryId(long ownerCTEntryId);
 
+	/**
+	 * Returns the status of this ct entry aggregate.
+	 *
+	 * @return the status of this ct entry aggregate
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this ct entry aggregate.
+	 *
+	 * @param status the status of this ct entry aggregate
+	 */
+	public void setStatus(int status);
+
 }

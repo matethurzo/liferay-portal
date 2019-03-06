@@ -67,7 +67,7 @@ public class CTEntryAggregateCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{ctEntryAggregateId=");
 		sb.append(ctEntryAggregateId);
@@ -83,6 +83,8 @@ public class CTEntryAggregateCacheModel
 		sb.append(modifiedDate);
 		sb.append(", ownerCTEntryId=");
 		sb.append(ownerCTEntryId);
+		sb.append(", status=");
+		sb.append(status);
 		sb.append("}");
 
 		return sb.toString();
@@ -118,6 +120,7 @@ public class CTEntryAggregateCacheModel
 		}
 
 		ctEntryAggregateImpl.setOwnerCTEntryId(ownerCTEntryId);
+		ctEntryAggregateImpl.setStatus(status);
 
 		ctEntryAggregateImpl.resetOriginalValues();
 
@@ -136,6 +139,8 @@ public class CTEntryAggregateCacheModel
 		modifiedDate = objectInput.readLong();
 
 		ownerCTEntryId = objectInput.readLong();
+
+		status = objectInput.readInt();
 	}
 
 	@Override
@@ -157,6 +162,8 @@ public class CTEntryAggregateCacheModel
 		objectOutput.writeLong(modifiedDate);
 
 		objectOutput.writeLong(ownerCTEntryId);
+
+		objectOutput.writeInt(status);
 	}
 
 	public long ctEntryAggregateId;
@@ -166,5 +173,6 @@ public class CTEntryAggregateCacheModel
 	public long createDate;
 	public long modifiedDate;
 	public long ownerCTEntryId;
+	public int status;
 
 }

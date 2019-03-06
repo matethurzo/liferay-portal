@@ -134,6 +134,8 @@ public class CTEntryAggregatePersistenceTest {
 
 		newCTEntryAggregate.setOwnerCTEntryId(RandomTestUtil.nextLong());
 
+		newCTEntryAggregate.setStatus(RandomTestUtil.nextInt());
+
 		_ctEntryAggregates.add(_persistence.update(newCTEntryAggregate));
 
 		CTEntryAggregate existingCTEntryAggregate =
@@ -160,6 +162,9 @@ public class CTEntryAggregatePersistenceTest {
 		Assert.assertEquals(
 			existingCTEntryAggregate.getOwnerCTEntryId(),
 			newCTEntryAggregate.getOwnerCTEntryId());
+		Assert.assertEquals(
+			existingCTEntryAggregate.getStatus(),
+			newCTEntryAggregate.getStatus());
 	}
 
 	@Test
@@ -196,7 +201,7 @@ public class CTEntryAggregatePersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"CTEntryAggregate", "ctEntryAggregateId", true, "companyId", true,
 			"userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "ownerCTEntryId", true);
+			"modifiedDate", true, "ownerCTEntryId", true, "status", true);
 	}
 
 	@Test
@@ -432,6 +437,8 @@ public class CTEntryAggregatePersistenceTest {
 		ctEntryAggregate.setModifiedDate(RandomTestUtil.nextDate());
 
 		ctEntryAggregate.setOwnerCTEntryId(RandomTestUtil.nextLong());
+
+		ctEntryAggregate.setStatus(RandomTestUtil.nextInt());
 
 		_ctEntryAggregates.add(_persistence.update(ctEntryAggregate));
 
