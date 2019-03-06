@@ -1,4 +1,5 @@
 import 'clay-icon';
+
 import Soy from 'metal-soy';
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import {Config} from 'metal-state';
@@ -95,8 +96,8 @@ class Overview extends PortletBase {
 			);
 	}
 
-	_fetchCollision(url, type) {
-		this.collisionLoading = true;
+	_fetchCollisions(url, type) {
+		this.collisionsLoading = true;
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -112,7 +113,6 @@ class Overview extends PortletBase {
 			.then(response => this._populateCollidingChangeEntries(response))
 			.catch(
 				error => {
-					console.log("error",error);
 					const message = typeof error === 'string' ?
 						error :
 						Liferay.Util.sub(Liferay.Language.get('an-error-occured-while-getting-data-from-x'), url);
@@ -281,13 +281,14 @@ class Overview extends PortletBase {
 		);
 	}
 
-	_populateCollidingChangeEntries(collisionResult) {
+	_populateCollidingChangeEntries(collisionsResult) {
+		if (collisionsResult.items) {
+			this.collisionsCount = collisionsResult.items.length;
+		}
 
-		this.collisionsCount = collisionResult.items.length;
+		this.collisionsTooltip = Liferay.Util.sub(Liferay.Language.get('collision-detected-for-x-change-lists'), this.collisionsCount);
 
-		this.collisionTooltip = Liferay.Util.sub(Liferay.Language.get('collision-detected-x-change-lists'), this.collisionsCount);
-
-		this.collisionLoading = false;
+		this.collisionsLoading = false;
 	}
 
 	_populateFields(requestResult) {
@@ -301,7 +302,7 @@ class Overview extends PortletBase {
 		);
 
 		if (foundEntriesLink) {
-			this._fetchCollision(foundEntriesLink.href + "?collision=true", foundEntriesLink.type);
+			this._fetchCollisions(foundEntriesLink.href + '?collision=true', foundEntriesLink.type);
 			this._fetchChangeEntries(foundEntriesLink.href, foundEntriesLink.type);
 		}
 
@@ -519,7 +520,7 @@ Overview.STATE = {
 	 * @review
 	 * @type {boolean}
 	 */
-	collisionLoading: Config.bool().value(true),
+	collisionsLoading: Config.bool().value(true),
 
 	/**
 	 * Stores the number of collisions.
@@ -529,9 +530,9 @@ Overview.STATE = {
 	 * @review
 	 * @type {boolean}
 	 */
-	collisionsCount: Config.number(),
+	collisionsCount: Config.number().value(0),
 
-	collisionTooltip: Config.string(),
+	collisionsTooltip: Config.string(),
 
 	/**
 	 * Stores if the head button is disabled or not.
