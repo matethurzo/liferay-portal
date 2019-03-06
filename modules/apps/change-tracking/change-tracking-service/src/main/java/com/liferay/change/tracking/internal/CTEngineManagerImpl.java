@@ -545,7 +545,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			userId, productionCTCollection.getCtCollectionId());
 	}
 
-	@SuppressWarnings("unchecked")
 	private void _generateCTEntriesForAllCTConfigurations(
 		long userId, CTCollection ctCollection) {
 
