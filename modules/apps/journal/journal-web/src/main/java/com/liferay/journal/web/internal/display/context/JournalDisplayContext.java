@@ -252,6 +252,15 @@ public class JournalDisplayContext {
 			getArticleVersionActionDropdownItems();
 	}
 
+	public String getChangeListName(JournalArticle journalArticle) {
+		if (_journalChangeTrackingHelper == null) {
+			return StringPool.BLANK;
+		}
+
+		return _journalChangeTrackingHelper.getCTCollectionName(
+			_themeDisplay.getUserId(), journalArticle.getId());
+	}
+
 	public String[] getCharactersBlacklist() throws PortalException {
 		JournalServiceConfiguration journalServiceConfiguration =
 			ConfigurationProviderUtil.getCompanyConfiguration(
