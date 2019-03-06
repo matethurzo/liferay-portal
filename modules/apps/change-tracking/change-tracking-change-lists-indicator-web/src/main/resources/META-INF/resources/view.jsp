@@ -16,6 +16,8 @@
 
 <%@ include file="/init.jsp" %>
 
-<clay:icon
-	symbol="restore"
+<soy:component-renderer
+	context="<%= changeListsIndicatorDisplayContext.getChangeListsIndicatorContext() %>"
+	module="js/ChangeListsIndicator.es"
+	templateNamespace="com.liferay.change.tracking.change.lists.indicator.web.ChangeListsIndicator.render"
 />
