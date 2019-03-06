@@ -559,7 +559,7 @@ public class CTManagerImpl implements CTManager {
 		long userId = PrincipalThreadLocal.getUserId();
 
 		Optional<CTCollection> activeCTCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(userId);
+			getActiveCTCollectionOptional(userId);
 
 		long activeCTCollectionId = activeCTCollectionOptional.map(
 			CTCollection::getCtCollectionId
