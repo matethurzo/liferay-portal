@@ -1,0 +1,20 @@
+{
+	"dependencies": {
+		"clay-tooltip": "^2.9.0",
+		"clay-icon": "^2.9.0",
+		"metal-component": "^2.16.3",
+		"metal-dom": "^2.6.4",
+		"metal-soy": "^2.13.2",
+		"metal-state": "^2.13.2"
+	},
+	"devDependencies": {
+		"liferay-npm-scripts": "^1.2.0"
+	},
+	"name": "change-tracking-change-lists-indicator-web",
+	"scripts": {
+		"build": "liferay-npm-scripts build --soy --bundler",
+		"csf": "liferay-npm-scripts lint",
+		"format": "liferay-npm-scripts format"
+	},
+	"version": "1.0.0"
+}
