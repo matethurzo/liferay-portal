@@ -1,0 +1,26 @@
+{namespace com.liferay.change.tracking.change.lists.indicator.web.ChangeListsIndicator}
+
+/**
+ * This renders the Change lists indicator element.
+ */
+{template .render}
+	{@param spritemap: string}
+		
+	<li class="control-menu-nav-item"> 
+		<a href="http://www.google.com" data-title="My Tooltip" class="control-menu-icon">
+			<span class="icon-monospaced" id="">
+				{call ClayIcon.render}
+					{param spritemap: $spritemap /}
+					{param symbol: 'forms' /}
+				{/call}
+			</span>
+		</a>
+		
+		{call ClayTooltip.render}
+			{param elementClasses:  'my-tooltip' /}
+		{/call}
+	</li>
+
+
+	
+{/template}
