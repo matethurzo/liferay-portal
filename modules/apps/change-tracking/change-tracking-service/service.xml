@@ -107,6 +107,7 @@
 		<!-- Other fields -->
 
 		<column name="ownerCTEntryId" type="long" />
+		<column name="status" type="int" />
 
 		<!-- Relationships -->
 
