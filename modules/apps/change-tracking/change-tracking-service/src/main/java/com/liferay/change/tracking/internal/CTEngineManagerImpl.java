@@ -85,10 +85,10 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			return;
 		}
 
-		Optional<CTCollection> ctCollectionOptional = getCTCollectionOptional(
+		CTCollection ctCollection = _ctCollectionLocalService.fetchCTCollection(
 			ctCollectionId);
 
-		if (!ctCollectionOptional.isPresent()) {
+		if (ctCollection == null) {
 			_log.error(
 				"Unable to checkout change tracking collection " +
 					ctCollectionId);
@@ -132,18 +132,16 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 	@Override
 	public void deleteCTCollection(long ctCollectionId) {
-		Optional<CTCollection> ctCollectionOptional = getCTCollectionOptional(
+		CTCollection ctCollection = _ctCollectionLocalService.fetchCTCollection(
 			ctCollectionId);
 
-		if (!ctCollectionOptional.isPresent()) {
+		if (ctCollection == null) {
 			_log.error(
 				"Unable to delete change tracking collection " +
 					ctCollectionId);
 
 			return;
 		}
-
-		CTCollection ctCollection = ctCollectionOptional.get();
 
 		if (ctCollection.isProduction()) {
 			if (_log.isWarnEnabled()) {
@@ -156,8 +154,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		try {
-			_ctCollectionLocalService.deleteCTCollection(
-				ctCollectionOptional.get());
+			_ctCollectionLocalService.deleteCTCollection(ctCollection);
 		}
 		catch (PortalException pe) {
 			_log.error(
