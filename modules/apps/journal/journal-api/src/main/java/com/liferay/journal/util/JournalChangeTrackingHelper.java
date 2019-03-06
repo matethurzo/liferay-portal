@@ -24,8 +24,8 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface JournalChangeTrackingHelper {
 
-	public boolean isActiveChangeTracking(long companyId, long userId);
+	public boolean hasActiveCTCollection(long companyId, long userId);
 
-	public boolean isInChangeList(long userId, long classNameId, long classPK);
+	public boolean isJournalArticleInChangeList(long userId, long classPK);
 
 }

@@ -14,13 +14,15 @@
 
 package com.liferay.journal.change.tracking.internal.util;
 
-import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.util.JournalChangeTrackingHelper;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.osgi.service.component.annotations.Component;
@@ -34,50 +36,39 @@ public class JournalChangeTrackingHelperImpl
 	implements JournalChangeTrackingHelper {
 
 	@Override
-	public boolean isActiveChangeTracking(long companyId, long userId) {
-		if (!_ctEngineManager.isChangeTrackingEnabled(companyId)) {
-			return false;
-		}
+	public boolean hasActiveCTCollection(long companyId, long userId) {
+		Optional<CTCollection> ctCollectionOptional =
+			_ctManager.getActiveCTCollectionOptional(userId);
 
-		Optional<CTCollection> productionCTCollectionOptional =
-			_ctEngineManager.getProductionCTCollectionOptional(companyId);
-
-		Optional<CTCollection> activeCTCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(userId);
-
-		if (!productionCTCollectionOptional.isPresent() ||
-			!activeCTCollectionOptional.isPresent()) {
-
-			return false;
-		}
-
-		return !productionCTCollectionOptional.equals(
-			activeCTCollectionOptional);
+		return ctCollectionOptional.map(
+			ctCollection -> !ctCollection.isProduction()
+		).orElse(
+			false
+		);
 	}
 
 	@Override
-	public boolean isInChangeList(long userId, long classNameId, long classPK) {
+	public boolean isJournalArticleInChangeList(long userId, long id) {
+		long classNameId = _portal.getClassNameId(
+			JournalArticle.class.getName());
+
 		Optional<CTEntry> ctEntryOptional =
 			_ctManager.getActiveCTCollectionCTEntryOptional(
-				userId, classNameId, classPK);
+				userId, classNameId, id);
 
-		if (!ctEntryOptional.isPresent()) {
-			return false;
-		}
-
-		CTEntry ctEntry = ctEntryOptional.get();
-
-		if (ctEntry.getStatus() == WorkflowConstants.STATUS_DRAFT) {
-			return true;
-		}
-
-		return false;
+		return ctEntryOptional.map(
+			CTEntry::getStatus
+		).map(
+			status -> Objects.equals(status, WorkflowConstants.STATUS_DRAFT)
+		).orElse(
+			false
+		);
 	}
 
 	@Reference
-	private CTEngineManager _ctEngineManager;
+	private CTManager _ctManager;
 
 	@Reference
-	private CTManager _ctManager;
+	private Portal _portal;
 
 }
