@@ -22,7 +22,7 @@ import aQute.bnd.annotation.ProviderType;
  * @author Zoltan Csaszi
  */
 @ProviderType
-public interface JournalChangeTrackingProvider {
+public interface JournalChangeTrackingHelper {
 
 	public boolean isActiveChangeTracking(long companyId, long userId);
 

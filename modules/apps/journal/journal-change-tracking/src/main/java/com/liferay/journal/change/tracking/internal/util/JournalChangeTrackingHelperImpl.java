@@ -18,7 +18,7 @@ import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
-import com.liferay.journal.util.JournalChangeTrackingProvider;
+import com.liferay.journal.util.JournalChangeTrackingHelper;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Optional;
@@ -29,9 +29,9 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Zoltan Csaszi
  */
-@Component(immediate = true, service = JournalChangeTrackingProvider.class)
-public class JournalChangeTrackingProviderImpl
-	implements JournalChangeTrackingProvider {
+@Component(immediate = true, service = JournalChangeTrackingHelper.class)
+public class JournalChangeTrackingHelperImpl
+	implements JournalChangeTrackingHelper {
 
 	@Override
 	public boolean isActiveChangeTracking(long companyId, long userId) {
