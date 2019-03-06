@@ -121,7 +121,7 @@ public class CTManagerTest {
 	@Test
 	public void testAddRelatedEntryWhenDifferentResource() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -194,7 +194,7 @@ public class CTManagerTest {
 	@Test
 	public void testAddRelatedEntryWhenSameResource() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -269,7 +269,7 @@ public class CTManagerTest {
 	@Test
 	public void testGetCTEntryAggregateOptional() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -314,7 +314,7 @@ public class CTManagerTest {
 	@Test
 	public void testGetLatestModelChangeCTEntryOptional() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -348,7 +348,7 @@ public class CTManagerTest {
 		throws Exception {
 
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -381,7 +381,7 @@ public class CTManagerTest {
 		Assert.assertTrue("List must be empty", ListUtil.isEmpty(ctEntries));
 
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -414,7 +414,7 @@ public class CTManagerTest {
 		throws Exception {
 
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -439,7 +439,7 @@ public class CTManagerTest {
 	@Test
 	public void testGetModelChangeCTEntryOptional() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -468,7 +468,7 @@ public class CTManagerTest {
 		throws PortalException {
 
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 
@@ -497,7 +497,7 @@ public class CTManagerTest {
 	@Test
 	public void testGetRelatedCTEntries() throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(ctCollectionOptional.isPresent());
 

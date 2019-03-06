@@ -16,6 +16,7 @@ package com.liferay.change.tracking.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.configuration.CTConfiguration;
 import com.liferay.change.tracking.configuration.CTConfigurationRegistrar;
 import com.liferay.change.tracking.configuration.builder.CTConfigurationBuilder;
@@ -374,7 +375,7 @@ public class CTEngineManagerTest {
 				)));
 
 		Optional<CTCollection> activeCTCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertTrue(activeCTCollectionOptional.isPresent());
 		Assert.assertEquals(
@@ -399,7 +400,7 @@ public class CTEngineManagerTest {
 			String.valueOf(ctCollection.getCtCollectionId()));
 
 		Optional<CTCollection> activeCTCollectionOptional =
-			_ctEngineManager.getActiveCTCollectionOptional(_user.getUserId());
+			_ctManager.getActiveCTCollectionOptional(_user.getUserId());
 
 		Assert.assertFalse(
 			"Change tracking collection must be null",
@@ -831,6 +832,9 @@ public class CTEngineManagerTest {
 
 	@Inject
 	private CTEntryLocalService _ctEntryLocalService;
+
+	@Inject
+	private CTManager _ctManager;
 
 	private boolean _originallyEnabled;
 

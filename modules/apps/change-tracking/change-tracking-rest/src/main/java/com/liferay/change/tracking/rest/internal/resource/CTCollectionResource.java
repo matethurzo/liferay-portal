@@ -15,6 +15,7 @@
 package com.liferay.change.tracking.rest.internal.resource;
 
 import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
@@ -177,7 +178,7 @@ public class CTCollectionResource {
 			CTJaxRsUtil.getUser(userId);
 
 			Optional<CTCollection> activeCTCollectionOptional =
-				_ctEngineManager.getActiveCTCollectionOptional(userId);
+				_ctManager.getActiveCTCollectionOptional(userId);
 
 			activeCTCollectionOptional.ifPresent(ctCollections::add);
 		}
@@ -198,7 +199,7 @@ public class CTCollectionResource {
 		else if (_TYPE_ALL.equals(type)) {
 			CTJaxRsUtil.checkCompany(companyId);
 
-			ctCollections = _ctEngineManager.getNonProductionCTCollections(
+			ctCollections = _ctEngineManager.getNonproductionCTCollections(
 				companyId, _getQueryDefinition(limit, sort));
 		}
 		else {
@@ -307,5 +308,8 @@ public class CTCollectionResource {
 
 	@Reference
 	private CTEngineManager _ctEngineManager;
+
+	@Reference
+	private CTManager _ctManager;
 
 }
