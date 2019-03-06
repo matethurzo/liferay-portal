@@ -126,15 +126,15 @@ public interface CTEngineManager {
 	public List<CTCollection> getCTCollections(long companyId);
 
 	/**
-	 * Returns all the change tracking collection associated with the given
-	 * company.
+	 * Returns all the non production change tracking collection associated
+	 * with the given company.
 	 *
 	 * @param  companyId the primary key of the company
 	 * @param  queryDefinition the object contains settings regarding
 	 *         pagination, order and filter
 	 * @return the list of change tracking collections
 	 */
-	public List<CTCollection> getCTCollections(
+	public List<CTCollection> getNonProductionCTCollections(
 		long companyId, QueryDefinition<CTCollection> queryDefinition);
 
 	/**

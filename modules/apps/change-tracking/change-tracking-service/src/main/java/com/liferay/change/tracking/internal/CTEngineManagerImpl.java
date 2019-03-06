@@ -318,7 +318,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public List<CTCollection> getCTCollections(
+	public List<CTCollection> getNonProductionCTCollections(
 		long companyId, QueryDefinition<CTCollection> queryDefinition) {
 
 		if (!isChangeTrackingEnabled(companyId)) {

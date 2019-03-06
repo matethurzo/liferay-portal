@@ -198,7 +198,7 @@ public class CTCollectionResource {
 		else if (_TYPE_ALL.equals(type)) {
 			CTJaxRsUtil.checkCompany(companyId);
 
-			ctCollections = _ctEngineManager.getCTCollections(
+			ctCollections = _ctEngineManager.getNonProductionCTCollections(
 				companyId, _getQueryDefinition(limit, sort));
 		}
 		else {
