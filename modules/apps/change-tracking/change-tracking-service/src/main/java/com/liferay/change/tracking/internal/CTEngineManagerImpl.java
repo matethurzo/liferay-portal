@@ -221,36 +221,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public Optional<CTCollection> getActiveCTCollectionOptional(long userId) {
-		long companyId = _getCompanyId(userId);
-
-		if (companyId <= 0) {
-			return Optional.empty();
-		}
-
-		if (!isChangeTrackingEnabled(companyId)) {
-			return Optional.empty();
-		}
-
-		long recentCTCollectionId = _getRecentCTCollectionId(userId);
-
-		if (recentCTCollectionId == 0L) {
-			Optional<CTCollection> productionCTCollectionOptional =
-				getProductionCTCollectionOptional(companyId);
-
-			recentCTCollectionId = productionCTCollectionOptional.map(
-				CTCollection::getCtCollectionId
-			).orElse(
-				0L
-			);
-
-			checkoutCTCollection(userId, recentCTCollectionId);
-		}
-
-		return getCTCollectionOptional(recentCTCollectionId);
-	}
-
-	@Override
 	public List<CTEntry> getCollidingCTEntries(long ctCollectionId) {
 		CTCollection ctCollection = _ctCollectionLocalService.fetchCTCollection(
 			ctCollectionId);
@@ -318,18 +288,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public List<CTCollection> getNonProductionCTCollections(
-		long companyId, QueryDefinition<CTCollection> queryDefinition) {
-
-		if (!isChangeTrackingEnabled(companyId)) {
-			return Collections.emptyList();
-		}
-
-		return _ctCollectionLocalService.getCTCollections(
-			companyId, queryDefinition, false);
-	}
-
-	@Override
 	public List<CTEntry> getCTEntries(long ctCollectionId) {
 		return _ctEntryLocalService.getCTCollectionCTEntries(ctCollectionId);
 	}
@@ -354,6 +312,18 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			ctCollectionId);
 	}
 
+	@Override
+	public List<CTCollection> getNonproductionCTCollections(
+		long companyId, QueryDefinition<CTCollection> queryDefinition) {
+
+		if (!isChangeTrackingEnabled(companyId)) {
+			return Collections.emptyList();
+		}
+
+		return _ctCollectionLocalService.getCTCollections(
+			companyId, queryDefinition, false);
+	}
+
 	public Optional<CTCollection> getProductionCTCollectionOptional(
 		long companyId) {
 
@@ -364,6 +334,26 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		return Optional.ofNullable(_productionCTCollection);
+	}
+
+	public long getRecentCTCollectionId(long userId) {
+		User user = _userLocalService.fetchUser(userId);
+
+		if (user == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to get user " + userId);
+			}
+
+			return 0L;
+		}
+
+		PortalPreferences portalPreferences =
+			PortletPreferencesFactoryUtil.getPortalPreferences(
+				userId, !user.isDefaultUser());
+
+		return GetterUtil.getLong(
+			portalPreferences.getValue(
+				CTPortletKeys.CHANGE_LISTS, _RECENT_CT_COLLECTION_ID));
 	}
 
 	@Override
@@ -643,26 +633,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		return Optional.of(ctEntries.get(0));
-	}
-
-	private long _getRecentCTCollectionId(long userId) {
-		User user = _userLocalService.fetchUser(userId);
-
-		if (user == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to get user " + userId);
-			}
-
-			return 0L;
-		}
-
-		PortalPreferences portalPreferences =
-			PortletPreferencesFactoryUtil.getPortalPreferences(
-				userId, !user.isDefaultUser());
-
-		return GetterUtil.getLong(
-			portalPreferences.getValue(
-				CTPortletKeys.CHANGE_LISTS, _RECENT_CT_COLLECTION_ID));
 	}
 
 	private boolean _isColliding(CTEntry ctEntry, CTEntry productionCTEntry) {

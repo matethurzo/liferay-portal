@@ -109,6 +109,15 @@ public interface CTManager {
 		long userId, long classNameId, long classPK);
 
 	/**
+	 * Returns the active change tracking collection associated with the given
+	 * user in the scope of the given company.
+	 *
+	 * @param  userId the primary key of the user
+	 * @return the selected change tracking collection
+	 */
+	public Optional<CTCollection> getActiveCTCollectionOptional(long userId);
+
+	/**
 	 * Returns the change entry aggregate containing the given change entry and
 	 * associated with the given change entry collection.
 	 *
