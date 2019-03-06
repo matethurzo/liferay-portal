@@ -21,8 +21,10 @@ import com.liferay.change.tracking.internal.process.log.CTProcessLog;
 import com.liferay.change.tracking.internal.process.util.CTProcessMessageSenderUtil;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.change.tracking.model.CTProcess;
 import com.liferay.change.tracking.service.CTCollectionLocalServiceUtil;
+import com.liferay.change.tracking.service.CTEntryAggregateLocalServiceUtil;
 import com.liferay.change.tracking.service.CTEntryLocalServiceUtil;
 import com.liferay.change.tracking.service.CTProcessLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
@@ -152,8 +154,12 @@ public class CTPublishBackgroundTaskExecutor
 				return;
 			}
 
-			_publishCTEntries(
-				backgroundTask.getUserId(), ctCollectionId, ctEntries);
+			List<CTEntryAggregate> ctEntryAggregates =
+				_ctEngineManager.getCTEntryAggregates(ctCollectionId);
+
+			_publishCTEntriesAndAggregates(
+				backgroundTask.getUserId(), ctCollectionId, ctEntries,
+				ctEntryAggregates);
 
 			_attachLogs(backgroundTask);
 		}
@@ -172,8 +178,9 @@ public class CTPublishBackgroundTaskExecutor
 		}
 	}
 
-	private void _publishCTEntries(
-			long userId, long ctCollectionId, List<CTEntry> ctEntries)
+	private void _publishCTEntriesAndAggregates(
+			long userId, long ctCollectionId, List<CTEntry> ctEntries,
+			List<CTEntryAggregate> ctEntryAggregates)
 		throws Exception {
 
 		User user = UserLocalServiceUtil.getUser(userId);
@@ -197,6 +204,15 @@ public class CTPublishBackgroundTaskExecutor
 		).forEach(
 			ctEntry -> _publishCTEntry(ctEntry, productionCTCollectionId)
 		);
+
+		if (ListUtil.isNotEmpty(ctEntryAggregates)) {
+			Stream<CTEntryAggregate> ctEntryAggregateStream =
+				ctEntryAggregates.stream();
+
+			ctEntryAggregateStream.forEach(
+				ctEntryAggregate -> _publishCTEntryAggregate(
+					ctEntryAggregate, productionCTCollectionId));
+		}
 
 		Optional<CTCollection> ctCollectionOptional =
 			_ctEngineManager.getCTCollectionOptional(ctCollectionId);
@@ -229,6 +245,13 @@ public class CTPublishBackgroundTaskExecutor
 
 		CTEntryLocalServiceUtil.updateStatus(
 			ctEntry.getCtEntryId(), WorkflowConstants.STATUS_APPROVED);
+	}
+
+	private void _publishCTEntryAggregate(
+		CTEntryAggregate ctEntryAggregate, long productionCTCollectionId) {
+
+		CTEntryAggregateLocalServiceUtil.addCTCollectionCTEntryAggregate(
+			productionCTCollectionId, ctEntryAggregate);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
