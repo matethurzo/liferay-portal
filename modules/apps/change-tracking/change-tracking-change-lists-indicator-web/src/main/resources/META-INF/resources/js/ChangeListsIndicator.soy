@@ -4,10 +4,26 @@
  * This renders the Change lists indicator element.
  */
 {template .render}
+	{@param activeChangeListName: ?}
+	{@param urlChangeListsOverview: string}
 	{@param spritemap: string}
+	
+	{let $productionCollectionName: 'productionCTCollectionName' /}
+	
+	{let $tooltipElementClass: 'change-lists-control-menu-state-tooltip ' /}
+	
+	{let $tooltipElementClassBackground: $activeChangeListName != $productionCollectionName ? 'tooltip-background-blue' : 'tooltip-background-green' /}
+		
+	{let $tooltipContentText kind="text"}
+		{if $activeChangeListName != $productionCollectionName}
+			{msg desc=""}active-change-list{/msg}:{sp}{$activeChangeListName}</a>
+		{else}
+			{msg desc=""}production{/msg}
+		{/if}
+	{/let}
 		
 	<li class="control-menu-nav-item"> 
-		<a href="http://www.google.com" data-title="My Tooltip" class="control-menu-icon">
+		<a href="{$urlChangeListsOverview}" data-title="{$tooltipContentText}" class="control-menu-icon">
 			<span class="icon-monospaced" id="">
 				{call ClayIcon.render}
 					{param spritemap: $spritemap /}
@@ -17,7 +33,7 @@
 		</a>
 		
 		{call ClayTooltip.render}
-			{param elementClasses:  'my-tooltip' /}
+			{param elementClasses:  $tooltipElementClass + $tooltipElementClassBackground /}
 		{/call}
 	</li>
 
