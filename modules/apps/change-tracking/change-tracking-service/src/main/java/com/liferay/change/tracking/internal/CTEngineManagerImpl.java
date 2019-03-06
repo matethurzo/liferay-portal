@@ -58,7 +58,9 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -177,7 +179,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 					_ctCollectionLocalService.deleteCompanyCTCollections(
 						companyId);
 
-					_productionCTCollection = null;
+					_productionCTCollections.remove(companyId);
 
 					return null;
 				});
@@ -335,13 +337,18 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	public Optional<CTCollection> getProductionCTCollectionOptional(
 		long companyId) {
 
-		if (_productionCTCollection == null) {
-			_productionCTCollection =
+		CTCollection productionCTCollection = _productionCTCollections.get(
+			companyId);
+
+		if (productionCTCollection == null) {
+			productionCTCollection =
 				_ctCollectionLocalService.fetchCTCollection(
 					companyId, CTConstants.CT_COLLECTION_NAME_PRODUCTION);
+
+			_productionCTCollections.put(companyId, productionCTCollection);
 		}
 
-		return Optional.ofNullable(_productionCTCollection);
+		return Optional.ofNullable(productionCTCollection);
 	}
 
 	public long getRecentCTCollectionId(long userId) {
@@ -523,16 +530,20 @@ public class CTEngineManagerImpl implements CTEngineManager {
 			userId, CTConstants.CT_COLLECTION_NAME_PRODUCTION,
 			StringPool.BLANK);
 
-		_productionCTCollection = ctCollectionOptional.orElseThrow(
+		long companyId = _getCompanyId(userId);
+
+		CTCollection productionCTCollection = ctCollectionOptional.orElseThrow(
 			() -> new CTException(
-				_getCompanyId(userId),
+				companyId,
 				"Unable to create production change tracking collection"));
 
+		_productionCTCollections.put(companyId, productionCTCollection);
+
 		_generateCTEntriesForAllCTConfigurations(
-			userId, _productionCTCollection);
+			userId, productionCTCollection);
 
 		checkoutCTCollection(
-			userId, _productionCTCollection.getCtCollectionId());
+			userId, productionCTCollection.getCtCollectionId());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -708,7 +719,8 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	@Reference
 	private Portal _portal;
 
-	private CTCollection _productionCTCollection;
+	private final Map<Long, CTCollection> _productionCTCollections =
+		new HashMap<>();
 	private final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(
 			Propagation.REQUIRED, new Class<?>[] {Exception.class});
