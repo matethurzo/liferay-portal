@@ -16,10 +16,19 @@ package com.liferay.change.tracking.change.lists.web.internal.portlet;
 
 import com.liferay.change.tracking.constants.CTPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
+
+import java.io.IOException;
 
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Máté Thurzó
@@ -49,4 +58,24 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class ChangeListsPortlet extends MVCPortlet {
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		boolean production = ParamUtil.getBoolean(renderRequest, "production");
+
+		if (production) {
+			SessionMessages.add(
+				renderRequest,
+				_portal.getPortletId(renderRequest) + "checkoutSuccess");
+		}
+
+		super.render(renderRequest, renderResponse);
+	}
+
+	@Reference
+	private Portal _portal;
+
 }
