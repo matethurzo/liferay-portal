@@ -53,6 +53,7 @@ import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
 
@@ -440,6 +441,14 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		DynamicQuery dynamicQuery = _ctCollectionLocalService.dynamicQuery();
 
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("companyId", companyId));
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.ne(
+				"name", CTConstants.CT_COLLECTION_NAME_PRODUCTION));
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.ne(
+				"status", WorkflowConstants.STATUS_APPROVED));
 
 		Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 
