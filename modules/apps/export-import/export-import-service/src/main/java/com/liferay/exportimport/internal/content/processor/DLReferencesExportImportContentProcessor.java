@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -279,8 +280,9 @@ public class DLReferencesExportImportContentProcessor
 	protected boolean isValidateDLReferences() {
 		try {
 			ExportImportServiceConfiguration configuration =
-				_configurationProvider.getSystemConfiguration(
-					ExportImportServiceConfiguration.class);
+				_configurationProvider.getCompanyConfiguration(
+					ExportImportServiceConfiguration.class,
+					CompanyThreadLocal.getCompanyId());
 
 			return configuration.validateFileEntryReferences();
 		}
