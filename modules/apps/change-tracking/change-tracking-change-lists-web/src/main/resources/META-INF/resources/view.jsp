@@ -146,17 +146,34 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 						<div class="card select-card-sheet border-left-blue">
 							<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-header">
 								<div class="card-col-content lfr-card-details-column">
-									<h3 data-qa-id="headerSubTitle"><%= HtmlUtil.escape(curCTCollection.getName()) %></h3>
+									<span class="card-h3" data-qa-id="headerSubTitle"><%= HtmlUtil.escape(curCTCollection.getName()) %></span>
 									<div class="select-card-sheet-block">
-										<h3><liferay-ui:message key="description" /></h3>
-										<div class="sheet-text" data-qa-id="description">
+										<span class="card-h4"><liferay-ui:message key="description" /></span>
+										<div class="card-text" data-qa-id="description">
 											<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
 										</div>
 									</div>
 									<div class="select-card-sheet-block">
-										<h3><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></h3>
-										<div class="sheet-text" data-qa-id="created-by-modified-date">
+										<span class="card-h4"><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></span>
+										<div class="card-text" data-qa-id="created-by-modified-date">
 											<%= curCTCollection.getUserName() + " - " + curCTCollection.getModifiedDate() %>
+										</div>
+									</div>
+									<div class="select-card-sheet-block">
+										<span class="card-h4"><liferay-ui:message key="changes" /></span>
+										<div class="changes-row">
+											<div class="changes">
+												<div class="big-number" data-qa-id="changesAdded">0</div>
+												<div class=""><liferay-ui:message key="added" /></div>
+											</div>
+											<div class="changes">
+												<div class="big-number" data-qa-id="changesModified">0</div>
+												<div class=""><liferay-ui:message key="modified" /></div>
+											</div>
+											<div class="changes">
+												<div class="big-number" data-qa-id="changesDeleted">0</div>
+												<div class=""><liferay-ui:message key="deleted" /></div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -197,26 +214,6 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 											url="<%= deleteCollectionURL %>"
 										/>
 									</liferay-ui:icon-menu>
-								</div>
-							</div>
-							<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-body">
-
-								<div class="select-card-sheet-block">
-									<h3><liferay-ui:message key="changes" /></h3>
-									<div class="changes-row">
-										<div class="changes">
-											<div class="big-number" data-qa-id="changesAdded">0</div>
-											<div class=""><liferay-ui:message key="added" /></div>
-										</div>
-										<div class="changes">
-											<div class="big-number" data-qa-id="changesModified">0</div>
-											<div class=""><liferay-ui:message key="modified" /></div>
-										</div>
-										<div class="changes">
-											<div class="big-number" data-qa-id="changesDeleted">0</div>
-											<div class=""><liferay-ui:message key="deleted" /></div>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
