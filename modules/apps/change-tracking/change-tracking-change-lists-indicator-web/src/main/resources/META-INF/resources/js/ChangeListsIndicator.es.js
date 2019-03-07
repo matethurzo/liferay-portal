@@ -1,5 +1,6 @@
-import ClayTooltip from 'clay-tooltip';
-import ClayIcon from 'clay-icon';
+import 'clay-icon';
+import 'clay-tooltip';
+
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import Soy from 'metal-soy';
 import {Config} from 'metal-state';
@@ -15,7 +16,7 @@ class ChangeListsIndicator extends PortletBase {
 
 	created() {
 		let urlActiveCollection = this.urlCollectionsBase + '?type=active&userId=' + Liferay.ThemeDisplay.getUserId();
-		
+
 		this._getDataRequest(
 			urlActiveCollection,
 			response => {
@@ -25,11 +26,11 @@ class ChangeListsIndicator extends PortletBase {
 			}
 		);
 	}
-	
-	_getDataRequest(url, callback) {	
+
+	_getDataRequest(url, callback) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		
+
 		let type = 'GET';
 
 		let init = {
@@ -66,7 +67,7 @@ class ChangeListsIndicator extends PortletBase {
  * @type {!Object}
  */
 ChangeListsIndicator.STATE = {
-	
+
 	/**
 	 * Name of the active change list.
 	 * @default
@@ -75,9 +76,9 @@ ChangeListsIndicator.STATE = {
 	 * @review
 	 * @type {!string}
 	 */
-	
+
 	activeChangeListName: Config.string().value(''),
-	
+
 	/**
 	 * Path of the available icons.
 	 * @default undefined
@@ -88,7 +89,7 @@ ChangeListsIndicator.STATE = {
 	 */
 
 	spritemap: Config.string().required(),
-	
+
 	/**
 	 * BBase REST API URL to collection resource
 	 * @default

@@ -7,13 +7,13 @@
 	{@param activeChangeListName: ?}
 	{@param urlChangeListsOverview: string}
 	{@param spritemap: string}
-	
+
 	{let $productionCollectionName: 'productionCTCollectionName' /}
-	
+
 	{let $tooltipElementClass: 'change-lists-control-menu-state-tooltip ' /}
-	
+
 	{let $tooltipElementClassBackground: $activeChangeListName != $productionCollectionName ? 'tooltip-background-blue' : 'tooltip-background-green' /}
-		
+
 	{let $tooltipContentText kind="text"}
 		{if $activeChangeListName != $productionCollectionName}
 			{msg desc=""}active-change-list{/msg}:{sp}{$activeChangeListName}</a>
@@ -21,8 +21,8 @@
 			{msg desc=""}production{/msg}
 		{/if}
 	{/let}
-		
-	<li class="control-menu-nav-item"> 
+
+	<li class="control-menu-nav-item">
 		<a href="{$urlChangeListsOverview}" data-title="{$tooltipContentText}" class="control-menu-icon">
 			<span class="icon-monospaced" id="">
 				{call ClayIcon.render}
@@ -31,12 +31,10 @@
 				{/call}
 			</span>
 		</a>
-		
+
 		{call ClayTooltip.render}
 			{param elementClasses:  $tooltipElementClass + $tooltipElementClassBackground /}
 		{/call}
 	</li>
 
-
-	
 {/template}
