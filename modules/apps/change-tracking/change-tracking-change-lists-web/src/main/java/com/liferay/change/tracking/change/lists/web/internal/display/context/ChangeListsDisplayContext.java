@@ -129,6 +129,17 @@ public class ChangeListsDisplayContext {
 		return creationMenu;
 	}
 
+	public String getDisplayStyle() {
+		if (_displayStyle != null) {
+			return _displayStyle;
+		}
+
+		_displayStyle = ParamUtil.getString(
+			_httpServletRequest, "displayStyle", "list");
+
+		return _displayStyle;
+	}
+
 	public List<DropdownItem> getFilterDropdownItems() {
 		return new DropdownItemList() {
 			{
@@ -234,23 +245,12 @@ public class ChangeListsDisplayContext {
 	}
 
 	public List<ViewTypeItem> getViewTypeItems() {
-		return new ViewTypeItemList(_getPortletURL(), _getDisplayStyle()) {
+		return new ViewTypeItemList(_getPortletURL(), _displayStyle) {
 			{
 				addCardViewTypeItem();
 				addTableViewTypeItem();
 			}
 		};
-	}
-
-	private String _getDisplayStyle() {
-		if (_displayStyle != null) {
-			return _displayStyle;
-		}
-
-		_displayStyle = ParamUtil.getString(
-			_httpServletRequest, "displayStyle", "list");
-
-		return _displayStyle;
 	}
 
 	private String _getFilterByStatus() {
@@ -351,13 +351,18 @@ public class ChangeListsDisplayContext {
 	}
 
 	private PortletURL _getPortletURL() {
-		PortletURL portletURL = _renderResponse.createRenderURL();
+
+		PortletURL portletURL = PortletURLFactoryUtil.create(
+			_renderRequest, CTPortletKeys.CHANGE_LISTS,
+			PortletRequest.RENDER_PHASE);
+
+		portletURL.setParameter("select", "true");
 
 		String displayStyle = ParamUtil.getString(
 			_httpServletRequest, "displayStyle");
 
 		if (Validator.isNotNull(displayStyle)) {
-			portletURL.setParameter("displayStyle", _getDisplayStyle());
+			portletURL.setParameter("displayStyle", getDisplayStyle());
 		}
 
 		String orderByCol = _getOrderByCol();
