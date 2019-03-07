@@ -87,7 +87,9 @@ public class JournalFeedReferencesExportImportContentProcessor
 	public void validateContentReferences(long groupId, String content)
 		throws PortalException {
 
-		validateJournalFeedReferences(groupId, content);
+		if (isValidateJournalFeedReferences()) {
+			validateJournalFeedReferences(groupId, content);
+		}
 	}
 
 	protected JournalFeed getJournalFeed(Map<String, String> map) {
@@ -152,6 +154,21 @@ public class JournalFeedReferencesExportImportContentProcessor
 		}
 
 		return map;
+	}
+
+	protected boolean isValidateJournalFeedReferences() {
+		try {
+			ExportImportServiceConfiguration configuration =
+				_configurationProvider.getSystemConfiguration(
+					ExportImportServiceConfiguration.class);
+
+			return configuration.validateJournalFeedReferences();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return true;
 	}
 
 	protected String replaceExportJournalFeedReferences(
@@ -371,14 +388,6 @@ public class JournalFeedReferencesExportImportContentProcessor
 
 	protected void validateJournalFeedReferences(long groupId, String content)
 		throws PortalException {
-
-		ExportImportServiceConfiguration configuration =
-			_configurationProvider.getSystemConfiguration(
-				ExportImportServiceConfiguration.class);
-
-		if (!configuration.validateJournalFeedReferences()) {
-			return;
-		}
 
 		String[] patterns = {_JOURNAL_FEED_FRIENDLY_URL};
 

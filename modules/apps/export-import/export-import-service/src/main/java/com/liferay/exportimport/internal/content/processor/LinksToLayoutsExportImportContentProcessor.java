@@ -79,7 +79,24 @@ public class LinksToLayoutsExportImportContentProcessor
 	public void validateContentReferences(long groupId, String content)
 		throws PortalException {
 
-		validateLinksToLayoutsReferences(content);
+		if (isValidateLinksToLayoutsReferences()) {
+			validateLinksToLayoutsReferences(content);
+		}
+	}
+
+	protected boolean isValidateLinksToLayoutsReferences() {
+		try {
+			ExportImportServiceConfiguration configuration =
+				_configurationProvider.getSystemConfiguration(
+					ExportImportServiceConfiguration.class);
+
+			return configuration.validateLayoutReferences();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return true;
 	}
 
 	protected String replaceExportLinksToLayouts(
@@ -253,14 +270,6 @@ public class LinksToLayoutsExportImportContentProcessor
 				groupId, privateLayout, layoutId);
 
 			if (layout == null) {
-				ExportImportServiceConfiguration configuration =
-					_configurationProvider.getSystemConfiguration(
-						ExportImportServiceConfiguration.class);
-
-				if (!configuration.validateLayoutReferences()) {
-					continue;
-				}
-
 				ExportImportContentValidationException eicve =
 					new ExportImportContentValidationException(
 						LinksToLayoutsExportImportContentProcessor.class.

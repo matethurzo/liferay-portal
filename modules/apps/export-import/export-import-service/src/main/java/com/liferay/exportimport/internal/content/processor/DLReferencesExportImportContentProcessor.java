@@ -100,7 +100,9 @@ public class DLReferencesExportImportContentProcessor
 	public void validateContentReferences(long groupId, String content)
 		throws PortalException {
 
-		validateDLReferences(groupId, content);
+		if (isValidateDLReferences()) {
+			validateDLReferences(groupId, content);
+		}
 	}
 
 	protected void deleteTimestampParameters(StringBuilder sb, int beginPos) {
@@ -272,6 +274,21 @@ public class DLReferencesExportImportContentProcessor
 		}
 
 		return fileEntry;
+	}
+
+	protected boolean isValidateDLReferences() {
+		try {
+			ExportImportServiceConfiguration configuration =
+				_configurationProvider.getSystemConfiguration(
+					ExportImportServiceConfiguration.class);
+
+			return configuration.validateFileEntryReferences();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+
+		return true;
 	}
 
 	protected String replaceExportDLReferences(
@@ -543,14 +560,6 @@ public class DLReferencesExportImportContentProcessor
 
 	protected void validateDLReferences(long groupId, String content)
 		throws PortalException {
-
-		ExportImportServiceConfiguration configuration =
-			_configurationProvider.getSystemConfiguration(
-				ExportImportServiceConfiguration.class);
-
-		if (!configuration.validateFileEntryReferences()) {
-			return;
-		}
 
 		String pathContext = _portal.getPathContext();
 
