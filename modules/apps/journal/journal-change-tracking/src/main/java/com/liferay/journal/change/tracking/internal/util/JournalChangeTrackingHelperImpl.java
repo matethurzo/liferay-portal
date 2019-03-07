@@ -18,11 +18,10 @@ import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.util.JournalChangeTrackingHelper;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.osgi.service.component.annotations.Component;
@@ -56,17 +55,14 @@ public class JournalChangeTrackingHelperImpl
 			_ctManager.getActiveCTCollectionCTEntryOptional(
 				userId, classNameId, id);
 
-		return ctEntryOptional.map(
-			CTEntry::getStatus
-		).map(
-			status -> Objects.equals(status, WorkflowConstants.STATUS_DRAFT)
-		).orElse(
-			false
-		);
+		return ctEntryOptional.isPresent();
 	}
 
 	@Reference
 	private CTManager _ctManager;
+
+	@Reference
+	private JournalArticleLocalService _journalArticleLocalService;
 
 	@Reference
 	private Portal _portal;

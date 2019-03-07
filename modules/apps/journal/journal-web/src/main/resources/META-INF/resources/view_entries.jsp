@@ -180,6 +180,7 @@ String referringPortletResource = ParamUtil.getString(request, "referringPortlet
 								<c:if test="<%= journalDisplayContext.isJournalArticleInChangeList(curArticle) %>">
 									<liferay-ui:icon
 										icon="check-circle"
+										markupView="lexicon"
 									/>
 								</c:if>
 							</liferay-ui:search-container-column-text>
