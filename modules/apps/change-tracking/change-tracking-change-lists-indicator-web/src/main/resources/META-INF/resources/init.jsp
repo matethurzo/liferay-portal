@@ -14,10 +14,16 @@
  */
 --%>
 
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+
 <%@ taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 
+<%@ page import="com.liferay.change.tracking.change.lists.indicator.web.internal.display.context.ChangeListsIndicatorDisplayContext" %>
+
 <liferay-theme:defineObjects />
+
+<portlet:defineObjects />
 
 <%
 ChangeListsIndicatorDisplayContext changeListsIndicatorDisplayContext = new ChangeListsIndicatorDisplayContext(request, renderRequest, renderResponse);
