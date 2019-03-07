@@ -252,6 +252,10 @@ public class CTPublishBackgroundTaskExecutor
 
 		CTEntryAggregateLocalServiceUtil.addCTCollectionCTEntryAggregate(
 			productionCTCollectionId, ctEntryAggregate);
+
+		CTEntryAggregateLocalServiceUtil.updateStatus(
+			ctEntryAggregate.getCtEntryAggregateId(),
+			WorkflowConstants.STATUS_APPROVED);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
