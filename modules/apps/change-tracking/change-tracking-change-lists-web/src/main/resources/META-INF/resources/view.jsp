@@ -40,7 +40,7 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 	viewTypeItems="<%= changeListsDisplayContext.getViewTypeItems() %>"
 />
 
-<div class="closed container-fluid-1280"></div>
+<div class="lfr-search-container-wrapper main-content-body container-fluid-1280">
 	<c:choose>
 		<c:when test='<%= Objects.equals(changeListsDisplayContext.getDisplayStyle(), "list") %>'>
 			<liferay-ui:search-container
@@ -131,7 +131,104 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 			</liferay-ui:search-container>
 		</c:when>
 		<c:when test='<%= Objects.equals(changeListsDisplayContext.getDisplayStyle(), "icon") %>'>
-			C A R D S  V I E W
+			<liferay-ui:search-container
+				id="changeLists"
+				searchContainer="<%= ctCollectionSearchContainer %>"
+			>
+				<div class="row">
+					<liferay-ui:search-container-row
+						className="com.liferay.change.tracking.model.CTCollection"
+						keyProperty="ctCollectionId"
+						modelVar="curCTCollection"
+					>
+
+					<div class="col-sm-4">
+						<div class="card select-card-sheet border-left-blue">
+							<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-header">
+								<div class="card-col-content lfr-card-details-column">
+									<h3 data-qa-id="headerSubTitle"><%= HtmlUtil.escape(curCTCollection.getName()) %></h3>
+									<div class="select-card-sheet-block">
+										<h3><liferay-ui:message key="description" /></h3>
+										<div class="sheet-text" data-qa-id="description">
+											<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
+										</div>
+									</div>
+									<div class="select-card-sheet-block">
+										<h3><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></h3>
+										<div class="sheet-text" data-qa-id="created-by-modified-date">
+											<%= curCTCollection.getUserName() + " - " + curCTCollection.getModifiedDate() %>
+										</div>
+									</div>
+								</div>
+								<div class="card-col-field lfr-card-actions-column">
+									<liferay-ui:icon-menu
+										direction="left-side"
+										icon="<%= StringPool.BLANK %>"
+										markupView="lexicon"
+										message="<%= StringPool.BLANK %>"
+										showWhenSingleIcon="<%= true %>"
+									>
+										<liferay-portlet:renderURL var="editCollectionURL">
+											<portlet:param name="mvcRenderCommandName" value="/change_lists/edit_ct_collection" />
+											<portlet:param name="backURL" value="<%= themeDisplay.getURLCurrent() %>" />
+											<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+										</liferay-portlet:renderURL>
+					
+										<liferay-ui:icon
+											message="edit"
+											url="<%= editCollectionURL %>"
+										/>
+					
+										<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
+											<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+										</liferay-portlet:actionURL>
+					
+										<liferay-ui:icon
+											message="publish"
+											url="<%= publishCollectionURL %>"
+										/>
+					
+										<liferay-portlet:actionURL var="deleteCollectionURL">
+											<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+										</liferay-portlet:actionURL>
+					
+										<liferay-ui:icon
+											message="delete"
+											url="<%= deleteCollectionURL %>"
+										/>
+									</liferay-ui:icon-menu>
+								</div>
+							</div>
+							<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-body">
+
+								<div class="select-card-sheet-block">
+									<h3><liferay-ui:message key="changes" /></h3>
+									<div class="changes-row">
+										<div class="changes">
+											<div class="big-number" data-qa-id="changesAdded">0</div>
+											<div class=""><liferay-ui:message key="added" /></div>
+										</div>
+										<div class="changes">
+											<div class="big-number" data-qa-id="changesModified">0</div>
+											<div class=""><liferay-ui:message key="modified" /></div>
+										</div>
+										<div class="changes">
+											<div class="big-number" data-qa-id="changesDeleted">0</div>
+											<div class=""><liferay-ui:message key="deleted" /></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					</liferay-ui:search-container-row>
+				</div>
+
+				<liferay-ui:search-iterator
+					markupView="lexicon"
+				/>
+			</liferay-ui:search-container>
 		</c:when>
 	</c:choose>
 </div>
