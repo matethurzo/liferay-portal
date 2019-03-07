@@ -15,6 +15,22 @@
 				(CTEntryAggregate.ownerCTEntryId = ?)
 		]]>
 	</sql>
+	<sql id="com.liferay.change.tracking.service.persistence.CTEntryFinder.countRelatedCTEntries">
+		<![CDATA[
+			SELECT
+				COUNT(*) AS COUNT_VALUE
+			FROM
+				CTEntry
+			INNER JOIN
+				CTEntryAggregate ON
+					CTEntryAggregate.ownerCTEntryId = CTEntry.ctEntryId
+			INNER JOIN
+				CTEntryAggregates_CTEntries ON
+					CTEntryAggregates_CTEntries.ctEntryAggregateId = CTEntryAggregate.ctEntryAggregateId
+			WHERE
+				CTEntryAggregates_CTEntries.ctEntryId = ?
+		]]>
+	</sql>
 	<sql id="com.liferay.change.tracking.service.persistence.CTEntryFinder.findByCTCollectionId">
 		<![CDATA[
 			SELECT
@@ -26,6 +42,22 @@
 					CTCollections_CTEntries.ctEntryId = CTEntry.ctEntryId
 			WHERE
 				CTCollections_CTEntries.ctCollectionId = ?
+		]]>
+	</sql>
+	<sql id="com.liferay.change.tracking.service.persistence.CTEntryFinder.findRelatedCTEntries">
+		<![CDATA[
+			SELECT
+				{CTEntry.*}
+			FROM
+				CTEntry
+			INNER JOIN
+				CTEntryAggregate ON
+					CTEntryAggregate.ownerCTEntryId = CTEntry.ctEntryId
+			INNER JOIN
+				CTEntryAggregates_CTEntries ON
+					CTEntryAggregates_CTEntries.ctEntryAggregateId = CTEntryAggregate.ctEntryAggregateId
+			WHERE
+				CTEntryAggregates_CTEntries.ctEntryId = ?
 		]]>
 	</sql>
 	<sql id="com.liferay.change.tracking.service.persistence.CTProcessFinder.findByC_S">
