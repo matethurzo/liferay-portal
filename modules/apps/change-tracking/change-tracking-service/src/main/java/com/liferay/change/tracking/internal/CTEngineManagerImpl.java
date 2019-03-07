@@ -255,7 +255,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 		for (CTEntry ctEntry : sourceCTEntries) {
 			Optional<CTEntry> latestTargetCTEntryOptional = _getLatestCTEntry(
-				targetCTCollectionId, ctEntry.getResourcePrimKey());
+				targetCTCollectionId, ctEntry.getModelResourcePrimKey());
 
 			if (!latestTargetCTEntryOptional.isPresent()) {
 				continue;
@@ -677,7 +677,7 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	private boolean _isColliding(CTEntry ctEntry, CTEntry productionCTEntry) {
-		if (ctEntry.getClassPK() < productionCTEntry.getClassPK()) {
+		if (ctEntry.getModelClassPK() < productionCTEntry.getModelClassPK()) {
 			return true;
 		}
 
