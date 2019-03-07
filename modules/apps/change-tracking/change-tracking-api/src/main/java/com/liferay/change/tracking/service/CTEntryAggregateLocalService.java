@@ -382,4 +382,6 @@ public interface CTEntryAggregateLocalService
 	public CTEntryAggregate updateCTEntryAggregate(
 		CTEntryAggregate ctEntryAggregate);
 
+	public CTEntryAggregate updateStatus(long ctEntryAggregateId, int status);
+
 }

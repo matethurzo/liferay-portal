@@ -577,6 +577,12 @@ public class CTEntryAggregateLocalServiceUtil {
 		return getService().updateCTEntryAggregate(ctEntryAggregate);
 	}
 
+	public static com.liferay.change.tracking.model.CTEntryAggregate
+		updateStatus(long ctEntryAggregateId, int status) {
+
+		return getService().updateStatus(ctEntryAggregateId, status);
+	}
+
 	public static CTEntryAggregateLocalService getService() {
 		return _serviceTracker.getService();
 	}

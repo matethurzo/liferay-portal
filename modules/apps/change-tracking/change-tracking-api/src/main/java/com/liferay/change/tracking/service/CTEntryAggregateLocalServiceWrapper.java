@@ -643,6 +643,14 @@ public class CTEntryAggregateLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.change.tracking.model.CTEntryAggregate updateStatus(
+		long ctEntryAggregateId, int status) {
+
+		return _ctEntryAggregateLocalService.updateStatus(
+			ctEntryAggregateId, status);
+	}
+
+	@Override
 	public CTEntryAggregateLocalService getWrappedService() {
 		return _ctEntryAggregateLocalService;
 	}
