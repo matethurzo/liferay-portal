@@ -35,6 +35,7 @@
 	{@param? headerTitleActiveChangeList: string}
 	{@param? headerTitleProductionInformation: string}
 	{@param? initialFetch: bool}
+	{@param? productionCTCollectionId: number}
 	{@param? productionFound: bool}
 	{@param? publishedBy: [
 		dateTime: string,
@@ -97,11 +98,15 @@
 						{param changeListsDropdownMenuTitle kind="text"}
 							{msg desc=""}select-change-list{/msg}
 						{/param}
+						{param changeListsProductionDropdownMenuTitle kind="text"}
+							{msg desc=""}work-on-production{/msg}
+						{/param}
 						{param urlSelectChangeList: $urlSelectChangeList /}
 						{param headerSubTitle kind="text"}
 							{msg desc=""}active-change-list{/msg}
 						{/param}
 						{param headerTitle: $headerTitleActiveChangeList /}
+						{param productionCTCollectionId: $productionCTCollectionId /}
 						{param spritemap: $spritemap /}
 						{param _handleClickPublish: $_handleClickPublish /}
 						{param _handleClickRecentCollections: $_handleClickRecentCollections /}
@@ -173,6 +178,7 @@
 		ctCollectionId: string
 	]>}
 	{@param? changeListsDropdownMenuTitle: string}
+	{@param? changeListsProductionDropdownMenuTitle: string}
 	{@param? changes: [
 		added: number,
 		addedLabel: string,
@@ -197,6 +203,7 @@
 	]}
 	{@param? headerSubTitle: string}
 	{@param? headerTitle: string}
+	{@param? productionCTCollectionId: number}
 	{@param? publishedBy: [
 		dateTime: string,
 		userInitials: string,
@@ -215,6 +222,7 @@
 			{param headerButtonDisabled: $headerButtonDisabled /}
 			{param changeListsDropdownMenu: $changeListsDropdownMenu /}
 			{param changeListsDropdownMenuTitle: $changeListsDropdownMenuTitle /}
+			{param changeListsProductionDropdownMenuTitle: $changeListsProductionDropdownMenuTitle /}
 			{param collisionsLoading: $collisionsLoading /}
 			{param collisionsCount: $collisionsCount /}
 			{param collisionsTooltip: $collisionsTooltip /}
@@ -222,6 +230,7 @@
 			{param headerLink: $headerLink /}
 			{param headerSubTitle: $headerSubTitle /}
 			{param headerTitle: $headerTitle /}
+			{param productionCTCollectionId: $productionCTCollectionId /}
 			{param spritemap: $spritemap /}
 			{param _handleClickPublish: $_handleClickPublish /}
 			{param _handleClickRecentCollections: $_handleClickRecentCollections /}
@@ -257,6 +266,7 @@
 		ctCollectionId: string
 	]>}
 	{@param? changeListsDropdownMenuTitle: string}
+	{@param? changeListsProductionDropdownMenuTitle: string}
 	{@param? collisionsLoading: bool}
 	{@param? collisionsCount: number}
 	{@param? collisionsTooltip: string}
@@ -270,6 +280,7 @@
 	]}
 	{@param? headerSubTitle: string}
 	{@param? headerTitle: string}
+	{@param? productionCTCollectionId: number}
 	{@param? urlSelectChangeList: string}
 	{@param? _handleClickPublish: any}
 	{@param? _handleClickRecentCollections: any}
@@ -306,9 +317,10 @@
 
 						<div aria-labelledby="" class="dropdown-menu">
 							{foreach $changeListsDropdownMenuItem in $changeListsDropdownMenu}
-								<a class="dropdown-item"  data-collection-id="{$changeListsDropdownMenuItem.ctCollectionId}" onclick="{$_handleClickRecentCollections}">{$changeListsDropdownMenuItem.label}</a>
+								<a class="dropdown-item"  data-collection-id="{$changeListsDropdownMenuItem.ctCollectionId}" href="#" onclick="{$_handleClickRecentCollections}">{$changeListsDropdownMenuItem.label}</a>
 							{/foreach}
 							<a class="dropdown-item dropdown-item-last" href="{$urlSelectChangeList}" data-qa-id="selectChangeListMenuItem">{$changeListsDropdownMenuTitle}</a>
+							<a class="dropdown-item" data-collection-id="{$productionCTCollectionId}" data-production="true" data-qa-id="selectProductionChangeListMenuItem" href="#" onclick="{$_handleClickRecentCollections}">{$changeListsProductionDropdownMenuTitle}</a>
 						</div>
 					</div>
 				{/if}

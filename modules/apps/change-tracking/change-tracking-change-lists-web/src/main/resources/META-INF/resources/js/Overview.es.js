@@ -172,6 +172,8 @@ class Overview extends PortletBase {
 	}
 
 	_handleClickRecentCollections(event) {
+		event.preventDefault();
+
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 
@@ -183,13 +185,20 @@ class Overview extends PortletBase {
 
 		let collectionId = event.target.getAttribute('data-collection-id');
 
+		let production = event.target.getAttribute('data-production');
+
 		let url = this.urlCollectionsBase + '/' + collectionId + '/checkout?userId=' + Liferay.ThemeDisplay.getUserId();
 
 		fetch(url, body)
 			.then(
 				response => {
 					if (response.status === 202) {
-						this._render();
+						if (production) {
+							Liferay.Util.navigate(this.urlSelectProduction);
+						}
+						else {
+							this._render();
+						}
 					}
 					else if (response.status === 400) {
 						response.json()
@@ -652,6 +661,17 @@ Overview.STATE = {
 	 */
 
 	urlProductionView: Config.string().required(),
+
+	/**
+	 * Property that contains the url for the list view with
+	 * production checked out
+	 * @default undefined
+	 * @instance
+	 * @memberOf Overview
+	 * @review
+	 * @type {string}
+	 */
+	urlSelectProduction: Config.string(),
 
 	/**
 	 * Path of the available icons.

@@ -35,14 +35,13 @@ import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.template.soy.util.SoyContext;
 import com.liferay.portal.template.soy.util.SoyContextFactoryUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
@@ -102,6 +101,10 @@ public class ChangeListsDisplayContext {
 		portletURL.setParameter("select", "true");
 
 		soyContext.put("urlSelectChangeList", portletURL.toString());
+
+		portletURL.setParameter("production", "true");
+
+		soyContext.put("urlSelectProduction", portletURL.toString());
 
 		return soyContext;
 	}
@@ -195,7 +198,9 @@ public class ChangeListsDisplayContext {
 
 		DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
-		queryDefinition.setAttribute("keywords", displayTerms.getKeywords());
+		String keywords = displayTerms.getKeywords();
+
+		queryDefinition.setAttribute("keywords", keywords);
 
 		OrderByComparator<CTCollection> orderByComparator =
 			OrderByComparatorFactoryUtil.create(
@@ -204,19 +209,19 @@ public class ChangeListsDisplayContext {
 
 		queryDefinition.setOrderByComparator(orderByComparator);
 
-		List<CTCollection> ctCollections = ctEngineManager.searchByKeywords(
-			_themeDisplay.getCompanyId(), queryDefinition);
+		Optional<CTCollection> productionCTCollection =
+			ctEngineManager.getProductionCTCollectionOptional(
+				_themeDisplay.getCompanyId());
 
-		Stream<CTCollection> stream = ctCollections.stream();
+		List<CTCollection> ctCollections = new ArrayList<>();
 
-		ctCollections = stream.filter(
-			ctCollection -> !ctCollection.isProduction()
-		).filter(
-			ctCollection ->
-				ctCollection.getStatus() != WorkflowConstants.STATUS_APPROVED
-		).collect(
-			Collectors.toList()
-		);
+		if (productionCTCollection.isPresent() && Validator.isNull(keywords)) {
+			ctCollections.add(productionCTCollection.get());
+		}
+
+		ctCollections.addAll(
+			ctEngineManager.searchByKeywords(
+				_themeDisplay.getCompanyId(), queryDefinition));
 
 		searchContainer.setResults(ctCollections);
 

@@ -25,6 +25,8 @@ renderResponse.setTitle(title);
 SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
 %>
 
+<liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutSuccess" %>' message="production-successfully-checked-out" />
+
 <clay:management-toolbar
 	clearResultsURL="<%= changeListsDisplayContext.getViewSearchActionURL() %>"
 	creationMenu="<%= changeListsDisplayContext.getCreationMenu() %>"
@@ -52,28 +54,51 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 					keyProperty="ctCollectionId"
 					modelVar="curCTCollection"
 				>
+
+					<%
+					boolean productionCollection = CTConstants.CT_COLLECTION_NAME_PRODUCTION.equals(curCTCollection.getName());
+					%>
+
 					<liferay-ui:search-container-column-text
 						name="name"
 					>
-						<%= HtmlUtil.escape(curCTCollection.getName()) %>
+						<c:choose>
+							<c:when test="<%= productionCollection %>">
+								<span class="work-on-production"><liferay-ui:message key="work-on-production" /></span>
+							</c:when>
+							<c:otherwise>
+								<%= HtmlUtil.escape(curCTCollection.getName()) %>
+							</c:otherwise>
+						</c:choose>
 					</liferay-ui:search-container-column-text>
 
 					<liferay-ui:search-container-column-text
 						name="modified-date"
 					>
-						<%= curCTCollection.getModifiedDate() %>
+						<c:if test="<%= !productionCollection %>">
+							<%= curCTCollection.getModifiedDate() %>
+						</c:if>
 					</liferay-ui:search-container-column-text>
 
 					<liferay-ui:search-container-column-text
 						name="created-by"
 					>
-						<%= curCTCollection.getUserName() %>
+						<c:if test="<%= !productionCollection %>">
+							<%= HtmlUtil.escape(curCTCollection.getName()) %>
+						</c:if>
 					</liferay-ui:search-container-column-text>
 
 					<liferay-ui:search-container-column-text
 						name="description"
 					>
-						<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
+						<c:choose>
+							<c:when test="<%= productionCollection %>">
+								<span class="work-on-production-description"><liferay-ui:message key="your-changes-will-be-added-to-the-live-site-immediately" /></span>
+							</c:when>
+							<c:otherwise>
+								<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
+							</c:otherwise>
+						</c:choose>
 					</liferay-ui:search-container-column-text>
 
 					<liferay-ui:search-container-column-text>
