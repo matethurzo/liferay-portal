@@ -482,9 +482,12 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				Collections.emptyList()
 			);
 
-		for (CTEntryAggregate ctEntryAggregate : productionCTEntryAggregates) {
+		for (CTEntryAggregate productionCTEntryAggregate :
+				productionCTEntryAggregates) {
+
 			_ctCollectionLocalService.addCTEntryAggregateCTCollection(
-				ctEntryAggregate.getCtEntryAggregateId(), ctCollection);
+				productionCTEntryAggregate.getCtEntryAggregateId(),
+				ctCollection);
 		}
 	}
 
