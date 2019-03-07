@@ -338,7 +338,7 @@ class Overview extends PortletBase {
 
 		this.initialFetch = true;
 
-		if ((productionInformation !== undefined) && (productionInformation.ctcollection !== undefined) && (productionInformation.ctcollection.name !== null)) {
+		if ((productionInformation !== undefined) && (productionInformation.ctcollection !== undefined) && (productionInformation.ctcollection.name !== undefined)) {
 
 			// Production Information Description
 
