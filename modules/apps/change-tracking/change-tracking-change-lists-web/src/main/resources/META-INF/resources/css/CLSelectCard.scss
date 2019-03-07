@@ -1,0 +1,30 @@
+.select-card-sheet {
+
+	.select-card-container {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+	
+	.select-card-sheet-title {
+		display: block;
+		font-size: 1.6rem;
+		font-weight: bold;
+		line-height: 1.2;
+		margin-bottom: 1.5rem;
+		word-wrap: break-word;
+	}
+	
+	.select-card-sheet-divider {
+		border-color: #A7A9BC;
+		border-style: solid;
+		border-width: 0 0 1px;
+		margin-bottom: 1.5rem;
+		padding-bottom: 0.5rem;
+		padding-top: 0.5rem;
+	}
+
+	.changes {
+		float: left;
+		padding-right: 3.4rem;
+	}
+}

@@ -1,0 +1,40 @@
+.overview-card-sheet {
+	background-color: #FFF;
+	border-color: #E7E7ED;
+	border-radius: 0.25rem;
+	border-style: solid;
+	border-width: 0.063rem;
+	margin-bottom: 1.5rem;
+	margin-top: 1.5rem;
+	min-height: 413px;
+	padding-bottom: 2rem;
+	padding-top: 1.5rem;
+
+	.overview-card-container {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+	
+	.overview-card-sheet-title {
+		display: block;
+		font-size: 1.6rem;
+		font-weight: bold;
+		line-height: 1.2;
+		margin-bottom: 1.5rem;
+		word-wrap: break-word;
+	}
+	
+	.overview-card-sheet-divider {
+		border-color: #A7A9BC;
+		border-style: solid;
+		border-width: 0 0 1px;
+		margin-bottom: 1.5rem;
+		padding-bottom: 0.5rem;
+		padding-top: 0.5rem;
+	}
+
+	.changes {
+		float: left;
+		padding-right: 3.4rem;
+	}
+}
