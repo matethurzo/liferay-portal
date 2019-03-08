@@ -62,27 +62,6 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	}
 
 	@Override
-	public List<CTEntry> fetchAffectedOwnerCTEntries(long ctEntryId) {
-		return fetchAffectedOwnerCTEntries(
-			ctEntryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	@Override
-	public List<CTEntry> fetchAffectedOwnerCTEntries(
-		long ctEntryId, int start, int end,
-		OrderByComparator<CTEntry> orderByComparator) {
-
-		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>();
-
-		queryDefinition.setEnd(end);
-		queryDefinition.setOrderByComparator(orderByComparator);
-		queryDefinition.setStart(start);
-		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
-
-		return ctEntryFinder.findRelatedCTEntries(ctEntryId, queryDefinition);
-	}
-
-	@Override
 	public List<CTEntry> fetchCTEntries(
 		long ctCollectionId, long resourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
@@ -151,6 +130,25 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 		return ctEntryFinder.findByCTCollectionId(
 			ctCollectionId, queryDefinition);
+	}
+
+	public List<CTEntry> getRelatedOwnerCTEntries(long ctEntryId) {
+		return getRelatedOwnerCTEntries(
+			ctEntryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	public List<CTEntry> getRelatedOwnerCTEntries(
+		long ctEntryId, int start, int end,
+		OrderByComparator<CTEntry> orderByComparator) {
+
+		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>();
+
+		queryDefinition.setEnd(end);
+		queryDefinition.setOrderByComparator(orderByComparator);
+		queryDefinition.setStart(start);
+		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return ctEntryFinder.findRelatedCTEntries(ctEntryId, queryDefinition);
 	}
 
 	@Override
