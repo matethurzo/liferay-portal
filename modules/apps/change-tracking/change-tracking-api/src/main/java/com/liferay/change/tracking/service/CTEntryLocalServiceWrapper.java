@@ -340,24 +340,6 @@ public class CTEntryLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.change.tracking.model.CTEntry>
-		fetchAffectedOwnerCTEntries(long ctEntryId) {
-
-		return _ctEntryLocalService.fetchAffectedOwnerCTEntries(ctEntryId);
-	}
-
-	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry>
-		fetchAffectedOwnerCTEntries(
-			long ctEntryId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
-
-		return _ctEntryLocalService.fetchAffectedOwnerCTEntries(
-			ctEntryId, start, end, orderByComparator);
-	}
-
-	@Override
-	public java.util.List<com.liferay.change.tracking.model.CTEntry>
 		fetchCTEntries(
 			long ctCollectionId, long resourcePrimKey,
 			com.liferay.portal.kernel.dao.orm.QueryDefinition
@@ -574,6 +556,24 @@ public class CTEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _ctEntryLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getRelatedOwnerCTEntries(long ctEntryId) {
+
+		return _ctEntryLocalService.getRelatedOwnerCTEntries(ctEntryId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getRelatedOwnerCTEntries(
+			long ctEntryId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
+
+		return _ctEntryLocalService.getRelatedOwnerCTEntries(
+			ctEntryId, start, end, orderByComparator);
 	}
 
 	@Override

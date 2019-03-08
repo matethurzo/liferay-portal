@@ -315,22 +315,6 @@ public class CTEntryLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
-		fetchAffectedOwnerCTEntries(long ctEntryId) {
-
-		return getService().fetchAffectedOwnerCTEntries(ctEntryId);
-	}
-
-	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
-		fetchAffectedOwnerCTEntries(
-			long ctEntryId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
-
-		return getService().fetchAffectedOwnerCTEntries(
-			ctEntryId, start, end, orderByComparator);
-	}
-
-	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
 		fetchCTEntries(
 			long ctCollectionId, long resourcePrimKey,
 			com.liferay.portal.kernel.dao.orm.QueryDefinition
@@ -524,6 +508,22 @@ public class CTEntryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getRelatedOwnerCTEntries(long ctEntryId) {
+
+		return getService().getRelatedOwnerCTEntries(ctEntryId);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getRelatedOwnerCTEntries(
+			long ctEntryId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
+
+		return getService().getRelatedOwnerCTEntries(
+			ctEntryId, start, end, orderByComparator);
 	}
 
 	public static boolean hasCTCollectionCTEntries(long ctCollectionId) {
