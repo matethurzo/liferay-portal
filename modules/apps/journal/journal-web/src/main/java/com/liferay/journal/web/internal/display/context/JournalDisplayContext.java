@@ -257,7 +257,7 @@ public class JournalDisplayContext {
 			return StringPool.BLANK;
 		}
 
-		return _journalChangeTrackingHelper.getCTCollectionName(
+		return _journalChangeTrackingHelper.getJournalArticleCTCollectionName(
 			_themeDisplay.getUserId(), journalArticle.getId());
 	}
 

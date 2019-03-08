@@ -40,13 +40,12 @@ public class JournalChangeTrackingHelperImpl
 	implements JournalChangeTrackingHelper {
 
 	@Override
-	public String getCTCollectionName(long userId, long classPK) {
+	public String getJournalArticleCTCollectionName(long userId, long id) {
 		long classNameId = _portal.getClassNameId(
 			JournalArticle.class.getName());
 
 		Optional<CTEntry> ctEntryOptional =
-			_ctManager.getModelChangeCTEntryOptional(
-				userId, classNameId, classPK);
+			_ctManager.getModelChangeCTEntryOptional(userId, classNameId, id);
 
 		Stream<CTCollection> stream = ctEntryOptional.map(
 			CTEntry::getCtEntryId
