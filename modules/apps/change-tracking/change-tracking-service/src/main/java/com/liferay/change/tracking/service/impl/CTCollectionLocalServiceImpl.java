@@ -18,6 +18,7 @@ import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.exception.CTCollectionNameException;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.change.tracking.model.CTProcess;
 import com.liferay.change.tracking.service.base.CTCollectionLocalServiceBaseImpl;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -93,13 +94,30 @@ public class CTCollectionLocalServiceImpl
 
 		for (CTEntry ctEntry : ctEntries) {
 			int ctCollectionsSize = ctEntryPersistence.getCTCollectionsSize(
-				ctCollection.getCtCollectionId());
+				ctEntry.getCtEntryId());
 
 			if (ctCollectionsSize > 1) {
 				continue;
 			}
 
 			ctEntryLocalService.deleteCTEntry(ctEntry);
+		}
+
+		List<CTEntryAggregate> ctEntryAggregates =
+			ctCollectionPersistence.getCTEntryAggregates(
+				ctCollection.getCtCollectionId());
+
+		for (CTEntryAggregate ctEntryAggregate : ctEntryAggregates) {
+			int ctCollectionsSize =
+				ctEntryAggregatePersistence.getCTCollectionsSize(
+					ctEntryAggregate.getCtEntryAggregateId());
+
+			if (ctCollectionsSize > 1) {
+				continue;
+			}
+
+			ctEntryAggregateLocalService.deleteCTEntryAggregate(
+				ctEntryAggregate);
 		}
 
 		List<CTProcess> ctProcesses = ctProcessLocalService.getCTProcesses(
@@ -112,6 +130,9 @@ public class CTCollectionLocalServiceImpl
 		ctCollectionPersistence.remove(ctCollection);
 
 		ctCollectionPersistence.clearCTEntries(
+			ctCollection.getCtCollectionId());
+
+		ctCollectionPersistence.clearCTEntryAggregates(
 			ctCollection.getCtCollectionId());
 
 		return ctCollection;
