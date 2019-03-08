@@ -315,6 +315,22 @@ public class CTEntryLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
+		fetchAffectedOwnerCTEntries(long ctEntryId) {
+
+		return getService().fetchAffectedOwnerCTEntries(ctEntryId);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
+		fetchAffectedOwnerCTEntries(
+			long ctEntryId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
+
+		return getService().fetchAffectedOwnerCTEntries(
+			ctEntryId, start, end, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
 		fetchCTEntries(
 			long ctCollectionId, long resourcePrimKey,
 			com.liferay.portal.kernel.dao.orm.QueryDefinition
@@ -355,6 +371,10 @@ public class CTEntryLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	public static int getAffectedOwnerCTEntriesCount(long ctEntryId) {
+		return getService().getAffectedOwnerCTEntriesCount(ctEntryId);
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
