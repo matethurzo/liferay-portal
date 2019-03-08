@@ -135,7 +135,7 @@ public class ChangeListsDisplayContext {
 		}
 
 		_displayStyle = ParamUtil.getString(
-			_httpServletRequest, "displayStyle", "list");
+			_httpServletRequest, "displayStyle", "icon");
 
 		return _displayStyle;
 	}
