@@ -48,25 +48,24 @@ public class JournalChangeTrackingHelperImpl
 			_ctManager.getModelChangeCTEntryOptional(
 				userId, classNameId, classPK);
 
-		if (!ctEntryOptional.isPresent()) {
-			return StringPool.BLANK;
-		}
+		Stream<CTCollection> stream = ctEntryOptional.map(
+			CTEntry::getCtEntryId
+		).map(
+			_ctCollectionLocalService::getCTEntryCTCollections
+		).map(
+			List::stream
+		).orElse(
+			Stream.empty()
+		);
 
-		CTEntry ctEntry = ctEntryOptional.get();
-
-		List<CTCollection> ctCollections =
-			_ctCollectionLocalService.getCTEntryCTCollections(
-				ctEntry.getCtEntryId());
-
-		Stream<CTCollection> ctCollectionStream = ctCollections.stream();
-
-		Optional<String> ctCollectionNameOptional = ctCollectionStream.filter(
+		return stream.filter(
 			ctCollection -> !ctCollection.isProduction()
 		).map(
 			CTCollectionModel::getName
-		).findFirst();
-
-		return ctCollectionNameOptional.orElse(StringPool.BLANK);
+		).findFirst(
+		).orElse(
+			StringPool.BLANK
+		);
 	}
 
 	@Override
