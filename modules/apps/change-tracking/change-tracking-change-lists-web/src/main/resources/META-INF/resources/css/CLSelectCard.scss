@@ -1,23 +1,22 @@
 .select-card-sheet {
-
 	font-size: 0.875rem;
 
 	.card-h3 {
-		font-size: 1.1875rem;
-		margin-bottom: 0.5rem;
+		color: inherit;
 		font-family: inherit;
+		font-size: 1.1875rem;
 		font-weight: 650;
 		line-height: 1.2;
-		color: inherit;
+		margin-bottom: 0.5rem;
 	}
 
 	.card-h4 {
-		margin-top: 0;
-		margin-bottom: 0.5rem;
+		color: inherit;
 		font-family: inherit;
 		font-weight: 600;
 		line-height: 1.2;
-		color: inherit;
+		margin-bottom: 0.5rem;
+		margin-top: 0;
 	}
 
 	.changes {

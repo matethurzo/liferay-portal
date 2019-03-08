@@ -351,7 +351,6 @@ public class ChangeListsDisplayContext {
 	}
 
 	private PortletURL _getPortletURL() {
-
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_renderRequest, CTPortletKeys.CHANGE_LISTS,
 			PortletRequest.RENDER_PHASE);
