@@ -159,11 +159,15 @@ public class FragmentEntryRenderUtil {
 			fragmentEntryProcessorRegistry.processFragmentEntryLinkHTML(
 				fragmentEntryLink, mode, locale, segmentsExperienceIds);
 
-		if ((request != null) && Validator.isNotNull(html)) {
+		if ((request != null) && (response != null) &&
+			Validator.isNotNull(html)) {
+
 			html = _processTemplate(html, parameterMap, request, response);
 		}
 
-		if (Validator.isNotNull(css)) {
+		if ((request != null) && (response != null) &&
+			Validator.isNotNull(css)) {
+
 			css = _processTemplate(css, parameterMap, request, response);
 		}
 
