@@ -531,6 +531,37 @@ public class StagedLayoutSetStagedModelDataHandler
 		}
 	}
 
+	protected boolean hasSiblingLayoutWithSamePriority(Layout layout) {
+		List<Layout> siblingLayouts = _layoutLocalService.getLayouts(
+			layout.getGroupId(), layout.getPrivateLayout(),
+			layout.getParentLayoutId());
+
+		for (Layout siblingLayout : siblingLayouts) {
+			if ((layout.getPlid() != siblingLayout.getPlid()) &&
+				(layout.getPriority() == siblingLayout.getPriority())) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	protected boolean hasSkippedSiblingLayout(
+		Element layoutElement, Map<Long, List<String>> siblingActionsMap) {
+
+		long parentLayoutId = GetterUtil.getLong(
+			layoutElement.attributeValue("layout-parent-layout-id"));
+
+		List<String> actions = siblingActionsMap.get(parentLayoutId);
+
+		if (actions.contains(Constants.SKIP)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	protected void importLogo(PortletDataContext portletDataContext) {
 		boolean logo = MapUtil.getBoolean(
 			portletDataContext.getParameterMap(), PortletDataHandlerKeys.LOGO);
@@ -581,37 +612,6 @@ public class StagedLayoutSetStagedModelDataHandler
 					e);
 			}
 		}
-	}
-
-	protected boolean siblingLayoutHasSamePriority(Layout layout) {
-		List<Layout> siblingLayouts = _layoutLocalService.getLayouts(
-			layout.getGroupId(), layout.getPrivateLayout(),
-			layout.getParentLayoutId());
-
-		for (Layout siblingLayout : siblingLayouts) {
-			if ((layout.getPlid() != siblingLayout.getPlid()) &&
-				(layout.getPriority() == siblingLayout.getPriority())) {
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	protected boolean siblingLayoutIsSkipped(
-		Element layoutElement, Map<Long, List<String>> siblingActionsMap) {
-
-		long parentLayoutId = GetterUtil.getLong(
-			layoutElement.attributeValue("layout-parent-layout-id"));
-
-		List<String> actions = siblingActionsMap.get(parentLayoutId);
-
-		if (actions.contains(Constants.SKIP)) {
-			return true;
-		}
-
-		return false;
 	}
 
 	protected StagedLayoutSet unwrapLayoutSetStagingHandler(
@@ -725,9 +725,9 @@ public class StagedLayoutSetStagedModelDataHandler
 			String action = layoutElement.attributeValue(Constants.ACTION);
 
 			if (action.equals(Constants.SKIP) ||
-				siblingLayoutIsSkipped(layoutElement, siblingActionsMap)) {
+				hasSkippedSiblingLayout(layoutElement, siblingActionsMap)) {
 
-				// We don't want to update priorites if there are elements at
+				// We don't want to update priorities if there are elements at
 				// the same level of the page hierarchy with the SKIP action
 
 				continue;
@@ -773,13 +773,13 @@ public class StagedLayoutSetStagedModelDataHandler
 
 			for (Layout layout : siblingLayouts) {
 				if (!updatedPlids.contains(layout.getPlid())) {
-					if (siblingLayoutHasSamePriority(layout)) {
+					if (hasSiblingLayoutWithSamePriority(layout)) {
 						do {
 							int priority = layout.getPriority();
 
 							layout.setPriority(++priority);
 						}
-						while (siblingLayoutHasSamePriority(layout));
+						while (hasSiblingLayoutWithSamePriority(layout));
 
 						_layoutLocalService.updateLayout(layout);
 					}
