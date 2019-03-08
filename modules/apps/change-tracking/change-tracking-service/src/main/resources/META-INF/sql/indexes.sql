@@ -16,12 +16,6 @@ create index IX_5C08EBAD on CTEntryAggregates_CTEntries (companyId);
 create index IX_4E879A48 on CTEntryAggregates_CTEntries (ctEntryAggregateId);
 create index IX_1AEE37B1 on CTEntryAggregates_CTEntries (ctEntryId);
 
-create index IX_14B1CD88 on CTEntryBag (ownerCTEntryId, ctCollectionId);
-
-create index IX_60232A36 on CTEntryBags_CTEntries (companyId);
-create index IX_E5BD89E8 on CTEntryBags_CTEntries (ctEntryBagId);
-create index IX_1F08763A on CTEntryBags_CTEntries (ctEntryId);
-
 create index IX_7523B0A4 on CTProcess (companyId);
 create index IX_B4859762 on CTProcess (ctCollectionId);
 create index IX_5F9B5D3E on CTProcess (userId);
