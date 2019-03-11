@@ -56,6 +56,7 @@ public class CTEntryWrapper
 		attributes.put("modelResourcePrimKey", getModelResourcePrimKey());
 		attributes.put("changeType", getChangeType());
 		attributes.put("status", getStatus());
+		attributes.put("originalCollectionId", getOriginalCollectionId());
 
 		return attributes;
 	}
@@ -127,6 +128,13 @@ public class CTEntryWrapper
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long originalCollectionId = (Long)attributes.get(
+			"originalCollectionId");
+
+		if (originalCollectionId != null) {
+			setOriginalCollectionId(originalCollectionId);
 		}
 	}
 
@@ -213,6 +221,16 @@ public class CTEntryWrapper
 	@Override
 	public Date getModifiedDate() {
 		return model.getModifiedDate();
+	}
+
+	/**
+	 * Returns the original collection ID of this ct entry.
+	 *
+	 * @return the original collection ID of this ct entry
+	 */
+	@Override
+	public long getOriginalCollectionId() {
+		return model.getOriginalCollectionId();
 	}
 
 	/**
@@ -353,6 +371,16 @@ public class CTEntryWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the original collection ID of this ct entry.
+	 *
+	 * @param originalCollectionId the original collection ID of this ct entry
+	 */
+	@Override
+	public void setOriginalCollectionId(long originalCollectionId) {
+		model.setOriginalCollectionId(originalCollectionId);
 	}
 
 	/**

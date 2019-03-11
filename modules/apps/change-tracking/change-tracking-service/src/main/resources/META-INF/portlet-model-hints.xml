@@ -27,6 +27,7 @@
 		<field name="modelResourcePrimKey" type="long" />
 		<field name="changeType" type="int" />
 		<field name="status" type="int" />
+		<field name="originalCollectionId" type="long" />
 	</model>
 	<model name="com.liferay.change.tracking.model.CTEntryAggregate">
 		<field name="ctEntryAggregateId" type="long" />

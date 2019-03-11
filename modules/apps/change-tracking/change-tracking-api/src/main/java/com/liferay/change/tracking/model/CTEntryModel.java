@@ -239,4 +239,18 @@ public interface CTEntryModel
 	 */
 	public void setStatus(int status);
 
+	/**
+	 * Returns the original collection ID of this ct entry.
+	 *
+	 * @return the original collection ID of this ct entry
+	 */
+	public long getOriginalCollectionId();
+
+	/**
+	 * Sets the original collection ID of this ct entry.
+	 *
+	 * @param originalCollectionId the original collection ID of this ct entry
+	 */
+	public void setOriginalCollectionId(long originalCollectionId);
+
 }

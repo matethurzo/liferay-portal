@@ -268,6 +268,11 @@ public interface CTEntryLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTEntry> getCTCollectionCTEntries(
+		long ctCollectionId, int status, int start, int end,
+		OrderByComparator<CTEntry> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTEntry> getCTCollectionCTEntries(
 		long ctCollectionId, int start, int end,
 		OrderByComparator<CTEntry> orderByComparator);
 

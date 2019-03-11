@@ -38,7 +38,8 @@ create table CTEntry (
 	modelClassPK LONG,
 	modelResourcePrimKey LONG,
 	changeType INTEGER,
-	status INTEGER
+	status INTEGER,
+	originalCollectionId LONG
 );
 
 create table CTEntryAggregate (

@@ -389,6 +389,16 @@ public class CTEntryLocalServiceUtil {
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
 		getCTCollectionCTEntries(
+			long ctCollectionId, int status, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
+
+		return getService().getCTCollectionCTEntries(
+			ctCollectionId, status, start, end, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getCTCollectionCTEntries(
 			long ctCollectionId, int start, int end,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {

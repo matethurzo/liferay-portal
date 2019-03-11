@@ -427,6 +427,17 @@ public class CTEntryLocalServiceWrapper
 	@Override
 	public java.util.List<com.liferay.change.tracking.model.CTEntry>
 		getCTCollectionCTEntries(
+			long ctCollectionId, int status, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
+
+		return _ctEntryLocalService.getCTCollectionCTEntries(
+			ctCollectionId, status, start, end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<com.liferay.change.tracking.model.CTEntry>
+		getCTCollectionCTEntries(
 			long ctCollectionId, int start, int end,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<com.liferay.change.tracking.model.CTEntry> orderByComparator) {
