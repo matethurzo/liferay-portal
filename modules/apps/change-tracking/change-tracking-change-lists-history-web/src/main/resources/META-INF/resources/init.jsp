@@ -18,9 +18,16 @@
 
 <%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %><%@
 taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
-taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
+taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.change.tracking.change.lists.history.web.internal.display.context.ChangeListsHistoryDisplayContext" %>
+<%@ page import="com.liferay.change.tracking.change.lists.history.web.internal.display.context.ChangeListsHistoryDisplayContext" %><%@
+page import="com.liferay.change.tracking.configuration.CTConfigurationRegistryUtil" %><%@
+page import="com.liferay.change.tracking.constants.CTWebKeys" %><%@
+page import="com.liferay.change.tracking.model.CTCollection" %><%@
+page import="com.liferay.change.tracking.model.CTEntry" %><%@
+page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 
 <liferay-theme:defineObjects />
 

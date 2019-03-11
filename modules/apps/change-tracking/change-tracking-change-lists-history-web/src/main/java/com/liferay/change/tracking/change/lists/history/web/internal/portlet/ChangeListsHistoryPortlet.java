@@ -15,11 +15,25 @@
 package com.liferay.change.tracking.change.lists.history.web.internal.portlet;
 
 import com.liferay.change.tracking.constants.CTPortletKeys;
+import com.liferay.change.tracking.constants.CTWebKeys;
+import com.liferay.change.tracking.model.CTCollection;
+import com.liferay.change.tracking.model.CTProcess;
+import com.liferay.change.tracking.service.CTCollectionLocalService;
+import com.liferay.change.tracking.service.CTProcessLocalService;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
+
+import java.io.IOException;
 
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Laszlo Pap
@@ -49,4 +63,39 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class ChangeListsHistoryPortlet extends MVCPortlet {
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		long ctProcessId = ParamUtil.getLong(
+			renderRequest, CTWebKeys.CT_PROCESS_ID);
+
+		if (ctProcessId > 0) {
+			try {
+				CTProcess ctProcess = _ctProcessLocalService.getCTProcess(
+					ctProcessId);
+
+				CTCollection ctCollection =
+					_ctCollectionLocalService.getCTCollection(
+						ctProcess.getCtCollectionId());
+
+				renderRequest.setAttribute(
+					CTWebKeys.CT_COLLECTION, ctCollection);
+			}
+			catch (PortalException pe) {
+				SessionErrors.add(renderRequest, pe.getClass());
+			}
+		}
+
+		super.render(renderRequest, renderResponse);
+	}
+
+	@Reference
+	private CTCollectionLocalService _ctCollectionLocalService;
+
+	@Reference
+	private CTProcessLocalService _ctProcessLocalService;
+
 }

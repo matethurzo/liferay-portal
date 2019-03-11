@@ -16,10 +16,87 @@
 
 <%@ include file="/init.jsp" %>
 
-<div class="sheet sheet-lg site-change-lists-sheet">
-	<div class="sheet-header">
-		<h2 class="sheet-title">Change list history details</h2>
+<%
+CTCollection ctCollection = (CTCollection)request.getAttribute(CTWebKeys.CT_COLLECTION);
 
-		<div class="sheet-text">This is only a placeholder for what's later be added to the change list history details screen.</div>
-	</div>
+SearchContainer<CTEntry> ctEntrySearchContainer = changeListsHistoryDisplayContext.getSearchContainer(ctCollection.getCtCollectionId());
+
+if (ctCollection != null) {
+	String title = HtmlUtil.escapeJS(ctCollection.getName());
+
+	portletDisplay.setTitle(title);
+	renderResponse.setTitle(title);
+}
+%>
+
+<clay:management-toolbar
+	clearResultsURL="<%= changeListsHistoryDisplayContext.getViewSearchActionURL() %>"
+	filterDropdownItems="<%= changeListsHistoryDisplayContext.getFilterDropdownItems() %>"
+	itemsTotal="<%= ctEntrySearchContainer.getTotal() %>"
+	searchActionURL="<%= changeListsHistoryDisplayContext.getViewSearchActionURL() %>"
+	searchContainerId="changeListsHistory"
+	selectable="<%= false %>"
+	showSearch="<%= true %>"
+	sortingOrder="<%= changeListsHistoryDisplayContext.getOrderByType() %>"
+	sortingURL="<%= changeListsHistoryDisplayContext.getSortingURL() %>"
+	viewTypeItems="<%= changeListsHistoryDisplayContext.getViewTypeItems() %>"
+/>
+
+<div class="closed container-fluid-1280">
+	<liferay-ui:search-container
+		id="changeListsHistory"
+		searchContainer="<%= ctEntrySearchContainer %>"
+	>
+		<liferay-ui:search-container-row
+			className="com.liferay.change.tracking.model.CTEntry"
+			keyProperty="ctEntryId"
+			modelVar="curCTEntry"
+		>
+			<liferay-ui:search-container-column-text
+				name="name"
+			>
+				<%= HtmlUtil.escape(CTConfigurationRegistryUtil.getVersionEntityTitle(curCTEntry.getModelClassNameId(), curCTEntry.getModelClassPK())) %>
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="user"
+			>
+				<%= curCTEntry.getUserName() %>
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="site"
+			>
+				<%= CTConfigurationRegistryUtil.getVersionEntitySiteName(curCTEntry.getModelClassNameId(), curCTEntry.getModelClassPK()) %>
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="content-type"
+			>
+				<liferay-ui:message key="<%= CTConfigurationRegistryUtil.getVersionEntityContentTypeLanguageKey(curCTEntry.getModelClassNameId()) %>" />
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="change-type"
+			>
+				<liferay-ui:message key="<%= changeListsHistoryDisplayContext.getChangeType(curCTEntry.getChangeType()) %>" />
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="affects"
+			>
+
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				name="version"
+			>
+				<%= CTConfigurationRegistryUtil.getVersionEntityVersion(curCTEntry.getModelClassNameId(), curCTEntry.getModelClassPK()) %>
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			markupView="lexicon"
+		/>
+	</liferay-ui:search-container>
 </div>
