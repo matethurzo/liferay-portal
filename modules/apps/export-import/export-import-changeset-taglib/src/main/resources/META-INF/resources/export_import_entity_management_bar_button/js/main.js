@@ -71,22 +71,26 @@ AUI.add(
 
 						var searchContainerMapping = A.one('#' + namespace + instance.get('searchContainerMappingId'));
 
-						var form = $("#hrefFm");
-						form.attr("method", "POST");
+						var form = document.getElementById('hrefFm');
 
-						selectedRows._nodes.forEach(
-							function(selectedElement) {
-								var node = searchContainerMapping.one('div[data-rowpk=' + selectedElement.value + ']');
+						if (form) {
+							selectedRows._nodes.forEach(
+								function(selectedElement) {
+									var node = searchContainerMapping.one('div[data-rowpk=' + selectedElement.value + ']');
 
-								var input = $("<input>")
-									.attr("type", "hidden")
-									.attr("name", instance.get('actionNamespace') + "exportingEntities")
-									.val(node.attr('data-classNameId') + '#' + node.attr('data-groupId') + "#" + node.attr('data-uuid'));
+									var input = $("<input>")
+										.attr("type", "hidden")
+										.attr("name", instance.get('actionNamespace') + "exportingEntities")
+										.val(node.attr('data-classNameId') + '#' + node.attr('data-groupId') + "#" + node.attr('data-uuid'));
 
-								form.append(input);
-							});
+									form.append(input);
+								}
+							);
 
-						submitForm(form, instance.get('exportImportEntityUrl'));
+							form.setAttribute('method', 'POST');
+
+							submitForm(form, instance.get('exportImportEntityUrl'));
+						}
 					}
 				}
 			}
