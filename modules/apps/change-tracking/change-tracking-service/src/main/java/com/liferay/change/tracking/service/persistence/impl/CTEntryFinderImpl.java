@@ -125,6 +125,9 @@ public class CTEntryFinderImpl
 					sql, "AND (CTEntry.status = ?)");
 			}
 
+			sql = _customSQL.appendCriteria(
+				sql, "AND (CTEntry.originalCollectionId = ?)");
+
 			sql = _customSQL.replaceOrderBy(
 				sql, queryDefinition.getOrderByComparator());
 
@@ -136,6 +139,7 @@ public class CTEntryFinderImpl
 
 			qPos.add(ctCollectionId);
 			qPos.add(queryDefinition.getStatus());
+			qPos.add(ctCollectionId);
 
 			return (List<CTEntry>)QueryUtil.list(
 				q, getDialect(), queryDefinition.getStart(),

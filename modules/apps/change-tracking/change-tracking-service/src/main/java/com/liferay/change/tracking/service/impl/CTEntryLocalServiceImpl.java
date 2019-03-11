@@ -145,19 +145,21 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	@Override
 	public List<CTEntry> getCTCollectionCTEntries(long ctCollectionId) {
 		return getCTCollectionCTEntries(
-			ctCollectionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+			ctCollectionId, WorkflowConstants.STATUS_DRAFT, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	@Override
 	public List<CTEntry> getCTCollectionCTEntries(
 		long ctCollectionId, int start, int end) {
 
-		return getCTCollectionCTEntries(ctCollectionId, start, end, null);
+		return getCTCollectionCTEntries(
+			ctCollectionId, WorkflowConstants.STATUS_DRAFT, start, end, null);
 	}
 
 	@Override
 	public List<CTEntry> getCTCollectionCTEntries(
-		long ctCollectionId, int start, int end,
+		long ctCollectionId, int status, int start, int end,
 		OrderByComparator<CTEntry> orderByComparator) {
 
 		if (_isProductionCTCollectionId(ctCollectionId)) {
@@ -170,7 +172,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		queryDefinition.setEnd(end);
 		queryDefinition.setOrderByComparator(orderByComparator);
 		queryDefinition.setStart(start);
-		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
+		queryDefinition.setStatus(status);
 
 		return ctEntryFinder.findByCTCollectionId(
 			ctCollectionId, queryDefinition);
@@ -269,6 +271,9 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 		if (_isProductionCTCollectionId(ctCollectionId)) {
 			status = WorkflowConstants.STATUS_APPROVED;
+		}
+		else {
+			ctEntry.setOriginalCollectionId(ctCollectionId);
 		}
 
 		ctEntry.setStatus(status);
