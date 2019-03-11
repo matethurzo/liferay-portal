@@ -52,6 +52,16 @@ public class CTConfigurationRegistryUtil {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static String getVersionEntityContentTypeLanguageKey(
+		long classNameId) {
+
+		CTConfiguration<?, ?> ctConfiguration = _getCTConfiguration(
+			classNameId);
+
+		return ctConfiguration.getContentTypeLanguageKey();
+	}
+
+	@SuppressWarnings("unchecked")
 	public static String getVersionEntitySiteName(
 		long classNameId, long classPK) {
 
