@@ -52,7 +52,7 @@ public class DDMStructureCTConfigurationRegistrar {
 			_builder.setContentType(
 				"Dynamic Data Mapping Structure"
 			).setContentTypeLanguageKey(
-				"dynamic-data-mapping"
+				"dynamic-data-mapping-structure"
 			).setEntityClasses(
 				DDMStructure.class, DDMStructureVersion.class
 			).setResourceEntitiesByCompanyIdFunction(
