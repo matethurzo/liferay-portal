@@ -278,8 +278,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		return _ctEntryLocalService.getCTCollectionCTEntries(
-			ctCollectionId, queryDefinition.getStart(),
-			queryDefinition.getEnd(), queryDefinition.getOrderByComparator());
+			ctCollectionId, queryDefinition.getStatus(),
+			queryDefinition.getStart(), queryDefinition.getEnd(),
+			queryDefinition.getOrderByComparator());
 	}
 
 	@Override
