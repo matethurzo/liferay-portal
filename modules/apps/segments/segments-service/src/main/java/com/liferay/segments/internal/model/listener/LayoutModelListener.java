@@ -106,6 +106,10 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 	private boolean _isPublishedContentLayout(Layout layout)
 		throws PortalException {
 
+		if (layout == null) {
+			return false;
+		}
+
 		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
 			return false;
 		}
