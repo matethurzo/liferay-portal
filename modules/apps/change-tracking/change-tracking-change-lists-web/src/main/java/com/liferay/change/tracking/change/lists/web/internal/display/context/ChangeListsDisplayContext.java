@@ -15,6 +15,7 @@
 package com.liferay.change.tracking.change.lists.web.internal.display.context;
 
 import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.configuration.CTConfigurationRegistryUtil;
 import com.liferay.change.tracking.constants.CTPortletKeys;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
@@ -26,6 +27,9 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -105,6 +109,8 @@ public class ChangeListsDisplayContext {
 		portletURL.setParameter("production", "true");
 
 		soyContext.put("urlSelectProduction", portletURL.toString());
+
+		soyContext.put("entityNameTranslations", _getEntityNameTranslations());
 
 		return soyContext;
 	}
@@ -256,6 +262,27 @@ public class ChangeListsDisplayContext {
 				addTableViewTypeItem();
 			}
 		};
+	}
+
+	private JSONArray _getEntityNameTranslations() {
+		JSONArray translations = JSONFactoryUtil.createJSONArray();
+
+		CTConfigurationRegistryUtil.getContentTypeLanguageKeys();
+
+		for (String contentTypeLanguageKey :
+				CTConfigurationRegistryUtil.getContentTypeLanguageKeys()) {
+
+			JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+			jsonObject.put("key", contentTypeLanguageKey);
+			jsonObject.put(
+				"translation",
+				LanguageUtil.get(_httpServletRequest, contentTypeLanguageKey));
+
+			translations.put(jsonObject);
+		}
+
+		return translations;
 	}
 
 	private String _getFilterByStatus() {

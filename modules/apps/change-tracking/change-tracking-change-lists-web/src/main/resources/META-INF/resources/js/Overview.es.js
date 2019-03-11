@@ -253,11 +253,16 @@ class Overview extends PortletBase {
 					changeTypeStr = Liferay.Language.get('modified');
 				}
 
+				let entityNameTranslation = this.entityNameTranslations.find(
+					entityNameTranslation =>
+						entityNameTranslation.key == changeEntry.contentType
+				);
+
 				this.changeEntries.push(
 					{
 						changeType: changeTypeStr,
 						conflict: false,
-						contentType: changeEntry.contentType,
+						contentType: entityNameTranslation.translation,
 						lastEdited: new Intl.DateTimeFormat(
 							Liferay.ThemeDisplay.getBCP47LanguageId(),
 							{
@@ -484,6 +489,18 @@ Overview.STATE = {
 	 */
 
 	descriptionProductionInformation: Config.string(),
+
+	/**
+	 * TODO:
+	 */
+	entityNameTranslations: Config.arrayOf(
+		Config.shapeOf(
+			{
+				key: Config.string(),
+				translation: Config.string()
+			}
+		)
+	),
 
 	/**
 	 * Contains the change entries for the currently selected CT Collection.
