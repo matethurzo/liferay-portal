@@ -137,7 +137,7 @@ JournalArticle article = journalDisplayContext.getArticle();
 								value="<%= HtmlUtil.escape(articleVersion.getTitle(locale)) %>"
 							/>
 
-							<c:if test="<%= journalDisplayContext.isChangeListVisible() %>">
+							<c:if test="<%= journalDisplayContext.isChangeListColumnVisible() %>">
 								<liferay-ui:search-container-column-text
 									cssClass="change-list-title progress-group-feedback table-cell-content"
 									name="change-list"
