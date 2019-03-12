@@ -65,7 +65,8 @@ public class CheckoutCTCollectionMVCActionCommand extends BaseMVCActionCommand {
 		if (ctCollection.isProduction()) {
 			SessionMessages.add(
 				actionRequest,
-				_portal.getPortletId(actionRequest) + "checkoutSuccess");
+				_portal.getPortletId(actionRequest) +
+					"checkoutProductionSuccess");
 		}
 	}
 

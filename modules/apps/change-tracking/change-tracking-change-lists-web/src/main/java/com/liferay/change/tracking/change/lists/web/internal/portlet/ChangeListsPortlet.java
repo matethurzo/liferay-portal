@@ -69,7 +69,8 @@ public class ChangeListsPortlet extends MVCPortlet {
 		if (production) {
 			SessionMessages.add(
 				renderRequest,
-				_portal.getPortletId(renderRequest) + "checkoutSuccess");
+				_portal.getPortletId(renderRequest) +
+					"checkoutProductionSuccess");
 		}
 
 		super.render(renderRequest, renderResponse);
