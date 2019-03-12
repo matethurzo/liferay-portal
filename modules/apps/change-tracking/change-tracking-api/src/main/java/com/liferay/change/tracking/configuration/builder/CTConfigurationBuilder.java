@@ -15,6 +15,7 @@
 package com.liferay.change.tracking.configuration.builder;
 
 import com.liferay.change.tracking.configuration.CTConfiguration;
+import com.liferay.portal.kernel.model.BaseModel;
 
 import java.io.Serializable;
 
@@ -105,6 +106,8 @@ public interface CTConfigurationBuilder<T, U> {
 	public interface VersionEntityDetailsStep<U> {
 
 		public EntityIdsFromVersionEntityStep<U> setVersionEntityDetails(
+			List<Function<U, ? extends BaseModel>>
+				versionEntityRelatedEntityFunctions,
 			Function<U, String> versionEntitySiteNameFunction,
 			Function<U, String> versionEntityTitleFunction,
 			Function<U, Serializable> versionEntityVersionFunction);
