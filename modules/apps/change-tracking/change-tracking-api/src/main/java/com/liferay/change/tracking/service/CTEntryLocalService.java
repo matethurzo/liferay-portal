@@ -227,6 +227,9 @@ public interface CTEntryLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTEntry> fetchCTEntries(long modelClassNameId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTEntry> fetchCTEntries(
 		long ctCollectionId, long modelResourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition);
@@ -234,6 +237,9 @@ public interface CTEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTEntry> fetchCTEntries(
 		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CTEntry> fetchCTEntries(String modelClassName);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CTEntry fetchCTEntry(long ctEntryId);
