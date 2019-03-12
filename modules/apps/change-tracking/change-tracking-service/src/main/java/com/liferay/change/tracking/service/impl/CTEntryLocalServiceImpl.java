@@ -26,7 +26,9 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.util.Date;
 import java.util.List;
@@ -64,6 +66,11 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	}
 
 	@Override
+	public List<CTEntry> fetchCTEntries(long modelClassNameId) {
+		return ctEntryPersistence.findByModelClassNameId(modelClassNameId);
+	}
+
+	@Override
 	public List<CTEntry> fetchCTEntries(
 		long ctCollectionId, long modelResourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
@@ -77,6 +84,11 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition) {
 
 		return ctEntryFinder.findByC_R(ctCollectionId, 0, queryDefinition);
+	}
+
+	@Override
+	public List<CTEntry> fetchCTEntries(String modelClassName) {
+		return fetchCTEntries(_portal.getClassNameId(modelClassName));
 	}
 
 	@Override
@@ -251,5 +263,8 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 			throw new IllegalArgumentException("Change type value is invalid");
 		}
 	}
+
+	@ServiceReference(type = Portal.class)
+	private Portal _portal;
 
 }
