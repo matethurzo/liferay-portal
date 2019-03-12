@@ -149,6 +149,16 @@ public interface CTConfiguration<T extends BaseModel, U extends BaseModel> {
 	public Function<U, Serializable>
 		getVersionEntityIdFromVersionEntityFunction();
 
+	/**
+	 * Returns the list of functions that each retrieve a related entity of a
+	 * version entity
+	 *
+	 * @return the list of functions that each retrieve a related entity of a
+	 *         version entity
+	 */
+	public List<Function<U, ? extends BaseModel>>
+		getVersionEntityRelatedEntityFunctions();
+
 	public Function<U, String> getVersionEntitySiteNameFunction();
 
 	/**

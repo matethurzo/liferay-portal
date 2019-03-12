@@ -110,6 +110,13 @@ public class CTConfigurationImpl<T extends BaseModel, U extends BaseModel>
 	}
 
 	@Override
+	public List<Function<U, ? extends BaseModel>>
+		getVersionEntityRelatedEntityFunctions() {
+
+		return _versionEntityRelatedEntityFunctions;
+	}
+
+	@Override
 	public Function<U, String> getVersionEntitySiteNameFunction() {
 		return _versionEntityInformation.getVersionEntitySiteNameFunction();
 	}
@@ -219,6 +226,15 @@ public class CTConfigurationImpl<T extends BaseModel, U extends BaseModel>
 	}
 
 	@Override
+	public void setVersionEntityRelatedEntityFunctions(
+		List<Function<U, ? extends BaseModel>>
+			versionEntityRelatedEntityFunctions) {
+
+		_versionEntityRelatedEntityFunctions =
+			versionEntityRelatedEntityFunctions;
+	}
+
+	@Override
 	public void setVersionEntitySiteNameFunction(
 		Function<U, String> versionEntitySiteNameFunction) {
 
@@ -256,6 +272,8 @@ public class CTConfigurationImpl<T extends BaseModel, U extends BaseModel>
 	private final EntityInformation<T> _resourceEntityInformation;
 	private Function<T, List<U>> _versionEntitiesFromResourceEntityFunction;
 	private final EntityInformation<U> _versionEntityInformation;
+	private List<Function<U, ? extends BaseModel>>
+		_versionEntityRelatedEntityFunctions;
 
 	private static class EntityInformation<T> {
 

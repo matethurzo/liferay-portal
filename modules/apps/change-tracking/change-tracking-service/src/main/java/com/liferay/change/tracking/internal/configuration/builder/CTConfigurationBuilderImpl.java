@@ -114,6 +114,10 @@ public class CTConfigurationBuilderImpl
 		public void setVersionEntityIdFromVersionEntityFunction(
 			Function<U, Serializable> versionEntityIdFromVersionEntityFunction);
 
+		public void setVersionEntityRelatedEntityFunctions(
+			List<Function<U, ? extends BaseModel>>
+				versionEntityRelatedEntityFunctions);
+
 		public void setVersionEntitySiteNameFunction(
 			Function<U, String> versionEntitySiteNameFunction);
 
