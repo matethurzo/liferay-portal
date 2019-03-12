@@ -14,6 +14,8 @@
 
 package com.liferay.change.tracking.configuration;
 
+import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
@@ -29,6 +31,26 @@ import org.osgi.util.tracker.ServiceTracker;
  * @author Máté Thurzó
  */
 public class CTConfigurationRegistryUtil {
+
+	@SuppressWarnings("unchecked")
+	public static long getVersionEntityGroupId(long classNameId, long classPK) {
+		CTConfiguration<?, ?> ctConfiguration = _getCTConfiguration(
+			classNameId);
+
+		Function versionEntityByVersionEntityIdFunction =
+			ctConfiguration.getVersionEntityByVersionEntityIdFunction();
+
+		Object versionEntity = versionEntityByVersionEntityIdFunction.apply(
+			classPK);
+
+		if (versionEntity instanceof GroupedModel) {
+			GroupedModel groupedModel = (GroupedModel)versionEntity;
+
+			return groupedModel.getGroupId();
+		}
+
+		return BeanPropertiesUtil.getLongSilent(versionEntity, "groupId");
+	}
 
 	@SuppressWarnings("unchecked")
 	public static String getVersionEntitySiteName(
