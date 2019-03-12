@@ -25,7 +25,7 @@ renderResponse.setTitle(title);
 SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
 %>
 
-<liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutSuccess" %>' message="production-successfully-checked-out" />
+<liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutSuccess" %>' message="production-checked-out-success-message" />
 
 <clay:management-toolbar
 	clearResultsURL="<%= changeListsDisplayContext.getViewSearchActionURL() %>"
