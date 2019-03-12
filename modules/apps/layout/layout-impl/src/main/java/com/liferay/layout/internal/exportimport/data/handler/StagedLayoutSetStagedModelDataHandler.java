@@ -533,7 +533,7 @@ public class StagedLayoutSetStagedModelDataHandler
 
 	protected boolean hasSiblingLayoutWithSamePriority(Layout layout) {
 		List<Layout> siblingLayouts = _layoutLocalService.getLayouts(
-			layout.getGroupId(), layout.getPrivateLayout(),
+			layout.getGroupId(), layout.isPrivateLayout(),
 			layout.getParentLayoutId());
 
 		for (Layout siblingLayout : siblingLayouts) {
