@@ -80,6 +80,9 @@
 
 		<!-- Finder methods -->
 
+		<finder name="ModelClassNameId" return-type="Collection">
+			<finder-column name="modelClassNameId" />
+		</finder>
 		<finder name="C_C" return-type="CTEntry" unique="true">
 			<finder-column name="modelClassNameId" />
 			<finder-column name="modelClassPK" />
