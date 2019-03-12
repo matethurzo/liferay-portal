@@ -69,7 +69,7 @@ public class DDMStructureCTConfigurationRegistrar {
 			).setVersionEntityByVersionEntityIdFunction(
 				_ddmStructureVersionLocalService::fetchDDMStructureVersion
 			).setVersionEntityDetails(
-				CTFunctions.getFetchSiteNameFunction(),
+				null, CTFunctions.getFetchSiteNameFunction(),
 				ddmStructureVersion -> ddmStructureVersion.getName(
 					LocaleUtil.getMostRelevantLocale()),
 				DDMStructureVersion::getVersion
