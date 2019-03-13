@@ -237,6 +237,15 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 												url="<%= editCollectionURL %>"
 											/>
 
+											<liferay-portlet:actionURL name="/change_lists/checkout_ct_collection" var="checkoutCollectionURL">
+												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+											</liferay-portlet:actionURL>
+
+											<liferay-ui:icon
+												message="make-active"
+												url="<%= checkoutCollectionURL %>"
+											/>
+
 											<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
 												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
 											</liferay-portlet:actionURL>
