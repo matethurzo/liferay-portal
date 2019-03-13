@@ -19,7 +19,7 @@
 <%
 CTCollection ctCollection = (CTCollection)request.getAttribute(CTWebKeys.CT_COLLECTION);
 
-SearchContainer<CTEntry> ctEntrySearchContainer = changeListsHistoryDisplayContext.getSearchContainer(ctCollection.getCtCollectionId());
+SearchContainer<CTEntry> ctEntrySearchContainer = changeListsHistoryDisplayContext.getCTCollectionDetailsSearchContainer(ctCollection.getCtCollectionId());
 
 if (ctCollection != null) {
 	String title = HtmlUtil.escapeJS(ctCollection.getName());

@@ -139,7 +139,9 @@ public class ChangeListsHistoryDisplayContext {
 		return _orderByType;
 	}
 
-	public SearchContainer<CTEntry> getSearchContainer(long ctCollectionId) {
+	public SearchContainer<CTEntry> getCTCollectionDetailsSearchContainer(
+		long ctCollectionId) {
+
 		SearchContainer<CTEntry> searchContainer = new SearchContainer<>(
 			_renderRequest, new DisplayTerms(_renderRequest), null,
 			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
