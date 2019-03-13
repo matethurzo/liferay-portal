@@ -34,7 +34,6 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class CTConfigurationRegistryUtil {
 
-	@SuppressWarnings("unchecked")
 	public static List<String> getContentTypeLanguageKeys() {
 		List<String> contentTypeLanguageKeys = new ArrayList<>();
 
@@ -49,7 +48,6 @@ public class CTConfigurationRegistryUtil {
 		return contentTypeLanguageKeys;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static String getVersionEntityContentTypeLanguageKey(
 		long classNameId) {
 
