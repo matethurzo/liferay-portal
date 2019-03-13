@@ -547,14 +547,14 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 		_productionCTCollections.put(companyId, productionCTCollection);
 
-		_generateCTEntriesForAllCTConfigurations(
+		_generateCTEntriesAndCTEntryAggregatesForAllCTConfigurations(
 			userId, productionCTCollection);
 
 		checkoutCTCollection(
 			userId, productionCTCollection.getCtCollectionId());
 	}
 
-	private void _generateCTEntriesForAllCTConfigurations(
+	private void _generateCTEntriesAndCTEntryAggregatesForAllCTConfigurations(
 		long userId, CTCollection ctCollection) {
 
 		List<CTConfiguration<?, ?>> ctConfigurations =
@@ -562,6 +562,10 @@ public class CTEngineManagerImpl implements CTEngineManager {
 
 		ctConfigurations.forEach(
 			ctConfiguration -> _generateCTEntriesForCTConfiguration(
+				userId, ctConfiguration, ctCollection));
+
+		ctConfigurations.forEach(
+			ctConfiguration -> _generateCTEntryAggregatesForCTConfiguration(
 				userId, ctConfiguration, ctCollection));
 	}
 
@@ -636,6 +640,105 @@ public class CTEngineManagerImpl implements CTEngineManager {
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private <V extends BaseModel, R extends BaseModel> void
+		_generateCTEntryAggregateForCTEntry(
+			long userId, CTConfiguration ctConfiguration,
+			CTCollection ctCollection, CTEntry ctEntry,
+			List<Function<V, R>> versionEntityRelatedEntityFunctions) {
+
+		Function<Long, V> versionEntityByVersionEntityIdFunction =
+			ctConfiguration.getVersionEntityByVersionEntityIdFunction();
+
+		V versionEntity = versionEntityByVersionEntityIdFunction.apply(
+			ctEntry.getModelClassPK());
+
+		versionEntityRelatedEntityFunctions.forEach(
+			relatedEntityFunction -> _generateCTEntryAggregateForVersionEntity(
+				userId, ctCollection, ctEntry, versionEntity,
+				relatedEntityFunction));
+	}
+
+	private <V extends BaseModel, R extends BaseModel> void
+		_generateCTEntryAggregateForVersionEntity(
+			long userId, CTCollection ctCollection, CTEntry ctEntry,
+			V versionEntity,
+			Function<V, R> versionEntityRelatedEntityFunction) {
+
+		R relatedEntity = versionEntityRelatedEntityFunction.apply(
+			versionEntity);
+
+		if (relatedEntity == null) {
+			return;
+		}
+
+		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
+
+		CTEntry relatedCTEntry = _ctEntryLocalService.fetchCTEntry(
+			_portal.getClassNameId(relatedEntity.getModelClassName()),
+			relatedEntityClassPK);
+
+		if (relatedCTEntry == null) {
+			List<CTEntry> relatedCTEntries =
+				_ctEntryLocalService.fetchCTEntries(
+					ctCollection.getCtCollectionId(), relatedEntityClassPK,
+					new QueryDefinition<>());
+
+			if (ListUtil.isEmpty(relatedCTEntries)) {
+				return;
+			}
+
+			relatedCTEntry = relatedCTEntries.get(0);
+		}
+
+		CTEntryAggregate ctEntryAggregate =
+			_ctEntryAggregateLocalService.fetchLatestCTEntryAggregate(
+				ctCollection.getCtCollectionId(), ctEntry.getCtEntryId());
+
+		if (ctEntryAggregate == null) {
+			try {
+				ctEntryAggregate =
+					_ctEntryAggregateLocalService.addCTEntryAggregate(
+						userId, ctCollection.getCtCollectionId(),
+						ctEntry.getCtEntryId(), new ServiceContext());
+			}
+			catch (PortalException pe) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Unable to add CTEntryAggregate: " +
+							pe.getLocalizedMessage());
+				}
+			}
+		}
+
+		_ctEntryAggregateLocalService.addCTEntry(
+			ctEntryAggregate, relatedCTEntry);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <V extends BaseModel, R extends BaseModel> void
+		_generateCTEntryAggregatesForCTConfiguration(
+			long userId, CTConfiguration ctConfiguration,
+			CTCollection ctCollection) {
+
+		List<Function<V, R>> versionEntityRelatedEntityFunctions =
+			ctConfiguration.getVersionEntityRelatedEntityFunctions();
+
+		if (ListUtil.isEmpty(versionEntityRelatedEntityFunctions)) {
+			return;
+		}
+
+		Class<V> versionEntityClass = ctConfiguration.getVersionEntityClass();
+
+		List<CTEntry> ctEntries = _ctEntryLocalService.fetchCTEntries(
+			versionEntityClass.getName());
+
+		ctEntries.forEach(
+			ctEntry -> _generateCTEntryAggregateForCTEntry(
+				userId, ctConfiguration, ctCollection, ctEntry,
+				versionEntityRelatedEntityFunctions));
 	}
 
 	private long _getCompanyId(long userId) {
