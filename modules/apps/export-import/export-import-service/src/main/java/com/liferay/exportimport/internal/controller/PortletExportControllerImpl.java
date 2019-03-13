@@ -100,10 +100,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.time.StopWatch;
@@ -200,11 +202,25 @@ public class PortletExportControllerImpl implements PortletExportController {
 		try {
 			portletDataContext.setExportDataRootElement(rootElement);
 
-			List<AssetLink> assetLinks = _assetLinkLocalService.getLinks(
-				portletDataContext.getGroupId(),
-				portletDataContext.getStartDate(),
-				portletDataContext.getEndDate(), QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS);
+			List<AssetLink> assetLinks = new ArrayList<>();
+
+			assetLinks.addAll(
+				_assetLinkLocalService.getLinks(
+					portletDataContext.getGroupId(),
+					portletDataContext.getStartDate(),
+					portletDataContext.getEndDate(), QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS));
+
+			Set<Long> assetLinkIds = portletDataContext.getAssetLinkIds();
+
+			for (Long assetLinkId : assetLinkIds) {
+				AssetLink assetLink = _assetLinkLocalService.fetchAssetLink(
+					assetLinkId);
+
+				if ((assetLink != null) && !assetLinks.contains(assetLink)) {
+					assetLinks.add(assetLink);
+				}
+			}
 
 			for (AssetLink assetLink : assetLinks) {
 				StagedAssetLink stagedAssetLink = ModelAdapterUtil.adapt(
