@@ -312,9 +312,7 @@ response.setHeader("Ajax-ID", request.getHeader("Ajax-ID"));
 		var dateChecker = exportImport.getDateRangeChecker();
 
 		if (dateChecker.validRange) {
-			var form = AUI.$(document.<portlet:namespace />publishPagesFm);
-
-			submitForm(form);
+			submitForm(document.<portlet:namespace />publishPagesFm);
 		}
 		else {
 			exportImport.showNotification(dateChecker);

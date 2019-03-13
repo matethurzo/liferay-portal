@@ -35,7 +35,7 @@
 	</li>
 </ul>
 
-<aui:script>
+<script>
 	<portlet:renderURL var="scheduledEventsURL">
 		<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
 		<portlet:param name="closeRedirect" value="<%= closeRedirect %>" />
@@ -52,9 +52,9 @@
 
 		var rangeEndsLater = false;
 
-		var schedulerEndBy = AUI.$("#<portlet:namespace/>schedulerEndBy");
+		var schedulerEndBy = document.getElementById("<portlet:namespace/>schedulerEndBy");
 
-		if (schedulerEndBy.length && schedulerEndBy[0].checked) {
+		if (schedulerEndBy && schedulerEndBy.checked) {
 			var endDate = Liferay.component("<portlet:namespace />schedulerEndDateDatePicker");
 			var endTime = Liferay.component("<portlet:namespace />schedulerEndTimeTimePicker");
 			var startDate = Liferay.component("<portlet:namespace />schedulerStartDateDatePicker");
@@ -72,12 +72,15 @@
 		}
 
 		if (!rangeEndsLater) {
-			var form = AUI.$(document.<portlet:namespace />publishPagesFm);
-
-			form.fm('<%= Constants.CMD %>').val('<%= scheduleCMD %>');
-			form.fm('redirect').val('<%= scheduledEventsURL %>');
-
-			submitForm(form);
+			Liferay.Util.postForm(
+				document.<portlet:namespace />publishPagesFm,
+				{
+					data: {
+						'<%= Constants.CMD %>': '<%= scheduleCMD %>',
+						'redirect': '<%= scheduledEventsURL %>'
+					}
+				}
+			);
 		}
 		else {
 			exportImport.showNotification(dateChecker, rangeEndsLater);
@@ -86,13 +89,16 @@
 
 	function <portlet:namespace />unschedulePublishEvent(jobName) {
 		if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-the-scheduled-event") %>')) {
-			var form = AUI.$(document.<portlet:namespace />exportPagesFm);
-
-			form.fm('<%= Constants.CMD %>').val('<%= unscheduleCMD %>');
-			form.fm('redirect').val('<%= scheduledEventsURL %>');
-			form.fm('jobName').val(jobName);
-
-			submitForm(form);
+			Liferay.Util.postForm(
+				document.<portlet:namespace />exportPagesFm,
+				{
+					data: {
+						'<%= Constants.CMD %>': '<%= unscheduleCMD %>',
+						'jobName': jobName,
+						'redirect': '<%= scheduledEventsURL %>'
+					}
+				}
+			);
 		}
 	}
-</aui:script>
+</script>

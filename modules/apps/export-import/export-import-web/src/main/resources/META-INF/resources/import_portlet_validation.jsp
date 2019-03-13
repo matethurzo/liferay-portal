@@ -117,19 +117,35 @@ String redirect = ParamUtil.getString(request, "redirect");
 	</aui:script>
 </aui:form>
 
-<aui:script sandbox="<%= true %>">
-	$('#<portlet:namespace />continueButton').on(
-		'click',
-		function(event) {
-			event.preventDefault();
+<aui:script require="metal-dom/src/all/dom as dom">
+	var continueButton = document.getElementById('<portlet:namespace />continueButton');
+	var exportImportOptions = document.getElementById('<portlet:namespace />exportImportOptions');
 
-			$('#<portlet:namespace />fm1').ajaxSubmit(
-				{
-					success: function(responseData) {
-						$('#<portlet:namespace />exportImportOptions').html(responseData);
+	if (continueButton && exportImportOptions) {
+		var form = document.<portlet:namespace />fm1;
+
+		continueButton.addEventListener(
+			'click',
+			function(event) {
+				event.preventDefault();
+
+				fetch(
+					form.action,
+					{
+						credentials: 'include'
 					}
-				}
-			);
-		}
-	);
+				).then(
+					function(response) {
+						return response.text();
+					}
+				).then(
+					function(response) {
+						exportImportOptions.innerHTML = response;
+
+						dom.globalEval.runScriptsInElement(exportImportOptions);
+					}
+				);
+			}
+		);
+	}
 </aui:script>

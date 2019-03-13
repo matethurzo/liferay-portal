@@ -1,8 +1,6 @@
 AUI.add(
 	'liferay-export-import-export-import',
 	function(A) {
-		var $ = AUI.$;
-
 		var Lang = A.Lang;
 
 		var ADate = A.Date;
@@ -193,28 +191,28 @@ AUI.add(
 							);
 						}
 
-						$('[id^=' + instance.ns('PORTLET_CONFIGURATION') + ']').each(
-							function() {
-								var checkBox = $(this);
+						var portletConfigurationNodes = document.querySelectorAll('[id^=' + instance.ns('PORTLET_CONFIGURATION') + ']');
 
-								checkBox.on(
+						Array.prototype.forEach.call(
+							portletConfigurationNodes,
+							function(portletConfigurationNode) {
+								portletConfigurationNode.addEventListener(
 									STR_CLICK,
-									function() {
-										if (checkBox.is(':checked')) {
-											var id = checkBox.prop('id');
+									function(event) {
+										if (portletConfigurationNode.checked) {
+											var id = portletConfigurationNode.id;
 
-											var controlCheckboxes = $('[data-root-control-id=' + id + ']');
+											var controlCheckboxes = document.querySelectorAll('[data-root-control-id=' + id + ']');
 
-											if (controlCheckboxes.length == 0) {
+											if (controlCheckboxes.length === 0) {
 												return;
 											}
 
-											controlCheckboxes.each(
-												function() {
-													var controlCheckbox = $(this);
-
-													if (!controlCheckbox.is(':checked')) {
-														controlCheckbox.trigger(STR_CLICK);
+											Array.prototype.forEach.call(
+												controlCheckboxes,
+												function(controlCheckbox) {
+													if (!controlCheckbox.checked) {
+														controlCheckbox.click();
 													}
 												}
 											);
@@ -226,28 +224,28 @@ AUI.add(
 							}
 						);
 
-						$('[id^=' + instance.ns('PORTLET_DATA') + ']').each(
-							function() {
-								var checkBox = $(this);
+						var portletDataNodes = document.querySelectorAll('[id^=' + instance.ns('PORTLET_DATA') + ']');
 
-								checkBox.on(
+						Array.prototype.forEach.call(
+							portletDataNodes,
+							function(portletDataNode) {
+								portletDataNode.addEventListener(
 									STR_CLICK,
-									function() {
-										if (checkBox.is(':checked')) {
-											var id = checkBox.prop('id');
+									function(event) {
+										if (portletDataNode.checked) {
+											var id = portletDataNode.id;
 
-											var controlCheckboxes = $('[data-root-control-id=' + id + ']');
+											var controlCheckboxes = document.querySelectorAll('[data-root-control-id=' + id + ']');
 
-											if (controlCheckboxes.length == 0) {
+											if (controlCheckboxes.length === 0) {
 												return;
 											}
 
-											controlCheckboxes.each(
-												function() {
-													var controlCheckbox = $(this);
-
-													if (!controlCheckbox.is(':checked')) {
-														controlCheckbox.trigger(STR_CLICK);
+											Array.prototype.forEach.call(
+												controlCheckboxes,
+												function(controlCheckbox) {
+													if (!controlCheckbox.checked) {
+														controlCheckbox.click();
 													}
 												}
 											);
@@ -1088,29 +1086,25 @@ AUI.add(
 					_setDisabledCheckboxParameters: function(portletURL) {
 						var instance = this;
 
-						$('[id^=' + instance.ns('PORTLET_DATA') + ']').each(
-							function() {
-								var input = $(this);
+						var portletDataNodes = document.querySelectorAll('[id^=' + instance.ns('PORTLET_DATA') + ']');
 
-								if (input.is(':checkbox')) {
-									var id = input.prop('id');
+						Array.prototype.forEach.call(
+							portletDataNodes,
+							function(portletDataNode) {
+								if (portletDataNode.type === 'checkbox') {
+									var id = portletDataNode.id;
 
-									var controlCheckboxes = $('[data-root-control-id=' + id + ']');
+									var controlCheckboxes = document.querySelectorAll('[data-root-control-id=' + id + ']');
 
-									if (controlCheckboxes.length == 0) {
+									if (controlCheckboxes.length === 0) {
 										return;
 									}
 
-									controlCheckboxes.each(
-										function() {
-											var controlCheckbox = $(this);
-
-											if (controlCheckbox.is(':disabled') && controlCheckbox.is(':checked')) {
-												var controlCheckboxName = controlCheckbox.prop('name');
-
-												controlCheckboxName = controlCheckboxName.replace(instance.NS, '');
-
-												portletURL.setParameter(controlCheckboxName, 'true');
+									Array.prototype.forEach.call(
+										controlCheckboxes,
+										function(controlCheckbox) {
+											if (controlCheckbox.disabled && controlCheckbox.checked) {
+												portletURL.setParameter(controlCheckbox.name.replace(instance.NS, ''), 'true');
 											}
 										}
 									);
