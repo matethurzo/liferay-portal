@@ -14,12 +14,10 @@
 
 package com.liferay.change.tracking.constants;
 
-import com.liferay.portal.kernel.util.WebKeys;
-
 /**
  * @author Zoltan Csaszi
  */
-public interface CTWebKeys extends WebKeys {
+public interface CTWebKeys {
 
 	public static final String CT_COLLECTION = "ctCollection";
 
