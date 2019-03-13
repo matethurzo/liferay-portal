@@ -72,13 +72,11 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 						</c:choose>
 					</liferay-ui:search-container-column-text>
 
-					<liferay-ui:search-container-column-text
+					<liferay-ui:search-container-column-date
 						name="modified-date"
+						value="<%= !productionCollection ? curCTCollection.getModifiedDate() : null %>"
 					>
-						<c:if test="<%= !productionCollection %>">
-							<%= curCTCollection.getModifiedDate() %>
-						</c:if>
-					</liferay-ui:search-container-column-text>
+					</liferay-ui:search-container-column-date>
 
 					<liferay-ui:search-container-column-text
 						name="created-by"
