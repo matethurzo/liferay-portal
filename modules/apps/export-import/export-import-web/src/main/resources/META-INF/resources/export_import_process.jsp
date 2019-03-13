@@ -168,7 +168,9 @@ if (Validator.isNotNull(backURL)) {
 
 			<c:if test="<%= Validator.isNotNull(curBackgroundTask.getStatusMessage()) %>">
 				<h6 class="background-task-status-row">
-					<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= curBackgroundTask.getBackgroundTaskId() %>', title: $('#<portlet:namespace />backgroundTaskName<%= curBackgroundTask.getBackgroundTaskId() %>').text()}); void(0);"><liferay-ui:message key="see-more-details" /></a>
+					<a class="details-link" href="javascript:;" onclick="<portlet:namespace />viewBackgroundTaskDetails(<%= curBackgroundTask.getBackgroundTaskId() %>)">
+						<liferay-ui:message key="see-more-details" />
+					</a>
 				</h6>
 
 				<div class="background-task-status-message hide" id="<portlet:namespace />backgroundTaskStatusMessage<%= curBackgroundTask.getBackgroundTaskId() %>">
@@ -199,3 +201,23 @@ if ((backgroundTask != null) && backgroundTask.isInProgress()) {
 		<liferay-util:param name="incompleteBackgroundTaskCount" value="<%= String.valueOf(incompleteBackgroundTaskCount) %>" />
 	</liferay-util:include>
 </div>
+
+<script>
+	function <portlet:namespace />viewBackgroundTaskDetails(backgroundTaskId) {
+		var title = '';
+
+		var backgroundTaskNameElement = document.getElementById('<portlet:namespace />backgroundTaskName' + backgroundTaskId);
+
+		if (backgroundTaskNameElement) {
+			title = backgroundTaskNameElement.textContent;
+		}
+
+		Liferay.fire(
+			'<portlet:namespace />viewBackgroundTaskDetails',
+			{
+				nodeId: 'backgroundTaskStatusMessage' + backgroundTaskId,
+				title: title
+			}
+		);
+	}
+</script>
