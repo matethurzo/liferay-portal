@@ -84,7 +84,7 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 						name="created-by"
 					>
 						<c:if test="<%= !productionCollection %>">
-							<%= HtmlUtil.escape(curCTCollection.getName()) %>
+							<%= HtmlUtil.escape(curCTCollection.getUserName()) %>
 						</c:if>
 					</liferay-ui:search-container-column-text>
 
@@ -99,6 +99,16 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 								<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
 							</c:otherwise>
 						</c:choose>
+					</liferay-ui:search-container-column-text>
+
+					<liferay-ui:search-container-column-text
+						name="status"
+					>
+						<c:if test="<%= changeListsDisplayContext.isChangeListActive(curCTCollection.getCtCollectionId()) %>">
+							<span class="label label-info">
+								<span class="label-item label-item-expand"><liferay-ui:message key="active" /></span>
+							</span>
+						</c:if>
 					</liferay-ui:search-container-column-text>
 
 					<liferay-ui:search-container-column-text>

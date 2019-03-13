@@ -71,6 +71,8 @@ public class ChangeListsDisplayContext {
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		_ctEngineManager = _serviceTracker.getService();
 	}
 
 	public SoyContext getChangeListsContext() throws Exception {
@@ -207,8 +209,6 @@ public class ChangeListsDisplayContext {
 			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
 			_getIteratorURL(), null, "there-are-no-change-lists");
 
-		CTEngineManager ctEngineManager = _serviceTracker.getService();
-
 		QueryDefinition<CTCollection> queryDefinition = new QueryDefinition<>();
 
 		DisplayTerms displayTerms = searchContainer.getDisplayTerms();
@@ -227,7 +227,7 @@ public class ChangeListsDisplayContext {
 		List<CTCollection> ctCollections = new ArrayList<>();
 
 		Optional<CTCollection> productionCTCollection =
-			ctEngineManager.getProductionCTCollectionOptional(
+			_ctEngineManager.getProductionCTCollectionOptional(
 				_themeDisplay.getCompanyId());
 
 		if (productionCTCollection.isPresent() && Validator.isNull(keywords)) {
@@ -235,7 +235,7 @@ public class ChangeListsDisplayContext {
 		}
 
 		ctCollections.addAll(
-			ctEngineManager.searchByKeywords(
+			_ctEngineManager.searchByKeywords(
 				_themeDisplay.getCompanyId(), queryDefinition));
 
 		searchContainer.setResults(ctCollections);
@@ -271,6 +271,17 @@ public class ChangeListsDisplayContext {
 				addTableViewTypeItem();
 			}
 		};
+	}
+
+	public boolean isChangeListActive(long ctCollectionId) {
+		long recentCTCollectionId = _ctEngineManager.getRecentCTCollectionId(
+			_themeDisplay.getUserId());
+
+		if (recentCTCollectionId == ctCollectionId) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private String _getFilterByStatus() {
@@ -414,6 +425,7 @@ public class ChangeListsDisplayContext {
 		_serviceTracker = serviceTracker;
 	}
 
+	private final CTEngineManager _ctEngineManager;
 	private String _displayStyle;
 	private String _filterByStatus;
 	private final HttpServletRequest _httpServletRequest;
