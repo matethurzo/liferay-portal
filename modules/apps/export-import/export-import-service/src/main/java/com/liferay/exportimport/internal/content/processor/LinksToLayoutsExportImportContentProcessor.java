@@ -194,6 +194,36 @@ public class LinksToLayoutsExportImportContentProcessor
 
 			Long newPlid = MapUtil.getLong(layoutPlids, oldPlid);
 
+			if (newPlid == 0) {
+				Element missingReferencesElement =
+					portletDataContext.getMissingReferencesElement();
+
+				List<Element> elements = missingReferencesElement.elements();
+
+				Layout existingLayout = null;
+
+				for (Element element : elements) {
+					String className = element.attributeValue("class-name");
+
+					if (className.equals(Layout.class.getName())) {
+						String uuid = element.attributeValue("uuid");
+						String privateLayout = element.attributeValue(
+							"private-layout");
+
+						existingLayout =
+							_layoutLocalService.fetchLayoutByUuidAndGroupId(
+								uuid, portletDataContext.getScopeGroupId(),
+								Boolean.valueOf(privateLayout));
+
+						if (existingLayout != null) {
+							newPlid = existingLayout.getPlid();
+
+							break;
+						}
+					}
+				}
+			}
+
 			long oldGroupId = GetterUtil.getLong(matcher.group(6));
 
 			long newGroupId = oldGroupId;
