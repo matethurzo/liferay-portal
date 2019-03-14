@@ -169,51 +169,25 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 				searchContainer="<%= ctCollectionSearchContainer %>"
 			>
 				<div class="row">
-					<liferay-ui:search-container-row
-						className="com.liferay.change.tracking.model.CTCollection"
-						keyProperty="ctCollectionId"
-						modelVar="curCTCollection"
-					>
+
+					<%
+					CTCollection productionCTCollection = changeListsDisplayContext.getProductionCTCollection();
+					%>
+
+					<c:if test="<%= productionCTCollection != null %>">
 						<div class="col-sm-4">
-							<div class="border-left-blue card select-card-sheet">
+							<div class="border-left-green card select-card-sheet">
 								<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-header">
 									<div class="card-col-content lfr-card-details-column">
-										<span class="card-h3" data-qa-id="headerSubTitle"><%= HtmlUtil.escape(curCTCollection.getName()) %></span>
+										<span class="card-h3" data-qa-id="headerSubTitle">
+											<span class="work-on-production"><liferay-ui:message key="work-on-production" /></span>
+										</span>
 
 										<div class="select-card-sheet-block">
 											<span class="card-h4"><liferay-ui:message key="description" /></span>
 
 											<div class="card-text" data-qa-id="description">
-												<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
-											</div>
-										</div>
-
-										<div class="select-card-sheet-block">
-											<span class="card-h4"><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></span>
-
-											<div class="card-text" data-qa-id="created-by-modified-date">
-												<%= curCTCollection.getUserName() + " - " + curCTCollection.getModifiedDate() %>
-											</div>
-										</div>
-
-										<div class="select-card-sheet-block">
-											<span class="card-h4"><liferay-ui:message key="changes" /></span>
-
-											<div class="changes-row">
-												<div class="changes">
-													<div class="big-number" data-qa-id="changesAdded">0</div>
-													<div class=""><liferay-ui:message key="added" /></div>
-												</div>
-
-												<div class="changes">
-													<div class="big-number" data-qa-id="changesModified">0</div>
-													<div class=""><liferay-ui:message key="modified" /></div>
-												</div>
-
-												<div class="changes">
-													<div class="big-number" data-qa-id="changesDeleted">0</div>
-													<div class=""><liferay-ui:message key="deleted" /></div>
-												</div>
+												<span class="work-on-production-description"><liferay-ui:message key="your-changes-will-be-added-to-the-live-site-immediately" /></span>
 											</div>
 										</div>
 									</div>
@@ -226,48 +200,120 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 											message="<%= StringPool.BLANK %>"
 											showWhenSingleIcon="<%= true %>"
 										>
-											<liferay-portlet:renderURL var="editCollectionURL">
-												<portlet:param name="mvcRenderCommandName" value="/change_lists/edit_ct_collection" />
-												<portlet:param name="backURL" value="<%= themeDisplay.getURLCurrent() %>" />
-												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
-											</liferay-portlet:renderURL>
-
-											<liferay-ui:icon
-												message="edit"
-												url="<%= editCollectionURL %>"
-											/>
-
 											<liferay-portlet:actionURL name="/change_lists/checkout_ct_collection" var="checkoutCollectionURL">
-												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+												<portlet:param name="ctCollectionId" value="<%= String.valueOf(productionCTCollection.getCtCollectionId()) %>" />
 											</liferay-portlet:actionURL>
 
 											<liferay-ui:icon
 												message="make-active"
 												url="<%= checkoutCollectionURL %>"
 											/>
-
-											<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
-												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
-											</liferay-portlet:actionURL>
-
-											<liferay-ui:icon
-												message="publish"
-												url="<%= publishCollectionURL %>"
-											/>
-
-											<liferay-portlet:actionURL var="deleteCollectionURL">
-												<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
-											</liferay-portlet:actionURL>
-
-											<liferay-ui:icon
-												message="delete"
-												url="<%= deleteCollectionURL %>"
-											/>
 										</liferay-ui:icon-menu>
 									</div>
 								</div>
 							</div>
 						</div>
+					</c:if>
+
+					<liferay-ui:search-container-row
+						className="com.liferay.change.tracking.model.CTCollection"
+						keyProperty="ctCollectionId"
+						modelVar="curCTCollection"
+					>
+
+						<%
+						boolean productionCollection = CTConstants.CT_COLLECTION_NAME_PRODUCTION.equals(curCTCollection.getName());
+						%>
+
+						<c:if test="<%= !productionCollection %>">
+							<div class="col-sm-4">
+								<div class="border-left-blue card select-card-sheet">
+									<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-header">
+										<div class="card-col-content lfr-card-details-column">
+											<span class="card-h3" data-qa-id="headerSubTitle">
+												<%= HtmlUtil.escape(curCTCollection.getName()) %>
+											</span>
+
+											<div class="select-card-sheet-block">
+												<span class="card-h4"><liferay-ui:message key="description" /></span>
+
+												<div class="card-text" data-qa-id="description">
+													<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
+												</div>
+											</div>
+
+											<div class="select-card-sheet-block">
+												<span class="card-h4"><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></span>
+
+												<div class="card-text" data-qa-id="created-by-modified-date">
+													<%= curCTCollection.getUserName() + " - " + curCTCollection.getModifiedDate() %>
+												</div>
+											</div>
+
+											<div class="select-card-sheet-block">
+												<span class="card-h4"><liferay-ui:message key="changes" /></span>
+
+												<div class="changes-row">
+													<div class="changes">
+														<div class="big-number" data-qa-id="changesAdded">0</div>
+														<div class=""><liferay-ui:message key="added" /></div>
+													</div>
+
+													<div class="changes">
+														<div class="big-number" data-qa-id="changesModified">0</div>
+														<div class=""><liferay-ui:message key="modified" /></div>
+													</div>
+
+													<div class="changes">
+														<div class="big-number" data-qa-id="changesDeleted">0</div>
+														<div class=""><liferay-ui:message key="deleted" /></div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="card-col-field lfr-card-actions-column">
+											<liferay-ui:icon-menu
+												direction="left-side"
+												icon="<%= StringPool.BLANK %>"
+												markupView="lexicon"
+												message="<%= StringPool.BLANK %>"
+												showWhenSingleIcon="<%= true %>"
+											>
+												<liferay-portlet:renderURL var="editCollectionURL">
+													<portlet:param name="mvcRenderCommandName" value="/change_lists/edit_ct_collection" />
+													<portlet:param name="backURL" value="<%= themeDisplay.getURLCurrent() %>" />
+													<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+												</liferay-portlet:renderURL>
+
+												<liferay-ui:icon
+													message="edit"
+													url="<%= editCollectionURL %>"
+												/>
+
+												<liferay-portlet:actionURL name="/change_lists/publish_ct_collection" var="publishCollectionURL">
+													<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+												</liferay-portlet:actionURL>
+
+												<liferay-ui:icon
+													message="publish"
+													url="<%= publishCollectionURL %>"
+												/>
+
+												<liferay-portlet:actionURL var="deleteCollectionURL">
+													<portlet:param name="ctCollectionId" value="<%= String.valueOf(curCTCollection.getCtCollectionId()) %>" />
+												</liferay-portlet:actionURL>
+
+												<liferay-ui:icon
+													message="delete"
+													url="<%= deleteCollectionURL %>"
+												/>
+											</liferay-ui:icon-menu>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:if>
 					</liferay-ui:search-container-row>
 				</div>
 

@@ -203,6 +203,14 @@ public class ChangeListsDisplayContext {
 		return _orderByType;
 	}
 
+	public CTCollection getProductionCTCollection() {
+		Optional<CTCollection> productionCTCollectionOptional =
+			_ctEngineManager.getProductionCTCollectionOptional(
+				_themeDisplay.getCompanyId());
+
+		return productionCTCollectionOptional.orElse(null);
+	}
+
 	public SearchContainer<CTCollection> getSearchContainer() {
 		SearchContainer<CTCollection> searchContainer = new SearchContainer<>(
 			_renderRequest, new DisplayTerms(_renderRequest), null,
