@@ -78,6 +78,8 @@ public class ChangeListsDisplayContext {
 	public SoyContext getChangeListsContext() {
 		SoyContext soyContext = SoyContextFactoryUtil.createSoyContext();
 
+		soyContext.put("entityNameTranslations", _getEntityNameTranslations());
+
 		soyContext.put(
 			"spritemap",
 			_themeDisplay.getPathThemeImages() + "/lexicon/icons.svg");
@@ -109,8 +111,6 @@ public class ChangeListsDisplayContext {
 		portletURL.setParameter("production", "true");
 
 		soyContext.put("urlSelectProduction", portletURL.toString());
-
-		soyContext.put("entityNameTranslations", _getEntityNameTranslations());
 
 		return soyContext;
 	}

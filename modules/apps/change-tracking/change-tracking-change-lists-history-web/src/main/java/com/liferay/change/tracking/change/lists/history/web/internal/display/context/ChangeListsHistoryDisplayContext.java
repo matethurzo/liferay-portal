@@ -98,6 +98,37 @@ public class ChangeListsHistoryDisplayContext {
 		}
 	}
 
+	public SearchContainer<CTEntry> getCTCollectionDetailsSearchContainer(
+		long ctCollectionId) {
+
+		SearchContainer<CTEntry> searchContainer = new SearchContainer<>(
+			_renderRequest, new DisplayTerms(_renderRequest), null,
+			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
+			_getIteratorURL(), null, "there-are-no-change-entries");
+
+		CTEngineManager ctEngineManager = _serviceTracker.getService();
+
+		OrderByComparator<CTEntry> orderByComparator =
+			OrderByComparatorFactoryUtil.create(
+				"CTEntry", _getOrderByCol(), getOrderByType().equals("asc"));
+
+		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>(
+			WorkflowConstants.STATUS_DRAFT, true, searchContainer.getStart(),
+			searchContainer.getEnd(), orderByComparator);
+
+		queryDefinition.setStatus(WorkflowConstants.STATUS_APPROVED);
+		queryDefinition.setOrderByComparator(orderByComparator);
+
+		List<CTEntry> ctEntries = ctEngineManager.getCTEntries(
+			ctCollectionId, queryDefinition);
+
+		searchContainer.setResults(ctEntries);
+
+		searchContainer.setTotal(ctEntries.size());
+
+		return searchContainer;
+	}
+
 	public List<DropdownItem> getFilterDropdownItems() {
 		return new DropdownItemList() {
 			{
@@ -137,37 +168,6 @@ public class ChangeListsHistoryDisplayContext {
 			_httpServletRequest, "orderByType", "desc");
 
 		return _orderByType;
-	}
-
-	public SearchContainer<CTEntry> getCTCollectionDetailsSearchContainer(
-		long ctCollectionId) {
-
-		SearchContainer<CTEntry> searchContainer = new SearchContainer<>(
-			_renderRequest, new DisplayTerms(_renderRequest), null,
-			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
-			_getIteratorURL(), null, "there-are-no-change-entries");
-
-		CTEngineManager ctEngineManager = _serviceTracker.getService();
-
-		OrderByComparator<CTEntry> orderByComparator =
-			OrderByComparatorFactoryUtil.create(
-				"CTEntry", _getOrderByCol(), getOrderByType().equals("asc"));
-
-		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>(
-			WorkflowConstants.STATUS_DRAFT, true, searchContainer.getStart(),
-			searchContainer.getEnd(), orderByComparator);
-
-		queryDefinition.setStatus(WorkflowConstants.STATUS_APPROVED);
-		queryDefinition.setOrderByComparator(orderByComparator);
-
-		List<CTEntry> ctEntries = ctEngineManager.getCTEntries(
-			ctCollectionId, queryDefinition);
-
-		searchContainer.setResults(ctEntries);
-
-		searchContainer.setTotal(ctEntries.size());
-
-		return searchContainer;
 	}
 
 	public String getSortingURL() {
