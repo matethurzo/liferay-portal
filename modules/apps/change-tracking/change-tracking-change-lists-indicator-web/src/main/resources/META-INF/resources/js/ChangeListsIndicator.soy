@@ -10,10 +10,6 @@
 
 	{let $productionCollectionName: 'productionCTCollectionName' /}
 
-	{let $tooltipElementClass: 'change-lists-control-menu-state-tooltip ' /}
-
-	{let $tooltipElementClassBackground: $activeChangeListName != $productionCollectionName ? 'tooltip-background-blue' : 'tooltip-background-green' /}
-
 	{let $tooltipContentText kind="text"}
 		{if $activeChangeListName != $productionCollectionName}
 			{msg desc=""}active-change-list{/msg}:{sp}{$activeChangeListName}
@@ -22,19 +18,17 @@
 		{/if}
 	{/let}
 
-	<li class="control-menu-nav-item">
-		<a href="{$urlChangeListsOverview}" data-title="{$tooltipContentText}" class="control-menu-icon">
-			<span class="icon-monospaced" id="">
-				{call ClayIcon.render}
-					{param spritemap: $spritemap /}
-					{param symbol: 'restore' /}
-				{/call}
-			</span>
-		</a>
-
-		{call ClayTooltip.render}
-			{param elementClasses:  $tooltipElementClass + $tooltipElementClassBackground /}
-		{/call}
-	</li>
+	<div class="change-lists-indicator">	
+		<li class="control-menu-nav-item"> 
+			<a href="{$urlChangeListsOverview}" data-title="{$tooltipContentText}" class="control-menu-icon lfr-portal-tooltip" data-change-lists-indicator>
+				<span class="icon-monospaced" id="">
+					{call ClayIcon.render}
+						{param spritemap: $spritemap /}
+						{param symbol: 'forms' /}
+					{/call}
+				</span>
+			</a>
+		</li>
+	</div>
 
 {/template}
