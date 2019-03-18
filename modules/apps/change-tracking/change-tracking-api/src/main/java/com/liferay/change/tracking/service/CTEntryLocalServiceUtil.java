@@ -80,13 +80,13 @@ public class CTEntryLocalServiceUtil {
 
 	public static com.liferay.change.tracking.model.CTEntry addCTEntry(
 			long userId, long modelClassNameId, long modelClassPK,
-			long resourcePrimKey, int changeType, long ctCollectionId,
+			long modelResourcePrimKey, int changeType, long ctCollectionId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addCTEntry(
-			userId, modelClassNameId, modelClassPK, resourcePrimKey, changeType,
-			ctCollectionId, serviceContext);
+			userId, modelClassNameId, modelClassPK, modelResourcePrimKey,
+			changeType, ctCollectionId, serviceContext);
 	}
 
 	public static void addCTEntryAggregateCTEntries(
@@ -316,12 +316,12 @@ public class CTEntryLocalServiceUtil {
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
 		fetchCTEntries(
-			long ctCollectionId, long resourcePrimKey,
+			long ctCollectionId, long modelResourcePrimKey,
 			com.liferay.portal.kernel.dao.orm.QueryDefinition
 				<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
 
 		return getService().fetchCTEntries(
-			ctCollectionId, resourcePrimKey, queryDefinition);
+			ctCollectionId, modelResourcePrimKey, queryDefinition);
 	}
 
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
