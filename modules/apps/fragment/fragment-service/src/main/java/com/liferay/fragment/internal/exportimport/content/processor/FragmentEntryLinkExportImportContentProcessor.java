@@ -14,6 +14,7 @@
 
 package com.liferay.fragment.internal.exportimport.content.processor;
 
+import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRenderer;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
@@ -29,6 +30,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
@@ -36,6 +39,7 @@ import com.liferay.staging.StagingGroupHelper;
 import com.liferay.staging.StagingGroupHelperUtil;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -172,7 +176,67 @@ public class FragmentEntryLinkExportImportContentProcessor
 			String content)
 		throws Exception {
 
-		return null;
+		JSONObject editableValuesJSONObject = JSONFactoryUtil.createJSONObject(
+			content);
+
+		Iterator<String> keysIterator = editableValuesJSONObject.keys();
+
+		while (keysIterator.hasNext()) {
+			String key = keysIterator.next();
+
+			JSONObject editableProcessorJSONObject =
+				editableValuesJSONObject.getJSONObject(key);
+
+			if (editableProcessorJSONObject == null) {
+				continue;
+			}
+
+			Iterator<String> editableKeysIterator =
+				editableProcessorJSONObject.keys();
+
+			while (editableKeysIterator.hasNext()) {
+				String editableKey = editableKeysIterator.next();
+
+				JSONObject editableJSONObject =
+					editableProcessorJSONObject.getJSONObject(editableKey);
+
+				String className = GetterUtil.getString(
+					editableJSONObject.remove("className"));
+
+				AssetRendererFactory assetRendererFactory =
+					AssetRendererFactoryRegistryUtil.
+						getAssetRendererFactoryByClassName(className);
+
+				StagingGroupHelper stagingGroupHelper =
+					StagingGroupHelperUtil.getStagingGroupHelper();
+
+				if (!stagingGroupHelper.isStagedPortlet(
+						portletDataContext.getScopeGroupId(),
+						assetRendererFactory.getPortletId())) {
+
+					continue;
+				}
+
+				long classPK = editableJSONObject.getLong("classPK");
+
+				if (Validator.isNull(className) || (classPK == 0)) {
+					continue;
+				}
+
+				editableJSONObject.put(
+					"classNameId", _portal.getClassNameId(className));
+
+				Map<Long, Long> primaryKeys =
+					(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+						className);
+
+				classPK = MapUtil.getLong(primaryKeys, classPK, classPK);
+
+				editableJSONObject.put("classPK", classPK);
+			}
+		}
+
+		return editableValuesJSONObject.toString();
 	}
 
 	@Override
