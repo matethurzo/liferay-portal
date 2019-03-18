@@ -40,7 +40,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	@Override
 	public CTEntry addCTEntry(
 			long userId, long modelClassNameId, long modelClassPK,
-			long resourcePrimKey, int changeType, long ctCollectionId,
+			long modelResourcePrimKey, int changeType, long ctCollectionId,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -59,17 +59,17 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		}
 
 		return _addCTEntry(
-			user, modelClassNameId, modelClassPK, resourcePrimKey, changeType,
-			ctCollectionId, serviceContext);
+			user, modelClassNameId, modelClassPK, modelResourcePrimKey,
+			changeType, ctCollectionId, serviceContext);
 	}
 
 	@Override
 	public List<CTEntry> fetchCTEntries(
-		long ctCollectionId, long resourcePrimKey,
+		long ctCollectionId, long modelResourcePrimKey,
 		QueryDefinition<CTEntry> queryDefinition) {
 
 		return ctEntryFinder.findByC_R(
-			ctCollectionId, resourcePrimKey, queryDefinition);
+			ctCollectionId, modelResourcePrimKey, queryDefinition);
 	}
 
 	@Override
