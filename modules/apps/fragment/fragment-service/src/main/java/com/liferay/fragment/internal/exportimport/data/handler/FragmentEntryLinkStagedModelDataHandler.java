@@ -14,6 +14,7 @@
 
 package com.liferay.fragment.internal.exportimport.data.handler;
 
+import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.data.handler.base.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -33,6 +34,8 @@ import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Pavel Savinov
@@ -81,6 +84,14 @@ public class FragmentEntryLinkStagedModelDataHandler
 
 		Element fragmentEntryLinkElement =
 			portletDataContext.getExportDataElement(fragmentEntryLink);
+
+		String editableValues =
+			_fragmentEntryLinkExportImportContentProcessor.
+				replaceExportContentReferences(
+					portletDataContext, fragmentEntryLink,
+					fragmentEntryLink.getEditableValues(), true, false);
+
+		fragmentEntryLink.setEditableValues(editableValues);
 
 		portletDataContext.addClassedModel(
 			fragmentEntryLinkElement,
@@ -170,6 +181,14 @@ public class FragmentEntryLinkStagedModelDataHandler
 					portletDataContext, importedFragmentEntryLink);
 		}
 
+		String editableValues =
+			_fragmentEntryLinkExportImportContentProcessor.
+				replaceImportContentReferences(
+					portletDataContext, fragmentEntryLink,
+					fragmentEntryLink.getEditableValues());
+
+		importedFragmentEntryLink.setEditableValues(editableValues);
+
 		portletDataContext.importClassedModel(
 			fragmentEntryLink, importedFragmentEntryLink);
 	}
@@ -180,6 +199,14 @@ public class FragmentEntryLinkStagedModelDataHandler
 
 		return _stagedModelRepository;
 	}
+
+	@Reference(
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		target = "(model.class.name=com.liferay.fragment.model.FragmentEntryLink)"
+	)
+	private volatile ExportImportContentProcessor<String>
+		_fragmentEntryLinkExportImportContentProcessor;
 
 	@Reference
 	private FragmentEntryLinkLocalService _fragmentEntryLinkLocalService;
