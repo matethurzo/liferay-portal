@@ -290,31 +290,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public List<CTEntry> getCTEntries(
-		CTCollection ctCollection, long[] groupIds, long[] userIds,
-		long[] modelClassNameIds, int[] changeTypes, Boolean collision,
-		QueryDefinition<CTEntry> queryDefinition) {
-
-		long otherCTCollectionId = 0L;
-
-		if (collision != null) {
-			Optional<CTCollection> productionCTCollectionOptional =
-				getProductionCTCollectionOptional(ctCollection.getCompanyId());
-
-			otherCTCollectionId = productionCTCollectionOptional.map(
-				CTCollectionModel::getCtCollectionId
-			).orElse(
-				0L
-			);
-		}
-
-		return _ctEntryLocalService.search(
-			ctCollection, groupIds, userIds, modelClassNameIds, changeTypes,
-			Boolean.TRUE.equals(collision), otherCTCollectionId,
-			queryDefinition);
-	}
-
-	@Override
 	public List<CTEntry> getCTEntries(long ctCollectionId) {
 		return _ctEntryLocalService.getCTCollectionCTEntries(ctCollectionId);
 	}
@@ -334,28 +309,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public int getCTEntriesCount(
-		CTCollection ctCollection, long[] groupIds, long[] userIds,
-		long[] modelClassNameIds, int[] changeTypes, Boolean collision,
-		QueryDefinition<CTEntry> queryDefinition) {
-
-		long otherCTCollectionId = 0L;
-
-		if (collision != null) {
-			Optional<CTCollection> productionCTCollectionOptional =
-				getProductionCTCollectionOptional(ctCollection.getCompanyId());
-
-			otherCTCollectionId = productionCTCollectionOptional.map(
-				CTCollectionModel::getCtCollectionId
-			).orElse(
-				0L
-			);
-		}
-
-		return (int)_ctEntryLocalService.searchCount(
-			ctCollection, groupIds, userIds, modelClassNameIds, changeTypes,
-			Boolean.TRUE.equals(collision), otherCTCollectionId,
-			queryDefinition);
+	public int getCTEntriesCount(long ctCollectionId) {
+		return _ctEntryLocalService.getCTCollectionCTEntriesCount(
+			ctCollectionId);
 	}
 
 	@Override
