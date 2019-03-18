@@ -22,8 +22,6 @@ import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.CTEntryLocalService;
-import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.journal.exception.NoSuchArticleException;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
@@ -1956,7 +1954,10 @@ public class CTJournalArticleLocalServiceWrapper
 				journalArticle.getId(), journalArticle.getResourcePrimKey(),
 				changeType, force);
 
-			_registerRelatedChanges(journalArticle, force);
+			_ctManager.registerRelatedChanges(
+				PrincipalThreadLocal.getUserId(),
+				_portal.getClassNameId(JournalArticle.class.getName()),
+				journalArticle.getId(), force);
 		}
 		catch (CTException cte) {
 			if (cte instanceof CTEntryException) {
@@ -1967,50 +1968,6 @@ public class CTJournalArticleLocalServiceWrapper
 			else {
 				throw cte;
 			}
-		}
-	}
-
-	private void _registerRelatedChanges(
-		JournalArticle journalArticle, boolean force) {
-
-		Optional<CTEntry> journalArticleCTEntryOptional =
-			_ctManager.getModelChangeCTEntryOptional(
-				PrincipalThreadLocal.getUserId(),
-				_portal.getClassNameId(JournalArticle.class.getName()),
-				journalArticle.getId());
-
-		if (!journalArticleCTEntryOptional.isPresent()) {
-			return;
-		}
-
-		DDMStructure ddmStructure = journalArticle.getDDMStructure();
-
-		if (ddmStructure != null) {
-			Optional<CTEntry> ddmStructureVersionCTEntryOptional =
-				_ctManager.getLatestModelChangeCTEntryOptional(
-					PrincipalThreadLocal.getUserId(),
-					ddmStructure.getStructureId());
-
-			ddmStructureVersionCTEntryOptional.ifPresent(
-				ddmStructureVersionCTEntry -> _ctManager.addRelatedCTEntry(
-					PrincipalThreadLocal.getUserId(),
-					journalArticleCTEntryOptional.get(),
-					ddmStructureVersionCTEntry, force));
-		}
-
-		DDMTemplate ddmTemplate = journalArticle.getDDMTemplate();
-
-		if (ddmTemplate != null) {
-			Optional<CTEntry> ddmTemplateVersionCTEntryOptional =
-				_ctManager.getLatestModelChangeCTEntryOptional(
-					PrincipalThreadLocal.getUserId(),
-					ddmTemplate.getTemplateId());
-
-			ddmTemplateVersionCTEntryOptional.ifPresent(
-				ddmTemplateVersionCTEntry -> _ctManager.addRelatedCTEntry(
-					PrincipalThreadLocal.getUserId(),
-					journalArticleCTEntryOptional.get(),
-					ddmTemplateVersionCTEntry, force));
 		}
 	}
 
