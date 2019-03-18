@@ -16,6 +16,8 @@ package com.liferay.change.tracking.internal;
 
 import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.CTManager;
+import com.liferay.change.tracking.configuration.CTConfiguration;
+import com.liferay.change.tracking.configuration.CTConfigurationRegistry;
 import com.liferay.change.tracking.exception.CTEntryException;
 import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.exception.DuplicateCTEntryException;
@@ -33,6 +35,7 @@ import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
@@ -42,10 +45,12 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.TransactionConfig;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
@@ -485,6 +490,53 @@ public class CTManagerImpl implements CTManager {
 	}
 
 	@Override
+	public <V extends BaseModel> void registerRelatedChanges(
+		long userId, long classNameId, long classPK) {
+
+		registerRelatedChanges(userId, classNameId, classPK, false);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <V extends BaseModel> void registerRelatedChanges(
+		long userId, long classNameId, long classPK, boolean force) {
+
+		long companyId = _getCompanyId(userId);
+
+		if (!_ctEngineManager.isChangeTrackingEnabled(companyId) ||
+			!_ctEngineManager.isChangeTrackingSupported(
+				companyId, classNameId)) {
+
+			return;
+		}
+
+		Optional<CTConfiguration<?, ?>> ctConfigurationOptional =
+			_ctConfigurationRegistry.
+				getCTConfigurationOptionalByVersionClassName(
+					_portal.getClassName(classNameId));
+
+		if (!ctConfigurationOptional.isPresent()) {
+			return;
+		}
+
+		CTConfiguration<?, V> ctConfiguration =
+			(CTConfiguration<?, V>)ctConfigurationOptional.get();
+
+		List<Function<V, ? extends BaseModel>> relatedEntityFunctions =
+			ctConfiguration.getVersionEntityRelatedEntityFunctions();
+
+		Function<Long, V> versionEntityByVersionEntityIdFunction =
+			ctConfiguration.getVersionEntityByVersionEntityIdFunction();
+
+		V versionEntity = versionEntityByVersionEntityIdFunction.apply(classPK);
+
+		relatedEntityFunctions.forEach(
+			relatedEntityFunction -> _registerRelatedChange(
+				userId, classNameId, classPK, versionEntity,
+				relatedEntityFunction, force));
+	}
+
+	@Override
 	public Optional<CTEntry> unregisterModelChange(
 		long userId, long modelClassNameId, long modelClassPK) {
 
@@ -623,6 +675,46 @@ public class CTManagerImpl implements CTManager {
 			ctCollectionId, modelClassNameId, modelClassPK);
 	}
 
+	private <V extends BaseModel, R extends BaseModel> void
+		_registerRelatedChange(
+			long userId, long classNameId, long classPK, V versionEntity,
+			Function<V, R> relatedEntityFunction, boolean force) {
+
+		Optional<CTEntry> versionEntityCTEntryOptional =
+			getModelChangeCTEntryOptional(userId, classNameId, classPK);
+
+		if (!versionEntityCTEntryOptional.isPresent()) {
+			return;
+		}
+
+		R relatedEntity = relatedEntityFunction.apply(versionEntity);
+
+		if (relatedEntity == null) {
+			return;
+		}
+
+		long relatedEntityClassPK = (Long)relatedEntity.getPrimaryKeyObj();
+
+		Optional<CTEntry> relatedEntityCTEntryOptional =
+			getModelChangeCTEntryOptional(
+				userId,
+				_portal.getClassNameId(relatedEntity.getModelClassName()),
+				relatedEntityClassPK);
+
+		if (!relatedEntityCTEntryOptional.isPresent()) {
+			relatedEntityCTEntryOptional = getLatestModelChangeCTEntryOptional(
+				userId, relatedEntityClassPK);
+		}
+
+		if (!relatedEntityCTEntryOptional.isPresent()) {
+			return;
+		}
+
+		addRelatedCTEntry(
+			userId, versionEntityCTEntryOptional.get(),
+			relatedEntityCTEntryOptional.get(), force);
+	}
+
 	private void _updateCTEntryInCTEntryAggregate(
 		CTEntryAggregate ctEntryAggregate, CTEntry ctEntry) {
 
@@ -673,6 +765,9 @@ public class CTManagerImpl implements CTManager {
 	private CTCollectionLocalService _ctCollectionLocalService;
 
 	@Reference
+	private CTConfigurationRegistry _ctConfigurationRegistry;
+
+	@Reference
 	private CTEngineManager _ctEngineManager;
 
 	@Reference
@@ -680,6 +775,9 @@ public class CTManagerImpl implements CTManager {
 
 	@Reference
 	private CTEntryLocalService _ctEntryLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	private final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(

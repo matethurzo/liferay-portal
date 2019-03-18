@@ -23,6 +23,7 @@ import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.BaseModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public interface CTManager {
 	 * @param  userId the primary key of the user
 	 * @param  ownerCTEntry the owner of the change bag
 	 * @param  relatedCTEntry the change to add to the bag
-	 * @param  force forces to ovveride existing change entry in aggregate
+	 * @param  force forces to override existing change entry in aggregate
 	 * @return the created or updated change entry aggregate
 	 */
 	public Optional<CTEntryAggregate> addRelatedCTEntry(
@@ -281,6 +282,32 @@ public interface CTManager {
 			long userId, long modelClassNameId, long modelClassPK,
 			long modelResourcePrimKey, int changeType, boolean force)
 		throws CTException;
+
+	/**
+	 * Puts all related model changes to a change entry aggregate associated
+	 * with the owner model change. Creates a new aggregate if the related entry
+	 * was already part of the aggregate.
+	 *
+	 * @param userId the primary key of the user
+	 * @param classNameId the primary key of the owner version model's class
+	 * @param classPK the primary key of the owner version model
+	 */
+	public <V extends BaseModel> void registerRelatedChanges(
+		long userId, long classNameId, long classPK);
+
+	/**
+	 * Puts all related model changes to a change entry aggregate associated
+	 * with the owner model change. Creates a new aggregate if the related entry
+	 * was already part of the aggregate, except when the <code>force</code>
+	 * attribute is <code>true</code>.
+	 *
+	 * @param userId the primary key of the user
+	 * @param classNameId the primary key of the owner version model's class
+	 * @param classPK the primary key of the owner version model
+	 * @param force forces to override existing change entry in aggregate
+	 */
+	public <V extends BaseModel> void registerRelatedChanges(
+		long userId, long classNameId, long classPK, boolean force);
 
 	/**
 	 * Unregisters a model change from the change tracking framework.
