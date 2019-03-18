@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.xml.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -95,6 +96,25 @@ public class UserGroupStagedModelDataHandler
 		portletDataContext.addClassedModel(
 			userGroupElement, ExportImportPathUtil.getModelPath(userGroup),
 			userGroup);
+	}
+
+	@Override
+	protected void doImportMissingReference(
+			PortletDataContext portletDataContext, String uuid, long groupId,
+			long userGroupId)
+		throws Exception {
+
+		UserGroup existingUserGroup = fetchMissingReference(uuid, groupId);
+
+		if (existingUserGroup == null) {
+			return;
+		}
+
+		Map<Long, Long> userGroupIds =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
+				UserGroup.class);
+
+		userGroupIds.put(userGroupId, existingUserGroup.getUserGroupId());
 	}
 
 	@Override
