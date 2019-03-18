@@ -137,11 +137,13 @@ class ChangeListsIndicator extends PortletBase {
 	 * @private
 	 */
 	_handleMouseEnter(event) {
-		let element = document.querySelector(TOOLTIP_QUERY_SELECTOR);
-		
-		if(element && !element.classList.contains(this._tooltipCssClassName)) {
-			element.classList.add(this._tooltipCssClassName);
-		}
+		setTimeout(() => {
+			let element = document.querySelector(TOOLTIP_QUERY_SELECTOR);
+			
+			if(element && !element.classList.contains(this._tooltipCssClassName)) {
+				element.classList.add(this._tooltipCssClassName);
+			}
+		}, 0);
 	}
 	
 	/**
@@ -151,11 +153,13 @@ class ChangeListsIndicator extends PortletBase {
 	 * @private
 	 */
 	_handleMouseLeave(event) {
-		let element = document.querySelector(TOOLTIP_QUERY_SELECTOR);
-
-		if(element && element.classList.contains(this._tooltipCssClassName)) {
-			element.classList.remove(this._tooltipCssClassName);
-		}
+		setTimeout(() => {
+			let element = document.querySelector(TOOLTIP_QUERY_SELECTOR);
+			
+			if(element && element.classList.contains(this._tooltipCssClassName)) {
+				element.classList.remove(this._tooltipCssClassName);
+			}	
+		}, 0);
 	}
 	
 	/**
