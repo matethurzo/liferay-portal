@@ -159,7 +159,7 @@ class ChangeListsIndicator extends PortletBase {
 			if(element && element.classList.contains(this._tooltipCssClassName)) {
 				element.classList.remove(this._tooltipCssClassName);
 			}	
-		}, 0);
+		}, 50);
 	}
 	
 	/**
