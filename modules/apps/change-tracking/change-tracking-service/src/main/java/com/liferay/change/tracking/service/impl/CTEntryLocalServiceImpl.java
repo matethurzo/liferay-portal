@@ -133,16 +133,6 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	}
 
 	@Override
-	public int getAffectedOwnerCTEntriesCount(long ctEntryId) {
-		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>();
-
-		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
-
-		return ctEntryFinder.countByRelatedCTEntries(
-			ctEntryId, queryDefinition);
-	}
-
-	@Override
 	public List<CTEntry> getCTCollectionCTEntries(long ctCollectionId) {
 		return getCTCollectionCTEntries(
 			ctCollectionId, WorkflowConstants.STATUS_DRAFT, QueryUtil.ALL_POS,
@@ -198,6 +188,16 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
 
 		return ctEntryFinder.findByRelatedCTEntries(ctEntryId, queryDefinition);
+	}
+
+	@Override
+	public int getRelatedOwnerCTEntriesCount(long ctEntryId) {
+		QueryDefinition<CTEntry> queryDefinition = new QueryDefinition<>();
+
+		queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return ctEntryFinder.countByRelatedCTEntries(
+			ctEntryId, queryDefinition);
 	}
 
 	@Override
