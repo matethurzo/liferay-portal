@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutRevision;
 import com.liferay.portal.kernel.model.LayoutStagingHandler;
+import com.liferay.portal.kernel.model.LayoutVersion;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.PortletPreferences;
@@ -43,6 +44,7 @@ import com.liferay.portal.kernel.settings.SettingsLocatorHelperUtil;
 import com.liferay.portal.kernel.spring.aop.Property;
 import com.liferay.portal.kernel.spring.aop.Retry;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -53,9 +55,16 @@ import com.liferay.portlet.exportimport.staging.ProxiedLayoutsThreadLocal;
 import com.liferay.portlet.exportimport.staging.StagingAdvicesThreadLocal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Brian Wing Shun Chan
@@ -89,6 +98,27 @@ public class PortletPreferencesLocalServiceImpl
 		}
 
 		portletPreferences.setPreferences(defaultPreferences);
+
+		if (plid != 0) {
+			try {
+				long oldLayoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
+
+				LayoutVersion layoutVersion = layoutLocalService.addNewVersion(plid);
+
+				if (_layoutPortletPreferences.get(oldLayoutVersionId) == null) {
+					_layoutPortletPreferences.put(layoutVersion.getLayoutVersionId(), Collections.singleton(portletPreferences));
+				}
+				else {
+					Set<PortletPreferences> oldPreferences = new HashSet<>(_layoutPortletPreferences.get(oldLayoutVersionId));
+
+					oldPreferences.add(portletPreferences);
+
+					_layoutPortletPreferences.put(layoutVersion.getLayoutVersionId(), oldPreferences);
+				}
+			}
+			catch (PortalException pe) {
+			}
+		}
 
 		if (_log.isDebugEnabled()) {
 			StringBundler sb = new StringBundler(13);
@@ -313,8 +343,36 @@ public class PortletPreferencesLocalServiceImpl
 	public List<PortletPreferences> getPortletPreferences(
 		long ownerId, int ownerType, long plid) {
 
-		return portletPreferencesPersistence.findByO_O_P(
-			ownerId, ownerType, _swapPlidForPortletPreferences(plid));
+		if (ownerType != 3 || plid == 0) {
+			return portletPreferencesPersistence.findByO_O_P(
+				ownerId, ownerType, _swapPlidForPortletPreferences(plid));
+		}
+
+		try {
+			long layoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
+
+			if (_layoutPortletPreferences.get(layoutVersionId) == null) {
+				return portletPreferencesPersistence.findByO_O_P(
+					ownerId, ownerType, _swapPlidForPortletPreferences(plid));
+			}
+
+			List<PortletPreferences> layoutPreferences = _layoutPortletPreferences.get(layoutVersionId)
+				.stream()
+				.filter(pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPlid() == plid)
+				.collect(Collectors.toList());
+
+			if (ListUtil.isEmpty(layoutPreferences)) {
+				return portletPreferencesPersistence.findByO_O_P(
+					ownerId, ownerType, _swapPlidForPortletPreferences(plid));
+			}
+			else {
+				return layoutPreferences;
+			}
+		}
+		catch (PortalException pe) {
+			return portletPreferencesPersistence.findByO_O_P(
+				ownerId, ownerType, _swapPlidForPortletPreferences(plid));
+		}
 	}
 
 	@Override
@@ -322,9 +380,15 @@ public class PortletPreferencesLocalServiceImpl
 			long ownerId, int ownerType, long plid, String portletId)
 		throws PortalException {
 
-		return portletPreferencesPersistence.findByO_O_P_P(
-			ownerId, ownerType, _swapPlidForPortletPreferences(plid),
-			portletId);
+		long layoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
+
+		return _layoutPortletPreferences.get(layoutVersionId)
+			.stream()
+			.filter(pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPortletId().equals(portletId))
+			.findFirst()
+			.orElse(portletPreferencesPersistence.findByO_O_P_P(
+				ownerId, ownerType, _swapPlidForPortletPreferences(plid),
+				portletId));
 	}
 
 	@Override
@@ -612,6 +676,39 @@ public class PortletPreferencesLocalServiceImpl
 	public PortletPreferences updatePreferences(
 		long ownerId, int ownerType, long plid, String portletId, String xml) {
 
+		try {
+			final long oldLayoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
+
+			long layoutVersionId = layoutLocalService.addNewVersion(plid).getLayoutVersionId();
+
+			long portletPreferencesId = counterLocalService.increment();
+
+			PortletPreferences portletPreferences = portletPreferencesPersistence.create(
+				portletPreferencesId);
+
+			portletPreferences.setOwnerId(ownerId);
+			portletPreferences.setOwnerType(ownerType);
+			portletPreferences.setPlid(layoutVersionId);
+			portletPreferences.setPortletId(portletId);
+			portletPreferences.setPreferences(xml);
+
+			Set<PortletPreferences> oldPreferences = _layoutPortletPreferences.get(oldLayoutVersionId);
+
+			Predicate<PortletPreferences> predicate = pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPlid() == oldLayoutVersionId && pp.getPortletId().equals(portletId);
+
+			Set<PortletPreferences> newPreferences = oldPreferences
+				.stream()
+				.filter(pp -> !predicate.test(pp))
+				.collect(Collectors.toSet());
+
+			newPreferences.add(portletPreferences);
+
+			_layoutPortletPreferences.put(layoutVersionId, newPreferences);
+		}
+		catch (Exception e) {
+
+		}
+
 		plid = _swapPlidForUpdatePreferences(plid);
 
 		if (_log.isDebugEnabled()) {
@@ -644,6 +741,24 @@ public class PortletPreferencesLocalServiceImpl
 
 		return portletPreferences;
 	}
+
+	@Override
+	public void addNewLayoutVersionPreferences(long oldLayoutVersionId, long layoutVersionId) {
+		Optional<Set<PortletPreferences>> oldPreferences = Optional.ofNullable(_layoutPortletPreferences.get(oldLayoutVersionId));
+
+		oldPreferences.ifPresent(set -> _layoutPortletPreferences.put(layoutVersionId, set));
+	}
+
+	@Override
+	public Set<PortletPreferences> getLayoutVersionPortletPreferences(long layoutVersionId) {
+		if (_layoutPortletPreferences.containsKey(layoutVersionId)) {
+			return _layoutPortletPreferences.get(layoutVersionId);
+		}
+
+		return Collections.emptySet();
+	}
+
+	private static final Map<Long, Set<PortletPreferences>> _layoutPortletPreferences = new ConcurrentHashMap<>();
 
 	private boolean _exists(long plid, long companyId, String portletId) {
 		if (plid == PortletKeys.PREFS_PLID_SHARED) {

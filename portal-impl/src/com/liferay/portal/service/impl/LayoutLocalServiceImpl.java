@@ -74,6 +74,7 @@ import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -3366,6 +3367,8 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 		Layout layout = layoutPersistence.findByG_P_L(
 			groupId, privateLayout, layoutId, true);
 
+		long oldLayoutVersionId = getCurrentLayoutVersion(layout.getPlid()).getLayoutVersionId();
+
 		Layout draftLayout = getDraft(layout);
 
 		validateTypeSettingsProperties(draftLayout, typeSettingsProperties);
@@ -3377,7 +3380,27 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			draftLayout.setPublishDate(now);
 		}
 
-		return publishDraft(draftLayout);
+		Layout publishedLayout = publishDraft(draftLayout);
+
+		long layoutVersionId = getCurrentLayoutVersion(publishedLayout.getPlid()).getLayoutVersionId();
+
+		portletPreferencesLocalService.addNewLayoutVersionPreferences(oldLayoutVersionId, layoutVersionId);
+
+		return publishedLayout;
+	}
+
+	@Override
+	public LayoutVersion getCurrentLayoutVersion(long plid) throws PortalException {
+		return layoutVersionPersistence.fetchByPlid_First(plid, OrderByComparatorFactoryUtil.create("LayoutVersion", "layoutVersionId", false));
+	}
+
+	@Override
+	public LayoutVersion addNewVersion(long plid) throws PortalException {
+		Layout layout = layoutLocalService.fetchLayout(plid);
+
+		publishDraft(getDraft(layout));
+
+		return layoutVersionPersistence.fetchByPlid_First(plid, OrderByComparatorFactoryUtil.create("LayoutVersion", "layoutVersionId", false));
 	}
 
 	/**
