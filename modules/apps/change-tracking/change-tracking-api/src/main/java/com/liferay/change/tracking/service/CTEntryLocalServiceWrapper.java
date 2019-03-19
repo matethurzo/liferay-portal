@@ -405,11 +405,6 @@ public class CTEntryLocalServiceWrapper
 	}
 
 	@Override
-	public int getAffectedOwnerCTEntriesCount(long ctEntryId) {
-		return _ctEntryLocalService.getAffectedOwnerCTEntriesCount(ctEntryId);
-	}
-
-	@Override
 	public java.util.List<com.liferay.change.tracking.model.CTEntry>
 		getCTCollectionCTEntries(long ctCollectionId) {
 
@@ -591,6 +586,11 @@ public class CTEntryLocalServiceWrapper
 
 		return _ctEntryLocalService.getRelatedOwnerCTEntries(
 			ctEntryId, start, end, orderByComparator);
+	}
+
+	@Override
+	public int getRelatedOwnerCTEntriesCount(long ctEntryId) {
+		return _ctEntryLocalService.getRelatedOwnerCTEntriesCount(ctEntryId);
 	}
 
 	@Override

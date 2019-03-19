@@ -370,10 +370,6 @@ public class CTEntryLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static int getAffectedOwnerCTEntriesCount(long ctEntryId) {
-		return getService().getAffectedOwnerCTEntriesCount(ctEntryId);
-	}
-
 	public static java.util.List<com.liferay.change.tracking.model.CTEntry>
 		getCTCollectionCTEntries(long ctCollectionId) {
 
@@ -539,6 +535,10 @@ public class CTEntryLocalServiceUtil {
 
 		return getService().getRelatedOwnerCTEntries(
 			ctEntryId, start, end, orderByComparator);
+	}
+
+	public static int getRelatedOwnerCTEntriesCount(long ctEntryId) {
+		return getService().getRelatedOwnerCTEntriesCount(ctEntryId);
 	}
 
 	public static boolean hasCTCollectionCTEntries(long ctCollectionId) {

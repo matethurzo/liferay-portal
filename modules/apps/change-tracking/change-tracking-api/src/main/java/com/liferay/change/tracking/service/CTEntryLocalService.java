@@ -257,9 +257,6 @@ public interface CTEntryLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getAffectedOwnerCTEntriesCount(long ctEntryId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CTEntry> getCTCollectionCTEntries(long ctCollectionId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -367,6 +364,9 @@ public interface CTEntryLocalService
 	public List<CTEntry> getRelatedOwnerCTEntries(
 		long ctEntryId, int start, int end,
 		OrderByComparator<CTEntry> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getRelatedOwnerCTEntriesCount(long ctEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasCTCollectionCTEntries(long ctCollectionId);
