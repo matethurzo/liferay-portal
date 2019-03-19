@@ -30,6 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class CTEntryModel {
 
+	public static final CTEntryModel EMPTY_CT_ENTRY_MODEL = new CTEntryModel();
+
 	public static CTEntryModel forCTEntry(CTEntry ctEntry) {
 		Builder builder = new Builder();
 
