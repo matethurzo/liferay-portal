@@ -37,10 +37,14 @@ import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.test.util.lar.BaseStagedModelDataHandlerTestCase;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.StagedModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -98,6 +102,58 @@ public class DDMStructureStagedModelDataHandlerTest
 
 		CompanyTestUtil.resetCompanyLocales(
 			TestPropsValues.getCompanyId(), _availableLocales, _defaultLocale);
+	}
+
+	@Test
+	public void testImportStructureToGlobalSite() throws Exception {
+		long companyId = stagingGroup.getCompanyId();
+
+		Company company = CompanyLocalServiceUtil.getCompany(companyId);
+
+		Group companyGroup = company.getGroup();
+
+		DDMStructure structure = DDMStructureTestUtil.addStructure(
+			companyGroup.getGroupId(), _CLASS_NAME);
+
+		initExport(companyGroup);
+
+		try {
+			ExportImportThreadLocal.setPortletExportInProcess(true);
+
+			StagedModelDataHandlerUtil.exportStagedModel(
+				portletDataContext, structure);
+		}
+		finally {
+			ExportImportThreadLocal.setPortletExportInProcess(false);
+		}
+
+		_targetCompany = CompanyTestUtil.addCompany();
+
+		User targetDefaultUser = _targetCompany.getDefaultUser();
+
+		initImport(companyGroup, _targetCompany.getGroup());
+
+		portletDataContext.setUserIdStrategy(
+			new TestUserIdStrategy(targetDefaultUser));
+
+		StagedModel exportedStagedModel = readExportedStagedModel(structure);
+
+		Assert.assertNotNull(exportedStagedModel);
+
+		try {
+			ExportImportThreadLocal.setPortletImportInProcess(true);
+
+			StagedModelDataHandlerUtil.importStagedModel(
+				portletDataContext, exportedStagedModel);
+		}
+		finally {
+			ExportImportThreadLocal.setPortletImportInProcess(false);
+		}
+
+		StagedModel importedStagedModel = getStagedModel(
+			exportedStagedModel.getUuid(), _targetCompany.getGroup());
+
+		Assert.assertNotNull(importedStagedModel);
 	}
 
 	@Test
@@ -511,5 +567,8 @@ public class DDMStructureStagedModelDataHandlerTest
 
 	@Inject
 	private DDMFormValuesDeserializerTracker _ddmFormValuesDeserializerTracker;
+
+	@DeleteAfterTestRun
+	private Company _targetCompany;
 
 }
