@@ -35,6 +35,49 @@ public class PortletPreferencesLocalServiceWrapper
 	}
 
 	@Override
+	public void addLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		_portletPreferencesLocalService.addLayoutPortletPreferences(
+			plid, portletPreferencesId);
+	}
+
+	@Override
+	public void addLayoutPortletPreferences(
+		long plid,
+		com.liferay.portal.kernel.model.PortletPreferences portletPreferences) {
+
+		_portletPreferencesLocalService.addLayoutPortletPreferences(
+			plid, portletPreferences);
+	}
+
+	@Override
+	public void addLayoutPortletPreferenceses(
+		long plid,
+		java.util.List<com.liferay.portal.kernel.model.PortletPreferences>
+			portletPreferenceses) {
+
+		_portletPreferencesLocalService.addLayoutPortletPreferenceses(
+			plid, portletPreferenceses);
+	}
+
+	@Override
+	public void addLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		_portletPreferencesLocalService.addLayoutPortletPreferenceses(
+			plid, portletPreferencesIds);
+	}
+
+	@Override
+	public void addNewLayoutVersionPreferences(
+		long oldLayoutVersionId, long layoutVersionId) {
+
+		_portletPreferencesLocalService.addNewLayoutVersionPreferences(
+			oldLayoutVersionId, layoutVersionId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.model.PortletPreferences
 		addPortletPreferences(
 			long companyId, long ownerId, int ownerType, long plid,
@@ -62,6 +105,11 @@ public class PortletPreferencesLocalServiceWrapper
 			portletPreferences);
 	}
 
+	@Override
+	public void clearLayoutPortletPreferenceses(long plid) {
+		_portletPreferencesLocalService.clearLayoutPortletPreferenceses(plid);
+	}
+
 	/**
 	 * Creates a new portlet preferences with the primary key. Does not add the portlet preferences to the database.
 	 *
@@ -74,6 +122,41 @@ public class PortletPreferencesLocalServiceWrapper
 
 		return _portletPreferencesLocalService.createPortletPreferences(
 			portletPreferencesId);
+	}
+
+	@Override
+	public void deleteLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		_portletPreferencesLocalService.deleteLayoutPortletPreferences(
+			plid, portletPreferencesId);
+	}
+
+	@Override
+	public void deleteLayoutPortletPreferences(
+		long plid,
+		com.liferay.portal.kernel.model.PortletPreferences portletPreferences) {
+
+		_portletPreferencesLocalService.deleteLayoutPortletPreferences(
+			plid, portletPreferences);
+	}
+
+	@Override
+	public void deleteLayoutPortletPreferenceses(
+		long plid,
+		java.util.List<com.liferay.portal.kernel.model.PortletPreferences>
+			portletPreferenceses) {
+
+		_portletPreferencesLocalService.deleteLayoutPortletPreferenceses(
+			plid, portletPreferenceses);
+	}
+
+	@Override
+	public void deleteLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		_portletPreferencesLocalService.deleteLayoutPortletPreferenceses(
+			plid, portletPreferencesIds);
 	}
 
 	/**
@@ -295,6 +378,60 @@ public class PortletPreferencesLocalServiceWrapper
 
 		return _portletPreferencesLocalService.
 			getIndexableActionableDynamicQuery();
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.PortletPreferences>
+		getLayoutPortletPreferenceses(long plid) {
+
+		return _portletPreferencesLocalService.getLayoutPortletPreferenceses(
+			plid);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.PortletPreferences>
+		getLayoutPortletPreferenceses(long plid, int start, int end) {
+
+		return _portletPreferencesLocalService.getLayoutPortletPreferenceses(
+			plid, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.PortletPreferences>
+		getLayoutPortletPreferenceses(
+			long plid, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.PortletPreferences>
+					orderByComparator) {
+
+		return _portletPreferencesLocalService.getLayoutPortletPreferenceses(
+			plid, start, end, orderByComparator);
+	}
+
+	@Override
+	public int getLayoutPortletPreferencesesCount(long plid) {
+		return _portletPreferencesLocalService.
+			getLayoutPortletPreferencesesCount(plid);
+	}
+
+	/**
+	 * Returns the plids of the layouts associated with the portlet preferences.
+	 *
+	 * @param portletPreferencesId the portletPreferencesId of the portlet preferences
+	 * @return long[] the plids of layouts associated with the portlet preferences
+	 */
+	@Override
+	public long[] getLayoutPrimaryKeys(long portletPreferencesId) {
+		return _portletPreferencesLocalService.getLayoutPrimaryKeys(
+			portletPreferencesId);
+	}
+
+	@Override
+	public java.util.Set<com.liferay.portal.kernel.model.PortletPreferences>
+		getLayoutVersionPortletPreferences(long layoutVersionId) {
+
+		return _portletPreferencesLocalService.
+			getLayoutVersionPortletPreferences(layoutVersionId);
 	}
 
 	/**
@@ -537,6 +674,28 @@ public class PortletPreferencesLocalServiceWrapper
 
 		return _portletPreferencesLocalService.getStrictPreferences(
 			portletPreferencesIds);
+	}
+
+	@Override
+	public boolean hasLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		return _portletPreferencesLocalService.hasLayoutPortletPreferences(
+			plid, portletPreferencesId);
+	}
+
+	@Override
+	public boolean hasLayoutPortletPreferenceses(long plid) {
+		return _portletPreferencesLocalService.hasLayoutPortletPreferenceses(
+			plid);
+	}
+
+	@Override
+	public void setLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		_portletPreferencesLocalService.setLayoutPortletPreferenceses(
+			plid, portletPreferencesIds);
 	}
 
 	/**

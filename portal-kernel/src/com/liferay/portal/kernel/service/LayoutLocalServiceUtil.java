@@ -370,6 +370,40 @@ public class LayoutLocalServiceUtil {
 			description, type, hidden, friendlyURL, serviceContext);
 	}
 
+	public static com.liferay.portal.kernel.model.LayoutVersion addNewVersion(
+			long plid)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().addNewVersion(plid);
+	}
+
+	public static void addPortletPreferencesLayout(
+		long portletPreferencesId,
+		com.liferay.portal.kernel.model.Layout layout) {
+
+		getService().addPortletPreferencesLayout(portletPreferencesId, layout);
+	}
+
+	public static void addPortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		getService().addPortletPreferencesLayout(portletPreferencesId, plid);
+	}
+
+	public static void addPortletPreferencesLayouts(
+		long portletPreferencesId,
+		java.util.List<com.liferay.portal.kernel.model.Layout> layouts) {
+
+		getService().addPortletPreferencesLayouts(
+			portletPreferencesId, layouts);
+	}
+
+	public static void addPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		getService().addPortletPreferencesLayouts(portletPreferencesId, plids);
+	}
+
 	/**
 	 * Anonymize user information of the specific layout
 	 *
@@ -391,6 +425,12 @@ public class LayoutLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().checkout(publishedLayout, version);
+	}
+
+	public static void clearPortletPreferencesLayouts(
+		long portletPreferencesId) {
+
+		getService().clearPortletPreferencesLayouts(portletPreferencesId);
 	}
 
 	/**
@@ -521,6 +561,35 @@ public class LayoutLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static void deletePortletPreferencesLayout(
+		long portletPreferencesId,
+		com.liferay.portal.kernel.model.Layout layout) {
+
+		getService().deletePortletPreferencesLayout(
+			portletPreferencesId, layout);
+	}
+
+	public static void deletePortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		getService().deletePortletPreferencesLayout(portletPreferencesId, plid);
+	}
+
+	public static void deletePortletPreferencesLayouts(
+		long portletPreferencesId,
+		java.util.List<com.liferay.portal.kernel.model.Layout> layouts) {
+
+		getService().deletePortletPreferencesLayouts(
+			portletPreferencesId, layouts);
+	}
+
+	public static void deletePortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		getService().deletePortletPreferencesLayouts(
+			portletPreferencesId, plids);
 	}
 
 	public static com.liferay.portal.kernel.model.LayoutVersion deleteVersion(
@@ -1045,6 +1114,13 @@ public class LayoutLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	public static com.liferay.portal.kernel.model.LayoutVersion
+			getCurrentLayoutVersion(long plid)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getCurrentLayoutVersion(plid);
 	}
 
 	/**
@@ -1681,6 +1757,47 @@ public class LayoutLocalServiceUtil {
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Layout>
+		getPortletPreferencesLayouts(long portletPreferencesId) {
+
+		return getService().getPortletPreferencesLayouts(portletPreferencesId);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Layout>
+		getPortletPreferencesLayouts(
+			long portletPreferencesId, int start, int end) {
+
+		return getService().getPortletPreferencesLayouts(
+			portletPreferencesId, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Layout>
+		getPortletPreferencesLayouts(
+			long portletPreferencesId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.portal.kernel.model.Layout> orderByComparator) {
+
+		return getService().getPortletPreferencesLayouts(
+			portletPreferencesId, start, end, orderByComparator);
+	}
+
+	public static int getPortletPreferencesLayoutsCount(
+		long portletPreferencesId) {
+
+		return getService().getPortletPreferencesLayoutsCount(
+			portletPreferencesId);
+	}
+
+	/**
+	 * Returns the portletPreferencesIds of the portlet preferenceses associated with the layout.
+	 *
+	 * @param plid the plid of the layout
+	 * @return long[] the portletPreferencesIds of portlet preferenceses associated with the layout
+	 */
+	public static long[] getPortletPreferencesPrimaryKeys(long plid) {
+		return getService().getPortletPreferencesPrimaryKeys(plid);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Layout>
 			getScopeGroupLayouts(long parentGroupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -1800,6 +1917,19 @@ public class LayoutLocalServiceUtil {
 
 		return getService().hasLayoutSetPrototypeLayout(
 			layoutSetPrototypeUuid, companyId, layoutUuid);
+	}
+
+	public static boolean hasPortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		return getService().hasPortletPreferencesLayout(
+			portletPreferencesId, plid);
+	}
+
+	public static boolean hasPortletPreferencesLayouts(
+		long portletPreferencesId) {
+
+		return getService().hasPortletPreferencesLayouts(portletPreferencesId);
 	}
 
 	/**
@@ -2244,6 +2374,12 @@ public class LayoutLocalServiceUtil {
 
 		getService().setLayouts(
 			groupId, privateLayout, parentLayoutId, layoutIds, serviceContext);
+	}
+
+	public static void setPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		getService().setPortletPreferencesLayouts(portletPreferencesId, plids);
 	}
 
 	public static void unregisterListener(

@@ -190,34 +190,35 @@ public class LayoutModelImpl
 
 	public static final long FRIENDLYURL_COLUMN_BITMASK = 8L;
 
-	public static final long HEAD_COLUMN_BITMASK = 8L;
-
-	public static final long HEADID_COLUMN_BITMASK = 16L;
 	public static final long GROUPID_COLUMN_BITMASK = 16L;
 
-	public static final long ICONIMAGEID_COLUMN_BITMASK = 32L;
+	public static final long HEAD_COLUMN_BITMASK = 32L;
 
-	public static final long LAYOUTID_COLUMN_BITMASK = 64L;
+	public static final long HEADID_COLUMN_BITMASK = 64L;
 
-	public static final long LAYOUTPROTOTYPEUUID_COLUMN_BITMASK = 128L;
+	public static final long ICONIMAGEID_COLUMN_BITMASK = 128L;
 
-	public static final long LEFTPLID_COLUMN_BITMASK = 256L;
+	public static final long LAYOUTID_COLUMN_BITMASK = 256L;
 
-	public static final long PARENTLAYOUTID_COLUMN_BITMASK = 512L;
+	public static final long LAYOUTPROTOTYPEUUID_COLUMN_BITMASK = 512L;
 
-	public static final long PARENTPLID_COLUMN_BITMASK = 1024L;
+	public static final long LEFTPLID_COLUMN_BITMASK = 1024L;
 
-	public static final long PRIORITY_COLUMN_BITMASK = 2048L;
+	public static final long PARENTLAYOUTID_COLUMN_BITMASK = 2048L;
 
-	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 4096L;
+	public static final long PARENTPLID_COLUMN_BITMASK = 4096L;
 
-	public static final long RIGHTPLID_COLUMN_BITMASK = 8192L;
+	public static final long PRIORITY_COLUMN_BITMASK = 8192L;
 
-	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK = 16384L;
+	public static final long PRIVATELAYOUT_COLUMN_BITMASK = 16384L;
 
-	public static final long TYPE_COLUMN_BITMASK = 32768L;
+	public static final long RIGHTPLID_COLUMN_BITMASK = 32768L;
 
-	public static final long UUID_COLUMN_BITMASK = 65536L;
+	public static final long SOURCEPROTOTYPELAYOUTUUID_COLUMN_BITMASK = 65536L;
+
+	public static final long TYPE_COLUMN_BITMASK = 131072L;
+
+	public static final long UUID_COLUMN_BITMASK = 262144L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -295,6 +296,25 @@ public class LayoutModelImpl
 
 		return models;
 	}
+
+	public static final String MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_NAME =
+		"Layouts_PortletPreferences";
+
+	public static final Object[][]
+		MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_COLUMNS = {
+			{"companyId", Types.BIGINT}, {"plid", Types.BIGINT},
+			{"portletPreferencesId", Types.BIGINT}
+		};
+
+	public static final String
+		MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_SQL_CREATE =
+			"create table Layouts_PortletPreferences (companyId LONG not null,plid LONG not null,portletPreferencesId LONG not null,primary key (plid, portletPreferencesId))";
+
+	public static final boolean
+		FINDER_CACHE_ENABLED_LAYOUTS_PORTLETPREFERENCES = GetterUtil.getBoolean(
+			com.liferay.portal.util.PropsUtil.get(
+				"value.object.finder.cache.enabled.Layouts_PortletPreferences"),
+			true);
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
@@ -594,6 +614,7 @@ public class LayoutModelImpl
 			getSourcePrototypeLayoutUuid());
 		layoutVersion.setPublishDate(getPublishDate());
 		layoutVersion.setLastPublishDate(getLastPublishDate());
+		layoutVersion.setPortletPreferences(getPortletPreferences());
 	}
 
 	@JSON

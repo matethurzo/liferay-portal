@@ -35,7 +35,12 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.LayoutVersionPersistence;
+import com.liferay.portal.kernel.service.persistence.PortletPreferencesPersistence;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -48,6 +53,8 @@ import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25082,6 +25089,15 @@ public class LayoutVersionPersistenceImpl
 		setModelImplClass(LayoutVersionImpl.class);
 		setModelPKClass(long.class);
 		setEntityCacheEnabled(LayoutVersionModelImpl.ENTITY_CACHE_ENABLED);
+
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("type", "type_");
+		dbColumnNames.put("hidden", "hidden_");
+		dbColumnNames.put("system", "system_");
+
+		setDBColumnNames(dbColumnNames);
 	}
 
 	/**
@@ -25436,6 +25452,9 @@ public class LayoutVersionPersistenceImpl
 
 	@Override
 	protected LayoutVersion removeImpl(LayoutVersion layoutVersion) {
+		layoutVersionToPortletPreferencesTableMapper.
+			deleteLeftPrimaryKeyTableMappings(layoutVersion.getPrimaryKey());
+
 		Session session = null;
 
 		try {
@@ -27199,6 +27218,354 @@ public class LayoutVersionPersistenceImpl
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the primaryKeys of portlet preferenceses associated with the layout version.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @return long[] of the primaryKeys of portlet preferenceses associated with the layout version
+	 */
+	@Override
+	public long[] getPortletPreferencesPrimaryKeys(long pk) {
+		long[] pks =
+			layoutVersionToPortletPreferencesTableMapper.getRightPrimaryKeys(
+				pk);
+
+		return pks.clone();
+	}
+
+	/**
+	 * Returns all the portlet preferenceses associated with the layout version.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @return the portlet preferenceses associated with the layout version
+	 */
+	@Override
+	public List<com.liferay.portal.kernel.model.PortletPreferences>
+		getPortletPreferenceses(long pk) {
+
+		return getPortletPreferenceses(
+			pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the portlet preferenceses associated with the layout version.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LayoutVersionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param start the lower bound of the range of layout versions
+	 * @param end the upper bound of the range of layout versions (not inclusive)
+	 * @return the range of portlet preferenceses associated with the layout version
+	 */
+	@Override
+	public List<com.liferay.portal.kernel.model.PortletPreferences>
+		getPortletPreferenceses(long pk, int start, int end) {
+
+		return getPortletPreferenceses(pk, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the portlet preferenceses associated with the layout version.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LayoutVersionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param start the lower bound of the range of layout versions
+	 * @param end the upper bound of the range of layout versions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of portlet preferenceses associated with the layout version
+	 */
+	@Override
+	public List<com.liferay.portal.kernel.model.PortletPreferences>
+		getPortletPreferenceses(
+			long pk, int start, int end,
+			OrderByComparator
+				<com.liferay.portal.kernel.model.PortletPreferences>
+					orderByComparator) {
+
+		return layoutVersionToPortletPreferencesTableMapper.getRightBaseModels(
+			pk, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the number of portlet preferenceses associated with the layout version.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @return the number of portlet preferenceses associated with the layout version
+	 */
+	@Override
+	public int getPortletPreferencesesSize(long pk) {
+		long[] pks =
+			layoutVersionToPortletPreferencesTableMapper.getRightPrimaryKeys(
+				pk);
+
+		return pks.length;
+	}
+
+	/**
+	 * Returns <code>true</code> if the portlet preferences is associated with the layout version.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPK the primary key of the portlet preferences
+	 * @return <code>true</code> if the portlet preferences is associated with the layout version; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsPortletPreferences(
+		long pk, long portletPreferencesPK) {
+
+		return layoutVersionToPortletPreferencesTableMapper.
+			containsTableMapping(pk, portletPreferencesPK);
+	}
+
+	/**
+	 * Returns <code>true</code> if the layout version has any portlet preferenceses associated with it.
+	 *
+	 * @param pk the primary key of the layout version to check for associations with portlet preferenceses
+	 * @return <code>true</code> if the layout version has any portlet preferenceses associated with it; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsPortletPreferenceses(long pk) {
+		if (getPortletPreferencesesSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds an association between the layout version and the portlet preferences. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPK the primary key of the portlet preferences
+	 */
+	@Override
+	public void addPortletPreferences(long pk, long portletPreferencesPK) {
+		LayoutVersion layoutVersion = fetchByPrimaryKey(pk);
+
+		if (layoutVersion == null) {
+			layoutVersionToPortletPreferencesTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, portletPreferencesPK);
+		}
+		else {
+			layoutVersionToPortletPreferencesTableMapper.addTableMapping(
+				layoutVersion.getCompanyId(), pk, portletPreferencesPK);
+		}
+	}
+
+	/**
+	 * Adds an association between the layout version and the portlet preferences. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferences the portlet preferences
+	 */
+	@Override
+	public void addPortletPreferences(
+		long pk,
+		com.liferay.portal.kernel.model.PortletPreferences portletPreferences) {
+
+		LayoutVersion layoutVersion = fetchByPrimaryKey(pk);
+
+		if (layoutVersion == null) {
+			layoutVersionToPortletPreferencesTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk,
+				portletPreferences.getPrimaryKey());
+		}
+		else {
+			layoutVersionToPortletPreferencesTableMapper.addTableMapping(
+				layoutVersion.getCompanyId(), pk,
+				portletPreferences.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Adds an association between the layout version and the portlet preferenceses. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPKs the primary keys of the portlet preferenceses
+	 */
+	@Override
+	public void addPortletPreferenceses(long pk, long[] portletPreferencesPKs) {
+		long companyId = 0;
+
+		LayoutVersion layoutVersion = fetchByPrimaryKey(pk);
+
+		if (layoutVersion == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = layoutVersion.getCompanyId();
+		}
+
+		layoutVersionToPortletPreferencesTableMapper.addTableMappings(
+			companyId, pk, portletPreferencesPKs);
+	}
+
+	/**
+	 * Adds an association between the layout version and the portlet preferenceses. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferenceses the portlet preferenceses
+	 */
+	@Override
+	public void addPortletPreferenceses(
+		long pk,
+		List<com.liferay.portal.kernel.model.PortletPreferences>
+			portletPreferenceses) {
+
+		addPortletPreferenceses(
+			pk,
+			ListUtil.toLongArray(
+				portletPreferenceses,
+				com.liferay.portal.kernel.model.PortletPreferences.
+					PORTLET_PREFERENCES_ID_ACCESSOR));
+	}
+
+	/**
+	 * Clears all associations between the layout version and its portlet preferenceses. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version to clear the associated portlet preferenceses from
+	 */
+	@Override
+	public void clearPortletPreferenceses(long pk) {
+		layoutVersionToPortletPreferencesTableMapper.
+			deleteLeftPrimaryKeyTableMappings(pk);
+	}
+
+	/**
+	 * Removes the association between the layout version and the portlet preferences. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPK the primary key of the portlet preferences
+	 */
+	@Override
+	public void removePortletPreferences(long pk, long portletPreferencesPK) {
+		layoutVersionToPortletPreferencesTableMapper.deleteTableMapping(
+			pk, portletPreferencesPK);
+	}
+
+	/**
+	 * Removes the association between the layout version and the portlet preferences. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferences the portlet preferences
+	 */
+	@Override
+	public void removePortletPreferences(
+		long pk,
+		com.liferay.portal.kernel.model.PortletPreferences portletPreferences) {
+
+		layoutVersionToPortletPreferencesTableMapper.deleteTableMapping(
+			pk, portletPreferences.getPrimaryKey());
+	}
+
+	/**
+	 * Removes the association between the layout version and the portlet preferenceses. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPKs the primary keys of the portlet preferenceses
+	 */
+	@Override
+	public void removePortletPreferenceses(
+		long pk, long[] portletPreferencesPKs) {
+
+		layoutVersionToPortletPreferencesTableMapper.deleteTableMappings(
+			pk, portletPreferencesPKs);
+	}
+
+	/**
+	 * Removes the association between the layout version and the portlet preferenceses. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferenceses the portlet preferenceses
+	 */
+	@Override
+	public void removePortletPreferenceses(
+		long pk,
+		List<com.liferay.portal.kernel.model.PortletPreferences>
+			portletPreferenceses) {
+
+		removePortletPreferenceses(
+			pk,
+			ListUtil.toLongArray(
+				portletPreferenceses,
+				com.liferay.portal.kernel.model.PortletPreferences.
+					PORTLET_PREFERENCES_ID_ACCESSOR));
+	}
+
+	/**
+	 * Sets the portlet preferenceses associated with the layout version, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferencesPKs the primary keys of the portlet preferenceses to be associated with the layout version
+	 */
+	@Override
+	public void setPortletPreferenceses(long pk, long[] portletPreferencesPKs) {
+		Set<Long> newPortletPreferencesPKsSet = SetUtil.fromArray(
+			portletPreferencesPKs);
+		Set<Long> oldPortletPreferencesPKsSet = SetUtil.fromArray(
+			layoutVersionToPortletPreferencesTableMapper.getRightPrimaryKeys(
+				pk));
+
+		Set<Long> removePortletPreferencesPKsSet = new HashSet<Long>(
+			oldPortletPreferencesPKsSet);
+
+		removePortletPreferencesPKsSet.removeAll(newPortletPreferencesPKsSet);
+
+		layoutVersionToPortletPreferencesTableMapper.deleteTableMappings(
+			pk, ArrayUtil.toLongArray(removePortletPreferencesPKsSet));
+
+		newPortletPreferencesPKsSet.removeAll(oldPortletPreferencesPKsSet);
+
+		long companyId = 0;
+
+		LayoutVersion layoutVersion = fetchByPrimaryKey(pk);
+
+		if (layoutVersion == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = layoutVersion.getCompanyId();
+		}
+
+		layoutVersionToPortletPreferencesTableMapper.addTableMappings(
+			companyId, pk, ArrayUtil.toLongArray(newPortletPreferencesPKsSet));
+	}
+
+	/**
+	 * Sets the portlet preferenceses associated with the layout version, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the layout version
+	 * @param portletPreferenceses the portlet preferenceses to be associated with the layout version
+	 */
+	@Override
+	public void setPortletPreferenceses(
+		long pk,
+		List<com.liferay.portal.kernel.model.PortletPreferences>
+			portletPreferenceses) {
+
+		try {
+			long[] portletPreferencesPKs =
+				new long[portletPreferenceses.size()];
+
+			for (int i = 0; i < portletPreferenceses.size(); i++) {
+				com.liferay.portal.kernel.model.PortletPreferences
+					portletPreferences = portletPreferenceses.get(i);
+
+				portletPreferencesPKs[i] = portletPreferences.getPrimaryKey();
+			}
+
+			setPortletPreferenceses(pk, portletPreferencesPKs);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+	}
+
 	@Override
 	public Set<String> getBadColumnNames() {
 		return _badColumnNames;
@@ -27228,6 +27595,11 @@ public class LayoutVersionPersistenceImpl
 	 * Initializes the layout version persistence.
 	 */
 	public void afterPropertiesSet() {
+		layoutVersionToPortletPreferencesTableMapper =
+			TableMapperFactory.getTableMapper(
+				"Layouts_PortletPreferences", "companyId", "layoutVersionId",
+				"portletPreferencesId", this, portletPreferencesPersistence);
+
 		_finderPathWithPaginationFindAll = new FinderPath(
 			LayoutVersionModelImpl.ENTITY_CACHE_ENABLED,
 			LayoutVersionModelImpl.FINDER_CACHE_ENABLED,
@@ -28552,10 +28924,19 @@ public class LayoutVersionPersistenceImpl
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		TableMapperFactory.removeTableMapper("Layouts_PortletPreferences");
 	}
 
 	@BeanReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
+	@BeanReference(type = PortletPreferencesPersistence.class)
+	protected PortletPreferencesPersistence portletPreferencesPersistence;
+
+	protected TableMapper
+		<LayoutVersion, com.liferay.portal.kernel.model.PortletPreferences>
+			layoutVersionToPortletPreferencesTableMapper;
 
 	private static final String _SQL_SELECT_LAYOUTVERSION =
 		"SELECT layoutVersion FROM LayoutVersion layoutVersion";

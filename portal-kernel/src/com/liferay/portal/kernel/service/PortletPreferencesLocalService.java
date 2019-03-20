@@ -42,6 +42,7 @@ import java.io.Serializable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides the local service interface for PortletPreferences. Methods of this
@@ -66,6 +67,21 @@ public interface PortletPreferencesLocalService
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PortletPreferencesLocalServiceUtil} to access the portlet preferences local service. Add custom service methods to <code>com.liferay.portal.service.impl.PortletPreferencesLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public void addLayoutPortletPreferences(
+		long plid, long portletPreferencesId);
+
+	public void addLayoutPortletPreferences(
+		long plid, PortletPreferences portletPreferences);
+
+	public void addLayoutPortletPreferenceses(
+		long plid, List<PortletPreferences> portletPreferenceses);
+
+	public void addLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds);
+
+	public void addNewLayoutVersionPreferences(
+		long oldLayoutVersionId, long layoutVersionId);
+
 	public PortletPreferences addPortletPreferences(
 		long companyId, long ownerId, int ownerType, long plid,
 		String portletId, Portlet portlet, String defaultPreferences);
@@ -80,6 +96,8 @@ public interface PortletPreferencesLocalService
 	public PortletPreferences addPortletPreferences(
 		PortletPreferences portletPreferences);
 
+	public void clearLayoutPortletPreferenceses(long plid);
+
 	/**
 	 * Creates a new portlet preferences with the primary key. Does not add the portlet preferences to the database.
 	 *
@@ -89,6 +107,18 @@ public interface PortletPreferencesLocalService
 	@Transactional(enabled = false)
 	public PortletPreferences createPortletPreferences(
 		long portletPreferencesId);
+
+	public void deleteLayoutPortletPreferences(
+		long plid, long portletPreferencesId);
+
+	public void deleteLayoutPortletPreferences(
+		long plid, PortletPreferences portletPreferences);
+
+	public void deleteLayoutPortletPreferenceses(
+		long plid, List<PortletPreferences> portletPreferenceses);
+
+	public void deleteLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds);
 
 	/**
 	 * @throws PortalException
@@ -222,6 +252,34 @@ public interface PortletPreferencesLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PortletPreferences> getLayoutPortletPreferenceses(long plid);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PortletPreferences> getLayoutPortletPreferenceses(
+		long plid, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PortletPreferences> getLayoutPortletPreferenceses(
+		long plid, int start, int end,
+		OrderByComparator<PortletPreferences> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getLayoutPortletPreferencesesCount(long plid);
+
+	/**
+	 * Returns the plids of the layouts associated with the portlet preferences.
+	 *
+	 * @param portletPreferencesId the portletPreferencesId of the portlet preferences
+	 * @return long[] the plids of layouts associated with the portlet preferences
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getLayoutPrimaryKeys(long portletPreferencesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Set<PortletPreferences> getLayoutVersionPortletPreferences(
+		long layoutVersionId);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -381,6 +439,16 @@ public interface PortletPreferencesLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public javax.portlet.PortletPreferences getStrictPreferences(
 		PortletPreferencesIds portletPreferencesIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasLayoutPortletPreferences(
+		long plid, long portletPreferencesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasLayoutPortletPreferenceses(long plid);
+
+	public void setLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds);
 
 	/**
 	 * Updates the portlet preferences in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

@@ -470,6 +470,164 @@ public abstract class LayoutLocalServiceBaseImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addPortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		portletPreferencesPersistence.addLayout(portletPreferencesId, plid);
+	}
+
+	/**
+	 */
+	@Override
+	public void addPortletPreferencesLayout(
+		long portletPreferencesId, Layout layout) {
+
+		portletPreferencesPersistence.addLayout(portletPreferencesId, layout);
+	}
+
+	/**
+	 */
+	@Override
+	public void addPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		portletPreferencesPersistence.addLayouts(portletPreferencesId, plids);
+	}
+
+	/**
+	 */
+	@Override
+	public void addPortletPreferencesLayouts(
+		long portletPreferencesId, List<Layout> layouts) {
+
+		portletPreferencesPersistence.addLayouts(portletPreferencesId, layouts);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearPortletPreferencesLayouts(long portletPreferencesId) {
+		portletPreferencesPersistence.clearLayouts(portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deletePortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		portletPreferencesPersistence.removeLayout(portletPreferencesId, plid);
+	}
+
+	/**
+	 */
+	@Override
+	public void deletePortletPreferencesLayout(
+		long portletPreferencesId, Layout layout) {
+
+		portletPreferencesPersistence.removeLayout(
+			portletPreferencesId, layout);
+	}
+
+	/**
+	 */
+	@Override
+	public void deletePortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		portletPreferencesPersistence.removeLayouts(
+			portletPreferencesId, plids);
+	}
+
+	/**
+	 */
+	@Override
+	public void deletePortletPreferencesLayouts(
+		long portletPreferencesId, List<Layout> layouts) {
+
+		portletPreferencesPersistence.removeLayouts(
+			portletPreferencesId, layouts);
+	}
+
+	/**
+	 * Returns the portletPreferencesIds of the portlet preferenceses associated with the layout.
+	 *
+	 * @param plid the plid of the layout
+	 * @return long[] the portletPreferencesIds of portlet preferenceses associated with the layout
+	 */
+	@Override
+	public long[] getPortletPreferencesPrimaryKeys(long plid) {
+		return layoutPersistence.getPortletPreferencesPrimaryKeys(plid);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Layout> getPortletPreferencesLayouts(
+		long portletPreferencesId) {
+
+		return portletPreferencesPersistence.getLayouts(portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Layout> getPortletPreferencesLayouts(
+		long portletPreferencesId, int start, int end) {
+
+		return portletPreferencesPersistence.getLayouts(
+			portletPreferencesId, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<Layout> getPortletPreferencesLayouts(
+		long portletPreferencesId, int start, int end,
+		OrderByComparator<Layout> orderByComparator) {
+
+		return portletPreferencesPersistence.getLayouts(
+			portletPreferencesId, start, end, orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getPortletPreferencesLayoutsCount(long portletPreferencesId) {
+		return portletPreferencesPersistence.getLayoutsSize(
+			portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasPortletPreferencesLayout(
+		long portletPreferencesId, long plid) {
+
+		return portletPreferencesPersistence.containsLayout(
+			portletPreferencesId, plid);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasPortletPreferencesLayouts(long portletPreferencesId) {
+		return portletPreferencesPersistence.containsLayouts(
+			portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public void setPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids) {
+
+		portletPreferencesPersistence.setLayouts(portletPreferencesId, plids);
+	}
+
+	/**
 	 * Returns the layout local service.
 	 *
 	 * @return the layout local service
@@ -1798,6 +1956,8 @@ public abstract class LayoutLocalServiceBaseImpl
 			publishedLayout.getSourcePrototypeLayoutUuid());
 		draftLayout.setPublishDate(publishedLayout.getPublishDate());
 		draftLayout.setLastPublishDate(publishedLayout.getLastPublishDate());
+		draftLayout.setPortletPreferences(
+			publishedLayout.getPortletPreferences());
 
 		draftLayout.resetOriginalValues();
 

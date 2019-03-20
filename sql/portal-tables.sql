@@ -780,6 +780,13 @@ create table LayoutVersion (
 	lastPublishDate DATE null
 );
 
+create table Layouts_PortletPreferences (
+	companyId LONG not null,
+	plid LONG not null,
+	portletPreferencesId LONG not null,
+	primary key (plid, portletPreferencesId)
+);
+
 create table ListType (
 	mvccVersion LONG default 0 not null,
 	listTypeId LONG not null primary key,

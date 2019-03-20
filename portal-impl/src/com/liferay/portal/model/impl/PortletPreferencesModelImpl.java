@@ -181,6 +181,25 @@ public class PortletPreferencesModelImpl
 		return models;
 	}
 
+	public static final String MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_NAME =
+		"Layouts_PortletPreferences";
+
+	public static final Object[][]
+		MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_COLUMNS = {
+			{"companyId", Types.BIGINT}, {"plid", Types.BIGINT},
+			{"portletPreferencesId", Types.BIGINT}
+		};
+
+	public static final String
+		MAPPING_TABLE_LAYOUTS_PORTLETPREFERENCES_SQL_CREATE =
+			"create table Layouts_PortletPreferences (companyId LONG not null,plid LONG not null,portletPreferencesId LONG not null,primary key (plid, portletPreferencesId))";
+
+	public static final boolean
+		FINDER_CACHE_ENABLED_LAYOUTS_PORTLETPREFERENCES = GetterUtil.getBoolean(
+			com.liferay.portal.util.PropsUtil.get(
+				"value.object.finder.cache.enabled.Layouts_PortletPreferences"),
+			true);
+
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		com.liferay.portal.util.PropsUtil.get(
 			"lock.expiration.time.com.liferay.portal.kernel.model.PortletPreferences"));

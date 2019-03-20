@@ -376,6 +376,20 @@ public interface LayoutLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	public LayoutVersion addNewVersion(long plid) throws PortalException;
+
+	public void addPortletPreferencesLayout(
+		long portletPreferencesId, Layout layout);
+
+	public void addPortletPreferencesLayout(
+		long portletPreferencesId, long plid);
+
+	public void addPortletPreferencesLayouts(
+		long portletPreferencesId, List<Layout> layouts);
+
+	public void addPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids);
+
 	/**
 	 * Anonymize user information of the specific layout
 	 *
@@ -391,6 +405,8 @@ public interface LayoutLocalService
 	@Override
 	public Layout checkout(Layout publishedLayout, int version)
 		throws PortalException;
+
+	public void clearPortletPreferencesLayouts(long portletPreferencesId);
 
 	/**
 	 * Creates a new layout. Does not add the layout to the database.
@@ -495,6 +511,18 @@ public interface LayoutLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	public void deletePortletPreferencesLayout(
+		long portletPreferencesId, Layout layout);
+
+	public void deletePortletPreferencesLayout(
+		long portletPreferencesId, long plid);
+
+	public void deletePortletPreferencesLayouts(
+		long portletPreferencesId, List<Layout> layouts);
+
+	public void deletePortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids);
 
 	@Override
 	public LayoutVersion deleteVersion(LayoutVersion layoutVersion)
@@ -871,6 +899,10 @@ public interface LayoutLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public LayoutVersion getCurrentLayoutVersion(long plid)
+		throws PortalException;
 
 	/**
 	 * Returns the primary key of the default layout for the group.
@@ -1343,6 +1375,30 @@ public interface LayoutLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Layout> getPortletPreferencesLayouts(long portletPreferencesId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Layout> getPortletPreferencesLayouts(
+		long portletPreferencesId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Layout> getPortletPreferencesLayouts(
+		long portletPreferencesId, int start, int end,
+		OrderByComparator<Layout> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPortletPreferencesLayoutsCount(long portletPreferencesId);
+
+	/**
+	 * Returns the portletPreferencesIds of the portlet preferenceses associated with the layout.
+	 *
+	 * @param plid the plid of the layout
+	 * @return long[] the portletPreferencesIds of portlet preferenceses associated with the layout
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getPortletPreferencesPrimaryKeys(long plid);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Layout> getScopeGroupLayouts(long parentGroupId)
 		throws PortalException;
 
@@ -1427,6 +1483,13 @@ public interface LayoutLocalService
 	public boolean hasLayoutSetPrototypeLayout(
 			String layoutSetPrototypeUuid, long companyId, String layoutUuid)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasPortletPreferencesLayout(
+		long portletPreferencesId, long plid);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasPortletPreferencesLayouts(long portletPreferencesId);
 
 	/**
 	 * @throws PortalException
@@ -1751,6 +1814,9 @@ public interface LayoutLocalService
 			long groupId, boolean privateLayout, long parentLayoutId,
 			long[] layoutIds, ServiceContext serviceContext)
 		throws PortalException;
+
+	public void setPortletPreferencesLayouts(
+		long portletPreferencesId, long[] plids);
 
 	@Override
 	public void unregisterListener(

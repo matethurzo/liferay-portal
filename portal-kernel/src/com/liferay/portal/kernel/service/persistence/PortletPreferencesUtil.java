@@ -2105,6 +2105,217 @@ public class PortletPreferencesUtil {
 		return getPersistence().countAll();
 	}
 
+	/**
+	 * Returns the primaryKeys of layouts associated with the portlet preferences.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @return long[] of the primaryKeys of layouts associated with the portlet preferences
+	 */
+	public static long[] getLayoutPrimaryKeys(long pk) {
+		return getPersistence().getLayoutPrimaryKeys(pk);
+	}
+
+	/**
+	 * Returns all the layouts associated with the portlet preferences.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @return the layouts associated with the portlet preferences
+	 */
+	public static List<com.liferay.portal.kernel.model.Layout> getLayouts(
+		long pk) {
+
+		return getPersistence().getLayouts(pk);
+	}
+
+	/**
+	 * Returns a range of all the layouts associated with the portlet preferences.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PortletPreferencesModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param start the lower bound of the range of portlet preferenceses
+	 * @param end the upper bound of the range of portlet preferenceses (not inclusive)
+	 * @return the range of layouts associated with the portlet preferences
+	 */
+	public static List<com.liferay.portal.kernel.model.Layout> getLayouts(
+		long pk, int start, int end) {
+
+		return getPersistence().getLayouts(pk, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts associated with the portlet preferences.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PortletPreferencesModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param start the lower bound of the range of portlet preferenceses
+	 * @param end the upper bound of the range of portlet preferenceses (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of layouts associated with the portlet preferences
+	 */
+	public static List<com.liferay.portal.kernel.model.Layout> getLayouts(
+		long pk, int start, int end,
+		OrderByComparator<com.liferay.portal.kernel.model.Layout>
+			orderByComparator) {
+
+		return getPersistence().getLayouts(pk, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the number of layouts associated with the portlet preferences.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @return the number of layouts associated with the portlet preferences
+	 */
+	public static int getLayoutsSize(long pk) {
+		return getPersistence().getLayoutsSize(pk);
+	}
+
+	/**
+	 * Returns <code>true</code> if the layout is associated with the portlet preferences.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPK the primary key of the layout
+	 * @return <code>true</code> if the layout is associated with the portlet preferences; <code>false</code> otherwise
+	 */
+	public static boolean containsLayout(long pk, long layoutPK) {
+		return getPersistence().containsLayout(pk, layoutPK);
+	}
+
+	/**
+	 * Returns <code>true</code> if the portlet preferences has any layouts associated with it.
+	 *
+	 * @param pk the primary key of the portlet preferences to check for associations with layouts
+	 * @return <code>true</code> if the portlet preferences has any layouts associated with it; <code>false</code> otherwise
+	 */
+	public static boolean containsLayouts(long pk) {
+		return getPersistence().containsLayouts(pk);
+	}
+
+	/**
+	 * Adds an association between the portlet preferences and the layout. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPK the primary key of the layout
+	 */
+	public static void addLayout(long pk, long layoutPK) {
+		getPersistence().addLayout(pk, layoutPK);
+	}
+
+	/**
+	 * Adds an association between the portlet preferences and the layout. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layout the layout
+	 */
+	public static void addLayout(
+		long pk, com.liferay.portal.kernel.model.Layout layout) {
+
+		getPersistence().addLayout(pk, layout);
+	}
+
+	/**
+	 * Adds an association between the portlet preferences and the layouts. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPKs the primary keys of the layouts
+	 */
+	public static void addLayouts(long pk, long[] layoutPKs) {
+		getPersistence().addLayouts(pk, layoutPKs);
+	}
+
+	/**
+	 * Adds an association between the portlet preferences and the layouts. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layouts the layouts
+	 */
+	public static void addLayouts(
+		long pk, List<com.liferay.portal.kernel.model.Layout> layouts) {
+
+		getPersistence().addLayouts(pk, layouts);
+	}
+
+	/**
+	 * Clears all associations between the portlet preferences and its layouts. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences to clear the associated layouts from
+	 */
+	public static void clearLayouts(long pk) {
+		getPersistence().clearLayouts(pk);
+	}
+
+	/**
+	 * Removes the association between the portlet preferences and the layout. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPK the primary key of the layout
+	 */
+	public static void removeLayout(long pk, long layoutPK) {
+		getPersistence().removeLayout(pk, layoutPK);
+	}
+
+	/**
+	 * Removes the association between the portlet preferences and the layout. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layout the layout
+	 */
+	public static void removeLayout(
+		long pk, com.liferay.portal.kernel.model.Layout layout) {
+
+		getPersistence().removeLayout(pk, layout);
+	}
+
+	/**
+	 * Removes the association between the portlet preferences and the layouts. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPKs the primary keys of the layouts
+	 */
+	public static void removeLayouts(long pk, long[] layoutPKs) {
+		getPersistence().removeLayouts(pk, layoutPKs);
+	}
+
+	/**
+	 * Removes the association between the portlet preferences and the layouts. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layouts the layouts
+	 */
+	public static void removeLayouts(
+		long pk, List<com.liferay.portal.kernel.model.Layout> layouts) {
+
+		getPersistence().removeLayouts(pk, layouts);
+	}
+
+	/**
+	 * Sets the layouts associated with the portlet preferences, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layoutPKs the primary keys of the layouts to be associated with the portlet preferences
+	 */
+	public static void setLayouts(long pk, long[] layoutPKs) {
+		getPersistence().setLayouts(pk, layoutPKs);
+	}
+
+	/**
+	 * Sets the layouts associated with the portlet preferences, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the portlet preferences
+	 * @param layouts the layouts to be associated with the portlet preferences
+	 */
+	public static void setLayouts(
+		long pk, List<com.liferay.portal.kernel.model.Layout> layouts) {
+
+		getPersistence().setLayouts(pk, layouts);
+	}
+
 	public static PortletPreferencesPersistence getPersistence() {
 		if (_persistence == null) {
 			_persistence =

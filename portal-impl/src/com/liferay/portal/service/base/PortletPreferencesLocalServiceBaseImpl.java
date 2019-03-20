@@ -356,6 +356,159 @@ public abstract class PortletPreferencesLocalServiceBaseImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		layoutPersistence.addPortletPreferences(plid, portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public void addLayoutPortletPreferences(
+		long plid, PortletPreferences portletPreferences) {
+
+		layoutPersistence.addPortletPreferences(plid, portletPreferences);
+	}
+
+	/**
+	 */
+	@Override
+	public void addLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		layoutPersistence.addPortletPreferenceses(plid, portletPreferencesIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void addLayoutPortletPreferenceses(
+		long plid, List<PortletPreferences> portletPreferenceses) {
+
+		layoutPersistence.addPortletPreferenceses(plid, portletPreferenceses);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearLayoutPortletPreferenceses(long plid) {
+		layoutPersistence.clearPortletPreferenceses(plid);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		layoutPersistence.removePortletPreferences(plid, portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteLayoutPortletPreferences(
+		long plid, PortletPreferences portletPreferences) {
+
+		layoutPersistence.removePortletPreferences(plid, portletPreferences);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		layoutPersistence.removePortletPreferenceses(
+			plid, portletPreferencesIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteLayoutPortletPreferenceses(
+		long plid, List<PortletPreferences> portletPreferenceses) {
+
+		layoutPersistence.removePortletPreferenceses(
+			plid, portletPreferenceses);
+	}
+
+	/**
+	 * Returns the plids of the layouts associated with the portlet preferences.
+	 *
+	 * @param portletPreferencesId the portletPreferencesId of the portlet preferences
+	 * @return long[] the plids of layouts associated with the portlet preferences
+	 */
+	@Override
+	public long[] getLayoutPrimaryKeys(long portletPreferencesId) {
+		return portletPreferencesPersistence.getLayoutPrimaryKeys(
+			portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<PortletPreferences> getLayoutPortletPreferenceses(long plid) {
+		return layoutPersistence.getPortletPreferenceses(plid);
+	}
+
+	/**
+	 */
+	@Override
+	public List<PortletPreferences> getLayoutPortletPreferenceses(
+		long plid, int start, int end) {
+
+		return layoutPersistence.getPortletPreferenceses(plid, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<PortletPreferences> getLayoutPortletPreferenceses(
+		long plid, int start, int end,
+		OrderByComparator<PortletPreferences> orderByComparator) {
+
+		return layoutPersistence.getPortletPreferenceses(
+			plid, start, end, orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getLayoutPortletPreferencesesCount(long plid) {
+		return layoutPersistence.getPortletPreferencesesSize(plid);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasLayoutPortletPreferences(
+		long plid, long portletPreferencesId) {
+
+		return layoutPersistence.containsPortletPreferences(
+			plid, portletPreferencesId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasLayoutPortletPreferenceses(long plid) {
+		return layoutPersistence.containsPortletPreferenceses(plid);
+	}
+
+	/**
+	 */
+	@Override
+	public void setLayoutPortletPreferenceses(
+		long plid, long[] portletPreferencesIds) {
+
+		layoutPersistence.setPortletPreferenceses(plid, portletPreferencesIds);
+	}
+
+	/**
 	 * Returns the portlet preferences local service.
 	 *
 	 * @return the portlet preferences local service

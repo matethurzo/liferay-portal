@@ -265,6 +265,10 @@ create index IX_E66E67A0 on LayoutVersion (uuid_[$COLUMN_LENGTH:75$], companyId,
 create unique index IX_BD8C095 on LayoutVersion (uuid_[$COLUMN_LENGTH:75$], groupId, privateLayout, version);
 create index IX_82FCA548 on LayoutVersion (uuid_[$COLUMN_LENGTH:75$], version);
 
+create index IX_474C0ACE on Layouts_PortletPreferences (companyId);
+create index IX_AF5F17E5 on Layouts_PortletPreferences (plid);
+create index IX_29E35DA7 on Layouts_PortletPreferences (portletPreferencesId);
+
 create index IX_77729718 on ListType (name[$COLUMN_LENGTH:75$], type_[$COLUMN_LENGTH:75$]);
 create index IX_2932DD37 on ListType (type_[$COLUMN_LENGTH:75$]);
 
