@@ -24,11 +24,14 @@ import com.liferay.change.tracking.constants.CTConstants;
 import com.liferay.change.tracking.constants.CTPortletKeys;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
+import com.liferay.change.tracking.model.CTProcess;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.change.tracking.service.CTEntryLocalService;
+import com.liferay.change.tracking.service.CTProcessLocalService;
 import com.liferay.change.tracking.service.test.model.TestResourceModelClass;
 import com.liferay.change.tracking.service.test.model.TestVersionModelClass;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskConstants;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ClassName;
@@ -39,6 +42,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -69,6 +73,7 @@ import org.junit.runner.RunWith;
  * @author Daniel Kocsis
  */
 @RunWith(Arquillian.class)
+@Sync(cleanTransaction = true)
 public class CTEngineManagerTest {
 
 	@ClassRule
@@ -800,6 +805,128 @@ public class CTEngineManagerTest {
 			productionCTCollectionOptional.isPresent());
 	}
 
+	@Test
+	public void testPublishCTCollectionWhenDraftEntryCollides()
+		throws Exception {
+
+		_ctEngineManager.enableChangeTracking(
+			TestPropsValues.getCompanyId(), TestPropsValues.getUserId());
+
+		long modelResourcePrimKey = RandomTestUtil.nextLong();
+
+		Optional<CTCollection> ctCollectionOptionalA =
+			_ctEngineManager.createCTCollection(
+				TestPropsValues.getUserId(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString());
+
+		Assert.assertTrue(ctCollectionOptionalA.isPresent());
+
+		CTCollection ctCollectionA = ctCollectionOptionalA.get();
+
+		CTEntry ctEntryA = _ctEntryLocalService.addCTEntry(
+			TestPropsValues.getUserId(), _testVersionClassName.getClassNameId(),
+			0, modelResourcePrimKey, CTConstants.CT_CHANGE_TYPE_ADDITION,
+			ctCollectionA.getCtCollectionId(), new ServiceContext());
+
+		Assert.assertFalse(ctEntryA.isCollision());
+
+		Optional<CTCollection> ctCollectionOptionalB =
+			_ctEngineManager.createCTCollection(
+				TestPropsValues.getUserId(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString());
+
+		Assert.assertTrue(ctCollectionOptionalB.isPresent());
+
+		CTCollection ctCollectionB = ctCollectionOptionalB.get();
+
+		CTEntry ctEntryB = _ctEntryLocalService.addCTEntry(
+			TestPropsValues.getUserId(), _testVersionClassName.getClassNameId(),
+			1, modelResourcePrimKey, CTConstants.CT_CHANGE_TYPE_ADDITION,
+			ctCollectionB.getCtCollectionId(), new ServiceContext());
+
+		Assert.assertFalse(ctEntryB.isCollision());
+
+		_ctEngineManager.publishCTCollection(
+			TestPropsValues.getUserId(), ctCollectionB.getCtCollectionId());
+
+		CTProcess ctProcess = _ctProcessLocalService.fetchLatestCTProcess(
+			TestPropsValues.getCompanyId());
+
+		Assert.assertEquals(
+			BackgroundTaskConstants.STATUS_SUCCESSFUL, ctProcess.getStatus());
+
+		Optional<CTCollection> productionCTCollectionOptional =
+			_ctEngineManager.getProductionCTCollectionOptional(
+				TestPropsValues.getCompanyId());
+
+		Assert.assertTrue(productionCTCollectionOptional.isPresent());
+
+		CTCollection productionCTCollection =
+			productionCTCollectionOptional.get();
+
+		List<CTEntry> productionCTEntries =
+			_ctEntryLocalService.getCTCollectionCTEntries(
+				productionCTCollection.getCtCollectionId());
+
+		Assert.assertFalse(productionCTEntries.contains(ctEntryA));
+		Assert.assertTrue(productionCTEntries.contains(ctEntryB));
+
+		ctEntryA = _ctEntryLocalService.getCTEntry(ctEntryA.getCtEntryId());
+
+		Assert.assertTrue(ctEntryA.isCollision());
+	}
+
+	@Ignore
+	@Test
+	public void testPublishCTCollectionWhenPublishedEntryCollides()
+		throws Exception {
+
+		_ctEngineManager.enableChangeTracking(
+			TestPropsValues.getCompanyId(), TestPropsValues.getUserId());
+
+		Optional<CTCollection> ctCollectionOptional =
+			_ctEngineManager.createCTCollection(
+				TestPropsValues.getUserId(), RandomTestUtil.randomString(),
+				RandomTestUtil.randomString());
+
+		Assert.assertTrue(ctCollectionOptional.isPresent());
+
+		CTCollection ctCollection = ctCollectionOptional.get();
+
+		CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
+			TestPropsValues.getUserId(), _testVersionClassName.getClassNameId(),
+			0, 0, CTConstants.CT_CHANGE_TYPE_ADDITION,
+			ctCollection.getCtCollectionId(), new ServiceContext());
+
+		ctEntry.setCollision(true);
+
+		ctEntry = _ctEntryLocalService.updateCTEntry(ctEntry);
+
+		_ctEngineManager.publishCTCollection(
+			TestPropsValues.getUserId(), ctCollection.getCtCollectionId());
+
+		Optional<CTCollection> productionCTCollectionOptional =
+			_ctEngineManager.getProductionCTCollectionOptional(
+				TestPropsValues.getCompanyId());
+
+		Assert.assertTrue(productionCTCollectionOptional.isPresent());
+
+		CTCollection productionCTCollection =
+			productionCTCollectionOptional.get();
+
+		List<CTEntry> productionCTEntries =
+			_ctEntryLocalService.getCTCollectionCTEntries(
+				productionCTCollection.getCtCollectionId());
+
+		Assert.assertFalse(productionCTEntries.contains(ctEntry));
+
+		CTProcess ctProcess = _ctProcessLocalService.fetchLatestCTProcess(
+			TestPropsValues.getCompanyId());
+
+		Assert.assertEquals(
+			BackgroundTaskConstants.STATUS_FAILED, ctProcess.getStatus());
+	}
+
 	@Inject
 	private ClassNameLocalService _classNameLocalService;
 
@@ -823,6 +950,9 @@ public class CTEngineManagerTest {
 
 	@Inject
 	private CTManager _ctManager;
+
+	@Inject
+	private CTProcessLocalService _ctProcessLocalService;
 
 	private boolean _originallyEnabled;
 
