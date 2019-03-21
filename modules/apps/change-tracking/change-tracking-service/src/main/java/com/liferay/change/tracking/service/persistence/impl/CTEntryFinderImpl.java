@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -74,10 +75,11 @@ public class CTEntryFinderImpl
 
 			SQLQuery q = session.createSynchronizedSQLQuery(sql);
 
-			q.addEntity("CTEntry", CTEntryImpl.class);
+			q.addScalar(COUNT_COLUMN_NAME, Type.LONG);
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
+			qPos.add(ctEntryId);
 			qPos.add(ctEntryId);
 
 			if (queryDefinition.getStatus() != WorkflowConstants.STATUS_ANY) {
@@ -185,6 +187,7 @@ public class CTEntryFinderImpl
 
 			QueryPos qPos = QueryPos.getInstance(q);
 
+			qPos.add(ctEntryId);
 			qPos.add(ctEntryId);
 
 			if (queryDefinition.getStatus() != WorkflowConstants.STATUS_ANY) {
