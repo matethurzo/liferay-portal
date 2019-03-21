@@ -21,6 +21,7 @@ import com.liferay.change.tracking.configuration.CTConfigurationRegistry;
 import com.liferay.change.tracking.exception.CTEntryException;
 import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.exception.DuplicateCTEntryException;
+import com.liferay.change.tracking.internal.util.CTEntryCollisionHelperUtil;
 import com.liferay.change.tracking.internal.util.ChangeTrackingThreadLocal;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
@@ -428,65 +429,25 @@ public class CTManagerImpl implements CTManager {
 
 		CTCollection ctCollection = ctCollectionOptional.get();
 
+		Optional<CTEntry> ctEntryOptional = Optional.empty();
+
 		try {
-			ServiceContext serviceContext = new ServiceContext();
-
-			serviceContext.setAttribute("force", force);
-
-			Optional<CTEntry> previousModelChangeCTEntryOptional =
-				getLatestModelChangeCTEntryOptional(
-					userId, modelResourcePrimKey);
-
-			// Creating a new change tracking entry
-
-			CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
-				userId, modelClassNameId, modelClassPK, modelResourcePrimKey,
-				changeType, ctCollection.getCtCollectionId(), serviceContext);
-
-			// Updating existing related change tracking entry aggregate
-
-			previousModelChangeCTEntryOptional.flatMap(
-				latestModelChangeCTEntry -> getCTEntryAggregateOptional(
-					latestModelChangeCTEntry, ctCollection)
-			).ifPresent(
-				ctEntryAggregate -> _updateCTEntryInCTEntryAggregate(
-					ctEntryAggregate, ctEntry, force)
-			);
-
-			return Optional.of(ctEntry);
+			ctEntryOptional = TransactionInvokerUtil.invoke(
+				_transactionConfig,
+				() -> _registerModelChange(
+					userId, modelClassNameId, modelClassPK,
+					modelResourcePrimKey, changeType, force, companyId,
+					ctCollection));
 		}
-		catch (DuplicateCTEntryException dctee) {
-			StringBundler sb = new StringBundler(8);
+		catch (Throwable t) {
+			if (t instanceof CTException) {
+				throw (CTException)t;
+			}
 
-			sb.append("Duplicate CTEntry with model class name ID ");
-			sb.append(modelClassNameId);
-			sb.append(", model class PK ");
-			sb.append(modelClassPK);
-			sb.append(", and model resource primary key ");
-			sb.append(modelResourcePrimKey);
-			sb.append(" in change tracking collection ");
-			sb.append(ctCollection.getCtCollectionId());
-
-			throw new CTEntryException(
-				0L, companyId, userId, modelClassNameId, modelClassPK,
-				modelResourcePrimKey, ctCollection.getCtCollectionId(),
-				sb.toString(), dctee);
+			_log.error("Unable to register model change", t);
 		}
-		catch (PortalException pe) {
-			StringBundler sb = new StringBundler(9);
 
-			sb.append("Unable to register model change with model class name ");
-			sb.append("ID ");
-			sb.append(modelClassNameId);
-			sb.append(", model class PK ");
-			sb.append(modelClassPK);
-			sb.append(", and model resource primary key ");
-			sb.append(modelResourcePrimKey);
-			sb.append(" in change tracking collection ");
-			sb.append(ctCollection.getCtCollectionId());
-
-			throw new CTException(companyId, sb.toString(), pe);
-		}
+		return ctEntryOptional;
 	}
 
 	@Override
@@ -593,6 +554,14 @@ public class CTManagerImpl implements CTManager {
 		return ctEntryAggregate;
 	}
 
+	private void _checkCollisions(CTEntry ctEntry, CTCollection ctCollection) {
+		if (!ctCollection.isProduction()) {
+			return;
+		}
+
+		CTEntryCollisionHelperUtil.checkCollidingCTEntries(ctEntry);
+	}
+
 	private boolean _containsResource(
 		CTEntryAggregate ctEntryAggregate, long resourcePrimKey) {
 
@@ -673,6 +642,75 @@ public class CTManagerImpl implements CTManager {
 
 		return _ctEntryLocalService.fetchCTEntry(
 			ctCollectionId, modelClassNameId, modelClassPK);
+	}
+
+	private Optional<CTEntry> _registerModelChange(
+			long userId, long modelClassNameId, long modelClassPK,
+			long modelResourcePrimKey, int changeType, boolean force,
+			long companyId, CTCollection ctCollection)
+		throws CTException {
+
+		try {
+			ServiceContext serviceContext = new ServiceContext();
+
+			serviceContext.setAttribute("force", force);
+
+			Optional<CTEntry> previousModelChangeCTEntryOptional =
+				getLatestModelChangeCTEntryOptional(
+					userId, modelResourcePrimKey);
+
+			// Creating a new change tracking entry
+
+			CTEntry ctEntry = _ctEntryLocalService.addCTEntry(
+				userId, modelClassNameId, modelClassPK, modelResourcePrimKey,
+				changeType, ctCollection.getCtCollectionId(), serviceContext);
+
+			_checkCollisions(ctEntry, ctCollection);
+
+			// Updating existing related change tracking entry aggregate
+
+			previousModelChangeCTEntryOptional.flatMap(
+				latestModelChangeCTEntry -> getCTEntryAggregateOptional(
+					latestModelChangeCTEntry, ctCollection)
+			).ifPresent(
+				ctEntryAggregate -> _updateCTEntryInCTEntryAggregate(
+					ctEntryAggregate, ctEntry, force)
+			);
+
+			return Optional.of(ctEntry);
+		}
+		catch (DuplicateCTEntryException dctee) {
+			StringBundler sb = new StringBundler(8);
+
+			sb.append("Duplicate CTEntry with model class name ID ");
+			sb.append(modelClassNameId);
+			sb.append(", model class PK ");
+			sb.append(modelClassPK);
+			sb.append(", and model resource primary key ");
+			sb.append(modelResourcePrimKey);
+			sb.append(" in change tracking collection ");
+			sb.append(ctCollection.getCtCollectionId());
+
+			throw new CTEntryException(
+				0L, companyId, userId, modelClassNameId, modelClassPK,
+				modelResourcePrimKey, ctCollection.getCtCollectionId(),
+				sb.toString(), dctee);
+		}
+		catch (PortalException pe) {
+			StringBundler sb = new StringBundler(9);
+
+			sb.append("Unable to register model change with model class name ");
+			sb.append("ID ");
+			sb.append(modelClassNameId);
+			sb.append(", model class PK ");
+			sb.append(modelClassPK);
+			sb.append(", and model resource primary key ");
+			sb.append(modelResourcePrimKey);
+			sb.append(" in change tracking collection ");
+			sb.append(ctCollection.getCtCollectionId());
+
+			throw new CTException(companyId, sb.toString(), pe);
+		}
 	}
 
 	private <V extends BaseModel, R extends BaseModel> void
