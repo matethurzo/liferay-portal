@@ -21,6 +21,7 @@ import com.liferay.change.tracking.exception.CTProcessException;
 import com.liferay.change.tracking.internal.background.task.display.CTPublishBackgroundTaskDisplay;
 import com.liferay.change.tracking.internal.process.log.CTProcessLog;
 import com.liferay.change.tracking.internal.process.util.CTProcessMessageSenderUtil;
+import com.liferay.change.tracking.internal.util.CTEntryCollisionHelperUtil;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.model.CTEntryAggregate;
@@ -38,9 +39,6 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTaskStatus;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskStatusRegistryUtil;
 import com.liferay.portal.kernel.backgroundtask.BaseBackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplay;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -53,7 +51,6 @@ import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
@@ -180,52 +177,6 @@ public class CTPublishBackgroundTaskExecutor
 		}
 	}
 
-	private void _checkNewCollisions(CTEntry ctEntry) {
-		List<CTEntry> collidingCTEntries = _getCollidingCTEntries(ctEntry);
-
-		if (ListUtil.isEmpty(collidingCTEntries)) {
-			return;
-		}
-
-		collidingCTEntries.forEach(this::_updateCollidingCTEntry);
-
-		if (_log.isDebugEnabled()) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(collidingCTEntries.size());
-			sb.append(" existing changes are colliding with the newly ");
-			sb.append("published change ");
-			sb.append(ctEntry.getCtEntryId());
-
-			_log.debug(sb.toString());
-		}
-	}
-
-	private List<CTEntry> _getCollidingCTEntries(CTEntry ctEntry) {
-		DynamicQuery dynamicQuery = CTEntryLocalServiceUtil.dynamicQuery();
-
-		Property companyIdProperty = PropertyFactoryUtil.forName("companyId");
-
-		dynamicQuery.add(companyIdProperty.eq(ctEntry.getCompanyId()));
-
-		Property modelClassPKProperty = PropertyFactoryUtil.forName(
-			"modelClassPK");
-
-		dynamicQuery.add(modelClassPKProperty.lt(ctEntry.getModelClassPK()));
-
-		Property modelResourcePrimKeyProperty = PropertyFactoryUtil.forName(
-			"modelResourcePrimKey");
-
-		dynamicQuery.add(
-			modelResourcePrimKeyProperty.eq(ctEntry.getModelResourcePrimKey()));
-
-		Property statusProperty = PropertyFactoryUtil.forName("status");
-
-		dynamicQuery.add(statusProperty.eq(WorkflowConstants.STATUS_DRAFT));
-
-		return CTEntryLocalServiceUtil.dynamicQuery(dynamicQuery);
-	}
-
 	private void _publishCTCollection(
 			BackgroundTask backgroundTask, long ctProcessId,
 			long ctCollectionId, boolean collisionIgnored)
@@ -329,7 +280,7 @@ public class CTPublishBackgroundTaskExecutor
 		CTEntryLocalServiceUtil.updateStatus(
 			ctEntry.getCtEntryId(), WorkflowConstants.STATUS_APPROVED);
 
-		_checkNewCollisions(ctEntry);
+		CTEntryCollisionHelperUtil.checkCollidingCTEntries(ctEntry);
 	}
 
 	private void _publishCTEntryAggregate(
@@ -341,12 +292,6 @@ public class CTPublishBackgroundTaskExecutor
 		CTEntryAggregateLocalServiceUtil.updateStatus(
 			ctEntryAggregate.getCtEntryAggregateId(),
 			WorkflowConstants.STATUS_APPROVED);
-	}
-
-	private void _updateCollidingCTEntry(CTEntry ctEntry) {
-		ctEntry.setCollision(true);
-
-		CTEntryLocalServiceUtil.updateCTEntry(ctEntry);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
