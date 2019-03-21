@@ -231,6 +231,16 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
+	public CTEntry updateCollision(long ctEntryId, boolean collision) {
+		CTEntry ctEntry = ctEntryPersistence.fetchByPrimaryKey(ctEntryId);
+
+		ctEntry.setCollision(collision);
+
+		return ctEntryPersistence.update(ctEntry);
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
 	public CTEntry updateStatus(long ctEntryId, int status) {
 		if ((status != WorkflowConstants.STATUS_APPROVED) &&
 			(status != WorkflowConstants.STATUS_DRAFT)) {
