@@ -632,6 +632,10 @@
 		<column name="publishDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
 
+		<!-- Relationships -->
+
+		<column entity="PortletPreferences" mapping-table="Layouts_PortletPreferences" name="portletPreferences" type="Collection" />
+
 		<!-- Order -->
 
 		<order by="asc">
@@ -1783,6 +1787,10 @@
 		<column name="plid" type="long" />
 		<column name="portletId" type="String" />
 		<column name="preferences" type="String" />
+
+		<!-- Relationships -->
+
+		<column entity="Layout" mapping-table="Layouts_PortletPreferences" name="layouts" type="Collection" />
 
 		<!-- Finder methods -->
 
