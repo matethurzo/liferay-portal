@@ -347,8 +347,14 @@ public class DDMStructureStagedModelDataHandler
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 					Group.class);
 
-			groupId = GetterUtil.getLong(
-				groupIds.get(portletDataContext.getCompanyGroupId()), groupId);
+			Long companyGroupIdValue = groupIds.get(
+				portletDataContext.getCompanyGroupId());
+
+			if ((companyGroupIdValue == null) ||
+				(groupId != companyGroupIdValue)) {
+
+				groupId = portletDataContext.getCompanyGroupId();
+			}
 		}
 
 		if (portletDataContext.isDataStrategyMirror()) {
