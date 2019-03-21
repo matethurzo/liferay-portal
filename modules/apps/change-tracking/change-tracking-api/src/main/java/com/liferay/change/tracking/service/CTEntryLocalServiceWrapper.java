@@ -660,6 +660,13 @@ public class CTEntryLocalServiceWrapper
 			ctEntryAggregateId, ctEntryIds);
 	}
 
+	@Override
+	public com.liferay.change.tracking.model.CTEntry updateCollision(
+		long ctEntryId, boolean collision) {
+
+		return _ctEntryLocalService.updateCollision(ctEntryId, collision);
+	}
+
 	/**
 	 * Updates the ct entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

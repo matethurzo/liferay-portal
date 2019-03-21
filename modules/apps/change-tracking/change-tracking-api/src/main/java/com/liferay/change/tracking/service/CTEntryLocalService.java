@@ -399,6 +399,9 @@ public interface CTEntryLocalService
 	public void setCTEntryAggregateCTEntries(
 		long ctEntryAggregateId, long[] ctEntryIds);
 
+	@Indexable(type = IndexableType.REINDEX)
+	public CTEntry updateCollision(long ctEntryId, boolean collision);
+
 	/**
 	 * Updates the ct entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

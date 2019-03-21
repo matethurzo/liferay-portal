@@ -602,6 +602,12 @@ public class CTEntryLocalServiceUtil {
 			ctEntryAggregateId, ctEntryIds);
 	}
 
+	public static com.liferay.change.tracking.model.CTEntry updateCollision(
+		long ctEntryId, boolean collision) {
+
+		return getService().updateCollision(ctEntryId, collision);
+	}
+
 	/**
 	 * Updates the ct entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
