@@ -45,6 +45,8 @@ public class CTEntryModel {
 			ctEntry.getModelClassNameId()
 		).setClassPK(
 			ctEntry.getModelClassPK()
+		).setCollision(
+			ctEntry.getCollision()
 		).setContentType(
 			CTConfigurationRegistryUtil.getVersionEntityContentTypeLanguageKey(
 				ctEntry.getModelClassNameId())
@@ -86,6 +88,11 @@ public class CTEntryModel {
 	@XmlElement
 	public long getClassPK() {
 		return _classPK;
+	}
+
+	@XmlElement
+	public boolean getCollision() {
+		return _collision;
 	}
 
 	@XmlElement
@@ -160,6 +167,12 @@ public class CTEntryModel {
 			return this;
 		}
 
+		public CTEntryModel.Builder setCollision(boolean collision) {
+			_ctEntryModel._collision = collision;
+
+			return this;
+		}
+
 		public CTEntryModel.Builder setContentType(String contentType) {
 			_ctEntryModel._contentType = contentType;
 
@@ -223,6 +236,7 @@ public class CTEntryModel {
 	private int _changeType;
 	private long _classNameId;
 	private long _classPK;
+	private boolean _collision;
 	private String _contentType;
 	private long _ctEntryId;
 	private Date _modifiedDate;
