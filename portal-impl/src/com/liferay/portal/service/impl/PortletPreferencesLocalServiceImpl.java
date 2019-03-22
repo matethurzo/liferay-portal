@@ -99,11 +99,25 @@ public class PortletPreferencesLocalServiceImpl
 
 		portletPreferences.setPreferences(defaultPreferences);
 
-		if (plid != 0) {
+		Predicate<String> portletIdPredicate = (pId) -> pId.indexOf("_INSTANCE_") != 0 && !pId.contains("ProductNavigation");
+
+		Optional<Layout> layout = Optional.ofNullable(layoutLocalService.fetchLayout(plid));
+
+		boolean isLayoutSite = layout.map(Layout::getGroup)
+			.map(group -> group.getGroupId() == 20123)
+			.orElse(false);
+
+		boolean isPortletPage = layout
+			.map(Layout::isTypePortlet)
+			.orElse(false);
+
+		if (ownerType == 3 && plid != 0 && portletIdPredicate.test(portletId) && isLayoutSite && isPortletPage) {
 			try {
 				long oldLayoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
 
 				LayoutVersion layoutVersion = layoutLocalService.addNewVersion(plid);
+
+				portletPreferences.setPlid(layoutVersion.getLayoutVersionId());
 
 				if (_layoutPortletPreferences.get(oldLayoutVersionId) == null) {
 					_layoutPortletPreferences.put(layoutVersion.getLayoutVersionId(), Collections.singleton(portletPreferences));
@@ -117,6 +131,9 @@ public class PortletPreferencesLocalServiceImpl
 				}
 			}
 			catch (PortalException pe) {
+			}
+			finally {
+				portletPreferences.setPlid(plid);
 			}
 		}
 
@@ -654,7 +671,7 @@ public class PortletPreferencesLocalServiceImpl
 	public javax.portlet.PortletPreferences getStrictPreferences(
 		PortletPreferencesIds portletPreferencesIds) {
 
-		return getStrictPreferences(
+		return portletPreferencesLocalService.getStrictPreferences(
 			portletPreferencesIds.getCompanyId(),
 			portletPreferencesIds.getOwnerId(),
 			portletPreferencesIds.getOwnerType(),
@@ -677,36 +694,42 @@ public class PortletPreferencesLocalServiceImpl
 		long ownerId, int ownerType, long plid, String portletId, String xml) {
 
 		try {
-			final long oldLayoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
+			if (ownerType == 3 && plid != 0 && portletId.indexOf("_INSTANCE_") != 0) {
+				final long oldLayoutVersionId = layoutLocalService.getCurrentLayoutVersion(plid).getLayoutVersionId();
 
-			long layoutVersionId = layoutLocalService.addNewVersion(plid).getLayoutVersionId();
+				long layoutVersionId = layoutLocalService.addNewVersion(plid).getLayoutVersionId();
 
-			long portletPreferencesId = counterLocalService.increment();
+				long portletPreferencesId = counterLocalService.increment();
 
-			PortletPreferences portletPreferences = portletPreferencesPersistence.create(
-				portletPreferencesId);
+				PortletPreferences portletPreferences = portletPreferencesPersistence.create(
+					portletPreferencesId);
 
-			portletPreferences.setOwnerId(ownerId);
-			portletPreferences.setOwnerType(ownerType);
-			portletPreferences.setPlid(layoutVersionId);
-			portletPreferences.setPortletId(portletId);
-			portletPreferences.setPreferences(xml);
+				portletPreferences.setOwnerId(ownerId);
+				portletPreferences.setOwnerType(ownerType);
+				portletPreferences.setPlid(layoutVersionId);
+				portletPreferences.setPortletId(portletId);
+				portletPreferences.setPreferences(xml);
 
-			Set<PortletPreferences> oldPreferences = _layoutPortletPreferences.get(oldLayoutVersionId);
+				Set<PortletPreferences> oldPreferences =
+					_layoutPortletPreferences.get(oldLayoutVersionId);
 
-			Predicate<PortletPreferences> predicate = pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPlid() == oldLayoutVersionId && pp.getPortletId().equals(portletId);
+				Predicate<PortletPreferences> predicate =
+					pp -> pp.getOwnerId() == ownerId &&
+						  pp.getOwnerType() == ownerType &&
+						  pp.getPlid() == oldLayoutVersionId &&
+						  pp.getPortletId().equals(portletId);
 
-			Set<PortletPreferences> newPreferences = oldPreferences
-				.stream()
-				.filter(pp -> !predicate.test(pp))
-				.collect(Collectors.toSet());
+				Set<PortletPreferences> newPreferences = oldPreferences
+					.stream()
+					.filter(pp -> !predicate.test(pp))
+					.collect(Collectors.toSet());
 
-			newPreferences.add(portletPreferences);
+				newPreferences.add(portletPreferences);
 
-			_layoutPortletPreferences.put(layoutVersionId, newPreferences);
+				_layoutPortletPreferences.put(layoutVersionId, newPreferences);
+			}
 		}
 		catch (Exception e) {
-
 		}
 
 		plid = _swapPlidForUpdatePreferences(plid);

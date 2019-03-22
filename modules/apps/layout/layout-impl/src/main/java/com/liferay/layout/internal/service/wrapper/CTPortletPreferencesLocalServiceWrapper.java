@@ -14,8 +14,12 @@
 
 package com.liferay.layout.internal.service.wrapper;
 
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutVersion;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletPreferences;
+import com.liferay.portal.kernel.model.PortletPreferencesIds;
+import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceWrapper;
 import com.liferay.portal.kernel.service.ServiceWrapper;
@@ -25,6 +29,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Mate Thurzo
@@ -53,14 +59,54 @@ public class CTPortletPreferencesLocalServiceWrapper
 	public List<PortletPreferences> getPortletPreferences(
 		long ownerId, int ownerType, long plid) {
 
-		boolean override = true;
-		int version = 11;
-
-		if (override && plid == 161) {
-			return new ArrayList<>(super.getLayoutVersionPortletPreferences(version));
+		if (OverridePrefs.override && plid == OverridePrefs.plid) {
+			return new ArrayList<>(super.getLayoutVersionPortletPreferences(OverridePrefs.layoutVersionId));
 		}
 
 		return super.getPortletPreferences(ownerId, ownerType, plid);
+	}
+
+	@Override
+	public PortletPreferences fetchPortletPreferences(
+		long ownerId, int ownerType, long plid, String portletId) {
+
+		if (OverridePrefs.override && plid == OverridePrefs.plid) {
+			Set<PortletPreferences> portletPreferences = super.getLayoutVersionPortletPreferences(OverridePrefs.layoutVersionId);
+
+			return portletPreferences.stream()
+				.filter(pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPlid() == plid && pp.getPortletId().equals(portletId))
+				.findFirst()
+				.orElseGet(() -> super.fetchPortletPreferences(ownerId, ownerType, plid, portletId));
+		}
+
+		return super.fetchPortletPreferences(ownerId, ownerType, plid, portletId);
+	}
+
+	@Override
+	public javax.portlet.PortletPreferences getStrictPreferences(
+		long companyId, long ownerId, int ownerType, long plid,
+		String portletId) {
+
+		if (OverridePrefs.override && plid == OverridePrefs.plid) {
+			Set<PortletPreferences> portletPreferences = super.getLayoutVersionPortletPreferences(OverridePrefs.layoutVersionId);
+
+			return portletPreferences.stream()
+				.filter(pp -> pp.getOwnerId() == ownerId && pp.getOwnerType() == ownerType && pp.getPlid() == plid && pp.getPortletId().equals(portletId))
+				.findFirst()
+				.map(pp -> PortletPreferencesFactoryUtil.fromXML(pp.getCompanyId(), pp.getOwnerId(), pp.getOwnerType(), pp.getPlid(), pp.getPortletId(), pp.getPreferences()))
+				.orElseGet(() -> super.getStrictPreferences(companyId, ownerId, ownerType, plid, portletId));
+		}
+
+		return super.getStrictPreferences(companyId, ownerId, ownerType, plid, portletId);
+	}
+
+	@Override
+	public Map<String, javax.portlet.PortletPreferences> getStrictPreferences(
+		Layout layout, List<Portlet> portlets) {
+
+		Map<String, javax.portlet.PortletPreferences> portletPreferencesMap = super.getStrictPreferences(layout, portlets);
+
+		portletPreferencesMap.entrySet().stream().filter(entry -> entry.getV)
 	}
 
 	@Reference

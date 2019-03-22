@@ -50,36 +50,50 @@ public class CTLayoutLocalServiceWrapper
 	@Override
 	public Layout getLayout(long plid) throws PortalException {
 
-		boolean override = true;
-		int version = 11;
+		Layout layout = null;
 
-		if (override && plid == 161) {
+		if (OverridePrefs.override && plid == OverridePrefs.plid) {
 			LayoutVersion layoutVersion =
-				_layoutVersionPersistence.fetchByPlid_Version(plid, version);
+				_layoutVersionPersistence.fetchByPlid_Version(plid, OverridePrefs.version);
 
-			return layoutVersion.toVersionedModel();
+			if (layoutVersion == null) {
+				layout = super.getLayout(plid);
+			}
+			else {
+				layout = layoutVersion.toVersionedModel();
+			}
+		}
+		else {
+			layout = super.getLayout(plid);
 		}
 
-		return super.getLayout(plid);
+		return layout;
 	}
 
 	@Override
 	public Layout getLayout(long groupId, boolean privateLayout, long layoutId)
 		throws PortalException {
 
-		boolean override = true;
-		int version = 11;
+		Layout layout = null;
 
-		if (override && groupId == 20123 && !privateLayout && layoutId == 3) {
+		if (OverridePrefs.override && groupId == 20123 && !privateLayout && layoutId == OverridePrefs.layoutId) {
 
 			LayoutVersion layoutVersion =
 				_layoutVersionPersistence.fetchByG_P_L_Version(groupId,
-					privateLayout, layoutId, version);
+					privateLayout, layoutId, OverridePrefs.version);
 
-			return layoutVersion.toVersionedModel();
+			if (layoutVersion == null) {
+				layout = super.getLayout(groupId, privateLayout, layoutId);
+			}
+			else {
+				layout = layoutVersion.toVersionedModel();
+			}
+		}
+		else {
+			layout = super.getLayout(groupId, privateLayout, layoutId);
 		}
 
-		return super.getLayout(groupId, privateLayout, layoutId);
+		return layout;
 	}
 
 	@Reference
