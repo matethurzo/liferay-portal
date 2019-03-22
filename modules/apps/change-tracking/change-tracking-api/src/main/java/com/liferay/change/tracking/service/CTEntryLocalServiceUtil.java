@@ -568,25 +568,25 @@ public class CTEntryLocalServiceUtil {
 		search(
 			com.liferay.change.tracking.model.CTCollection ctCollection,
 			long[] groupIds, long[] userIds, long[] classNameIds,
-			int[] changeTypes, boolean collision, long otherCTCollectionId,
+			int[] changeTypes, Boolean collision,
 			com.liferay.portal.kernel.dao.orm.QueryDefinition
 				<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
 
 		return getService().search(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			collision, otherCTCollectionId, queryDefinition);
+			collision, queryDefinition);
 	}
 
 	public static long searchCount(
 		com.liferay.change.tracking.model.CTCollection ctCollection,
 		long[] groupIds, long[] userIds, long[] classNameIds, int[] changeTypes,
-		boolean collision, long otherCTCollectionId,
+		Boolean collision,
 		com.liferay.portal.kernel.dao.orm.QueryDefinition
 			<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
 
 		return getService().searchCount(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			collision, otherCTCollectionId, queryDefinition);
+			collision, queryDefinition);
 	}
 
 	public static void setCTCollectionCTEntries(
