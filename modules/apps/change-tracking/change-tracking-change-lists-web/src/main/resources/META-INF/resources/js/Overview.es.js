@@ -491,7 +491,12 @@ Overview.STATE = {
 	descriptionProductionInformation: Config.string(),
 
 	/**
-	 * TODO:
+	 * Contains a json array of translation properties
+	 * @default
+	 * @instance
+	 * @memberOf Overview
+	 * @review
+	 * @type {object}
 	 */
 	entityNameTranslations: Config.arrayOf(
 		Config.shapeOf(
