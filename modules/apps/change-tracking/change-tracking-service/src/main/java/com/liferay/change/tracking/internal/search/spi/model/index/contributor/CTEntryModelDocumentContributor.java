@@ -49,6 +49,7 @@ public class CTEntryModelDocumentContributor
 		document.addKeyword(Field.STATUS, ctEntry.getStatus());
 		document.addText(Field.TITLE, _getTitle(ctEntry));
 		document.addKeyword("changeType", ctEntry.getChangeType());
+		document.addKeyword("collision", ctEntry.isCollision());
 		document.addKeyword("ctCollectionId", _getCTCollectionIds(ctEntry));
 		document.addKeyword(
 			"modelClassName",
