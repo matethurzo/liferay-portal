@@ -20,8 +20,10 @@ import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.Optional;
@@ -64,6 +66,21 @@ public class EditCTCollectionMVCActionCommand extends BaseMVCActionCommand {
 			_updateCTCollection(ctCollectionId, name, description);
 		}
 		else {
+			CTCollection ctCollection =
+				_ctCollectionLocalService.fetchCTCollection(
+					themeDisplay.getCompanyId(), name);
+
+			if (ctCollection != null) {
+				SessionErrors.add(actionRequest, "ctCollectionIsDuplicated");
+
+				_portal.copyRequestParameters(actionRequest, actionResponse);
+
+				actionResponse.setRenderParameter(
+					"mvcPath", "/edit_ct_collection.jsp");
+
+				return;
+			}
+
 			_addCTCollection(themeDisplay.getUserId(), name, description);
 		}
 	}
@@ -99,5 +116,8 @@ public class EditCTCollectionMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private CTEngineManager _ctEngineManager;
+
+	@Reference
+	private Portal _portal;
 
 }

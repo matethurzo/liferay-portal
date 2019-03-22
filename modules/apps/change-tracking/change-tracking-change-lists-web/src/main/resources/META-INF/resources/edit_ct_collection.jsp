@@ -30,9 +30,16 @@ if (ctCollection != null) {
 	description = ctCollection.getDescription();
 	name = ctCollection.getName();
 }
+
+portletDisplay.setURLBack(backURL.toString());
+portletDisplay.setShowBackIcon(true);
 %>
 
-<liferay-portlet:actionURL name="/change_lists/edit_ct_collection" var="actionURL" />
+<liferay-portlet:actionURL name="/change_lists/edit_ct_collection" var="actionURL">
+	<liferay-portlet:param name="backURL" value="<%= backURL.toString() %>" />
+</liferay-portlet:actionURL>
+
+<liferay-ui:error key="ctCollectionIsDuplicated" message="name-is-already-used-by-another-change-list" />
 
 <div class="custom-sheet sheet sheet-lg">
 	<aui:form action='<%= actionURL.toString() + "&etag=0&strip=0" %>' cssClass="lfr-export-dialog" method="post" name="addChangeListFm">
