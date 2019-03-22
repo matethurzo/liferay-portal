@@ -26,41 +26,47 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class CTDLFolderServiceWrapper implements CTDLFolderService,
-	ServiceWrapper<CTDLFolderService> {
+public class CTDLFolderServiceWrapper
+	implements CTDLFolderService, ServiceWrapper<CTDLFolderService> {
+
 	public CTDLFolderServiceWrapper(CTDLFolderService ctdlFolderService) {
 		_ctdlFolderService = ctdlFolderService;
 	}
 
 	@Override
 	public java.util.List<Object> getFoldersAndFileEntriesAndFileShortcuts(
-		long groupId, long folderId, String[] mimeTypes,
-		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition<?> queryDefinition)
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders,
+			com.liferay.portal.kernel.dao.orm.QueryDefinition<?>
+				queryDefinition)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcuts(groupId,
-			folderId, mimeTypes, includeMountFolders, queryDefinition);
+
+		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcuts(
+			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
 	}
 
 	/**
-	* NOTE FOR DEVELOPERS:
-	*
-	* Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
-	*/
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
+	 */
 	@Override
-	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
-		long folderId, String[] mimeTypes, boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition<?> queryDefinition)
+	public int getFoldersAndFileEntriesAndFileShortcutsCount(
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders,
+			com.liferay.portal.kernel.dao.orm.QueryDefinition<?>
+				queryDefinition)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcutsCount(groupId,
-			folderId, mimeTypes, includeMountFolders, queryDefinition);
+
+		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcutsCount(
+			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _ctdlFolderService.getOSGiServiceIdentifier();
@@ -77,4 +83,5 @@ public class CTDLFolderServiceWrapper implements CTDLFolderService,
 	}
 
 	private CTDLFolderService _ctdlFolderService;
+
 }

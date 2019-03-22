@@ -40,36 +40,47 @@ import java.util.List;
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=ct", "json.web.service.context.path=CTDLFolder"}, service = CTDLFolderService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=ct",
+		"json.web.service.context.path=CTDLFolder"
+	},
+	service = CTDLFolderService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface CTDLFolderService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CTDLFolderServiceUtil} to access the ctdl folder remote service. Add custom service methods to <code>com.liferay.document.library.change.tracking.service.impl.CTDLFolderServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Object> getFoldersAndFileEntriesAndFileShortcuts(long groupId,
-		long folderId, String[] mimeTypes, boolean includeMountFolders,
-		QueryDefinition<?> queryDefinition) throws PortalException;
+	public List<Object> getFoldersAndFileEntriesAndFileShortcuts(
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders, QueryDefinition<?> queryDefinition)
+		throws PortalException;
 
 	/**
-	* NOTE FOR DEVELOPERS:
-	*
-	* Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
-	*/
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFoldersAndFileEntriesAndFileShortcutsCount(long groupId,
-		long folderId, String[] mimeTypes, boolean includeMountFolders,
-		QueryDefinition<?> queryDefinition) throws PortalException;
+	public int getFoldersAndFileEntriesAndFileShortcutsCount(
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders, QueryDefinition<?> queryDefinition)
+		throws PortalException;
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	public String getOSGiServiceIdentifier();
+
 }

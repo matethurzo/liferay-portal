@@ -17,7 +17,6 @@ package com.liferay.document.library.change.tracking.service.http;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.document.library.change.tracking.service.CTDLFolderServiceUtil;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -53,19 +52,25 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class CTDLFolderServiceSoap {
+
 	/**
-	* NOTE FOR DEVELOPERS:
-	*
-	* Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
-	*/
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
+	 */
 	public static int getFoldersAndFileEntriesAndFileShortcutsCount(
-		long groupId, long folderId, String[] mimeTypes,
-		boolean includeMountFolders,
-		com.liferay.portal.kernel.dao.orm.QueryDefinition<?> queryDefinition)
+			long groupId, long folderId, String[] mimeTypes,
+			boolean includeMountFolders,
+			com.liferay.portal.kernel.dao.orm.QueryDefinition<?>
+				queryDefinition)
 		throws RemoteException {
+
 		try {
-			int returnValue = CTDLFolderServiceUtil.getFoldersAndFileEntriesAndFileShortcutsCount(groupId,
-					folderId, mimeTypes, includeMountFolders, queryDefinition);
+			int returnValue =
+				CTDLFolderServiceUtil.
+					getFoldersAndFileEntriesAndFileShortcutsCount(
+						groupId, folderId, mimeTypes, includeMountFolders,
+						queryDefinition);
 
 			return returnValue;
 		}
@@ -76,5 +81,7 @@ public class CTDLFolderServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(CTDLFolderServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		CTDLFolderServiceSoap.class);
+
 }
