@@ -614,7 +614,6 @@ public class LayoutModelImpl
 			getSourcePrototypeLayoutUuid());
 		layoutVersion.setPublishDate(getPublishDate());
 		layoutVersion.setLastPublishDate(getLastPublishDate());
-		layoutVersion.setPortletPreferences(getPortletPreferences());
 	}
 
 	@JSON

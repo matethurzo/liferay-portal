@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.model.LayoutVersionModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.model.impl.LayoutImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -555,7 +554,6 @@ public class LayoutVersionModelImpl
 		layout.setSourcePrototypeLayoutUuid(getSourcePrototypeLayoutUuid());
 		layout.setPublishDate(getPublishDate());
 		layout.setLastPublishDate(getLastPublishDate());
-		layout.setPortletPreferences(getPortletPreferences());
 	}
 
 	@Override

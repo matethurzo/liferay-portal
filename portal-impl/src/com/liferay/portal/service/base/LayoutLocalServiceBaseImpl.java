@@ -1956,9 +1956,6 @@ public abstract class LayoutLocalServiceBaseImpl
 			publishedLayout.getSourcePrototypeLayoutUuid());
 		draftLayout.setPublishDate(publishedLayout.getPublishDate());
 		draftLayout.setLastPublishDate(publishedLayout.getLastPublishDate());
-		draftLayout.setPortletPreferences(
-			publishedLayout.getPortletPreferences());
-
 		draftLayout.resetOriginalValues();
 
 		return draftLayout;
