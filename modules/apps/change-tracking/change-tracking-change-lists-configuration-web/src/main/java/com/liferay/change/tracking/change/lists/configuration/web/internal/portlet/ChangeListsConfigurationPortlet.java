@@ -16,8 +16,15 @@ package com.liferay.change.tracking.change.lists.configuration.web.internal.port
 
 import com.liferay.change.tracking.constants.CTPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.ParamUtil;
+
+import java.io.IOException;
 
 import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -40,4 +47,20 @@ import org.osgi.service.component.annotations.Component;
 	service = Portlet.class
 )
 public class ChangeListsConfigurationPortlet extends MVCPortlet {
+
+	@Override
+	public void render(
+			RenderRequest renderRequest, RenderResponse renderResponse)
+		throws IOException, PortletException {
+
+		boolean configurationSaved = ParamUtil.getBoolean(
+			renderRequest, "configurationSaved");
+
+		if (configurationSaved) {
+			SessionMessages.add(renderRequest, "success");
+		}
+
+		super.render(renderRequest, renderResponse);
+	}
+
 }

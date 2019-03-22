@@ -20,6 +20,7 @@ class ChangeListsConfiguration extends PortletBase {
 					this.initialFetch = true;
 					this.tooltipBody = '';
 
+					console.log(response);
 					response.supportedContentTypes.forEach(
 						(supportedContentType) => {
 							this.tooltipBody = this.tooltipBody.concat(supportedContentType);
@@ -57,15 +58,7 @@ class ChangeListsConfiguration extends PortletBase {
 			this.urlChangeTrackingConfiguration,
 			data,
 			response => {
-				const message = Liferay.Language.get('the-configuration-has-been-saved');
-
-				openToast(
-					{
-						message,
-						title: Liferay.Language.get('success'),
-						type: 'success'
-					}
-				);
+				Liferay.Util.navigate(this.urlConfiguration);
 			}
 		);
 	}
@@ -217,6 +210,16 @@ ChangeListsConfiguration.STATE = {
 	 */
 
 	urlOverview: Config.string().required(),
+
+	/**
+	 * Property that contains the url for the 'Configuration' screen
+	 * @default undefined
+	 * @instance
+	 * @memberOf ChangeListsConfiguration
+	 * @review
+	 * @type {!string}
+	 */
+	urlConfiguration: Config.string().required(),
 
 	/**
 	 * Path of the available icons.

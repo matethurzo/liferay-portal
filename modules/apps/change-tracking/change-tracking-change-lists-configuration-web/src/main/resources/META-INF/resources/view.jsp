@@ -16,6 +16,8 @@
 
 <%@ include file="/init.jsp" %>
 
+<liferay-ui:success key="success" message="the-configuration-has-been-saved" />
+
 <soy:component-renderer
 	context="<%= changeListsConfigurationDisplayContext.getChangeListsConfigurationContext() %>"
 	module="js/ChangeListsConfiguration.es"

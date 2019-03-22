@@ -18,7 +18,8 @@
 
 <%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %><%@
 taglib uri="http://liferay.com/tld/soy" prefix="soy" %><%@
-taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
+taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.change.tracking.change.lists.configuration.web.internal.display.context.ChangeListsConfigurationDisplayContext" %>
 
