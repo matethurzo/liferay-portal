@@ -203,12 +203,13 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	@Override
 	public List<CTEntry> search(
 		CTCollection ctCollection, long[] groupIds, long[] userIds,
-		long[] classNameIds, int[] changeTypes, boolean collision,
-		long otherCTCollectionId, QueryDefinition<CTEntry> queryDefinition) {
+		long[] classNameIds, int[] changeTypes, Boolean collision,
+		QueryDefinition<CTEntry> queryDefinition) {
 
 		Query query = _buildQuery(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			queryDefinition.getStatus(), queryDefinition.isExcludeStatus());
+			collision, queryDefinition.getStatus(),
+			queryDefinition.isExcludeStatus());
 
 		SearchResponse searchResponse = _search(
 			ctCollection.getCompanyId(), query, queryDefinition);
@@ -219,12 +220,13 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 	@Override
 	public long searchCount(
 		CTCollection ctCollection, long[] groupIds, long[] userIds,
-		long[] classNameIds, int[] changeTypes, boolean collision,
-		long otherCTCollectionId, QueryDefinition<CTEntry> queryDefinition) {
+		long[] classNameIds, int[] changeTypes, Boolean collision,
+		QueryDefinition<CTEntry> queryDefinition) {
 
 		Query query = _buildQuery(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			queryDefinition.getStatus(), queryDefinition.isExcludeStatus());
+			collision, queryDefinition.getStatus(),
+			queryDefinition.isExcludeStatus());
 
 		return _searchCount(ctCollection.getCompanyId(), query);
 	}
@@ -298,7 +300,7 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 
 	private Query _buildQuery(
 		CTCollection ctCollection, long[] groupIds, long[] userIds,
-		long[] classNameIds, int[] changeTypes, int status,
+		long[] classNameIds, int[] changeTypes, Boolean collision, int status,
 		boolean excludeStatus) {
 
 		BooleanQuery booleanQuery = _queries.booleanQuery();
@@ -333,6 +335,11 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 				_getTermsQuery(
 					"changeType",
 					_getTermValues(ArrayUtil.toArray(changeTypes))));
+		}
+
+		if (collision != null) {
+			booleanQuery.addFilterQueryClauses(
+				_queries.term("collision", collision));
 		}
 
 		if (WorkflowConstants.STATUS_ANY != status) {

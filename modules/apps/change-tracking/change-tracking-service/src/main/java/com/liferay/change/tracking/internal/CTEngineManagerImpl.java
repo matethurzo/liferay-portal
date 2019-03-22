@@ -22,7 +22,6 @@ import com.liferay.change.tracking.constants.CTPortletKeys;
 import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.internal.util.ChangeTrackingThreadLocal;
 import com.liferay.change.tracking.model.CTCollection;
-import com.liferay.change.tracking.model.CTCollectionModel;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.model.CTEntryAggregate;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
@@ -244,23 +243,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		long[] classNameIds, int[] changeTypes, Boolean collision,
 		QueryDefinition<CTEntry> queryDefinition) {
 
-		long otherCTCollectionId = 0L;
-
-		if (collision != null) {
-			Optional<CTCollection> productionCTCollectionOptional =
-				getProductionCTCollectionOptional(ctCollection.getCompanyId());
-
-			otherCTCollectionId = productionCTCollectionOptional.map(
-				CTCollectionModel::getCtCollectionId
-			).orElse(
-				0L
-			);
-		}
-
 		return _ctEntryLocalService.search(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			Boolean.TRUE.equals(collision), otherCTCollectionId,
-			queryDefinition);
+			collision, queryDefinition);
 	}
 
 	@Override
@@ -289,23 +274,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		long[] classNameIds, int[] changeTypes, Boolean collision,
 		QueryDefinition<CTEntry> queryDefinition) {
 
-		long otherCTCollectionId = 0L;
-
-		if (collision != null) {
-			Optional<CTCollection> productionCTCollectionOptional =
-				getProductionCTCollectionOptional(ctCollection.getCompanyId());
-
-			otherCTCollectionId = productionCTCollectionOptional.map(
-				CTCollectionModel::getCtCollectionId
-			).orElse(
-				0L
-			);
-		}
-
 		return (int)_ctEntryLocalService.searchCount(
 			ctCollection, groupIds, userIds, classNameIds, changeTypes,
-			Boolean.TRUE.equals(collision), otherCTCollectionId,
-			queryDefinition);
+			collision, queryDefinition);
 	}
 
 	@Override
