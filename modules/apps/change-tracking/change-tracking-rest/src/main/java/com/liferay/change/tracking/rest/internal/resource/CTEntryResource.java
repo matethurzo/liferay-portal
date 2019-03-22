@@ -103,7 +103,7 @@ public class CTEntryResource {
 			queryDefinition.setStatus(GetterUtil.getInteger(statusFilter));
 		}
 		else {
-			queryDefinition.setStatus(WorkflowConstants.STATUS_ANY);
+			queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
 
 		if (pagination != null) {
