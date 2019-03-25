@@ -33,35 +33,6 @@ public class CTDLFolderServiceWrapper
 		_ctdlFolderService = ctdlFolderService;
 	}
 
-	@Override
-	public java.util.List<Object> getFoldersAndFileEntriesAndFileShortcuts(
-			long groupId, long folderId, String[] mimeTypes,
-			boolean includeMountFolders,
-			com.liferay.portal.kernel.dao.orm.QueryDefinition<?>
-				queryDefinition)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcuts(
-			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
-	}
-
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use <code>CTDLFolderServiceUtil</code> to access the ctdl folder remote service.
-	 */
-	@Override
-	public int getFoldersAndFileEntriesAndFileShortcutsCount(
-			long groupId, long folderId, String[] mimeTypes,
-			boolean includeMountFolders,
-			com.liferay.portal.kernel.dao.orm.QueryDefinition<?>
-				queryDefinition)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _ctdlFolderService.getFoldersAndFileEntriesAndFileShortcutsCount(
-			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition);
-	}
-
 	/**
 	 * Returns the OSGi service identifier.
 	 *
