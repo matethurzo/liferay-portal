@@ -18,21 +18,26 @@ import com.liferay.change.tracking.CTEngineManager;
 import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.document.library.change.tracking.service.persistence.CTDLFolderFinderOverride;
+import com.liferay.document.library.change.tracking.service.persistence.impl.constants.CTPersistenceConstants;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
+import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portlet.documentlibrary.model.impl.DLFileVersionImpl;
 import com.liferay.portlet.documentlibrary.service.persistence.impl.DLFolderFinderImpl;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Luiz Marins
  */
+@Component(service = CTDLFolderFinderOverride.class)
 public class CTDLFolderFinderOverrideImpl
 	extends DLFolderFinderImpl implements CTDLFolderFinderOverride {
 
@@ -60,6 +65,15 @@ public class CTDLFolderFinderOverrideImpl
 		return doFindF_FE_FS_ByG_F_M_M(
 			groupId, folderId, mimeTypes, includeMountFolders, queryDefinition,
 			true);
+	}
+
+	@Override
+	@Reference(
+		target = CTPersistenceConstants.ORIGIN_BUNDLE_SYMBOLIC_NAME_FILTER,
+		unbind = "-"
+	)
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		super.setSessionFactory(sessionFactory);
 	}
 
 	@Override
@@ -113,16 +127,16 @@ public class CTDLFolderFinderOverrideImpl
 		qPos.add(productionCollection.getCtCollectionId());
 	}
 
-	@ServiceReference(type = CTEngineManager.class)
+	@Reference
 	private CTEngineManager _ctEngineManager;
 
-	@ServiceReference(type = CTManager.class)
+	@Reference
 	private CTManager _ctManager;
 
-	@ServiceReference(type = CustomSQL.class)
+	@Reference
 	private CustomSQL _customSQL;
 
-	@ServiceReference(type = GroupLocalService.class)
+	@Reference
 	private GroupLocalService _groupLocalService;
 
 }
