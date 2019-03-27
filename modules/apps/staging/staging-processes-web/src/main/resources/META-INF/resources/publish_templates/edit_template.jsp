@@ -197,9 +197,7 @@ renderResponse.setTitle((exportImportConfiguration == null) ? LanguageUtil.get(r
 		var dateChecker = exportImport.getDateRangeChecker();
 
 		if (dateChecker.validRange) {
-			var form = AUI.$(document.<portlet:namespace />exportPagesFm);
-
-			submitForm(form);
+			submitForm(document.<portlet:namespace />exportPagesFm);
 		}
 		else {
 			exportImport.showNotification();

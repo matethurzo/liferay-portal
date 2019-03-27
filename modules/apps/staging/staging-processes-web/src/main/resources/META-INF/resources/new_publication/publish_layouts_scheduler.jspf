@@ -35,9 +35,8 @@
 	</li>
 </ul>
 
-<aui:script>
+<script>
 	function <portlet:namespace />schedulePublishEvent() {
-		var form = AUI.$(document.<portlet:namespace />exportPagesFm);
 
 		<%
 		String scheduleCMD = StringPool.BLANK;
@@ -56,15 +55,20 @@
 		}
 		%>
 
-		form.fm('<%= Constants.CMD %>').val('<%= scheduleCMD %>');
+		Liferay.Util.postForm(
+			document.<portlet:namespace />exportPagesFm,
+			{
+				data: {
 
-		<portlet:renderURL var="scheduledPublicationRedirectURL">
-			<portlet:param name="mvcPath" value="/view.jsp" />
-			<portlet:param name="tabs1" value="scheduled" />
-		</portlet:renderURL>
+					'<%= Constants.CMD %>': '<%= scheduleCMD %>',
+					<portlet:renderURL var="scheduledPublicationRedirectURL">
+						<portlet:param name="mvcPath" value="/view.jsp" />
+						<portlet:param name="tabs1" value="scheduled" />
+					</portlet:renderURL>
 
-		form.fm('redirect').val('<%= scheduledPublicationRedirectURL %>');
-
-		submitForm(form);
+					redirect: '<%= scheduledPublicationRedirectURL %>'
+				}
+			}
+		);
 	}
-</aui:script>
+</script>

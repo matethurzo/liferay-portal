@@ -184,13 +184,17 @@
 <aui:script>
 	function <portlet:namespace />deleteEntries() {
 		if (confirm('<%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-delete-the-selected-entries") %>')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
+			var form = document.<portlet:namespace />fm;
 
-			form.attr('method', 'post');
-			form.fm('<%= Constants.CMD %>').val('<%= Constants.DELETE %>');
-			form.fm('deleteBackgroundTaskIds').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds'));
-
-			submitForm(form);
+			Liferay.Util.postForm(
+				form,
+				{
+					data: {
+						'<%= Constants.CMD %>': '<%= Constants.DELETE %>',
+						deleteBackgroundTaskIds: Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds')
+					}
+				}
+			);
 		}
 	}
 </aui:script>

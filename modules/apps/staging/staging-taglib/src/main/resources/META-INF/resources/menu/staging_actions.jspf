@@ -23,21 +23,23 @@
 		/>
 
 		<aui:script position="inline" sandbox="<%= true %>">
-			var publishGlobalLink = $('#<portlet:namespace /><%= groupId + "publishGlobalLink" %>');
+			var publishGlobalLink = document.getElementById('<portlet:namespace /><%= groupId + "publishGlobalLink" %>');
 
-			publishGlobalLink.on(
-				'click',
-				function(event) {
-					event.preventDefault();
+			if (publishGlobalLink) {
+				publishGlobalLink.addEventListener(
+					'click',
+					function(event) {
+						event.preventDefault();
 
-					Liferay.LayoutExporter.publishToLive(
-						{
-							title: '<%= UnicodeFormatter.toString(publishMessage) %>',
-							url: publishGlobalLink.attr('href')
-						}
-					);
-				}
-			);
+						Liferay.LayoutExporter.publishToLive(
+							{
+								title: '<%= UnicodeFormatter.toString(publishMessage) %>',
+								url: publishGlobalLink.href
+							}
+						);
+					}
+				);
+			}
 		</aui:script>
 	</c:when>
 	<c:otherwise>
@@ -210,49 +212,53 @@
 			</c:choose>
 
 			<aui:script position="inline" sandbox="<%= true %>">
-				var publishLink = $('#<%= layoutSetBranchId + "publishLink" %>');
+				var publishLink = document.getElementById('<%= layoutSetBranchId + "publishLink" %>');
 
-				publishLink.on(
-					'click',
-					function(event) {
-						event.preventDefault();
+				if (publishLink) {
+					publishLink.addEventListener(
+						'click',
+						function(event) {
+							event.preventDefault();
 
-						Liferay.LayoutExporter.publishToLive(
-							{
-								title: '<%= UnicodeFormatter.toString(publishMessage) %>',
-								url: publishLink.attr('href')
-							}
-						);
-					}
-				);
+							Liferay.LayoutExporter.publishToLive(
+								{
+									title: '<%= UnicodeFormatter.toString(publishMessage) %>',
+									url: publishLink.href
+								}
+							);
+						}
+					);
+				}
 
-				var publishToLiveLink = $('#<%= layoutSetBranchId + "publishToLiveLink" %>');
+				var publishToLiveLink = document.getElementById('<%= layoutSetBranchId + "publishToLiveLink" %>');
 
-				publishToLiveLink.on(
-					'click',
-					function(event) {
-						event.preventDefault();
+				if (publishToLiveLink) {
+					publishToLiveLink.addEventListener(
+						'click',
+						function(event) {
+							event.preventDefault();
 
-						Liferay.Util.openWindow(
-							{
-								dialog: {
-									after: {
-										destroy: function(event) {
-											window.location.reload();
-										}
+							Liferay.Util.openWindow(
+								{
+									dialog: {
+										after: {
+											destroy: function(event) {
+												window.location.reload();
+											}
+										},
+										destroyOnHide: true
 									},
-									destroyOnHide: true
-								},
-								dialogIframe: {
-									bodyCssClass: 'dialog-with-footer'
-								},
-								id: '<portlet:namespace />publishLatestChangesDialog',
-								title: '<%= UnicodeFormatter.toString(publishMessage) %>',
-								uri: publishToLiveLink.attr('href')
-							}
-						);
-					}
-				);
+									dialogIframe: {
+										bodyCssClass: 'dialog-with-footer'
+									},
+									id: '<portlet:namespace />publishLatestChangesDialog',
+									title: '<%= UnicodeFormatter.toString(publishMessage) %>',
+									uri: publishToLiveLink.href
+								}
+							);
+						}
+					);
+				}
 			</aui:script>
 		</c:if>
 

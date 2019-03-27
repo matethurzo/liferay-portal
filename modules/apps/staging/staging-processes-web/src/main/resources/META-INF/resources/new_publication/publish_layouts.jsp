@@ -134,14 +134,14 @@
 	function <portlet:namespace />publishPages() {
 		var exportImport = Liferay.component('<portlet:namespace />ExportImportComponent');
 
-		var deletePortletDataBeforeImportingCheckbox = AUI.$('#<portlet:namespace />deletePortletDataBeforeImportingCheckbox');
+		var deletePortletDataBeforeImportingCheckbox = document.getElementById('<portlet:namespace />deletePortletDataBeforeImportingCheckbox');
 
 		var dateChecker = exportImport.getDateRangeChecker();
 
 		if (dateChecker.validRange) {
-			var form = AUI.$(document.<portlet:namespace />exportPagesFm);
+			var form = document.<portlet:namespace />exportPagesFm;
 
-			if (deletePortletDataBeforeImportingCheckbox.length && deletePortletDataBeforeImportingCheckbox[0].checked) {
+			if (deletePortletDataBeforeImportingCheckbox && deletePortletDataBeforeImportingCheckbox.checked) {
 				confirm('<%= UnicodeLanguageUtil.get(request, "delete-application-data-before-importing-confirmation") %>') && submitForm(form);
 			}
 			else {
