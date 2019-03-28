@@ -428,29 +428,25 @@
 		<script>
 			(function() {
 				var tables = document.querySelectorAll('#<portlet:namespace />recurrenceTypeDailyTable, #<portlet:namespace />recurrenceTypeMonthlyTable, #<portlet:namespace />recurrenceTypeNeverTable, #<portlet:namespace />recurrenceTypeWeeklyTable, #<portlet:namespace />recurrenceTypeYearlyTable');
-				var recurrenceType = document.getElementById('<portlet:namespace />recurrenceType');
+				var recurrenceTypeSelect = document.getElementById('<portlet:namespace />recurrenceType');
 
-				if (recurrenceType) {
-					recurrenceType.addEventListener(
+				if (recurrenceTypeSelect) {
+					recurrenceTypeSelect.addEventListener(
 						'change',
 						function(event) {
-							var selectedTable = event.currentTarget;
+							var selectedTableId = '<portlet:namespace />' + recurrenceTypeSelect[recurrenceTypeSelect.selectedIndex].id + 'Table';
 
-							if (selectedTable) {
-								var selectedTableId = '<portlet:namespace />' + selectedTable[this.selectedIndex].id + 'Table';
-
-								Array.prototype.forEach.call(
-									tables,
-									function(table) {
-										if (table.id !== selectedTableId) {
-											table.classList.add('hide');
-										}
-										else {
-											table.classList.remove('hide');
-										}
+							Array.prototype.forEach.call(
+								tables,
+								function(table) {
+									if (table.id !== selectedTableId) {
+										table.classList.add('hide');
 									}
-								);
-							}
+									else {
+										table.classList.remove('hide');
+									}
+								}
+							);
 						}
 					);
 				}
