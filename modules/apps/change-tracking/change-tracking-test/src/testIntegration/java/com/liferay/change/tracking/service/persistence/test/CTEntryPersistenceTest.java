@@ -145,6 +145,8 @@ public class CTEntryPersistenceTest {
 
 		newCTEntry.setStatus(RandomTestUtil.nextInt());
 
+		newCTEntry.setCollision(RandomTestUtil.randomBoolean());
+
 		_ctEntries.add(_persistence.update(newCTEntry));
 
 		CTEntry existingCTEntry = _persistence.findByPrimaryKey(
@@ -179,6 +181,8 @@ public class CTEntryPersistenceTest {
 			existingCTEntry.getChangeType(), newCTEntry.getChangeType());
 		Assert.assertEquals(
 			existingCTEntry.getStatus(), newCTEntry.getStatus());
+		Assert.assertEquals(
+			existingCTEntry.isCollision(), newCTEntry.isCollision());
 	}
 
 	@Test
@@ -225,7 +229,7 @@ public class CTEntryPersistenceTest {
 			"userName", true, "createDate", true, "modifiedDate", true,
 			"originalCTCollectionId", true, "modelClassNameId", true,
 			"modelClassPK", true, "modelResourcePrimKey", true, "changeType",
-			true, "status", true);
+			true, "status", true, "collision", true);
 	}
 
 	@Test
@@ -477,6 +481,8 @@ public class CTEntryPersistenceTest {
 		ctEntry.setChangeType(RandomTestUtil.nextInt());
 
 		ctEntry.setStatus(RandomTestUtil.nextInt());
+
+		ctEntry.setCollision(RandomTestUtil.randomBoolean());
 
 		_ctEntries.add(_persistence.update(ctEntry));
 

@@ -253,4 +253,25 @@ public interface CTEntryModel
 	 */
 	public void setStatus(int status);
 
+	/**
+	 * Returns the collision of this ct entry.
+	 *
+	 * @return the collision of this ct entry
+	 */
+	public boolean getCollision();
+
+	/**
+	 * Returns <code>true</code> if this ct entry is collision.
+	 *
+	 * @return <code>true</code> if this ct entry is collision; <code>false</code> otherwise
+	 */
+	public boolean isCollision();
+
+	/**
+	 * Sets whether this ct entry is collision.
+	 *
+	 * @param collision the collision of this ct entry
+	 */
+	public void setCollision(boolean collision);
+
 }

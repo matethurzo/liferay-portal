@@ -57,6 +57,7 @@ public class CTEntryWrapper
 		attributes.put("modelResourcePrimKey", getModelResourcePrimKey());
 		attributes.put("changeType", getChangeType());
 		attributes.put("status", getStatus());
+		attributes.put("collision", isCollision());
 
 		return attributes;
 	}
@@ -136,6 +137,12 @@ public class CTEntryWrapper
 		if (status != null) {
 			setStatus(status);
 		}
+
+		Boolean collision = (Boolean)attributes.get("collision");
+
+		if (collision != null) {
+			setCollision(collision);
+		}
 	}
 
 	/**
@@ -146,6 +153,16 @@ public class CTEntryWrapper
 	@Override
 	public int getChangeType() {
 		return model.getChangeType();
+	}
+
+	/**
+	 * Returns the collision of this ct entry.
+	 *
+	 * @return the collision of this ct entry
+	 */
+	@Override
+	public boolean getCollision() {
+		return model.getCollision();
 	}
 
 	/**
@@ -288,6 +305,16 @@ public class CTEntryWrapper
 		return model.hasCTEntryAggregate();
 	}
 
+	/**
+	 * Returns <code>true</code> if this ct entry is collision.
+	 *
+	 * @return <code>true</code> if this ct entry is collision; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isCollision() {
+		return model.isCollision();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
@@ -301,6 +328,16 @@ public class CTEntryWrapper
 	@Override
 	public void setChangeType(int changeType) {
 		model.setChangeType(changeType);
+	}
+
+	/**
+	 * Sets whether this ct entry is collision.
+	 *
+	 * @param collision the collision of this ct entry
+	 */
+	@Override
+	public void setCollision(boolean collision) {
+		model.setCollision(collision);
 	}
 
 	/**

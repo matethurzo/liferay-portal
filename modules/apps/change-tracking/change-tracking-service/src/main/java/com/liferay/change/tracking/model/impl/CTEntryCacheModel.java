@@ -63,7 +63,7 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{ctEntryId=");
 		sb.append(ctEntryId);
@@ -89,6 +89,8 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 		sb.append(changeType);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", collision=");
+		sb.append(collision);
 		sb.append("}");
 
 		return sb.toString();
@@ -129,6 +131,7 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 		ctEntryImpl.setModelResourcePrimKey(modelResourcePrimKey);
 		ctEntryImpl.setChangeType(changeType);
 		ctEntryImpl.setStatus(status);
+		ctEntryImpl.setCollision(collision);
 
 		ctEntryImpl.resetOriginalValues();
 
@@ -157,6 +160,8 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 		changeType = objectInput.readInt();
 
 		status = objectInput.readInt();
+
+		collision = objectInput.readBoolean();
 	}
 
 	@Override
@@ -188,6 +193,8 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 		objectOutput.writeInt(changeType);
 
 		objectOutput.writeInt(status);
+
+		objectOutput.writeBoolean(collision);
 	}
 
 	public long ctEntryId;
@@ -202,5 +209,6 @@ public class CTEntryCacheModel implements CacheModel<CTEntry>, Externalizable {
 	public long modelResourcePrimKey;
 	public int changeType;
 	public int status;
+	public boolean collision;
 
 }
