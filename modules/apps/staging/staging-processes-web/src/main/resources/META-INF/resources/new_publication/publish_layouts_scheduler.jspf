@@ -59,8 +59,8 @@
 			document.<portlet:namespace />exportPagesFm,
 			{
 				data: {
-
 					'<%= Constants.CMD %>': '<%= scheduleCMD %>',
+
 					<portlet:renderURL var="scheduledPublicationRedirectURL">
 						<portlet:param name="mvcPath" value="/view.jsp" />
 						<portlet:param name="tabs1" value="scheduled" />
