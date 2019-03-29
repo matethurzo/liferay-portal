@@ -830,8 +830,6 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			layout.getCompanyId(), Layout.class.getName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, layout.getPlid());
 
-		long plid = layout.getPlid();
-
 		// Draft layout
 
 		Layout draftLayout = fetchLayout(
