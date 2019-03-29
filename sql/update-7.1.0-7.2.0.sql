@@ -31,6 +31,8 @@ create table LayoutSetVersion (
 	layoutSetPrototypeLinkEnabled BOOLEAN
 );
 
+COMMIT_TRANSACTION;
+
 insert into LayoutSetVersion
 	select
 		layoutSetId as layoutSetVersionId,
@@ -51,19 +53,23 @@ insert into LayoutSetVersion
 		layoutSetPrototypeLinkEnabled
 	from LayoutSet;
 
-insert into Counter (name, currentId)
-
-select
-	'com.liferay.portal.kernel.model.LayoutSet' as name,
-	max(layoutSetId) as currentId
-from LayoutSet;
+COMMIT_TRANSACTION;
 
 insert into Counter (name, currentId)
+	select
+		'com.liferay.portal.kernel.model.LayoutSet' as name,
+		max(layoutSetId) as currentId
+	from LayoutSet;
 
-select
-	'com.liferay.portal.kernel.model.LayoutSetVersion' as name,
-	max(layoutSetVersionId) as currentId
-from LayoutSetVersion;
+COMMIT_TRANSACTION;
+
+insert into Counter (name, currentId)
+	select
+		'com.liferay.portal.kernel.model.LayoutSetVersion' as name,
+		max(layoutSetVersionId) as currentId
+	from LayoutSetVersion;
+
+COMMIT_TRANSACTION;
 
 alter table LayoutSet add head BOOLEAN;
 alter table LayoutSet add headId LONG;
@@ -113,11 +119,15 @@ create table LayoutVersion (
 	lastPublishDate DATE null
 );
 
+COMMIT_TRANSACTION;
+
 insert into Counter (name, currentId)
 	select
 		'com.liferay.portal.kernel.model.Layout' as name,
 		max(plid) as currentId
 	from Layout;
+
+COMMIT_TRANSACTION;
 
 insert into LayoutVersion
 	select
@@ -161,6 +171,8 @@ insert into LayoutVersion
 		lastPublishDate
 	from
 		Layout;
+
+COMMIT_TRANSACTION;
 
 insert into Counter (name, currentId)
 	select
