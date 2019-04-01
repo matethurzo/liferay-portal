@@ -753,7 +753,7 @@ public class StagedLayoutSetStagedModelDataHandler
 			}
 		}
 
-		Set<Long> parentPlids = new HashSet<>();
+		Set<Long> parentLayoutIds = new HashSet<>();
 
 		Set<Long> updatedPlids = layoutPriorities.keySet();
 
@@ -764,12 +764,12 @@ public class StagedLayoutSetStagedModelDataHandler
 
 			_layoutLocalService.updateLayout(layout);
 
-			parentPlids.add(layout.getParentPlid());
+			parentLayoutIds.add(layout.getParentLayoutId());
 		}
 
-		for (long parentPlid : parentPlids) {
+		for (long parentLayoutId : parentLayoutIds) {
 			List<Layout> siblingLayouts = _layoutLocalService.getLayouts(
-				portletDataContext.getGroupId(), privateLayout, parentPlid);
+				portletDataContext.getGroupId(), privateLayout, parentLayoutId);
 
 			for (Layout layout : siblingLayouts) {
 				if (!updatedPlids.contains(layout.getPlid())) {
