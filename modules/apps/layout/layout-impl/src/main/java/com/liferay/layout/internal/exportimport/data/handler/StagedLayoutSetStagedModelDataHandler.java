@@ -531,10 +531,8 @@ public class StagedLayoutSetStagedModelDataHandler
 		}
 	}
 
-	protected boolean hasSiblingLayoutWithSamePriority(Layout layout) {
-		List<Layout> siblingLayouts = _layoutLocalService.getLayouts(
-			layout.getGroupId(), layout.isPrivateLayout(),
-			layout.getParentLayoutId());
+	protected boolean hasSiblingLayoutWithSamePriority(
+		Layout layout, List<Layout> siblingLayouts) {
 
 		for (Layout siblingLayout : siblingLayouts) {
 			if ((layout.getPlid() != siblingLayout.getPlid()) &&
@@ -773,13 +771,16 @@ public class StagedLayoutSetStagedModelDataHandler
 
 			for (Layout layout : siblingLayouts) {
 				if (!updatedPlids.contains(layout.getPlid())) {
-					if (hasSiblingLayoutWithSamePriority(layout)) {
+					if (hasSiblingLayoutWithSamePriority(
+						layout, siblingLayouts)) {
+
 						do {
 							int priority = layout.getPriority();
 
 							layout.setPriority(++priority);
 						}
-						while (hasSiblingLayoutWithSamePriority(layout));
+						while (hasSiblingLayoutWithSamePriority(
+							layout, siblingLayouts));
 
 						_layoutLocalService.updateLayout(layout);
 					}
