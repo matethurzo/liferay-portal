@@ -14,9 +14,17 @@
 
 package com.liferay.layout.change.tracking.internal.service;
 
+import com.liferay.change.tracking.CTManager;
+import com.liferay.change.tracking.exception.CTEntryException;
+import com.liferay.change.tracking.exception.CTException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.LayoutVersion;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceWrapper;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.util.Portal;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -43,5 +51,40 @@ public class CTLayoutLocalServiceWrapper extends LayoutLocalServiceWrapper {
 		// Needed for synchronization
 
 	}
+
+	private void _registerChange(LayoutVersion layoutVersion, int changeType)
+		throws CTException {
+
+		if (layoutVersion == null) {
+			return;
+		}
+
+		try {
+			_ctManager.registerModelChange(
+				PrincipalThreadLocal.getUserId(),
+				_portal.getClassNameId(LayoutVersion.class.getName()),
+				layoutVersion.getLayoutVersionId(), layoutVersion.getPlid(),
+				changeType);
+		}
+		catch (CTException cte) {
+			if (cte instanceof CTEntryException) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(cte.getMessage());
+				}
+			}
+			else {
+				throw cte;
+			}
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CTLayoutLocalServiceWrapper.class);
+
+	@Reference
+	private CTManager _ctManager;
+
+	@Reference
+	private Portal _portal;
 
 }
