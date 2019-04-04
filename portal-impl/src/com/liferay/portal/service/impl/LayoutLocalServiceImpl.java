@@ -1363,6 +1363,11 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			uuid, groupId, privateLayout, true);
 	}
 
+	@Override
+	public LayoutVersion fetchLayoutVersion(long layoutVersionId) {
+		return layoutVersionPersistence.fetchByPrimaryKey(layoutVersionId);
+	}
+
 	/**
 	 * Returns the primary key of the default layout for the group.
 	 *
