@@ -16,10 +16,12 @@ package com.liferay.exportimport.controller.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.bookmarks.constants.BookmarksPortletKeys;
+import com.liferay.change.tracking.kernel.util.ChangeTrackingThreadLocal;
 import com.liferay.exportimport.test.util.lar.BaseExportImportTestCase;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutVersion;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -33,6 +35,7 @@ import java.util.Date;
 
 import javax.portlet.PortletPreferences;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -56,6 +59,11 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	public void setUp() throws Exception {
 		ServiceTestUtil.setUser(TestPropsValues.getUser());
 
+		layoutTrackingEnabled =
+			ChangeTrackingThreadLocal.isLayoutTrackingEnabled();
+
+		ChangeTrackingThreadLocal.setLayoutTrackingEnabled(true);
+
 		super.setUp();
 
 		exportImportLayouts(
@@ -66,8 +74,17 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 			layout.isPrivateLayout());
 	}
 
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+
+		ChangeTrackingThreadLocal.setLayoutTrackingEnabled(
+			layoutTrackingEnabled);
+	}
+
 	@Test
-	public void testUdatePortletPreferencesPlid0NotNull() throws Exception {
+	public void testUpdatePortletPreferencesPlid0NotNull() throws Exception {
 		Date lastPublishDate = new Date(System.currentTimeMillis());
 
 		PortletPreferencesImpl portletPreferencesImpl = setLastPublishDate(
@@ -99,7 +116,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	@Test
-	public void testUdatePortletPreferencesPlid1NotNullNotNull()
+	public void testUpdatePortletPreferencesPlid1NotNullNotNull()
 		throws Exception {
 
 		Date lastPublishDate1 = new Date(System.currentTimeMillis() - 1);
@@ -114,8 +131,13 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 		Assert.assertEquals(
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
 			portletPreferencesImpl1.getOwnerType());
+
+		LayoutVersion latestLayoutVersion =
+			LayoutLocalServiceUtil.fetchLatestVersion(layout);
+
 		Assert.assertEquals(
-			layout.getPlid(), portletPreferencesImpl1.getPlid());
+			latestLayoutVersion.getLayoutVersionId(),
+			portletPreferencesImpl1.getPlid());
 
 		PortletPreferencesImpl portletPreferencesImpl2 = setLastPublishDate(
 			importedGroup, lastPublishDate2, importedGroupLayout);
@@ -126,8 +148,13 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 		Assert.assertEquals(
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
 			portletPreferencesImpl2.getOwnerType());
+
+		latestLayoutVersion =
+			LayoutLocalServiceUtil.fetchLatestVersion(importedGroupLayout);
+
 		Assert.assertEquals(
-			importedGroupLayout.getPlid(), portletPreferencesImpl2.getPlid());
+			latestLayoutVersion.getLayoutVersionId(),
+			portletPreferencesImpl2.getPlid());
 
 		exportLayouts(
 			new long[] {layout.getLayoutId()}, getExportParameterMap());
@@ -145,7 +172,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	@Test
-	public void testUdatePortletPreferencesPlid1NotNullNull() throws Exception {
+	public void testUpdatePortletPreferencesPlid1NotNullNull() throws Exception {
 		Date lastPublishDate = new Date(System.currentTimeMillis());
 
 		PortletPreferencesImpl portletPreferencesImpl = setLastPublishDate(
@@ -157,7 +184,13 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 		Assert.assertEquals(
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
 			portletPreferencesImpl.getOwnerType());
-		Assert.assertEquals(layout.getPlid(), portletPreferencesImpl.getPlid());
+
+		LayoutVersion latestLayoutVersion =
+			LayoutLocalServiceUtil.fetchLatestVersion(layout);
+
+		Assert.assertEquals(
+			latestLayoutVersion.getLayoutVersionId(),
+			portletPreferencesImpl.getPlid());
 
 		exportLayouts(
 			new long[] {layout.getLayoutId()}, getExportParameterMap());
@@ -173,7 +206,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	@Test
-	public void testUdatePortletPreferencesPlid1NullNotNull() throws Exception {
+	public void testUpdatePortletPreferencesPlid1NullNotNull() throws Exception {
 		Date lastPublishDate = new Date(System.currentTimeMillis());
 
 		PortletPreferencesImpl portletPreferencesImpl = setLastPublishDate(
@@ -185,8 +218,13 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 		Assert.assertEquals(
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
 			portletPreferencesImpl.getOwnerType());
+
+		LayoutVersion latestLayoutVersion =
+			LayoutLocalServiceUtil.fetchLatestVersion(importedGroupLayout);
+
 		Assert.assertEquals(
-			importedGroupLayout.getPlid(), portletPreferencesImpl.getPlid());
+			latestLayoutVersion.getLayoutVersionId(),
+			portletPreferencesImpl.getPlid());
 
 		exportLayouts(
 			new long[] {layout.getLayoutId()}, getExportParameterMap());
@@ -230,5 +268,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	protected Layout importedGroupLayout;
+
+	private boolean layoutTrackingEnabled;
 
 }
