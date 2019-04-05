@@ -238,10 +238,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 
 		Layout draftLayout = create();
 
-		if (Validator.isNotNull(serviceContext.getUuid())) {
-			draftLayout.setUuid(serviceContext.getUuid());
-		}
-
+		draftLayout.setUuid(serviceContext.getUuid());
 		draftLayout.setGroupId(groupId);
 		draftLayout.setCompanyId(user.getCompanyId());
 		draftLayout.setUserId(user.getUserId());
