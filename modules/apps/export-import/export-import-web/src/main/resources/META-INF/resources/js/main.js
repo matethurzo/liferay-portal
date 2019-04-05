@@ -65,11 +65,13 @@ AUI.add(
 
 						instance._processesResourceURL = config.processesResourceURL;
 
-						var eventHandles = [
-							Liferay.on(instance.ns('viewBackgroundTaskDetails'), instance._onViewBackgroundTaskDetails, instance)
-						];
+						var viewBackgroundTaskDetailsEventName = instance.ns('viewBackgroundTaskDetails');
 
-						instance._eventHandles = eventHandles;
+						var viewBackgroundTaskDetailsEvent = Liferay.getEvent(viewBackgroundTaskDetailsEventName);
+
+						if (!viewBackgroundTaskDetailsEvent) {
+							Liferay.on(viewBackgroundTaskDetailsEventName, instance._onViewBackgroundTaskDetails, instance);
+						}
 
 						instance._renderTimer = A.later(RENDER_INTERVAL_IN_PROGRESS, instance, instance._renderProcesses);
 					},
