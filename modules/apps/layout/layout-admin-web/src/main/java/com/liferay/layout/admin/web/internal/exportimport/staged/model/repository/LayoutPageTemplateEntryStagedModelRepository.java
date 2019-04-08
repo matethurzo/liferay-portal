@@ -67,6 +67,7 @@ public class LayoutPageTemplateEntryStagedModelRepository
 			layoutPageTemplateEntry.isDefaultTemplate(),
 			layoutPageTemplateEntry.getLayoutPrototypeId(),
 			layoutPageTemplateEntry.getPreviewFileEntryId(),
+			layoutPageTemplateEntry.getPlid(),
 			layoutPageTemplateEntry.getStatus(), serviceContext);
 	}
 
@@ -167,6 +168,8 @@ public class LayoutPageTemplateEntryStagedModelRepository
 			layoutPageTemplateEntry.isDefaultTemplate());
 		existingLayoutPageTemplateEntry.setLayoutPrototypeId(
 			layoutPageTemplateEntry.getLayoutPrototypeId());
+		existingLayoutPageTemplateEntry.setPlid(
+			layoutPageTemplateEntry.getPlid());
 		existingLayoutPageTemplateEntry.setStatus(
 			layoutPageTemplateEntry.getStatus());
 
