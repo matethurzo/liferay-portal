@@ -84,11 +84,34 @@ public class JournalChangeTrackingHelperImpl
 		long classNameId = _portal.getClassNameId(
 			JournalArticle.class.getName());
 
+		long activeCTColletionId = _getActiveCTCollection(userId);
+
 		Optional<CTEntry> ctEntryOptional =
 			_ctManager.getActiveCTCollectionCTEntryOptional(
 				userId, classNameId, id);
 
-		return ctEntryOptional.isPresent();
+		if (ctEntryOptional.filter(
+				ctEntry ->
+					ctEntry.getOriginalCTCollectionId() == activeCTColletionId).
+						isPresent()) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private long _getActiveCTCollection(long userId) {
+		Optional<CTCollection> ctCollectionOptional =
+			_ctManager.getActiveCTCollectionOptional(userId);
+
+		return ctCollectionOptional.filter(
+			ctCollection -> !ctCollection.isProduction()
+		).map(
+			CTCollection::getCtCollectionId
+		).orElse(
+			Long.valueOf(0)
+		);
 	}
 
 	@Reference
