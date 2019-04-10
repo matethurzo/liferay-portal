@@ -44,6 +44,18 @@ public interface CTEngineManager {
 	public void checkoutCTCollection(long userId, long ctCollectionId);
 
 	/**
+	 * Returns the number of the change tracking collections associated with the
+	 * given company and keywords.
+	 *
+	 * @param  companyId the primary key of the company
+	 * @param  queryDefinition the object contains settings regarding
+	 *         pagination, order and filter (keywords)
+	 * @return the number of change tracking collections
+	 */
+	public long countByKeywords(
+		long companyId, QueryDefinition<CTCollection> queryDefinition);
+
+	/**
 	 * Creates a new change tracking collection.
 	 *
 	 * @param  userId the primary key of the user who initiated the action

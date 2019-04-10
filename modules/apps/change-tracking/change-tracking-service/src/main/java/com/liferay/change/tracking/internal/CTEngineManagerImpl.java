@@ -111,6 +111,14 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
+	public long countByKeywords(
+		long companyId, QueryDefinition<CTCollection> queryDefinition) {
+
+		return _ctCollectionLocalService.dynamicQueryCount(
+			_getKeywordsDynamicQuery(companyId, queryDefinition));
+	}
+
+	@Override
 	public Optional<CTCollection> createCTCollection(
 		long userId, String name, String description) {
 
@@ -405,34 +413,9 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	public List<CTCollection> searchByKeywords(
 		long companyId, QueryDefinition<CTCollection> queryDefinition) {
 
-		DynamicQuery dynamicQuery = _ctCollectionLocalService.dynamicQuery();
-
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("companyId", companyId));
-		dynamicQuery.add(
-			RestrictionsFactoryUtil.ne(
-				"name", CTConstants.CT_COLLECTION_NAME_PRODUCTION));
-		dynamicQuery.add(
-			RestrictionsFactoryUtil.ne(
-				"status", WorkflowConstants.STATUS_APPROVED));
-
-		Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
-
-		String keywords = GetterUtil.getString(
-			queryDefinition.getAttribute("keywords"));
-
-		for (String keyword : StringUtil.split(keywords, CharPool.SPACE)) {
-			disjunction.add(
-				RestrictionsFactoryUtil.ilike("name", _wildcard(keyword)));
-
-			disjunction.add(
-				RestrictionsFactoryUtil.ilike(
-					"description", _wildcard(keyword)));
-		}
-
-		dynamicQuery.add(disjunction);
-
 		return _ctCollectionLocalService.dynamicQuery(
-			dynamicQuery, queryDefinition.getStart(), queryDefinition.getEnd(),
+			_getKeywordsDynamicQuery(companyId, queryDefinition),
+			queryDefinition.getStart(), queryDefinition.getEnd(),
 			queryDefinition.getOrderByComparator());
 	}
 
@@ -721,6 +704,38 @@ public class CTEngineManagerImpl implements CTEngineManager {
 		}
 
 		return companyId;
+	}
+
+	private DynamicQuery _getKeywordsDynamicQuery(
+		long companyId, QueryDefinition<CTCollection> queryDefinition) {
+
+		DynamicQuery dynamicQuery = _ctCollectionLocalService.dynamicQuery();
+
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("companyId", companyId));
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.ne(
+				"name", CTConstants.CT_COLLECTION_NAME_PRODUCTION));
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.ne(
+				"status", WorkflowConstants.STATUS_APPROVED));
+
+		Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+
+		String keywords = GetterUtil.getString(
+			queryDefinition.getAttribute("keywords"));
+
+		for (String keyword : StringUtil.split(keywords, CharPool.SPACE)) {
+			disjunction.add(
+				RestrictionsFactoryUtil.ilike("name", _wildcard(keyword)));
+
+			disjunction.add(
+				RestrictionsFactoryUtil.ilike(
+					"description", _wildcard(keyword)));
+		}
+
+		dynamicQuery.add(disjunction);
+
+		return dynamicQuery;
 	}
 
 	private void _updateRecentCTCollectionId(long userId, long ctCollectionId) {
