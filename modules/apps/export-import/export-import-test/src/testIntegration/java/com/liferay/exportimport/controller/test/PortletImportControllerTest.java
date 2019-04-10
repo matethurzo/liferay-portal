@@ -59,7 +59,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	public void setUp() throws Exception {
 		ServiceTestUtil.setUser(TestPropsValues.getUser());
 
-		layoutTrackingEnabled =
+		_layoutTrackingEnabled =
 			ChangeTrackingThreadLocal.isLayoutTrackingEnabled();
 
 		ChangeTrackingThreadLocal.setLayoutTrackingEnabled(true);
@@ -80,7 +80,7 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 		super.tearDown();
 
 		ChangeTrackingThreadLocal.setLayoutTrackingEnabled(
-			layoutTrackingEnabled);
+			_layoutTrackingEnabled);
 	}
 
 	@Test
@@ -149,8 +149,8 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
 			portletPreferencesImpl2.getOwnerType());
 
-		latestLayoutVersion =
-			LayoutLocalServiceUtil.fetchLatestVersion(importedGroupLayout);
+		latestLayoutVersion = LayoutLocalServiceUtil.fetchLatestVersion(
+			importedGroupLayout);
 
 		Assert.assertEquals(
 			latestLayoutVersion.getLayoutVersionId(),
@@ -172,7 +172,9 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	@Test
-	public void testUpdatePortletPreferencesPlid1NotNullNull() throws Exception {
+	public void testUpdatePortletPreferencesPlid1NotNullNull()
+		throws Exception {
+
 		Date lastPublishDate = new Date(System.currentTimeMillis());
 
 		PortletPreferencesImpl portletPreferencesImpl = setLastPublishDate(
@@ -206,7 +208,9 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 	}
 
 	@Test
-	public void testUpdatePortletPreferencesPlid1NullNotNull() throws Exception {
+	public void testUpdatePortletPreferencesPlid1NullNotNull()
+		throws Exception {
+
 		Date lastPublishDate = new Date(System.currentTimeMillis());
 
 		PortletPreferencesImpl portletPreferencesImpl = setLastPublishDate(
@@ -269,6 +273,6 @@ public class PortletImportControllerTest extends BaseExportImportTestCase {
 
 	protected Layout importedGroupLayout;
 
-	private boolean layoutTrackingEnabled;
+	private boolean _layoutTrackingEnabled;
 
 }
