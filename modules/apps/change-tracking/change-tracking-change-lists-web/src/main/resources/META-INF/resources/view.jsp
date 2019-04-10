@@ -23,6 +23,8 @@ portletDisplay.setTitle(title);
 renderResponse.setTitle(title);
 
 SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayContext.getSearchContainer();
+
+DisplayTerms displayTerms = ctCollectionSearchContainer.getDisplayTerms();
 %>
 
 <liferay-ui:success key='<%= portletDisplay.getPortletName() + "checkoutProductionSuccess" %>' message="production-checked-out-success-message" />
@@ -175,7 +177,7 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 						<portlet:param name="ctCollectionId" value="<%= String.valueOf(productionCTCollection.getCtCollectionId()) %>" />
 					</liferay-portlet:actionURL>
 
-					<c:if test="<%= productionCTCollection != null %>">
+					<c:if test="<%= (productionCTCollection != null) && (ctCollectionSearchContainer.getCur() == 1) && Validator.isNull(displayTerms.getKeywords()) %>">
 						<div class="col-sm-4">
 							<div class="border-left-green card select-card-sheet">
 								<div class="card-row card-row-layout-fixed card-row-padded card-row-valign-top select-card-header">

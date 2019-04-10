@@ -224,12 +224,8 @@ public class ChangeListsDisplayContext {
 
 		queryDefinition.setAttribute("keywords", keywords);
 
-		OrderByComparator<CTCollection> orderByComparator =
-			OrderByComparatorFactoryUtil.create(
-				"CTCollection", _getOrderByCol(),
-				getOrderByType().equals("asc"));
-
-		queryDefinition.setOrderByComparator(orderByComparator);
+		int count = (int)_ctEngineManager.countByKeywords(
+			_themeDisplay.getCompanyId(), queryDefinition);
 
 		List<CTCollection> ctCollections = new ArrayList<>();
 
@@ -238,8 +234,33 @@ public class ChangeListsDisplayContext {
 				_themeDisplay.getCompanyId());
 
 		if (productionCTCollection.isPresent() && Validator.isNull(keywords)) {
-			ctCollections.add(productionCTCollection.get());
+			if (searchContainer.getCur() == 1) {
+				ctCollections.add(productionCTCollection.get());
+			}
+
+			count += 1;
 		}
+
+		if (searchContainer.getStart() > 0) {
+			queryDefinition.setStart(searchContainer.getStart() - 1);
+		}
+		else {
+			queryDefinition.setStart(searchContainer.getStart());
+		}
+
+		if (searchContainer.getEnd() < count) {
+			queryDefinition.setEnd(searchContainer.getEnd() - 1);
+		}
+		else {
+			queryDefinition.setEnd(searchContainer.getEnd());
+		}
+
+		OrderByComparator<CTCollection> orderByComparator =
+			OrderByComparatorFactoryUtil.create(
+				"CTCollection", _getOrderByCol(),
+				getOrderByType().equals("asc"));
+
+		queryDefinition.setOrderByComparator(orderByComparator);
 
 		ctCollections.addAll(
 			_ctEngineManager.searchByKeywords(
@@ -247,7 +268,7 @@ public class ChangeListsDisplayContext {
 
 		searchContainer.setResults(ctCollections);
 
-		searchContainer.setTotal(ctCollections.size());
+		searchContainer.setTotal(count);
 
 		return searchContainer;
 	}
@@ -267,6 +288,7 @@ public class ChangeListsDisplayContext {
 
 		portletURL.setParameter("mvcRenderCommandName", "/change_lists/view");
 		portletURL.setParameter("select", "true");
+		portletURL.setParameter("displayStyle", getDisplayStyle());
 
 		return portletURL.toString();
 	}
@@ -345,8 +367,10 @@ public class ChangeListsDisplayContext {
 
 		PortletURL iteratorURL = _renderResponse.createRenderURL();
 
-		iteratorURL.setParameter("mvcPath", "/view_categories.jsp");
+		iteratorURL.setParameter("mvcPath", "/view.jsp");
+		iteratorURL.setParameter("select", "true");
 		iteratorURL.setParameter("redirect", currentURL.toString());
+		iteratorURL.setParameter("displayStyle", getDisplayStyle());
 
 		return iteratorURL;
 	}
