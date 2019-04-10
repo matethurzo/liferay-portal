@@ -29,6 +29,10 @@ public class ChangeTrackingThreadLocal {
 		return _layoutUpdateInProgress.get();
 	}
 
+	public static boolean isModelUpdateInProgress() {
+		return _modelUpdateInProgress.get();
+	}
+
 	public static void setLayoutTrackingDefaultEnabled(
 		boolean layoutTrackingDefaultEnabled) {
 
@@ -45,6 +49,10 @@ public class ChangeTrackingThreadLocal {
 		_layoutUpdateInProgress.set(layoutUpgradeInProgress);
 	}
 
+	public static void setModelUpdateInProgress(boolean modelUpdateInProgress) {
+		_modelUpdateInProgress.set(modelUpdateInProgress);
+	}
+
 	private static boolean _layoutTrackingDefaultEnabled;
 	private static final ThreadLocal<Boolean> _layoutTrackingEnabled =
 		new CentralizedThreadLocal<>(
@@ -53,6 +61,10 @@ public class ChangeTrackingThreadLocal {
 	private static final ThreadLocal<Boolean> _layoutUpdateInProgress =
 		new CentralizedThreadLocal<>(
 			ChangeTrackingThreadLocal.class + "._layoutUpdateInProgress",
+			() -> Boolean.FALSE);
+	private static final ThreadLocal<Boolean> _modelUpdateInProgress =
+		new CentralizedThreadLocal<>(
+			ChangeTrackingThreadLocal.class + "_modelUpdateInProgress",
 			() -> Boolean.FALSE);
 
 }

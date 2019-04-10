@@ -22,7 +22,7 @@ import com.liferay.change.tracking.exception.CTEntryException;
 import com.liferay.change.tracking.exception.CTException;
 import com.liferay.change.tracking.exception.DuplicateCTEntryException;
 import com.liferay.change.tracking.internal.util.CTEntryCollisionUtil;
-import com.liferay.change.tracking.internal.util.ChangeTrackingThreadLocal;
+import com.liferay.change.tracking.kernel.util.ChangeTrackingThreadLocal;
 import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.model.CTEntryAggregate;
