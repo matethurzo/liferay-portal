@@ -46,7 +46,7 @@ public class CTEntryModel {
 		).setClassPK(
 			ctEntry.getModelClassPK()
 		).setCollision(
-			ctEntry.getCollision()
+			ctEntry.isCollision()
 		).setContentType(
 			CTConfigurationRegistryUtil.getVersionEntityContentTypeLanguageKey(
 				ctEntry.getModelClassNameId())
