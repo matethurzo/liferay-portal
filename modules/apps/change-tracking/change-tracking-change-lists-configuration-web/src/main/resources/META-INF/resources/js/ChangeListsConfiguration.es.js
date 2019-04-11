@@ -20,7 +20,6 @@ class ChangeListsConfiguration extends PortletBase {
 					this.initialFetch = true;
 					this.tooltipBody = '';
 
-					console.log(response);
 					response.supportedContentTypes.forEach(
 						(supportedContentType) => {
 							this.tooltipBody = this.tooltipBody.concat(supportedContentType);
