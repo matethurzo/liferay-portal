@@ -20,7 +20,6 @@ import com.liferay.change.tracking.model.CTCollectionModel;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.change.tracking.service.CTCollectionLocalService;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.util.JournalChangeTrackingHelper;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Portal;
@@ -84,7 +83,7 @@ public class JournalChangeTrackingHelperImpl
 		long classNameId = _portal.getClassNameId(
 			JournalArticle.class.getName());
 
-		long activeCTColletionId = _getActiveCTCollection(userId);
+		long activeCTCollectionId = _getActiveCTCollection(userId);
 
 		Optional<CTEntry> ctEntryOptional =
 			_ctManager.getActiveCTCollectionCTEntryOptional(
@@ -92,8 +91,8 @@ public class JournalChangeTrackingHelperImpl
 
 		if (ctEntryOptional.filter(
 				ctEntry ->
-					ctEntry.getOriginalCTCollectionId() == activeCTColletionId).
-						isPresent()) {
+					ctEntry.getOriginalCTCollectionId() ==
+						activeCTCollectionId).isPresent()) {
 
 			return true;
 		}
@@ -110,7 +109,7 @@ public class JournalChangeTrackingHelperImpl
 		).map(
 			CTCollection::getCtCollectionId
 		).orElse(
-			Long.valueOf(0)
+			0L
 		);
 	}
 
@@ -119,9 +118,6 @@ public class JournalChangeTrackingHelperImpl
 
 	@Reference
 	private CTManager _ctManager;
-
-	@Reference
-	private JournalArticleLocalService _journalArticleLocalService;
 
 	@Reference
 	private Portal _portal;
