@@ -456,7 +456,15 @@ public class LayoutLocalServiceStagingAdvice implements BeanFactoryAware {
 				Object proxiedLayout = proxiedLayouts.get(layout);
 
 				if (proxiedLayout != null) {
-					return (Layout)proxiedLayout;
+					Layout cachedProxiedLayout = (Layout)proxiedLayout;
+
+					if (layout.getMvccVersion() ==
+							cachedProxiedLayout.getMvccVersion()) {
+
+						return cachedProxiedLayout;
+					}
+
+					proxiedLayouts.remove(layout);
 				}
 
 				proxiedLayout = ProxyUtil.newProxyInstance(
