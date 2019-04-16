@@ -52,6 +52,7 @@ import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.scheduler.internal.configuration.SchedulerEngineHelperConfiguration;
 import com.liferay.portal.scheduler.internal.messaging.config.ScriptingMessageListener;
@@ -174,9 +175,15 @@ public class SchedulerEngineHelperImpl implements SchedulerEngineHelper {
 		Calendar recurrenceCalendar = null;
 
 		if (timeZoneSensitive) {
-			recurrenceCalendar = CalendarFactoryUtil.getCalendar();
+			String timeZoneId = ParamUtil.getString(
+				portletRequest, "timeZoneId");
 
-			recurrenceCalendar.setTime(calendar.getTime());
+			if (Validator.isNotNull(timeZoneId)) {
+				recurrenceCalendar = CalendarFactoryUtil.getCalendar(
+					TimeZoneUtil.getTimeZone(timeZoneId));
+
+				recurrenceCalendar.setTime(calendar.getTime());
+			}
 		}
 		else {
 			recurrenceCalendar = (Calendar)calendar.clone();
