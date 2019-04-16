@@ -18,7 +18,7 @@
 
 <c:if test="<%= Validator.isNotNull(backgroundTaskStatusMessage) %>">
 	<h6 class="<%= linkClass %>">
-		<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= backgroundTaskId %>', title: $('#<portlet:namespace />backgroundTaskName<%= backgroundTaskId %>').text()}); void(0);"><liferay-ui:message key="see-more-details" /></a>
+		<a class="details-link" href="javascript:Liferay.fire('<portlet:namespace />viewBackgroundTaskDetails', {nodeId: 'backgroundTaskStatusMessage<%= backgroundTaskId %>', title: document.getElementById('<portlet:namespace />backgroundTaskName<%= backgroundTaskId %>').textContent}); void(0);"><liferay-ui:message key="see-more-details" /></a>
 	</h6>
 
 	<div class="background-task-status-message hide" id="<portlet:namespace />backgroundTaskStatusMessage<%= backgroundTaskId %>">
