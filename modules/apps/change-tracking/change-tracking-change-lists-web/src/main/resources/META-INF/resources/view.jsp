@@ -224,13 +224,19 @@ SearchContainer<CTCollection> ctCollectionSearchContainer = changeListsDisplayCo
 												</span>
 											</a>
 
-											<div class="select-card-sheet-block">
-												<span class="card-h4"><liferay-ui:message key="description" /></span>
+											<%
+											String description = curCTCollection.getDescription();
+											%>
 
-												<div class="card-text" data-qa-id="description">
-													<%= HtmlUtil.escape(curCTCollection.getDescription()) %>
+											<c:if test="<%= Validator.isNotNull(description) %>">
+												<div class="select-card-sheet-block">
+													<span class="card-h4"><liferay-ui:message key="description" /></span>
+
+													<div class="card-text" data-qa-id="description">
+														<%= HtmlUtil.escape(description) %>
+													</div>
 												</div>
-											</div>
+											</c:if>
 
 											<div class="select-card-sheet-block">
 												<span class="card-h4"><liferay-ui:message key="created-by" /> & <liferay-ui:message key="modified-date" /></span>
