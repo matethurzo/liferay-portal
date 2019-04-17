@@ -802,20 +802,11 @@ public class LayoutServiceImpl extends LayoutServiceBaseImpl {
 		GroupPermissionUtil.check(
 			getPermissionChecker(), targetGroupId, ActionKeys.PUBLISH_STAGING);
 
-		Trigger trigger = null;
+		String timeZoneId = MapUtil.getString(parameterMap, "timeZoneId");
 
-		if (MapUtil.getBoolean(parameterMap, "usePortalTimeZone", true)) {
-			trigger = TriggerFactoryUtil.createTrigger(
-				PortalUUIDUtil.generate(), groupName, schedulerStartDate,
-				schedulerEndDate, cronText);
-		}
-		else {
-			String timeZoneId = MapUtil.getString(parameterMap, "timeZoneId");
-
-			trigger = TriggerFactoryUtil.createTrigger(
-				PortalUUIDUtil.generate(), groupName, schedulerStartDate,
-				schedulerEndDate, TimeZone.getTimeZone(timeZoneId), cronText);
-		}
+		Trigger trigger = TriggerFactoryUtil.createTrigger(
+			PortalUUIDUtil.generate(), groupName, schedulerStartDate,
+			schedulerEndDate, TimeZone.getTimeZone(timeZoneId), cronText);
 
 		User user = userPersistence.findByPrimaryKey(getUserId());
 
@@ -881,20 +872,11 @@ public class LayoutServiceImpl extends LayoutServiceBaseImpl {
 		GroupPermissionUtil.check(
 			getPermissionChecker(), sourceGroupId, ActionKeys.PUBLISH_STAGING);
 
-		Trigger trigger = null;
+		String timeZoneId = MapUtil.getString(parameterMap, "timeZoneId");
 
-		if (MapUtil.getBoolean(parameterMap, "usePortalTimeZone", true)) {
-			trigger = TriggerFactoryUtil.createTrigger(
-				PortalUUIDUtil.generate(), groupName, schedulerStartDate,
-				schedulerEndDate, cronText);
-		}
-		else {
-			String timeZoneId = MapUtil.getString(parameterMap, "timeZoneId");
-
-			trigger = TriggerFactoryUtil.createTrigger(
-				PortalUUIDUtil.generate(), groupName, schedulerStartDate,
-				schedulerEndDate, TimeZone.getTimeZone(timeZoneId), cronText);
-		}
+		Trigger trigger = TriggerFactoryUtil.createTrigger(
+			PortalUUIDUtil.generate(), groupName, schedulerStartDate,
+			schedulerEndDate, TimeZone.getTimeZone(timeZoneId), cronText);
 
 		User user = userPersistence.findByPrimaryKey(getUserId());
 
