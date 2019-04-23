@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -187,6 +188,30 @@ public class CTCollectionLocalServiceImpl
 
 		dynamicQuery.add(
 			nameProperty.ne(CTConstants.CT_COLLECTION_NAME_PRODUCTION));
+
+		boolean includeActive = GetterUtil.getBoolean(
+			queryDefinition.getAttribute("includeActive"));
+
+		if (!includeActive) {
+			Property ctCollectionIdProperty = PropertyFactoryUtil.forName(
+				"ctCollectionId");
+
+			long activeCTCollectionId = GetterUtil.getLong(
+				queryDefinition.getAttribute("activeCTCollectionId"));
+
+			dynamicQuery.add(ctCollectionIdProperty.ne(activeCTCollectionId));
+		}
+
+		int status = queryDefinition.getStatus();
+
+		Property statusProperty = PropertyFactoryUtil.forName("status");
+
+		if (queryDefinition.isExcludeStatus()) {
+			dynamicQuery.add(statusProperty.ne(status));
+		}
+		else {
+			dynamicQuery.add(statusProperty.eq(status));
+		}
 
 		return ctCollectionLocalService.dynamicQuery(
 			dynamicQuery, queryDefinition.getStart(), queryDefinition.getEnd(),
