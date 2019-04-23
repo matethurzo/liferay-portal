@@ -346,7 +346,7 @@ class Overview extends PortletBase {
 
 		// Change Lists dropdown Menu
 
-		let urlRecentCollections = this.urlCollectionsBase + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&limit=5&type=recent&sort=modifiedDate:desc';
+		let urlRecentCollections = this.urlCollectionsBase + '?companyId=' + Liferay.ThemeDisplay.getCompanyId() + '&userId=' + Liferay.ThemeDisplay.getUserId() + '&limit=5&type=recent&sort=modifiedDate:desc';
 
 		this._fetchRecentCollections(urlRecentCollections, 'GET');
 
