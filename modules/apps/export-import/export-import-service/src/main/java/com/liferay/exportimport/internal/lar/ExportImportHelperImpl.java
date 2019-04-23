@@ -60,8 +60,11 @@ import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.xml.SecureXMLFactoryProviderUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -1660,6 +1663,19 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 	}
 
 	protected ZipWriter getZipWriter(String fileName) {
+		long companyId = CompanyThreadLocal.getCompanyId();
+
+		try {
+			_exportImportServiceConfiguration =
+				_configurationProvider.getCompanyConfiguration(
+					ExportImportServiceConfiguration.class, companyId);
+		}
+		catch (ConfigurationException ce) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(ce.getMessage());
+			}
+		}
+
 		if (!ExportImportThreadLocal.isStagingInProcess() ||
 			(_exportImportServiceConfiguration.
 				stagingDeleteTempLarOnFailure() &&
@@ -1900,6 +1916,9 @@ public class ExportImportHelperImpl implements ExportImportHelper {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ExportImportHelperImpl.class);
+
+	@Reference
+	private ConfigurationProvider _configurationProvider;
 
 	private DLFileEntryLocalService _dlFileEntryLocalService;
 	private ExportImportServiceConfiguration _exportImportServiceConfiguration;
