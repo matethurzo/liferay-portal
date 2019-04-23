@@ -199,19 +199,22 @@ public class CTCollectionResource {
 		else if (_TYPE_ALL.equals(type)) {
 			CTJaxRsUtil.checkCompany(companyId);
 
-			ctCollections = _ctEngineManager.getNonproductionCTCollections(
-				companyId, _getQueryDefinition(limit, sort));
+			ctCollections = _ctManager.getCTCollections(
+				companyId, userId, false, true,
+				_getQueryDefinition(limit, sort));
 		}
 		else if (_TYPE_RECENT.equals(type)) {
 			CTJaxRsUtil.checkCompany(companyId);
+
+			CTJaxRsUtil.getUser(userId);
 
 			QueryDefinition<CTCollection> queryDefinition = _getQueryDefinition(
 				limit, sort);
 
 			queryDefinition.setStatus(WorkflowConstants.STATUS_DRAFT);
 
-			ctCollections = _ctEngineManager.getNonproductionCTCollections(
-				companyId, queryDefinition);
+			ctCollections = _ctManager.getCTCollections(
+				companyId, userId, false, false, queryDefinition);
 		}
 		else {
 			throw new IllegalArgumentException(
