@@ -198,6 +198,27 @@ public class CTManagerImpl implements CTManager {
 	}
 
 	@Override
+	public List<CTCollection> getCTCollections(
+		long companyId, long userId, boolean includeProduction,
+		boolean includeActive, QueryDefinition<CTCollection> queryDefinition) {
+
+		queryDefinition.setAttribute("includeActive", includeActive);
+
+		if (!includeActive) {
+			Optional<CTCollection> activeCTCollectionOptional =
+				getActiveCTCollectionOptional(userId);
+
+			CTCollection activeCTCollection = activeCTCollectionOptional.get();
+
+			queryDefinition.setAttribute(
+				"activeCTCollectionId", activeCTCollection.getCtCollectionId());
+		}
+
+		return _ctCollectionLocalService.getCTCollections(
+			companyId, queryDefinition, includeProduction);
+	}
+
+	@Override
 	public Optional<CTEntryAggregate> getCTEntryAggregateOptional(
 		CTEntry ctEntry, CTCollection ctCollection) {
 
