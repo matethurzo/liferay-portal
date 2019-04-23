@@ -323,18 +323,6 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
-	public List<CTCollection> getNonproductionCTCollections(
-		long companyId, QueryDefinition<CTCollection> queryDefinition) {
-
-		if (!isChangeTrackingEnabled(companyId)) {
-			return Collections.emptyList();
-		}
-
-		return _ctCollectionLocalService.getCTCollections(
-			companyId, queryDefinition, false);
-	}
-
-	@Override
 	public Optional<CTCollection> getProductionCTCollectionOptional(
 		long companyId) {
 

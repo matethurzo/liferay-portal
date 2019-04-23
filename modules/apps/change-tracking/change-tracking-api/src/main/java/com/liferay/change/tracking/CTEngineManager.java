@@ -190,18 +190,6 @@ public interface CTEngineManager {
 	public List<CTEntryAggregate> getCTEntryAggregates(long ctCollectionId);
 
 	/**
-	 * Returns all the non production change tracking collection associated with
-	 * the given company.
-	 *
-	 * @param  companyId the primary key of the company
-	 * @param  queryDefinition the object contains settings regarding
-	 *         pagination, order and filter
-	 * @return the list of change tracking collections
-	 */
-	public List<CTCollection> getNonproductionCTCollections(
-		long companyId, QueryDefinition<CTCollection> queryDefinition);
-
-	/**
 	 * Returns the special change tracking collection which is called production
 	 * and contains all the changes published before.
 	 *
