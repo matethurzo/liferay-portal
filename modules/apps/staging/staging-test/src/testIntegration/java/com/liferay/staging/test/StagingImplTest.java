@@ -108,7 +108,6 @@ public class StagingImplTest {
 		_group = GroupTestUtil.addGroup();
 	}
 
-	@Ignore
 	@Test
 	public void testInitialPublication() throws Exception {
 		long companyId = _group.getCompanyId();
