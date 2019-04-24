@@ -397,6 +397,12 @@ public interface LayoutLocalService
 	@Override
 	public Layout create();
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), as of 7.2.0
+	 */
+	@Deprecated
+	public Layout createLayout(long plid);
+
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public Layout delete(Layout publishedLayout) throws PortalException;

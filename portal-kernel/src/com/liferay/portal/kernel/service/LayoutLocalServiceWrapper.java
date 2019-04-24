@@ -402,6 +402,15 @@ public class LayoutLocalServiceWrapper
 		return _layoutLocalService.create();
 	}
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), as of 7.2.0
+	 */
+	@Deprecated
+	@Override
+	public com.liferay.portal.kernel.model.Layout createLayout(long plid) {
+		return _layoutLocalService.createLayout(plid);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.Layout delete(
 			com.liferay.portal.kernel.model.Layout publishedLayout)

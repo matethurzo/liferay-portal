@@ -401,6 +401,16 @@ public class LayoutLocalServiceUtil {
 		return getService().create();
 	}
 
+	/**
+	 * @deprecated As of Mueller (7.2.x), as of 7.2.0
+	 */
+	@Deprecated
+	public static com.liferay.portal.kernel.model.Layout createLayout(
+		long plid) {
+
+		return getService().createLayout(plid);
+	}
+
 	public static com.liferay.portal.kernel.model.Layout delete(
 			com.liferay.portal.kernel.model.Layout publishedLayout)
 		throws com.liferay.portal.kernel.exception.PortalException {
