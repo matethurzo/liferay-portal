@@ -104,7 +104,7 @@ public class CTDDMStructureVersionLocalServiceWrapper
 		long journalClassNameId = _portal.getClassNameId(JournalArticle.class);
 
 		if ((ddmStructure.getClassNameId() != journalClassNameId) ||
-			!Objects.equals(
+			Objects.equals(
 				ddmStructure.getStructureKey(), "BASIC-WEB-CONTENT")) {
 
 			return false;
