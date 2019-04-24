@@ -273,26 +273,36 @@ if (liveLayout != null) {
 	</c:if>
 
 	<aui:script use="aui-base">
-		$('#viewPageStagingOptions').on(
-			'click',
-			function(event) {
-				event.preventDefault();
+		var viewPageStagingOptions = document.getElementById('viewPageStagingOptions');
 
-				$('.control-menu-level-2').addClass('open');
-			}
-		);
+		var controlMenuLevelTwo = document.querySelector('.control-menu-level-2');
 
-		$('#closeStagingOptions').on(
-			'click',
-			function(event) {
-				event.preventDefault();
+		if (controlMenuLevelTwo && viewPageStagingOptions) {
+			viewPageStagingOptions.addEventListener(
+				'click',
+				function(event) {
+					event.preventDefault();
 
-				$('.control-menu-level-2').removeClass('open');
-			}
-		);
+					controlMenuLevelTwo.classList.add('open');
+				}
+			);
+		}
 
-		var stagingLink = A.one('#<portlet:namespace />stagingLink');
-		var warningMessage = A.one('#<portlet:namespace />warningMessage');
+		var closeStagingOptions = document.getElementById('closeStagingOptions');
+
+		if (closeStagingOptions && controlMenuLevelTwo) {
+			closeStagingOptions.addEventListener(
+				'click',
+				function(event) {
+					event.preventDefault();
+
+					controlMenuLevelTwo.classList.remove('open');
+				}
+			);
+		}
+
+		var stagingLink = document.getElementById('<portlet:namespace />stagingLink');
+		var warningMessage = document.getElementById('<portlet:namespace />warningMessage');
 
 		var checkBackgroundTasks = function() {
 			Liferay.Service(
@@ -305,16 +315,22 @@ if (liveLayout != null) {
 				function(obj) {
 					var incomplete = obj > 0;
 
-					if (stagingLink) {
-						stagingLink.toggle(!incomplete);
-					}
-
-					if (warningMessage) {
-						warningMessage.toggle(incomplete);
-					}
-
 					if (incomplete) {
+						if (stagingLink) {
+							stagingLink.classList.remove('hide');
+						}
+						if (warningMessage) {
+							warningMessage.classList.add('hide');
+						}
 						setTimeout(checkBackgroundTasks, 5000);
+					}
+					else {
+						if (stagingLink) {
+							stagingLink.classList.add('hide');
+						}
+						if (warningMessage) {
+							warningMessage.classList.remove('hide');
+						}
 					}
 				}
 			);
