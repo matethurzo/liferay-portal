@@ -19,8 +19,6 @@ import com.liferay.change.tracking.constants.CTWebKeys;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItem;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -191,26 +189,6 @@ public class ChangeListsHistoryDisplayContext {
 		return portletURL.toString();
 	}
 
-	public List<ViewTypeItem> getViewTypeItems() {
-		return new ViewTypeItemList(_getPortletURL(), _getDisplayStyle()) {
-			{
-				addCardViewTypeItem();
-				addTableViewTypeItem();
-			}
-		};
-	}
-
-	private String _getDisplayStyle() {
-		if (_displayStyle != null) {
-			return _displayStyle;
-		}
-
-		_displayStyle = ParamUtil.getString(
-			_httpServletRequest, "displayStyle", "list");
-
-		return _displayStyle;
-	}
-
 	private String _getFilterByStatus() {
 		if (_filterByStatus != null) {
 			return _filterByStatus;
@@ -311,6 +289,7 @@ public class ChangeListsHistoryDisplayContext {
 
 		iteratorURL.setParameter("mvcPath", "/details.jsp");
 		iteratorURL.setParameter("redirect", currentURL.toString());
+		iteratorURL.setParameter("displayStyle", "list");
 		iteratorURL.setParameter(
 			CTWebKeys.CT_PROCESS_ID, String.valueOf(ctProcessId));
 
@@ -357,12 +336,7 @@ public class ChangeListsHistoryDisplayContext {
 	private PortletURL _getPortletURL() {
 		PortletURL portletURL = _renderResponse.createRenderURL();
 
-		String displayStyle = ParamUtil.getString(
-			_httpServletRequest, "displayStyle");
-
-		if (Validator.isNotNull(displayStyle)) {
-			portletURL.setParameter("displayStyle", _getDisplayStyle());
-		}
+		portletURL.setParameter("displayStyle", "list");
 
 		String orderByCol = _getOrderByCol();
 
@@ -394,7 +368,6 @@ public class ChangeListsHistoryDisplayContext {
 		_serviceTracker = serviceTracker;
 	}
 
-	private String _displayStyle;
 	private String _filterByStatus;
 	private String _filterByUser;
 	private final HttpServletRequest _httpServletRequest;

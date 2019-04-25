@@ -67,10 +67,12 @@ class ChangeListsHistory extends PortletBase {
 
 				processEntries.forEach(
 					processEntry => {
+						const viewLink = Liferay.PortletURL.createURL(this.baseURL);
 						const detailsLink = Liferay.PortletURL.createURL(this.baseURL);
 
 						detailsLink.setParameter('mvcRenderCommandName', '/change_lists_history/view_details');
 						detailsLink.setParameter('ctProcessId', processEntry.ctprocessId);
+						detailsLink.setParameter("backURL", viewLink.toString())
 
 						this.processEntries.push(
 							{

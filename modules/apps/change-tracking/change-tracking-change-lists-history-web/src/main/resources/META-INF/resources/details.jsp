@@ -28,6 +28,11 @@ if (ctCollection != null) {
 
 	renderResponse.setTitle(title);
 }
+
+String backURL = ParamUtil.getString(request, "backURL");
+
+portletDisplay.setURLBack(backURL);
+portletDisplay.setShowBackIcon(true);
 %>
 
 <clay:management-toolbar
@@ -40,7 +45,6 @@ if (ctCollection != null) {
 	showSearch="<%= true %>"
 	sortingOrder="<%= changeListsHistoryDisplayContext.getOrderByType() %>"
 	sortingURL="<%= changeListsHistoryDisplayContext.getSortingURL() %>"
-	viewTypeItems="<%= changeListsHistoryDisplayContext.getViewTypeItems() %>"
 />
 
 <div class="closed container-fluid-1280">
