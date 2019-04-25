@@ -443,6 +443,14 @@ public class CTEntryLocalServiceUtil {
 		return getService().getCTEntriesCount();
 	}
 
+	public static int getCTEntriesCount(
+		long ctCollectionId,
+		com.liferay.portal.kernel.dao.orm.QueryDefinition
+			<com.liferay.change.tracking.model.CTEntry> queryDefinition) {
+
+		return getService().getCTEntriesCount(ctCollectionId, queryDefinition);
+	}
+
 	/**
 	 * Returns the ct entry with the primary key.
 	 *

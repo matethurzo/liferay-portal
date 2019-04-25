@@ -307,6 +307,10 @@ public interface CTEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getCTEntriesCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getCTEntriesCount(
+		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition);
+
 	/**
 	 * Returns the ct entry with the primary key.
 	 *
