@@ -32,6 +32,19 @@
 				(CTEntryAggregates_CTEntries.ctEntryId = ?)
 		]]>
 	</sql>
+	<sql id="com.liferay.change.tracking.service.persistence.CTEntryFinder.countByCTCollectionId">
+		<![CDATA[
+			SELECT
+				COUNT(DISTINCT CTEntry.ctEntryId) AS COUNT_VALUE
+			FROM
+				CTEntry
+			INNER JOIN
+				CTCollections_CTEntries ON
+					CTCollections_CTEntries.ctEntryId = CTEntry.ctEntryId
+			WHERE
+				CTCollections_CTEntries.ctCollectionId = ?
+		]]>
+	</sql>
 	<sql id="com.liferay.change.tracking.service.persistence.CTEntryFinder.findByCTCollectionId">
 		<![CDATA[
 			SELECT

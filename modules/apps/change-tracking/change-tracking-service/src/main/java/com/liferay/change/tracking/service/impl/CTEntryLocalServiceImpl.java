@@ -169,6 +169,14 @@ public class CTEntryLocalServiceImpl extends CTEntryLocalServiceBaseImpl {
 			ctCollectionId, queryDefinition);
 	}
 
+	@Override
+	public int getCTEntriesCount(
+		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition) {
+
+		return ctEntryFinder.countByCTCollectionId(
+			ctCollectionId, queryDefinition);
+	}
+
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public List<CTEntry> getRelatedOwnerCTEntries(long ctEntryId) {
