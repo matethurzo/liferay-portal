@@ -196,7 +196,6 @@ List<LayoutRevision> rootLayoutRevisions = LayoutRevisionLocalServiceUtil.getChi
 
 	(function() {
 		var layoutBranchesContainers = document.querySelectorAll('.layout-variation-container');
-
 		var variationsSelector = document.getElementById('<portlet:namespace />variationsSelector');
 
 		if (layoutBranchesContainers && variationsSelector) {
