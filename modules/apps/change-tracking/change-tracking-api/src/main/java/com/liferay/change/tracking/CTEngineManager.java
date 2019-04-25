@@ -181,6 +181,18 @@ public interface CTEngineManager {
 		QueryDefinition<CTEntry> queryDefinition);
 
 	/**
+	 * Returns the number of the change entries associated with the given change
+	 * collection.
+	 *
+	 * @param  ctCollectionId the primary key of the change collection
+	 * @param  queryDefinition the object contains settings regarding
+	 *         pagination, order and status filtering
+	 * @return the number of the change entries
+	 */
+	public int getCTEntriesCount(
+		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition);
+
+	/**
 	 * Returns all the change entry aggregates associated with the given change
 	 * collection.
 	 *

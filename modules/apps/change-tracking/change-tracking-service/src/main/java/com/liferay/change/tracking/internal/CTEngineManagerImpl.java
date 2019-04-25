@@ -317,6 +317,14 @@ public class CTEngineManagerImpl implements CTEngineManager {
 	}
 
 	@Override
+	public int getCTEntriesCount(
+		long ctCollectionId, QueryDefinition<CTEntry> queryDefinition) {
+
+		return _ctEntryLocalService.getCTEntriesCount(
+			ctCollectionId, queryDefinition);
+	}
+
+	@Override
 	public List<CTEntryAggregate> getCTEntryAggregates(long ctCollectionId) {
 		return _ctEntryAggregateLocalService.getCTCollectionCTEntryAggregates(
 			ctCollectionId);
