@@ -67,7 +67,8 @@ public class StagedExpandoColumnImpl implements StagedExpandoColumn {
 		StagedExpandoColumnImpl stagedExpandoColumn =
 			new StagedExpandoColumnImpl();
 
-		stagedExpandoColumn._expandoColumn = _expandoColumn;
+		stagedExpandoColumn._expandoColumn =
+			(ExpandoColumn)_expandoColumn.clone();
 		stagedExpandoColumn._expandoTableClassName = _expandoTableClassName;
 		stagedExpandoColumn._expandoTableName = _expandoTableName;
 
