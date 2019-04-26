@@ -225,6 +225,16 @@ public interface CTManager {
 		CTEntry ctEntry, CTCollection ctCollection);
 
 	/**
+	 * Returns the number of change related change entries associated with the
+	 * given change entry.
+	 *
+	 * @param  ctEntryId a model change entry
+	 * @return the number of change related change entries associated with the
+	 *         given change entry.
+	 */
+	public int getRelatedOwnerCTEntriesCount(long ctEntryId);
+
+	/**
 	 * Indicates whether an add or update is in progress for a model. This will
 	 * only return <code>true</code> if the add or update is being executed with
 	 * {@link #executeModelUpdate(UnsafeSupplier)} and the execution is in
