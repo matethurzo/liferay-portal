@@ -19,7 +19,7 @@
 <%
 CTCollection ctCollection = (CTCollection)request.getAttribute(CTWebKeys.CT_COLLECTION);
 
-SearchContainer<CTEntry> ctEntrySearchContainer = changeListsHistoryDisplayContext.getCTCollectionDetailsSearchContainer(ctCollection.getCtCollectionId());
+SearchContainer<CTEntry> ctEntrySearchContainer = changeListsHistoryDisplayContext.getCTCollectionDetailsSearchContainer(ctCollection);
 
 if (ctCollection != null) {
 	String title = HtmlUtil.escapeJS(ctCollection.getName());
@@ -90,6 +90,18 @@ portletDisplay.setShowBackIcon(true);
 			<liferay-ui:search-container-column-text
 				name="affects"
 			>
+
+				<%
+				int affectsCount = changeListsHistoryDisplayContext.getAffectsCount(curCTEntry);
+
+				if (affectsCount > 0) {
+				%>
+
+					<span class="blue strong"><%= affectsCount %></span>
+
+				<%
+				}
+				%>
 
 			</liferay-ui:search-container-column-text>
 

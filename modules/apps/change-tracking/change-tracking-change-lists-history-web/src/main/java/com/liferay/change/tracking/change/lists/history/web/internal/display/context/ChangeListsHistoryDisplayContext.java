@@ -15,7 +15,9 @@
 package com.liferay.change.tracking.change.lists.history.web.internal.display.context;
 
 import com.liferay.change.tracking.CTEngineManager;
+import com.liferay.change.tracking.CTManager;
 import com.liferay.change.tracking.constants.CTWebKeys;
+import com.liferay.change.tracking.model.CTCollection;
 import com.liferay.change.tracking.model.CTEntry;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
@@ -62,6 +64,13 @@ public class ChangeListsHistoryDisplayContext {
 
 		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		_ctEngineManager = _ctEngineManagerServiceTracker.getService();
+		_ctManager = _ctManagerServiceTracker.getService();
+	}
+
+	public int getAffectsCount(CTEntry ctEntry) {
+		return _ctManager.getRelatedOwnerCTEntriesCount(ctEntry.getCtEntryId());
 	}
 
 	public SoyContext getChangeListsHistoryContext() {
@@ -103,14 +112,12 @@ public class ChangeListsHistoryDisplayContext {
 	}
 
 	public SearchContainer<CTEntry> getCTCollectionDetailsSearchContainer(
-		long ctCollectionId) {
+		CTCollection ctCollection) {
 
 		SearchContainer<CTEntry> searchContainer = new SearchContainer<>(
 			_renderRequest, new DisplayTerms(_renderRequest), null,
 			SearchContainer.DEFAULT_CUR_PARAM, 0, SearchContainer.DEFAULT_DELTA,
 			_getIteratorURL(), null, "there-are-no-change-entries");
-
-		CTEngineManager ctEngineManager = _serviceTracker.getService();
 
 		OrderByComparator<CTEntry> orderByComparator =
 			OrderByComparatorFactoryUtil.create(
@@ -123,11 +130,18 @@ public class ChangeListsHistoryDisplayContext {
 		queryDefinition.setOrderByComparator(orderByComparator);
 		queryDefinition.setStatus(WorkflowConstants.STATUS_APPROVED);
 
-		List<CTEntry> ctEntries = ctEngineManager.getCTEntries(
-			ctCollectionId, queryDefinition);
+		int ctEntriesCount = _ctEngineManager.getCTEntriesCount(
+			ctCollection.getCtCollectionId(), queryDefinition);
+
+		queryDefinition.setStart(searchContainer.getStart());
+		queryDefinition.setEnd(searchContainer.getEnd());
+
+		List<CTEntry> ctEntries = _ctEngineManager.getCTEntries(
+			ctCollection.getCtCollectionId(), queryDefinition);
 
 		searchContainer.setResults(ctEntries);
-		searchContainer.setTotal(ctEntries.size());
+
+		searchContainer.setTotal(ctEntriesCount);
 
 		return searchContainer;
 	}
@@ -354,20 +368,32 @@ public class ChangeListsHistoryDisplayContext {
 	}
 
 	private static ServiceTracker<CTEngineManager, CTEngineManager>
-		_serviceTracker;
+		_ctEngineManagerServiceTracker;
+	private static ServiceTracker<CTManager, CTManager>
+		_ctManagerServiceTracker;
 
 	static {
 		Bundle bundle = FrameworkUtil.getBundle(CTEngineManager.class);
 
-		ServiceTracker<CTEngineManager, CTEngineManager> serviceTracker =
-			new ServiceTracker<>(
+		ServiceTracker<CTEngineManager, CTEngineManager>
+			ctEngineManagerServiceTracker = new ServiceTracker<>(
 				bundle.getBundleContext(), CTEngineManager.class, null);
 
-		serviceTracker.open();
+		ctEngineManagerServiceTracker.open();
 
-		_serviceTracker = serviceTracker;
+		_ctEngineManagerServiceTracker = ctEngineManagerServiceTracker;
+
+		ServiceTracker<CTManager, CTManager> ctManagerServiceTracker =
+			new ServiceTracker<>(
+				bundle.getBundleContext(), CTManager.class, null);
+
+		ctManagerServiceTracker.open();
+
+		_ctManagerServiceTracker = ctManagerServiceTracker;
 	}
 
+	private final CTEngineManager _ctEngineManager;
+	private final CTManager _ctManager;
 	private String _filterByStatus;
 	private String _filterByUser;
 	private final HttpServletRequest _httpServletRequest;
