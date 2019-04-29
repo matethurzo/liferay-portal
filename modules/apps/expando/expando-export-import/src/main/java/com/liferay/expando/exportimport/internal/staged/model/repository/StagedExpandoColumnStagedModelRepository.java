@@ -259,7 +259,7 @@ public class StagedExpandoColumnStagedModelRepository
 		_expandoColumnLocalService.updateColumn(
 			stagedExpandoColumn.getColumnId(), stagedExpandoColumn.getName(),
 			stagedExpandoColumn.getType(),
-			stagedExpandoColumn.getDefaultData());
+			stagedExpandoColumn.getDefaultValue());
 
 		ExpandoColumn expandoColumn =
 			_expandoColumnLocalService.updateTypeSettings(
