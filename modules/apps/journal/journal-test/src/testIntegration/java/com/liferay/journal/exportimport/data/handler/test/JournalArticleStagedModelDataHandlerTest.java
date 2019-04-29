@@ -61,7 +61,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -154,10 +153,16 @@ public class JournalArticleStagedModelDataHandlerTest
 		exportImportStagedModel(journalArticle);
 	}
 
-	@Ignore
 	@Test
 	public void testCleanAssetCategoriesAndTags() throws Exception {
-		super.testCleanAssetCategoriesAndTags();
+		ExportImportThreadLocal.setLayoutImportInProcess(true);
+
+		try {
+			super.testCleanAssetCategoriesAndTags();
+		}
+		finally {
+			ExportImportThreadLocal.setLayoutImportInProcess(false);
+		}
 	}
 
 	@Test
