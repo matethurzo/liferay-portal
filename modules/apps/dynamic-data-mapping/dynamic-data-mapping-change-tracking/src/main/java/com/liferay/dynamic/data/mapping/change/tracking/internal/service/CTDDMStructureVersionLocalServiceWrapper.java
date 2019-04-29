@@ -59,7 +59,9 @@ public class CTDDMStructureVersionLocalServiceWrapper
 		DDMStructureVersion latestDDMStructureVersion =
 			super.getLatestStructureVersion(structureId);
 
-		if (!_isChangeTrackingEnabled(latestDDMStructureVersion)) {
+		if (!_isChangeTrackingEnabled(latestDDMStructureVersion) ||
+			_ctManager.isModelUpdateInProgress()) {
+
 			return latestDDMStructureVersion;
 		}
 
