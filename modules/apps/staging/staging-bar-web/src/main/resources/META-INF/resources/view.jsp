@@ -271,36 +271,26 @@ if (liveLayout != null) {
 	</c:if>
 
 	<aui:script use="aui-base">
-		var viewPageStagingOptions = document.getElementById('viewPageStagingOptions');
+		$('#viewPageStagingOptions').on(
+			'click',
+			function(event) {
+				event.preventDefault();
 
-		var controlMenuLevelTwo = document.querySelector('.control-menu-level-2');
+				$('.control-menu-level-2').addClass('open');
+			}
+		);
 
-		if (controlMenuLevelTwo && viewPageStagingOptions) {
-			viewPageStagingOptions.addEventListener(
-				'click',
-				function(event) {
-					event.preventDefault();
+		$('#closeStagingOptions').on(
+			'click',
+			function(event) {
+				event.preventDefault();
 
-					controlMenuLevelTwo.classList.add('open');
-				}
-			);
-		}
+				$('.control-menu-level-2').removeClass('open');
+			}
+		);
 
-		var closeStagingOptions = document.getElementById('closeStagingOptions');
-
-		if (closeStagingOptions && controlMenuLevelTwo) {
-			closeStagingOptions.addEventListener(
-				'click',
-				function(event) {
-					event.preventDefault();
-
-					controlMenuLevelTwo.classList.remove('open');
-				}
-			);
-		}
-
-		var stagingLink = document.getElementById('<portlet:namespace />stagingLink');
-		var warningMessage = document.getElementById('<portlet:namespace />warningMessage');
+		var stagingLink = A.one('#<portlet:namespace />stagingLink');
+		var warningMessage = A.one('#<portlet:namespace />warningMessage');
 
 		var checkBackgroundTasks = function() {
 			Liferay.Service(
@@ -313,22 +303,16 @@ if (liveLayout != null) {
 				function(obj) {
 					var incomplete = obj > 0;
 
-					if (incomplete) {
-						if (stagingLink) {
-							stagingLink.classList.remove('hide');
-						}
-						if (warningMessage) {
-							warningMessage.classList.add('hide');
-						}
-						setTimeout(checkBackgroundTasks, 5000);
+					if (stagingLink) {
+						stagingLink.toggle(!incomplete);
 					}
-					else {
-						if (stagingLink) {
-							stagingLink.classList.add('hide');
-						}
-						if (warningMessage) {
-							warningMessage.classList.remove('hide');
-						}
+
+					if (warningMessage) {
+						warningMessage.toggle(incomplete);
+					}
+
+					if (incomplete) {
+						setTimeout(checkBackgroundTasks, 5000);
 					}
 				}
 			);

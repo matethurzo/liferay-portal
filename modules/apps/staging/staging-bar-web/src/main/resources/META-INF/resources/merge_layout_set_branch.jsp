@@ -102,25 +102,19 @@ if (layoutSetBranches.contains(layoutSetBranch)) {
 	</div>
 </div>
 
-<script>
+<aui:script>
 	function <portlet:namespace />selectLayoutSetBranch(layoutSetBranchId) {
-		var layoutSetBranch = document.getElementById('<portlet:namespace />' + layoutSetBranchId);
+		var layoutSetBranch = AUI.$('#<portlet:namespace />' + layoutSetBranchId);
 
-		if (layoutSetBranch) {
-			var mergeLayoutSetBranchId = layoutSetBranch.getAttribute('data-layoutSetBranchId');
+		var mergeLayoutSetBranchId = layoutSetBranch.attr('data-layoutSetBranchId');
+		var mergeLayoutSetBranchMessage = layoutSetBranch.attr('data-layoutSetBranchMessage');
 
- 			var mergeLayoutSetBranchMessage = layoutSetBranch.getAttribute('data-layoutSetBranchMessage');
+		if (confirm(mergeLayoutSetBranchMessage)) {
+			var form = document.<portlet:namespace />fm4;
 
-			if (confirm(mergeLayoutSetBranchMessage)) {
-				Liferay.Util.postForm(
-					document.<portlet:namespace />fm4,
-					{
-						data: {
-							mergeLayoutSetBranchId: mergeLayoutSetBranchId
-						}
-					}
-				);
-			}
+			form.<portlet:namespace />mergeLayoutSetBranchId.value = mergeLayoutSetBranchId;
+
+			submitForm(form);
 		}
 	}
-</script>
+</aui:script>
