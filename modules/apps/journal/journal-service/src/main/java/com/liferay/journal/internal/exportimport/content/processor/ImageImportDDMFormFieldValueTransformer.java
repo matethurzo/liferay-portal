@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.Element;
@@ -127,8 +128,12 @@ public class ImageImportDDMFormFieldValueTransformer
 		Long classPK = fileEntryPKs.get(oldClassPK);
 
 		if (classPK == null) {
-			return _dlAppService.getFileEntryByUuidAndGroupId(
-				uuid, portletDataContext.getScopeGroupId());
+			if (Validator.isNotNull(uuid)) {
+				return _dlAppService.getFileEntryByUuidAndGroupId(
+					uuid, portletDataContext.getScopeGroupId());
+			}
+
+			return null;
 		}
 
 		return _dlAppService.getFileEntry(classPK);
