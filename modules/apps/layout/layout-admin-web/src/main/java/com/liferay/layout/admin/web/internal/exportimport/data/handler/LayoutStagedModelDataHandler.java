@@ -1192,37 +1192,35 @@ public class LayoutStagedModelDataHandler
 				});
 		}
 
-		List<FragmentEntryLink> fragmentEntryLinks =
-			_fragmentEntryLinkLocalService.getFragmentEntryLinks(
-				layout.getGroupId(), _portal.getClassNameId(Layout.class),
+		List<PortletPreferences> portletPreferencesList =
+			_portletPreferencesLocalService.getPortletPreferencesByPlid(
 				layout.getPlid());
 
-		for (FragmentEntryLink fragmentEntryLink : fragmentEntryLinks) {
-			List<String> fragmentEntryLinkPortletIds =
-				_portletRegistry.getFragmentEntryLinkPortletIds(
-					fragmentEntryLink);
+		for (PortletPreferences portletPreferences : portletPreferencesList) {
+			String portletId = portletPreferences.getPortletId();
 
-			for (String portletId : fragmentEntryLinkPortletIds) {
-				String key = PortletPermissionUtil.getPrimaryKey(
-					layout.getPlid(), portletId);
+			String key = PortletPermissionUtil.getPrimaryKey(
+				layout.getPlid(), portletId);
 
-				long scopeGroupId = portletDataContext.getScopeGroupId();
-
-				Settings portletInstanceSettings =
-					SettingsFactoryUtil.getSettings(
-						new PortletInstanceSettingsLocator(layout, portletId));
-
-				String scopeType = portletInstanceSettings.getValue(
-					"lfrScopeType", null);
-				String scopeLayoutUuid = portletInstanceSettings.getValue(
-					"lfrScopeLayoutUuid", null);
-
-				portletIds.put(
-					key,
-					new Object[] {
-						portletId, scopeGroupId, scopeType, scopeLayoutUuid
-					});
+			if (portletIds.containsKey(key)) {
+				continue;
 			}
+
+			long scopeGroupId = portletDataContext.getScopeGroupId();
+
+			Settings portletInstanceSettings = SettingsFactoryUtil.getSettings(
+				new PortletInstanceSettingsLocator(layout, portletId));
+
+			String scopeType = portletInstanceSettings.getValue(
+				"lfrScopeType", null);
+			String scopeLayoutUuid = portletInstanceSettings.getValue(
+				"lfrScopeLayoutUuid", null);
+
+			portletIds.put(
+				key,
+				new Object[] {
+					portletId, scopeGroupId, scopeType, scopeLayoutUuid
+				});
 		}
 
 		return portletIds;
