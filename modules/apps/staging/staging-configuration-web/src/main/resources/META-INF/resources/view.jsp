@@ -97,52 +97,30 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 						</div>
 					</div>
 
-					<script>
-						(function() {
-							var pwcWarning = document.getElementById('<portlet:namespace />pwcWarning');
-							var remoteStagingOptions = document.getElementById('<portlet:namespace />remoteStagingOptions');
-							var stagedPortlets = document.getElementById('<portlet:namespace />stagedPortlets');
-							var trashWarning = document.getElementById('<portlet:namespace />trashWarning');
-							var stagingTypes = document.getElementById('<portlet:namespace />stagingTypes');
+					<aui:script sandbox="<%= true %>">
+						var pwcWarning = $('#<portlet:namespace />pwcWarning');
+						var remoteStagingOptions = $('#<portlet:namespace />remoteStagingOptions');
+						var stagedPortlets = $('#<portlet:namespace />stagedPortlets');
+						var trashWarning = $('#<portlet:namespace />trashWarning');
 
-							if (stagingTypes && pwcWarning && stagedPortlets && remoteStagingOptions && trashWarning) {
-								var toggleFunction = function(event) {
-									var value = event.currentTarget.value;
+						var stagingTypes = $('#<portlet:namespace />stagingTypes');
 
-									if (value != '<%= StagingConstants.TYPE_LOCAL_STAGING %>') {
-										pwcWarning.classList.add('hide');
-									}
-									else {
-										pwcWarning.classList.remove('hide');
-									}
+						stagingTypes.on(
+							'click',
+							'input',
+							function(event) {
+								var value = $(event.currentTarget).val();
 
-									if (value == '<%= StagingConstants.TYPE_NOT_STAGED %>') {
-										stagedPortlets.classList.add('hide');
-									}
-									else {
-										stagedPortlets.classList.remove('hide');
-									}
+								pwcWarning.toggleClass('hide', value != '<%= StagingConstants.TYPE_LOCAL_STAGING %>');
 
-									if (value != '<%= StagingConstants.TYPE_REMOTE_STAGING %>') {
-										remoteStagingOptions.classList.add('hide');
-									}
-									else {
-										remoteStagingOptions.classList.remove('hide');
-									}
+								stagedPortlets.toggleClass('hide', value == '<%= StagingConstants.TYPE_NOT_STAGED %>');
 
-									if (value != '<%= StagingConstants.TYPE_LOCAL_STAGING %>') {
-										trashWarning.classList.add('hide');
-									}
-									else {
-										trashWarning.classList.remove('hide');
-									}
-								}
+								remoteStagingOptions.toggleClass('hide', value != '<%= StagingConstants.TYPE_REMOTE_STAGING %>');
 
-								stagingTypes.addEventListener('click', toggleFunction);
-								stagingTypes.addEventListener('input', toggleFunction);
+								trashWarning.toggleClass('hide', value != '<%= StagingConstants.TYPE_LOCAL_STAGING %>');
 							}
-						})();
-					</script>
+						);
+					</aui:script>
 				</c:if>
 			</aui:form>
 		</div>
@@ -156,12 +134,17 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 	</c:otherwise>
 </c:choose>
 
-<script>
+<aui:script>
 	function <portlet:namespace />saveGroup() {
-		var form = document.<portlet:namespace />fm;
+		var $ = AUI.$;
+
+		var form = $(document.<portlet:namespace />fm);
+
 		var ok = true;
 
 		<c:if test="<%= liveGroup != null %>">
+			var stagingTypeEl = $('input[name=<portlet:namespace />stagingType]:checked');
+
 			var oldValue;
 
 			<c:choose>
@@ -176,23 +159,19 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 				</c:otherwise>
 			</c:choose>
 
-			var selectedStagingTypeInput = document.querySelector('input[name=<portlet:namespace />stagingType]:checked');
+			var currentValue = stagingTypeEl.val();
 
-			if (selectedStagingTypeInput) {
-				var currentValue = selectedStagingTypeInput.value;
+			if (stagingTypeEl.length && (currentValue != oldValue)) {
+				ok = false;
 
-				if (currentValue != oldValue) {
-					ok = false;
-
-					if (currentValue == <%= StagingConstants.TYPE_NOT_STAGED %>) {
-						ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-deactivate-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
-					}
-					else if (currentValue == <%= StagingConstants.TYPE_LOCAL_STAGING %>) {
-						ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-activate-local-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
-					}
-					else if (currentValue == <%= StagingConstants.TYPE_REMOTE_STAGING %>) {
-						ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-activate-remote-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
-					}
+				if (currentValue == <%= StagingConstants.TYPE_NOT_STAGED %>) {
+					ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-deactivate-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
+				}
+				else if (currentValue == <%= StagingConstants.TYPE_LOCAL_STAGING %>) {
+					ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-activate-local-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
+				}
+				else if (currentValue == <%= StagingConstants.TYPE_REMOTE_STAGING %>) {
+					ok = confirm('<%= UnicodeLanguageUtil.format(request, "are-you-sure-you-want-to-activate-remote-staging-for-x", liveGroup.getDescriptiveName(locale), false) %>');
 				}
 			}
 		</c:if>
@@ -201,33 +180,29 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 			submitForm(form);
 		}
 	}
+</aui:script>
 
-	(function() {
-		var allCheckboxes = document.querySelectorAll('#stagingConfigurationControls input[type=checkbox]');
-		var selectAllCheckbox = document.getElementById('<portlet:namespace />selectAllCheckbox');
+<aui:script sandbox="<%= true %>">
+	var stagingConfigurationControls = $('#stagingConfigurationControls');
 
-		if (selectAllCheckbox) {
-			selectAllCheckbox.addEventListener(
-				'change',
-				function() {
-					Array.prototype.forEach.call(
-						allCheckboxes,
-						function(checkbox) {
-							checkbox.checked = selectAllCheckbox.checked;
-						}
-					);
-				}
-			);
+	var allCheckboxes = stagingConfigurationControls.find('input[type=checkbox]');
+
+	$('#<portlet:namespace />selectAllCheckbox').on(
+		'change',
+		function() {
+			allCheckboxes.prop('checked', this.checked);
 		}
+	);
+</aui:script>
 
-		<c:if test="<%= StagingUtil.isChangeTrackingEnabled(company.getCompanyId()) %>">
-			var form = document.<portlet:namespace />fm;
+<aui:script>
+	<c:if test="<%= StagingUtil.isChangeTrackingEnabled(company.getCompanyId()) %>">
+		var form = document.getElementById('<portlet:namespace />fm');
 
-			var formElements = form.elements;
+		var formElements = form.elements;
 
-			for (var i = 0; i < formElements.length; ++i) {
-				formElements[i].disabled = true;
-			}
-		</c:if>
-	})();
-</script>
+		for (var i = 0; i < formElements.length; ++i) {
+			formElements[i].disabled = true;
+		}
+	</c:if>
+</aui:script>

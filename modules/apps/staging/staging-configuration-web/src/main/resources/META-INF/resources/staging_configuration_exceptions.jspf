@@ -58,37 +58,30 @@
 		<a id="<portlet:namespace />publishProcessesLink"><liferay-ui:message key="the-status-of-the-publication-can-be-checked-on-the-publish-screen" /></a>
 	</liferay-staging:alert>
 
-	<script>
-		(function() {
-			var publishProcessesLink = document.getElementById('<portlet:namespace />publishProcessesLink');
+	<aui:script>
+		<liferay-portlet:renderURL portletName="<%= PortletKeys.EXPORT_IMPORT %>" var="publishProcessesURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+			<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
+			<portlet:param name="<%= Constants.CMD %>" value="view_processes" />
+			<portlet:param name="<%= SearchContainer.DEFAULT_CUR_PARAM %>" value="<%= ParamUtil.getString(request, SearchContainer.DEFAULT_CUR_PARAM) %>" />
+			<portlet:param name="<%= SearchContainer.DEFAULT_DELTA_PARAM %>" value="<%= ParamUtil.getString(request, SearchContainer.DEFAULT_DELTA_PARAM) %>" />
+			<portlet:param name="groupId" value="<%= String.valueOf(stagingGroupId) %>" />
+			<portlet:param name="liveGroupId" value="<%= String.valueOf(liveGroupId) %>" />
+			<portlet:param name="localPublishing" value="<%= String.valueOf(stagedLocally) %>" />
+		</liferay-portlet:renderURL>
 
-			if (publishProcessesLink) {
-				publishProcessesLink.addEventListener(
-					'click',
-					function(event) {
-						Liferay.Util.openWindow(
-							{
-								id: 'publishProcesses',
-								title: '<liferay-ui:message key="initial-publication" />',
-
-								<liferay-portlet:renderURL portletName="<%= PortletKeys.EXPORT_IMPORT %>" var="publishProcessesURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-									<portlet:param name="mvcRenderCommandName" value="publishLayouts" />
-									<portlet:param name="<%= Constants.CMD %>" value="view_processes" />
-									<portlet:param name="<%= SearchContainer.DEFAULT_CUR_PARAM %>" value="<%= ParamUtil.getString(request, SearchContainer.DEFAULT_CUR_PARAM) %>" />
-									<portlet:param name="<%= SearchContainer.DEFAULT_DELTA_PARAM %>" value="<%= ParamUtil.getString(request, SearchContainer.DEFAULT_DELTA_PARAM) %>" />
-									<portlet:param name="groupId" value="<%= String.valueOf(stagingGroupId) %>" />
-									<portlet:param name="liveGroupId" value="<%= String.valueOf(liveGroupId) %>" />
-									<portlet:param name="localPublishing" value="<%= String.valueOf(stagedLocally) %>" />
-								</liferay-portlet:renderURL>
-
-								uri: '<%= HtmlUtil.escapeJS(publishProcessesURL.toString()) %>'
-							}
-						);
+		AUI.$('#<portlet:namespace />publishProcessesLink').on(
+			'click',
+			function(event) {
+				Liferay.Util.openWindow(
+					{
+						id: 'publishProcesses',
+						title: '<liferay-ui:message key="initial-publication" />',
+						uri: '<%= HtmlUtil.escapeJS(publishProcessesURL.toString()) %>'
 					}
 				);
 			}
-		})();
-	</script>
+		);
+	</aui:script>
 </c:if>
 
 <liferay-ui:error-marker
