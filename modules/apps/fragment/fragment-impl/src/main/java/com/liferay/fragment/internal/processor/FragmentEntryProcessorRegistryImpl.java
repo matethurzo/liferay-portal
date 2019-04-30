@@ -14,6 +14,7 @@
 
 package com.liferay.fragment.internal.processor;
 
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.fragment.model.FragmentEntryLink;
 import com.liferay.fragment.processor.FragmentEntryProcessor;
 import com.liferay.fragment.processor.FragmentEntryProcessorRegistry;
@@ -45,6 +46,10 @@ public class FragmentEntryProcessorRegistryImpl
 	@Override
 	public void deleteFragmentEntryLinkData(
 		FragmentEntryLink fragmentEntryLink) {
+
+		if (ExportImportThreadLocal.isImportInProcess()) {
+			return;
+		}
 
 		for (FragmentEntryProcessor fragmentEntryProcessor :
 				_serviceTrackerList) {
