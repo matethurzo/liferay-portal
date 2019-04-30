@@ -106,15 +106,21 @@ if (layoutSetBranches.contains(layoutSetBranch)) {
 	function <portlet:namespace />selectLayoutSetBranch(layoutSetBranchId) {
 		var layoutSetBranch = document.getElementById('<portlet:namespace />' + layoutSetBranchId);
 
-		if (layoutSetBranch && confirm(layoutSetBranch.getAttribute('data-layoutSetBranchMessage'))) {
-			Liferay.Util.postForm(
-				document.<portlet:namespace />fm4,
-				{
-					data: {
-						mergeLayoutSetBranchId: layoutSetBranch.getAttribute('data-layoutSetBranchId')
+		if (layoutSetBranch) {
+			var mergeLayoutSetBranchId = layoutSetBranch.getAttribute('data-layoutSetBranchId');
+
+ 			var mergeLayoutSetBranchMessage = layoutSetBranch.getAttribute('data-layoutSetBranchMessage');
+
+			if (confirm(mergeLayoutSetBranchMessage)) {
+				Liferay.Util.postForm(
+					document.<portlet:namespace />fm4,
+					{
+						data: {
+							mergeLayoutSetBranchId: mergeLayoutSetBranchId
+						}
 					}
-				}
-			);
+				);
+			}
 		}
 	}
 </script>
