@@ -532,15 +532,13 @@ public class DDMFormValuesExportImportContentProcessor
 						newClassPK);
 				}
 				catch (NoSuchFileEntryException nsfee) {
-					if (PortletDataContext.
-							REFERENCE_TYPE_DEPENDENCY_DISPOSABLE.equals(
-								disposableElement.attribute("type"))) {
+					if (PortletDataContext.REFERENCE_TYPE_DEPENDENCY_DISPOSABLE.
+							equals(disposableElement.attribute("type"))) {
 
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"Unable to find journal article with " +
-									"primaryKey " +
-										newClassPK,
+									"primaryKey " + newClassPK,
 								nsfee);
 						}
 					}
