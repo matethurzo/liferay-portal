@@ -51,6 +51,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.capabilities.ThumbnailCapability;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -385,11 +386,13 @@ public class DDMFormValuesExportImportContentProcessorTest {
 		_journalDDMFormValues.setAvailableLocales(availableLocales);
 		_journalDDMFormValues.setDefaultLocale(LocaleUtil.US);
 
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		jsonObject.put("className", JournalArticle.class.getName());
-		jsonObject.put("classPK", journalArticle.getResourcePrimKey());
-		jsonObject.put("title", journalArticle.getTitle());
+		JSONObject jsonObject = JSONUtil.put(
+			"className", JournalArticle.class.getName()
+		).put(
+			"classPK", journalArticle.getResourcePrimKey()
+		).put(
+			"title", journalArticle.getTitle()
+		);
 
 		List<DDMFormField> journalFormFields =
 			journalDDMForm.getDDMFormFields();
