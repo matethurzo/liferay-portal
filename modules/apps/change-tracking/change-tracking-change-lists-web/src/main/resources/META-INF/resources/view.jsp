@@ -347,11 +347,18 @@ renderResponse.setTitle(title);
 	});
 
 	function <portlet:namespace/>handleClickPublish(url) {
+		this.event.preventDefault();
+		this.event.stopPropagation();
+
+		Liferay.Menu._INSTANCE._closeActiveMenu();
+
 		Liferay.Util.openWindow(
 			{
 				dialog: {
+					center: true,
 					destroyOnHide: false,
 					height: 400,
+					modal: true,
 					width: 500
 				},
 				dialogIframe: {
@@ -359,7 +366,8 @@ renderResponse.setTitle(title);
 				},
 				id: '<portlet:namespace/>publishIconDialog',
 				title: '<%= LanguageUtil.get(request, "publish-change-list") %>',
-				uri: url
+				uri: url,
+				zIndex: 10000
 			});
 	}
 </script>
