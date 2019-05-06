@@ -6,7 +6,7 @@
 {template .render}
 	{@param activeChangeListName: ?}
 	{@param urlChangeListsOverview: string}
-	{@param productionCollectionName: string}
+	{@param productionCollectionName: ?}
 	{@param spritemap: string}
 
 	{let $tooltipContentText kind="text"}
@@ -16,18 +16,20 @@
 			{msg desc=""}production{/msg}
 		{/if}
 	{/let}
-
+	
+	
 	<div class="change-lists-indicator">	
-		<li class="control-menu-nav-item"> 
-			<a href="{$urlChangeListsOverview}" data-title="{$tooltipContentText}" class="control-menu-icon lfr-portal-tooltip" data-change-lists-indicator>
-				<span class="icon-monospaced" id="">
-					{call ClayIcon.render}
-						{param spritemap: $spritemap /}
-						{param symbol: 'restore' /}
-					{/call}
-				</span>
-			</a>
-		</li>
+		<ul class="control-menu-nav"> 
+			<li class="control-menu-nav-item">
+				<a class="control-menu-icon lfr-portal-tooltip" data-title="{$tooltipContentText}" href="{$urlChangeListsOverview}" data-change-lists-indicator>
+					<span class="icon-monospaced" id="">
+						{call ClayIcon.render}
+							{param spritemap: $spritemap /}
+							{param symbol: 'restore' /}
+						{/call}
+					</span>
+				</a>
+			</li>
+		</ul>
 	</div>
-
 {/template}
