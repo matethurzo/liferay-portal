@@ -1,19 +1,31 @@
-import 'clay-icon';
-import 'clay-tooltip';
-
 import PortletBase from 'frontend-js-web/liferay/PortletBase.es';
 import Soy from 'metal-soy';
+import {ClayIcon} from 'clay-icon';
 import {Config} from 'metal-state';
+import {dom} from 'metal-dom';
+import {EventHandler} from 'metal-events';
 import {openToast} from 'frontend-js-web/liferay/toast/commands/OpenToast.es';
 
 import templates from './ChangeListsIndicator.soy';
 
+
+const BLUE_BACKGROUND_TOOLTIP_CSS_CLASS_NAME = 'tooltip-background-blue';
+const GREEN_BACKGROUND_TOOLTIP_CSS_CLASS_NAME = 'tooltip-background-green';
+const CHANGE_LISTS_INDICATOR_QUERY_SELECTOR = '[data-change-lists-indicator]';
+const PRODUCTION_COLLECTION_NAME = 'productionCTCollectionName';
+const TOOLTIP_QUERY_SELECTOR = '.yui3-widget.tooltip';
+
 /**
- * Provides the component for the Change Lists indicator screen.
+ * Component for the Change Lists indicator
+ * @review
  */
 class ChangeListsIndicator extends PortletBase {
-
+	
+	/**
+	 * @inheritDoc
+	 */
 	created() {
+		this._eventHandler = new EventHandler();
 		let urlActiveCollection = this.urlCollectionsBase + '?type=active&userId=' + Liferay.ThemeDisplay.getUserId();
 
 		this._getDataRequest(
@@ -21,11 +33,80 @@ class ChangeListsIndicator extends PortletBase {
 			response => {
 				if (response) {
 					this.activeChangeListName = response[0].name;
+					this._setTooltipCssClassName(this.activeChangeListName);
+					this._setEventHandlers();
 				}
 			}
 		);
 	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	detached() {
+		this._eventHandler.removeAllListeners();
+	}
 
+	/**
+	 * @inheritDoc
+	 */
+	disposed() {
+		this._eventHandler.removeAllListeners();
+	}
+
+	/**
+	 * Check element in document.
+	 * @memberof ChangeListsIndicator
+	 * @param selector
+	 * @private
+	 */
+    _checkElement(selector) {
+		let element = document.querySelector(selector);
+		
+		if (element === null) {
+			return this._rafAsync().then(() => this._checkElement(selector));
+		} else {
+			return Promise.resolve(element);
+		}
+	}
+	
+	/**
+	 * Add tooltip css class.
+	 * @memberof ChangeListsIndicator
+	 * @param cssClassName
+	 * @private
+	 */
+	_addTooltipCssClass(cssClassName) {
+		this._checkElement(TOOLTIP_QUERY_SELECTOR)
+		.then((element) => {
+			if(element && !element.classList.contains(cssClassName)) {
+				element.classList.add(cssClassName);
+			}
+		});
+	}
+	
+	/**
+	 * Check element opacity.
+	 * @memberof ChangeListsIndicator
+	 * @param selector
+	 * @private
+	 */
+    _checkElementHidden(selector) {
+		let element = document.querySelector(selector);
+		
+		if (element && this._getStyle(element, 'display') != 'none') {
+			return this._rafAsync().then(() => this._checkElementHidden(selector));
+		} else {
+			return Promise.resolve(element);
+		}
+	}
+	
+	/**
+	 * Handles mouseenter event.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
 	_getDataRequest(url, callback) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -58,43 +139,246 @@ class ChangeListsIndicator extends PortletBase {
 				}
 			);
 	}
+	
+	/**
+	 * Get style of the element.
+	 * @memberof ChangeListsIndicator
+	 * @param element, property
+	 * @private
+	 */
+	_getStyle(element, property) {
+		return element && element.currentStyle ? element.currentStyle[property] : window.getComputedStyle ? window.getComputedStyle(element, null).getPropertyValue(property) : null;
+	}
+
+	/**
+	 * Handles change list indicator blur event.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleChangeListIndicatorBlur(event) {		
+		this._handleMouseLeave.bind(this);
+	}
+
+	/**
+	 * Handles change list indicator focus event.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleChangeListIndicatorFocus(event) {		
+		this._handleMouseEnter.bind(this);
+	}
+	
+	/**
+	 * Handles change list indicator click event.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleChangeListIndicatorMouseClick(event) {		
+		this._handleMouseEnter.bind(this);
+	}
+	
+	/**
+	 * Handles change list indicator mouseenter event.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleChangeListIndicatorMouseEnter(event) {	
+		this._addTooltipCssClass(this._tooltipCssClassName);
+	}
+	
+	/**
+	 * Handles change list indicator mouseleave events.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleChangeListIndicatorMouseLeave(event) {
+		this._removeTooltipCssClass(this._tooltipCssClassName);
+	}
+	
+	/**
+	 * Handles tooltip mouseleave events.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_handleTooltipMouseLeave(event) {
+		this._removeTooltipCssClass(this._tooltipCssClassName);
+	}
+	
+	/**
+	 * Async requestAnimationFrame returning Promise.
+	 * @memberof ChangeListsIndicator
+	 * @param
+	 * @private
+	 */
+	_rafAsync() {
+		return new Promise(resolve => {
+			requestAnimationFrame(resolve);
+		});
+	}
+	
+	/**
+	 * Remove tooltip css class.
+	 * @memberof ChangeListsIndicator
+	 * @param cssClassName
+	 * @private
+	 */
+	_removeTooltipCssClass(cssClassName) {
+		this._checkElementHidden(TOOLTIP_QUERY_SELECTOR)
+		.then((element) => {
+			if(element && element.classList.contains(cssClassName)) {
+				element.classList.remove(cssClassName);
+			}
+		});
+	}
+	
+	/**
+	 * Set the event handlers for the change lists indicator.
+	 * @memberof ChangeListsIndicator
+	 * @param selector
+	 * @private
+	 */
+	_setChangeListIndicatorEventHandler(selector) {
+		this._eventHandler.add(
+			dom.delegate(
+				document,
+				'blur',
+				selector,
+				this._handleChangeListIndicatorBlur.bind(this)
+			),
+			dom.delegate(
+				document,
+				'click',
+				selector,
+				this._handleChangeListIndicatorMouseClick.bind(this)
+			),
+			dom.delegate(
+				document,
+				'focus',
+				selector,
+				this._handleChangeListIndicatorFocus.bind(this)
+			),
+			dom.delegate(
+				document,
+				'mouseenter',
+				selector,
+				this._handleChangeListIndicatorMouseEnter.bind(this)
+			),
+			dom.delegate(
+				document,
+				'mouseleave',
+				selector,
+				this._handleChangeListIndicatorMouseLeave.bind(this)
+			)
+		);
+	}
+	
+	/**
+	 * Set the event handlers.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_setEventHandlers() {
+		this._setChangeListIndicatorEventHandler(CHANGE_LISTS_INDICATOR_QUERY_SELECTOR);
+		this._seTooltipEventHandlers(TOOLTIP_QUERY_SELECTOR);
+		
+	}
+	
+	/**
+	 * Set the tooltip css class name.
+	 * @memberof ChangeListsIndicator
+	 * @param {!Event} event
+	 * @private
+	 */
+	_setTooltipCssClassName(activeChangeListName) {
+		this._tooltipCssClassName = activeChangeListName != PRODUCTION_COLLECTION_NAME ? BLUE_BACKGROUND_TOOLTIP_CSS_CLASS_NAME : GREEN_BACKGROUND_TOOLTIP_CSS_CLASS_NAME;
+	}
+	
+	/**
+	 * Set the event handlers for the tooltip.
+	 * @memberof ChangeListsIndicator
+	 * @param selector
+	 * @private
+	 */
+	_seTooltipEventHandlers(selector) {
+		this._eventHandler.add(
+			dom.delegate(
+				document,
+				'mouseleave',
+				selector,
+				this._handleTooltipMouseLeave.bind(this)
+			)
+		);
+	}
 }
 
 /**
  * State definition.
- *
+ * @review
  * @static
  * @type {!Object}
  */
 ChangeListsIndicator.STATE = {
+	
+	/**
+	 * Name of the tooltip css class.
+	 * @default
+	 * @instance
+	 * @memberOf ChangeListsIndicator
+	 * @review
+	 * @type {!string}
+	 */
+	
+	_tooltipCssClassName: Config.string().value(''),
 
 	/**
 	 * Name of the active change list.
-	 *
 	 * @default
 	 * @instance
 	 * @memberOf ChangeListsIndicator
+	 * @review
 	 * @type {!string}
 	 */
+
 	activeChangeListName: Config.string().value(''),
+	
+	/**
+	 * Name of production collection.
+	 * @default
+	 * @instance
+	 * @memberOf ChangeListsIndicator
+	 * @review
+	 * @type {!string}
+	 */
+	
+	productionCollectionName: Config.string().value(PRODUCTION_COLLECTION_NAME),
 
 	/**
 	 * Path of the available icons.
-	 *
 	 * @default undefined
 	 * @instance
 	 * @memberOf ChangeListsIndicator
+	 * @review
 	 * @type {!string}
 	 */
+
 	spritemap: Config.string().required(),
 
 	/**
-	 * BBase REST API URL to the collection resource.
+	 * Base REST API URL to collection resource
 	 * @default
 	 * @instance
 	 * @memberOf ChangeListsIndicator
+	 * @review
 	 * @type {string}
 	 */
+
 	urlCollectionsBase: Config.string()
 
 };
