@@ -20,7 +20,7 @@ const TOOLTIP_QUERY_SELECTOR = '.yui3-widget.tooltip';
  * @review
  */
 class ChangeListsIndicator extends PortletBase {
-	
+
 	/**
 	 * @inheritDoc
 	 */
@@ -39,7 +39,7 @@ class ChangeListsIndicator extends PortletBase {
 			}
 		);
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
@@ -60,16 +60,17 @@ class ChangeListsIndicator extends PortletBase {
 	 * @param selector
 	 * @private
 	 */
-    _checkElement(selector) {
+	_checkElement(selector) {
 		let element = document.querySelector(selector);
-		
+
 		if (element === null) {
 			return this._rafAsync().then(() => this._checkElement(selector));
 		} else {
 			return Promise.resolve(element);
 		}
+
 	}
-	
+
 	/**
 	 * Add tooltip css class.
 	 * @memberof ChangeListsIndicator
@@ -78,29 +79,29 @@ class ChangeListsIndicator extends PortletBase {
 	 */
 	_addTooltipCssClass(cssClassName) {
 		this._checkElement(TOOLTIP_QUERY_SELECTOR)
-		.then((element) => {
-			if(element && !element.classList.contains(cssClassName)) {
-				element.classList.add(cssClassName);
-			}
-		});
+			.then((element) => {
+				if (element && !element.classList.contains(cssClassName)) {
+					element.classList.add(cssClassName);
+				}
+			});
 	}
-	
+
 	/**
 	 * Check element opacity.
 	 * @memberof ChangeListsIndicator
 	 * @param selector
 	 * @private
 	 */
-    _checkElementHidden(selector) {
+	_checkElementHidden(selector) {
 		let element = document.querySelector(selector);
-		
+
 		if (element && this._getStyle(element, 'display') != 'none') {
 			return this._rafAsync().then(() => this._checkElementHidden(selector));
 		} else {
 			return Promise.resolve(element);
 		}
 	}
-	
+
 	/**
 	 * Handles mouseenter event.
 	 * @memberof ChangeListsIndicator
@@ -139,7 +140,7 @@ class ChangeListsIndicator extends PortletBase {
 				}
 			);
 	}
-	
+
 	/**
 	 * Get style of the element.
 	 * @memberof ChangeListsIndicator
@@ -156,7 +157,7 @@ class ChangeListsIndicator extends PortletBase {
 	 * @param {!Event} event
 	 * @private
 	 */
-	_handleChangeListIndicatorBlur(event) {		
+	_handleChangeListIndicatorBlur(event) {
 		this._handleMouseLeave.bind(this);
 	}
 
@@ -166,30 +167,30 @@ class ChangeListsIndicator extends PortletBase {
 	 * @param {!Event} event
 	 * @private
 	 */
-	_handleChangeListIndicatorFocus(event) {		
+	_handleChangeListIndicatorFocus(event) {
 		this._handleMouseEnter.bind(this);
 	}
-	
+
 	/**
 	 * Handles change list indicator click event.
 	 * @memberof ChangeListsIndicator
 	 * @param {!Event} event
 	 * @private
 	 */
-	_handleChangeListIndicatorMouseClick(event) {		
+	_handleChangeListIndicatorMouseClick(event) {
 		this._handleMouseEnter.bind(this);
 	}
-	
+
 	/**
 	 * Handles change list indicator mouseenter event.
 	 * @memberof ChangeListsIndicator
 	 * @param {!Event} event
 	 * @private
 	 */
-	_handleChangeListIndicatorMouseEnter(event) {	
+	_handleChangeListIndicatorMouseEnter(event) {
 		this._addTooltipCssClass(this._tooltipCssClassName);
 	}
-	
+
 	/**
 	 * Handles change list indicator mouseleave events.
 	 * @memberof ChangeListsIndicator
@@ -199,7 +200,7 @@ class ChangeListsIndicator extends PortletBase {
 	_handleChangeListIndicatorMouseLeave(event) {
 		this._removeTooltipCssClass(this._tooltipCssClassName);
 	}
-	
+
 	/**
 	 * Handles tooltip mouseleave events.
 	 * @memberof ChangeListsIndicator
@@ -209,7 +210,7 @@ class ChangeListsIndicator extends PortletBase {
 	_handleTooltipMouseLeave(event) {
 		this._removeTooltipCssClass(this._tooltipCssClassName);
 	}
-	
+
 	/**
 	 * Async requestAnimationFrame returning Promise.
 	 * @memberof ChangeListsIndicator
@@ -221,7 +222,7 @@ class ChangeListsIndicator extends PortletBase {
 			requestAnimationFrame(resolve);
 		});
 	}
-	
+
 	/**
 	 * Remove tooltip css class.
 	 * @memberof ChangeListsIndicator
@@ -230,13 +231,13 @@ class ChangeListsIndicator extends PortletBase {
 	 */
 	_removeTooltipCssClass(cssClassName) {
 		this._checkElementHidden(TOOLTIP_QUERY_SELECTOR)
-		.then((element) => {
-			if(element && element.classList.contains(cssClassName)) {
-				element.classList.remove(cssClassName);
-			}
-		});
+			.then((element) => {
+				if (element && element.classList.contains(cssClassName)) {
+					element.classList.remove(cssClassName);
+				}
+			});
 	}
-	
+
 	/**
 	 * Set the event handlers for the change lists indicator.
 	 * @memberof ChangeListsIndicator
@@ -277,7 +278,7 @@ class ChangeListsIndicator extends PortletBase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Set the event handlers.
 	 * @memberof ChangeListsIndicator
@@ -287,9 +288,8 @@ class ChangeListsIndicator extends PortletBase {
 	_setEventHandlers() {
 		this._setChangeListIndicatorEventHandler(CHANGE_LISTS_INDICATOR_QUERY_SELECTOR);
 		this._seTooltipEventHandlers(TOOLTIP_QUERY_SELECTOR);
-		
 	}
-	
+
 	/**
 	 * Set the tooltip css class name.
 	 * @memberof ChangeListsIndicator
@@ -299,7 +299,7 @@ class ChangeListsIndicator extends PortletBase {
 	_setTooltipCssClassName(activeChangeListName) {
 		this._tooltipCssClassName = activeChangeListName != PRODUCTION_COLLECTION_NAME ? BLUE_BACKGROUND_TOOLTIP_CSS_CLASS_NAME : GREEN_BACKGROUND_TOOLTIP_CSS_CLASS_NAME;
 	}
-	
+
 	/**
 	 * Set the event handlers for the tooltip.
 	 * @memberof ChangeListsIndicator
@@ -325,7 +325,7 @@ class ChangeListsIndicator extends PortletBase {
  * @type {!Object}
  */
 ChangeListsIndicator.STATE = {
-	
+
 	/**
 	 * Name of the tooltip css class.
 	 * @default
@@ -334,7 +334,7 @@ ChangeListsIndicator.STATE = {
 	 * @review
 	 * @type {!string}
 	 */
-	
+
 	_tooltipCssClassName: Config.string().value(''),
 
 	/**
@@ -347,7 +347,7 @@ ChangeListsIndicator.STATE = {
 	 */
 
 	activeChangeListName: Config.string().value(''),
-	
+
 	/**
 	 * Name of production collection.
 	 * @default
@@ -356,7 +356,7 @@ ChangeListsIndicator.STATE = {
 	 * @review
 	 * @type {!string}
 	 */
-	
+
 	productionCollectionName: Config.string().value(PRODUCTION_COLLECTION_NAME),
 
 	/**
