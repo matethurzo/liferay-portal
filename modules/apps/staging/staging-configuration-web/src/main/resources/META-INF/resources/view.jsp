@@ -97,17 +97,20 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 						</div>
 					</div>
 
-					<script>
-						(function() {
-							var pwcWarning = document.getElementById('<portlet:namespace />pwcWarning');
-							var remoteStagingOptions = document.getElementById('<portlet:namespace />remoteStagingOptions');
-							var stagedPortlets = document.getElementById('<portlet:namespace />stagedPortlets');
-							var trashWarning = document.getElementById('<portlet:namespace />trashWarning');
-							var stagingTypes = document.getElementById('<portlet:namespace />stagingTypes');
+					<aui:script require="metal-dom/src/dom as dom">
+						var pwcWarning = document.getElementById('<portlet:namespace />pwcWarning');
+						var remoteStagingOptions = document.getElementById('<portlet:namespace />remoteStagingOptions');
+						var stagedPortlets = document.getElementById('<portlet:namespace />stagedPortlets');
+						var trashWarning = document.getElementById('<portlet:namespace />trashWarning');
+						var stagingTypes = document.getElementById('<portlet:namespace />stagingTypes');
 
-							if (stagingTypes && pwcWarning && stagedPortlets && remoteStagingOptions && trashWarning) {
-								var toggleFunction = function(event) {
-									var value = event.currentTarget.value;
+						if (stagingTypes && pwcWarning && stagedPortlets && remoteStagingOptions && trashWarning) {
+							dom.delegate(
+								stagingTypes,
+								'click',
+								'input',
+								function(event) {
+									var value = event.delegateTarget.value;
 
 									if (value != '<%= StagingConstants.TYPE_LOCAL_STAGING %>') {
 										pwcWarning.classList.add('hide');
@@ -137,12 +140,9 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 										trashWarning.classList.remove('hide');
 									}
 								}
-
-								stagingTypes.addEventListener('click', toggleFunction);
-								stagingTypes.addEventListener('input', toggleFunction);
-							}
-						})();
-					</script>
+							);
+						}
+					</aui:script>
 				</c:if>
 			</aui:form>
 		</div>
