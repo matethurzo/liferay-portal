@@ -25,9 +25,13 @@ class ChangeListsHistory extends PortletBase {
 			method: 'GET'
 		};
 
-		let sort = '&' + this.orderByCol + ':' + this.orderByType;
+		let sort = '&sort=' + this.orderByCol + ':' + this.orderByType;
 
 		let urlProcesses = this.urlProcesses + '&type=' + this.filterStatus + '&offset=0&limit=5' + sort;
+
+		if (this.keywords) {
+			urlProcesses = urlProcesses + '&keywords=' + this.keywords;
+		}
 
 		fetch(urlProcesses, init)
 			.then(r => r.json())
@@ -120,6 +124,8 @@ ChangeListsHistory.STATE = {
 	filterStatus: Config.string(),
 
 	filterUser: Config.string(),
+
+	keywords: Config.string(),
 
 	orderByCol: Config.string(),
 

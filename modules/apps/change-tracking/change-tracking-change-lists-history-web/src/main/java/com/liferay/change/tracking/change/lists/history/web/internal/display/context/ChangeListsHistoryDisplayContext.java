@@ -83,6 +83,8 @@ public class ChangeListsHistoryDisplayContext {
 		).put(
 			"filterUser", _getFilterByUser()
 		).put(
+			"keywords", _getKeywords()
+		).put(
 			"orderByCol", _getOrderByCol()
 		).put(
 			"orderByType", getOrderByType()
@@ -194,7 +196,7 @@ public class ChangeListsHistoryDisplayContext {
 	}
 
 	public String getViewSearchActionURL() {
-		PortletURL portletURL = _renderResponse.createRenderURL();
+		PortletURL portletURL = _getPortletURL();
 
 		return portletURL.toString();
 	}
@@ -306,13 +308,23 @@ public class ChangeListsHistoryDisplayContext {
 		return iteratorURL;
 	}
 
+	private String _getKeywords() {
+		if (_keywords != null) {
+			return _keywords;
+		}
+
+		_keywords = ParamUtil.getString(_httpServletRequest, "keywords", null);
+
+		return _keywords;
+	}
+
 	private String _getOrderByCol() {
 		if (_orderByCol != null) {
 			return _orderByCol;
 		}
 
 		_orderByCol = ParamUtil.getString(
-			_httpServletRequest, "orderByCol", "modifiedDate");
+			_httpServletRequest, "orderByCol", "publishDate");
 
 		return _orderByCol;
 	}
@@ -323,12 +335,12 @@ public class ChangeListsHistoryDisplayContext {
 				add(
 					dropdownItem -> {
 						dropdownItem.setActive(
-							Objects.equals(_getOrderByCol(), "modifiedDate"));
+							Objects.equals(_getOrderByCol(), "publishDate"));
 						dropdownItem.setHref(
-							_getPortletURL(), "orderByCol", "modifiedDate");
+							_getPortletURL(), "orderByCol", "publishDate");
 						dropdownItem.setLabel(
 							LanguageUtil.get(
-								_httpServletRequest, "modified-date"));
+								_httpServletRequest, "publish-date"));
 					});
 				add(
 					dropdownItem -> {
@@ -393,6 +405,7 @@ public class ChangeListsHistoryDisplayContext {
 	private String _filterByStatus;
 	private String _filterByUser;
 	private final HttpServletRequest _httpServletRequest;
+	private String _keywords;
 	private String _orderByCol;
 	private String _orderByType;
 	private final RenderRequest _renderRequest;
