@@ -102,6 +102,8 @@ class ChangeListsHistory extends PortletBase {
 						);
 					}
 				);
+
+				Liferay.component('changeListHistoryManagementToolbar').totalItems = this.processEntries.length;
 			}
 		);
 
