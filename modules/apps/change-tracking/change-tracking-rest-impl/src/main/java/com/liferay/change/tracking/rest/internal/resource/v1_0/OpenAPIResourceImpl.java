@@ -49,7 +49,9 @@ import org.osgi.service.component.annotations.Reference;
 	service = OpenAPIResourceImpl.class
 )
 @Generated("")
-@OpenAPIDefinition(info = @Info(description = "", title = "", version = "v1.0"))
+@OpenAPIDefinition(
+	info = @Info(description = "", title = "Change Tracking REST", version = "v1.0")
+)
 @Path("/v1.0")
 public class OpenAPIResourceImpl {
 
@@ -74,6 +76,8 @@ public class OpenAPIResourceImpl {
 
 	private final Set<Class<?>> _resourceClasses = new HashSet<Class<?>>() {
 		{
+			add(CollectionResourceImpl.class);
+
 			add(SettingsResourceImpl.class);
 
 			add(OpenAPIResourceImpl.class);

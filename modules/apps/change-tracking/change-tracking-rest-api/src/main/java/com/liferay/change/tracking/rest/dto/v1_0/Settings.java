@@ -137,17 +137,17 @@ public class Settings {
 	protected Boolean checkoutCTCollectionConfirmationEnabled;
 
 	@Schema
-	public Integer getCompanyId() {
+	public Long getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(Integer companyId) {
+	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 
 	@JsonIgnore
 	public void setCompanyId(
-		UnsafeSupplier<Integer, Exception> companyIdUnsafeSupplier) {
+		UnsafeSupplier<Long, Exception> companyIdUnsafeSupplier) {
 
 		try {
 			companyId = companyIdUnsafeSupplier.get();
@@ -162,7 +162,7 @@ public class Settings {
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Integer companyId;
+	protected Long companyId;
 
 	@Schema
 	public String[] getSupportedContentTypeLanguageKeys() {
@@ -227,17 +227,17 @@ public class Settings {
 	protected String[] supportedContentTypes;
 
 	@Schema
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
 	@JsonIgnore
 	public void setUserId(
-		UnsafeSupplier<Integer, Exception> userIdUnsafeSupplier) {
+		UnsafeSupplier<Long, Exception> userIdUnsafeSupplier) {
 
 		try {
 			userId = userIdUnsafeSupplier.get();
@@ -252,7 +252,7 @@ public class Settings {
 
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Integer userId;
+	protected Long userId;
 
 	@Override
 	public boolean equals(Object object) {

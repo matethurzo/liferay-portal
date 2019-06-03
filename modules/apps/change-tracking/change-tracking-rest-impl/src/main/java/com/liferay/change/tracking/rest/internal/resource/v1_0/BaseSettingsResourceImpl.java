@@ -14,6 +14,7 @@
 
 package com.liferay.change.tracking.rest.internal.resource.v1_0;
 
+import com.liferay.change.tracking.rest.dto.v1_0.Collection;
 import com.liferay.change.tracking.rest.dto.v1_0.Settings;
 import com.liferay.change.tracking.rest.dto.v1_0.SettingsUpdate;
 import com.liferay.change.tracking.rest.resource.v1_0.SettingsResource;
@@ -29,7 +30,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -104,7 +104,7 @@ public abstract class BaseSettingsResourceImpl implements SettingsResource {
 	}
 
 	protected <T, R> List<R> transform(
-		Collection<T> collection,
+		java.util.Collection<T> collection,
 		UnsafeFunction<T, R, Exception> unsafeFunction) {
 
 		return TransformUtil.transform(collection, unsafeFunction);
@@ -118,7 +118,7 @@ public abstract class BaseSettingsResourceImpl implements SettingsResource {
 	}
 
 	protected <T, R> R[] transformToArray(
-		Collection<T> collection,
+		java.util.Collection<T> collection,
 		UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
 
 		return TransformUtil.transformToArray(

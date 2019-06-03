@@ -320,7 +320,7 @@ public class SettingsSerDes {
 			else if (Objects.equals(jsonParserFieldName, "companyId")) {
 				if (jsonParserFieldValue != null) {
 					settings.setCompanyId(
-						Integer.valueOf((String)jsonParserFieldValue));
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(
@@ -343,7 +343,7 @@ public class SettingsSerDes {
 			else if (Objects.equals(jsonParserFieldName, "userId")) {
 				if (jsonParserFieldValue != null) {
 					settings.setUserId(
-						Integer.valueOf((String)jsonParserFieldValue));
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else {

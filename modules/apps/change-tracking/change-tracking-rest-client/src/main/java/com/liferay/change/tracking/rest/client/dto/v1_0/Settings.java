@@ -98,16 +98,16 @@ public class Settings {
 
 	protected Boolean checkoutCTCollectionConfirmationEnabled;
 
-	public Integer getCompanyId() {
+	public Long getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(Integer companyId) {
+	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 
 	public void setCompanyId(
-		UnsafeSupplier<Integer, Exception> companyIdUnsafeSupplier) {
+		UnsafeSupplier<Long, Exception> companyIdUnsafeSupplier) {
 
 		try {
 			companyId = companyIdUnsafeSupplier.get();
@@ -117,7 +117,7 @@ public class Settings {
 		}
 	}
 
-	protected Integer companyId;
+	protected Long companyId;
 
 	public String[] getSupportedContentTypeLanguageKeys() {
 		return supportedContentTypeLanguageKeys;
@@ -167,16 +167,16 @@ public class Settings {
 
 	protected String[] supportedContentTypes;
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
 	public void setUserId(
-		UnsafeSupplier<Integer, Exception> userIdUnsafeSupplier) {
+		UnsafeSupplier<Long, Exception> userIdUnsafeSupplier) {
 
 		try {
 			userId = userIdUnsafeSupplier.get();
@@ -186,7 +186,7 @@ public class Settings {
 		}
 	}
 
-	protected Integer userId;
+	protected Long userId;
 
 	@Override
 	public boolean equals(Object object) {
