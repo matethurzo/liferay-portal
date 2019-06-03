@@ -49,7 +49,6 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -976,7 +975,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 		}
 	}
 
-	protected void assertValid(${schemaName} ${schemaVarName}) {
+	protected void assertValid(${configYAML.apiPackagePath}.client.dto.${escapedVersion}.${schemaName} ${schemaVarName}) {
 		boolean valid = true;
 
 		<#if properties?keys?seq_contains("dateCreated")>
@@ -1037,7 +1036,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 	protected void assertValid(Page<${schemaName}> page) {
 		boolean valid = false;
 
-		Collection<${schemaName}> ${schemaVarNames} = page.getItems();
+		java.util.Collection<${schemaName}> ${schemaVarNames} = page.getItems();
 
 		int size = ${schemaVarNames}.size();
 
@@ -1094,7 +1093,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 		return true;
 	}
 
-	protected Collection<EntityField> getEntityFields() throws Exception {
+	protected java.util.Collection<EntityField> getEntityFields() throws Exception {
 		if (!(_${schemaVarName}Resource instanceof EntityModelResource)) {
 			throw new UnsupportedOperationException("Resource is not an instance of EntityModelResource");
 		}
@@ -1109,7 +1108,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 	}
 
 	protected List<EntityField> getEntityFields(EntityField.Type type) throws Exception {
-		Collection<EntityField> entityFields = getEntityFields();
+		java.util.Collection<EntityField> entityFields = getEntityFields();
 
 		Stream<EntityField> stream = entityFields.stream();
 
