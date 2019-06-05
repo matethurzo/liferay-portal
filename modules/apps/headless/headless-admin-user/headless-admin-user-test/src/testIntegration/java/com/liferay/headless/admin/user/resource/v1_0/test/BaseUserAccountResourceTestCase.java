@@ -51,7 +51,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -1211,7 +1210,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	protected void assertValid(Page<UserAccount> page) {
 		boolean valid = false;
 
-		Collection<UserAccount> userAccounts = page.getItems();
+		java.util.Collection<UserAccount> userAccounts = page.getItems();
 
 		int size = userAccounts.size();
 
@@ -1494,7 +1493,9 @@ public abstract class BaseUserAccountResourceTestCase {
 		return true;
 	}
 
-	protected Collection<EntityField> getEntityFields() throws Exception {
+	protected java.util.Collection<EntityField> getEntityFields()
+		throws Exception {
+
 		if (!(_userAccountResource instanceof EntityModelResource)) {
 			throw new UnsupportedOperationException(
 				"Resource is not an instance of EntityModelResource");
@@ -1515,7 +1516,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	protected List<EntityField> getEntityFields(EntityField.Type type)
 		throws Exception {
 
-		Collection<EntityField> entityFields = getEntityFields();
+		java.util.Collection<EntityField> entityFields = getEntityFields();
 
 		Stream<EntityField> stream = entityFields.stream();
 
