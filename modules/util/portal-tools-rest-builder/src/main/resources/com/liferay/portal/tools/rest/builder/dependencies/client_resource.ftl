@@ -26,7 +26,7 @@ public class ${schemaName}Resource {
 			parameters = freeMarkerTool.getResourceTestCaseParameters(javaMethodSignature.javaMethodParameters, javaMethodSignature.operation, false)?replace(".dto.", ".client.dto.")?replace("com.liferay.portal.kernel.search.filter.Filter filter", "String filterString")?replace("com.liferay.portal.kernel.search.Sort[] sorts", "String sortString")?replace("com.liferay.portal.vulcan.multipart.MultipartBody multipartBody", "${schemaName} ${schemaVarName}, Map<String, File> multipartFiles")?replace("com.liferay.portal.vulcan.pagination", "${configYAML.apiPackagePath}.client.pagination")
 		/>
 
-		public static ${javaMethodSignature.returnType?replace(".dto.", ".client.dto.")?replace("com.liferay.portal.vulcan.pagination.", "")} ${javaMethodSignature.methodName}(${parameters}) throws Exception {
+		public static ${javaMethodSignature.returnType?replace(".dto.", ".client.dto.")?replace("com.liferay.portal.vulcan.pagination.", "")?replace("javax.ws.rs.core.Response", "void")} ${javaMethodSignature.methodName}(${parameters}) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = ${javaMethodSignature.methodName}HttpResponse(${arguments});
 
 			String content = httpResponse.getContent();
@@ -36,19 +36,21 @@ public class ${schemaName}Resource {
 			_logger.fine("HTTP response message: " + httpResponse.getMessage());
 			_logger.fine("HTTP response status code: " + httpResponse.getStatusCode());
 
-			<#if javaMethodSignature.returnType?contains("Page<")>
-				return Page.of(content, ${schemaName}SerDes::toDTO);
-			<#elseif javaMethodSignature.returnType?ends_with("String")>
-				return content;
-			<#elseif !stringUtil.equals(javaMethodSignature.returnType, "void")>
-				try {
-					return ${javaMethodSignature.returnType?replace(".dto.", ".client.serdes.")}SerDes.toDTO(content);
-				}
-				catch (Exception e) {
-					_logger.log(Level.WARNING, "Unable to process HTTP response: " + content, e);
+			<#if !javaMethodSignature.returnType?contains("javax.ws.rs.core.Response")>
+				<#if javaMethodSignature.returnType?contains("Page<")>
+					return Page.of(content, ${schemaName}SerDes::toDTO);
+				<#elseif javaMethodSignature.returnType?ends_with("String")>
+					return content;
+				<#elseif !stringUtil.equals(javaMethodSignature.returnType, "void")>
+					try {
+						return ${javaMethodSignature.returnType?replace(".dto.", ".client.serdes.")}SerDes.toDTO(content);
+					}
+					catch (Exception e) {
+						_logger.log(Level.WARNING, "Unable to process HTTP response: " + content, e);
 
-					throw e;
-				}
+						throw e;
+					}
+				</#if>
 			</#if>
 		}
 
