@@ -131,7 +131,7 @@ public class SettingsResourceImpl extends BaseSettingsResourceImpl {
 			_ctEngineManager.isChangeTrackingAllowed(companyId));
 		settings.setChangeTrackingEnabled(
 			_ctEngineManager.isChangeTrackingEnabled(companyId));
-		settings.setCompanyId(companyId.intValue());
+		settings.setCompanyId(companyId);
 		settings.setSupportedContentTypeLanguageKeys(
 			supportedContentTypeLanguageKeys.toArray(new String[0]));
 		settings.setSupportedContentTypes(
@@ -149,8 +149,8 @@ public class SettingsResourceImpl extends BaseSettingsResourceImpl {
 					userId,
 					CTSettingsKeys.CHECKOUT_CT_COLLECTION_CONFIRMATION_ENABLED,
 					"true")));
-		settings.setCompanyId(companyId.intValue());
-		settings.setUserId(userId.intValue());
+		settings.setCompanyId(companyId);
+		settings.setUserId(userId);
 
 		return settings;
 	}
