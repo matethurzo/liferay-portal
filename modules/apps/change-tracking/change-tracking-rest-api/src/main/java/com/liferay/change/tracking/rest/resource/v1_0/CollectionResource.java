@@ -50,10 +50,10 @@ public interface CollectionResource {
 
 	public Collection getCollection(Long collectionId) throws Exception;
 
-	public void postCollectionCheckout(Long collectionId, Long userId)
+	public Response postCollectionCheckout(Long collectionId, Long userId)
 		throws Exception;
 
-	public void postCollectionPublish(
+	public Response postCollectionPublish(
 			Long collectionId, Boolean ignoreCollision, Long userId)
 		throws Exception;
 

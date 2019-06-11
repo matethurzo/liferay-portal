@@ -149,14 +149,17 @@ public abstract class BaseCollectionResourceImpl implements CollectionResource {
 		}
 	)
 	@Path("/collections/{collectionId}/checkout")
-	@Produces("application/json")
 	@Tags(value = {@Tag(name = "Collection")})
-	public void postCollectionCheckout(
+	public Response postCollectionCheckout(
 			@NotNull @Parameter(hidden = true) @PathParam("collectionId") Long
 				collectionId,
 			@NotNull @Parameter(hidden = true) @QueryParam("userId") Long
 				userId)
 		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
 	}
 
 	@Override
@@ -169,9 +172,9 @@ public abstract class BaseCollectionResourceImpl implements CollectionResource {
 		}
 	)
 	@Path("/collections/{collectionId}/publish")
-	@Produces({"application/json", "text/plain"})
+	@Produces("text/plain")
 	@Tags(value = {@Tag(name = "Collection")})
-	public void postCollectionPublish(
+	public Response postCollectionPublish(
 			@NotNull @Parameter(hidden = true) @PathParam("collectionId") Long
 				collectionId,
 			@NotNull @Parameter(hidden = true) @QueryParam("ignoreCollision")
@@ -179,6 +182,10 @@ public abstract class BaseCollectionResourceImpl implements CollectionResource {
 			@NotNull @Parameter(hidden = true) @QueryParam("userId") Long
 				userId)
 		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

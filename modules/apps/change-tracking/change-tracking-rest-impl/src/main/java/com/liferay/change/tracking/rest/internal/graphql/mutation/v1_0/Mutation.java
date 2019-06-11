@@ -87,12 +87,12 @@ public class Mutation {
 
 	@GraphQLField
 	@GraphQLInvokeDetached
-	public void postCollectionCheckout(
+	public Response postCollectionCheckout(
 			@GraphQLName("collectionId") Long collectionId,
 			@GraphQLName("userId") Long userId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_collectionResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			collectionResource -> collectionResource.postCollectionCheckout(
@@ -101,13 +101,13 @@ public class Mutation {
 
 	@GraphQLField
 	@GraphQLInvokeDetached
-	public void postCollectionPublish(
+	public Response postCollectionPublish(
 			@GraphQLName("collectionId") Long collectionId,
 			@GraphQLName("ignoreCollision") Boolean ignoreCollision,
 			@GraphQLName("userId") Long userId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_collectionResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			collectionResource -> collectionResource.postCollectionPublish(

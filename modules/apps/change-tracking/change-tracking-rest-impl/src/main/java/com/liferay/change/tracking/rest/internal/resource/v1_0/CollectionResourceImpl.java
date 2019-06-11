@@ -49,6 +49,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 )
 public class CollectionResourceImpl extends BaseCollectionResourceImpl {
 
+	
+
 	@Override
 	public Response deleteCollection(Long collectionId) throws Exception {
 		Optional<CTCollection> ctCollectionOptional =
