@@ -228,8 +228,6 @@ paths:
                       type: integer
             responses:
                 202:
-                    content:
-                        application/json: {}
                     description: ""
             tags: ["Collection"]
     "/collections/{collectionId}/publish":
@@ -255,8 +253,6 @@ paths:
                       type: integer
             responses:
                 202:
-                    content:
-                        application/json: {}
                     description: ""
                 400:
                     content:
