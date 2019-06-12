@@ -27,7 +27,6 @@ import com.liferay.change.tracking.rest.internal.jaxrs.exception.ChangeTrackingD
 import com.liferay.change.tracking.rest.resource.v1_0.CollectionResource;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Validator;
@@ -138,9 +137,9 @@ public class CollectionResourceImpl extends BaseCollectionResourceImpl {
 	public Response postCollectionCheckout(Long collectionId, Long userId)
 		throws Exception {
 
-		User user = _userLocalService.getUser(userId);
+		_userLocalService.getUser(userId);
 
-		_ctEngineManager.checkoutCTCollection(user.getUserId(), collectionId);
+		_ctEngineManager.checkoutCTCollection(userId, collectionId);
 
 		return _accepted();
 	}
@@ -150,10 +149,10 @@ public class CollectionResourceImpl extends BaseCollectionResourceImpl {
 			Long collectionId, Boolean ignoreCollision, Long userId)
 		throws Exception {
 
-		User user = _userLocalService.getUser(userId);
+		_userLocalService.getUser(userId);
 
 		_ctEngineManager.publishCTCollection(
-			user.getUserId(), collectionId, ignoreCollision);
+			userId, collectionId, ignoreCollision);
 
 		return _accepted();
 	}
