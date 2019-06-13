@@ -24,6 +24,9 @@ import com.liferay.change.tracking.rest.dto.v1_0.CollectionUpdate;
 import com.liferay.change.tracking.rest.internal.jaxrs.exception.CannotCreateCollectionException;
 import com.liferay.change.tracking.rest.internal.jaxrs.exception.CannotDeleteCollectionException;
 import com.liferay.change.tracking.rest.internal.jaxrs.exception.ChangeTrackingDisabledException;
+import com.liferay.change.tracking.rest.internal.jaxrs.exception.CollectionDescriptionTooLongException;
+import com.liferay.change.tracking.rest.internal.jaxrs.exception.CollectionNameTooLongException;
+import com.liferay.change.tracking.rest.internal.jaxrs.exception.CollectionNameTooShortException;
 import com.liferay.change.tracking.rest.resource.v1_0.CollectionResource;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -114,16 +117,16 @@ public class CollectionResourceImpl extends BaseCollectionResourceImpl {
 		}
 		catch (PortalException pe) {
 			if (pe instanceof CTCollectionDescriptionCTEngineException) {
-				throw new CannotCreateCollectionException(
+				throw new CollectionDescriptionTooLongException(
 					"The collection description is too long");
 			}
 			else if (pe instanceof CTCollectionNameCTEngineException) {
 				if (Validator.isNull(pe.getMessage())) {
-					throw new CannotCreateCollectionException(
+					throw new CollectionNameTooShortException(
 						"The collection name is too short");
 				}
 
-				throw new CannotCreateCollectionException(
+				throw new CollectionNameTooLongException(
 					"The collection name is too long");
 			}
 			else {

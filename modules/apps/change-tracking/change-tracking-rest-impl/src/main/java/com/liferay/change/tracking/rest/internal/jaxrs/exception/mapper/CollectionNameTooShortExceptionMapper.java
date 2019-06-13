@@ -14,7 +14,7 @@
 
 package com.liferay.change.tracking.rest.internal.jaxrs.exception.mapper;
 
-import com.liferay.change.tracking.rest.internal.jaxrs.exception.CannotCreateCollectionException;
+import com.liferay.change.tracking.rest.internal.jaxrs.exception.CollectionNameTooShortException;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,21 +29,21 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"osgi.jaxrs.application.select=(osgi.jaxrs.name=Liferay.Change.Tracking.REST)",
 		"osgi.jaxrs.extension=true",
-		"osgi.jaxrs.name=Liferay.Change.Tracking.REST.CreateCollectionExceptionMapper"
+		"osgi.jaxrs.name=Liferay.Change.Tracking.REST.CollectionNameTooShortExceptionMapper"
 	},
 	service = ExceptionMapper.class
 )
-public class CreateCollectionExceptionMapper
-	implements ExceptionMapper<CannotCreateCollectionException> {
+public class CollectionNameTooShortExceptionMapper
+	implements ExceptionMapper<CollectionNameTooShortException> {
 
 	@Override
-	public Response toResponse(CannotCreateCollectionException ccce) {
+	public Response toResponse(CollectionNameTooShortException cntse) {
 		return Response.status(
-			Response.Status.BAD_REQUEST
+			Response.Status.fromStatusCode(463)
 		).type(
 			MediaType.TEXT_PLAIN
 		).entity(
-			ccce.getMessage()
+			cntse.getMessage()
 		).build();
 	}
 
