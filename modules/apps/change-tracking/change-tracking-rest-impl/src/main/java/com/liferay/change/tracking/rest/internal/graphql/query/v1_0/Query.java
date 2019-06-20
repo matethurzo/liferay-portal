@@ -234,8 +234,7 @@ public class Query {
 			@GraphQLName("companyId") Long companyId,
 			@GraphQLName("keywords") String keywords,
 			@GraphQLName("type")
-				com.liferay.change.tracking.rest.constant.v1_0.CollectionType
-					type,
+				com.liferay.change.tracking.rest.constant.v1_0.ProcessType type,
 			@GraphQLName("pageSize") int pageSize,
 			@GraphQLName("page") int page)
 		throws Exception {

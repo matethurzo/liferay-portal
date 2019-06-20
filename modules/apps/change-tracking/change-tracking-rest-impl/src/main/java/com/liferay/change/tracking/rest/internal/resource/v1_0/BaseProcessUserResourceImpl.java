@@ -73,8 +73,7 @@ public abstract class BaseProcessUserResourceImpl
 				companyId,
 			@Parameter(hidden = true) @QueryParam("keywords") String keywords,
 			@DefaultValue("all") @Parameter(hidden = true) @QueryParam("type")
-				com.liferay.change.tracking.rest.constant.v1_0.CollectionType
-					type,
+				com.liferay.change.tracking.rest.constant.v1_0.ProcessType type,
 			@Context Pagination pagination)
 		throws Exception {
 

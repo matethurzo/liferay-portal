@@ -14,7 +14,7 @@
 
 package com.liferay.change.tracking.rest.resource.v1_0;
 
-import com.liferay.change.tracking.rest.constant.v1_0.CollectionType;
+import com.liferay.change.tracking.rest.constant.v1_0.ProcessType;
 import com.liferay.change.tracking.rest.dto.v1_0.ProcessUser;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
@@ -38,7 +38,7 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface ProcessUserResource {
 
 	public Page<ProcessUser> getProcessUsersPage(
-			Long companyId, String keywords, CollectionType type,
+			Long companyId, String keywords, ProcessType type,
 			Pagination pagination)
 		throws Exception;
 

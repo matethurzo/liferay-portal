@@ -171,9 +171,7 @@ public abstract class BaseProcessUserResourceTestCase {
 
 		ProcessUser processUser = randomProcessUser();
 
-		processUser.setUserInitials(regex);
 		processUser.setUserName(regex);
-		processUser.setUserPortraitURL(regex);
 
 		String json = ProcessUserSerDes.toJSON(processUser);
 
@@ -181,9 +179,7 @@ public abstract class BaseProcessUserResourceTestCase {
 
 		processUser = ProcessUserSerDes.toDTO(json);
 
-		Assert.assertEquals(regex, processUser.getUserInitials());
 		Assert.assertEquals(regex, processUser.getUserName());
-		Assert.assertEquals(regex, processUser.getUserPortraitURL());
 	}
 
 	@Test
@@ -317,24 +313,8 @@ public abstract class BaseProcessUserResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals("userInitials", additionalAssertFieldName)) {
-				if (processUser.getUserInitials() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
 			if (Objects.equals("userName", additionalAssertFieldName)) {
 				if (processUser.getUserName() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("userPortraitURL", additionalAssertFieldName)) {
-				if (processUser.getUserPortraitURL() == null) {
 					valid = false;
 				}
 
@@ -394,32 +374,10 @@ public abstract class BaseProcessUserResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals("userInitials", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						processUser1.getUserInitials(),
-						processUser2.getUserInitials())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
 			if (Objects.equals("userName", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
 						processUser1.getUserName(),
 						processUser2.getUserName())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("userPortraitURL", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						processUser1.getUserPortraitURL(),
-						processUser2.getUserPortraitURL())) {
 
 					return false;
 				}
@@ -490,25 +448,9 @@ public abstract class BaseProcessUserResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
-		if (entityFieldName.equals("userInitials")) {
-			sb.append("'");
-			sb.append(String.valueOf(processUser.getUserInitials()));
-			sb.append("'");
-
-			return sb.toString();
-		}
-
 		if (entityFieldName.equals("userName")) {
 			sb.append("'");
 			sb.append(String.valueOf(processUser.getUserName()));
-			sb.append("'");
-
-			return sb.toString();
-		}
-
-		if (entityFieldName.equals("userPortraitURL")) {
-			sb.append("'");
-			sb.append(String.valueOf(processUser.getUserPortraitURL()));
 			sb.append("'");
 
 			return sb.toString();
@@ -522,9 +464,7 @@ public abstract class BaseProcessUserResourceTestCase {
 		return new ProcessUser() {
 			{
 				userId = RandomTestUtil.randomLong();
-				userInitials = RandomTestUtil.randomString();
 				userName = RandomTestUtil.randomString();
-				userPortraitURL = RandomTestUtil.randomString();
 			}
 		};
 	}
