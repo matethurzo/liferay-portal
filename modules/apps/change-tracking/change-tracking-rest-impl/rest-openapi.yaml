@@ -100,16 +100,16 @@ components:
                 status:
                     type: string
             type: object
+        ProcessType:
+            default: "all"
+            enum: [all, failed, in_progress, published, published_latest]
+            type: string
         ProcessUser:
             properties:
                 userId:
                     format: int64
                     type: integer
-                userInitials:
-                    type: string
                 userName:
-                    type: string
-                userPortraitURL:
                     type: string
             type: object
         Settings:
@@ -572,7 +572,7 @@ paths:
                   name: type
                   required: false
                   schema:
-                      $ref: "#/components/schemas/CollectionType"
+                      $ref: "#/components/schemas/ProcessType"
             responses:
                 200:
                     content:
