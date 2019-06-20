@@ -64,10 +64,10 @@ public abstract class BaseAffectedEntryResourceImpl
 			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
 		}
 	)
-	@Path("/affected-entries/{entryId}")
+	@Path("/entries/{entryId}/affected-entries")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "AffectedEntry")})
-	public Page<AffectedEntry> getAffectedEntry(
+	public Page<AffectedEntry> getEntryAffectedEntriesPage(
 			@NotNull @Parameter(hidden = true) @PathParam("entryId") Long
 				entryId,
 			@Parameter(hidden = true) @QueryParam("keywords") String keywords,

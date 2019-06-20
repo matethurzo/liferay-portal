@@ -185,22 +185,24 @@ public abstract class BaseAffectedEntryResourceTestCase {
 	}
 
 	@Test
-	public void testGetAffectedEntry() throws Exception {
-		Page<AffectedEntry> page = affectedEntryResource.getAffectedEntry(
-			testGetAffectedEntry_getEntryId(), RandomTestUtil.randomString(),
-			Pagination.of(1, 2));
+	public void testGetEntryAffectedEntriesPage() throws Exception {
+		Page<AffectedEntry> page =
+			affectedEntryResource.getEntryAffectedEntriesPage(
+				testGetEntryAffectedEntriesPage_getEntryId(),
+				RandomTestUtil.randomString(), Pagination.of(1, 2));
 
 		Assert.assertEquals(0, page.getTotalCount());
 
-		Long entryId = testGetAffectedEntry_getEntryId();
-		Long irrelevantEntryId = testGetAffectedEntry_getIrrelevantEntryId();
+		Long entryId = testGetEntryAffectedEntriesPage_getEntryId();
+		Long irrelevantEntryId =
+			testGetEntryAffectedEntriesPage_getIrrelevantEntryId();
 
 		if ((irrelevantEntryId != null)) {
 			AffectedEntry irrelevantAffectedEntry =
-				testGetAffectedEntry_addAffectedEntry(
+				testGetEntryAffectedEntriesPage_addAffectedEntry(
 					irrelevantEntryId, randomIrrelevantAffectedEntry());
 
-			page = affectedEntryResource.getAffectedEntry(
+			page = affectedEntryResource.getEntryAffectedEntriesPage(
 				irrelevantEntryId, null, Pagination.of(1, 2));
 
 			Assert.assertEquals(1, page.getTotalCount());
@@ -211,13 +213,15 @@ public abstract class BaseAffectedEntryResourceTestCase {
 			assertValid(page);
 		}
 
-		AffectedEntry affectedEntry1 = testGetAffectedEntry_addAffectedEntry(
-			entryId, randomAffectedEntry());
+		AffectedEntry affectedEntry1 =
+			testGetEntryAffectedEntriesPage_addAffectedEntry(
+				entryId, randomAffectedEntry());
 
-		AffectedEntry affectedEntry2 = testGetAffectedEntry_addAffectedEntry(
-			entryId, randomAffectedEntry());
+		AffectedEntry affectedEntry2 =
+			testGetEntryAffectedEntriesPage_addAffectedEntry(
+				entryId, randomAffectedEntry());
 
-		page = affectedEntryResource.getAffectedEntry(
+		page = affectedEntryResource.getEntryAffectedEntriesPage(
 			entryId, null, Pagination.of(1, 2));
 
 		Assert.assertEquals(2, page.getTotalCount());
@@ -229,20 +233,26 @@ public abstract class BaseAffectedEntryResourceTestCase {
 	}
 
 	@Test
-	public void testGetAffectedEntryWithPagination() throws Exception {
-		Long entryId = testGetAffectedEntry_getEntryId();
+	public void testGetEntryAffectedEntriesPageWithPagination()
+		throws Exception {
 
-		AffectedEntry affectedEntry1 = testGetAffectedEntry_addAffectedEntry(
-			entryId, randomAffectedEntry());
+		Long entryId = testGetEntryAffectedEntriesPage_getEntryId();
 
-		AffectedEntry affectedEntry2 = testGetAffectedEntry_addAffectedEntry(
-			entryId, randomAffectedEntry());
+		AffectedEntry affectedEntry1 =
+			testGetEntryAffectedEntriesPage_addAffectedEntry(
+				entryId, randomAffectedEntry());
 
-		AffectedEntry affectedEntry3 = testGetAffectedEntry_addAffectedEntry(
-			entryId, randomAffectedEntry());
+		AffectedEntry affectedEntry2 =
+			testGetEntryAffectedEntriesPage_addAffectedEntry(
+				entryId, randomAffectedEntry());
 
-		Page<AffectedEntry> page1 = affectedEntryResource.getAffectedEntry(
-			entryId, null, Pagination.of(1, 2));
+		AffectedEntry affectedEntry3 =
+			testGetEntryAffectedEntriesPage_addAffectedEntry(
+				entryId, randomAffectedEntry());
+
+		Page<AffectedEntry> page1 =
+			affectedEntryResource.getEntryAffectedEntriesPage(
+				entryId, null, Pagination.of(1, 2));
 
 		List<AffectedEntry> affectedEntries1 =
 			(List<AffectedEntry>)page1.getItems();
@@ -250,8 +260,9 @@ public abstract class BaseAffectedEntryResourceTestCase {
 		Assert.assertEquals(
 			affectedEntries1.toString(), 2, affectedEntries1.size());
 
-		Page<AffectedEntry> page2 = affectedEntryResource.getAffectedEntry(
-			entryId, null, Pagination.of(2, 2));
+		Page<AffectedEntry> page2 =
+			affectedEntryResource.getEntryAffectedEntriesPage(
+				entryId, null, Pagination.of(2, 2));
 
 		Assert.assertEquals(3, page2.getTotalCount());
 
@@ -261,15 +272,16 @@ public abstract class BaseAffectedEntryResourceTestCase {
 		Assert.assertEquals(
 			affectedEntries2.toString(), 1, affectedEntries2.size());
 
-		Page<AffectedEntry> page3 = affectedEntryResource.getAffectedEntry(
-			entryId, null, Pagination.of(1, 3));
+		Page<AffectedEntry> page3 =
+			affectedEntryResource.getEntryAffectedEntriesPage(
+				entryId, null, Pagination.of(1, 3));
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(affectedEntry1, affectedEntry2, affectedEntry3),
 			(List<AffectedEntry>)page3.getItems());
 	}
 
-	protected AffectedEntry testGetAffectedEntry_addAffectedEntry(
+	protected AffectedEntry testGetEntryAffectedEntriesPage_addAffectedEntry(
 			Long entryId, AffectedEntry affectedEntry)
 		throws Exception {
 
@@ -277,12 +289,14 @@ public abstract class BaseAffectedEntryResourceTestCase {
 			"This method needs to be implemented");
 	}
 
-	protected Long testGetAffectedEntry_getEntryId() throws Exception {
+	protected Long testGetEntryAffectedEntriesPage_getEntryId()
+		throws Exception {
+
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
-	protected Long testGetAffectedEntry_getIrrelevantEntryId()
+	protected Long testGetEntryAffectedEntriesPage_getIrrelevantEntryId()
 		throws Exception {
 
 		return null;

@@ -36,11 +36,11 @@ public interface AffectedEntryResource {
 		return new Builder();
 	}
 
-	public Page<AffectedEntry> getAffectedEntry(
+	public Page<AffectedEntry> getEntryAffectedEntriesPage(
 			Long entryId, String keywords, Pagination pagination)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse getAffectedEntryHttpResponse(
+	public HttpInvoker.HttpResponse getEntryAffectedEntriesPageHttpResponse(
 			Long entryId, String keywords, Pagination pagination)
 		throws Exception;
 
@@ -86,12 +86,13 @@ public interface AffectedEntryResource {
 	public static class AffectedEntryResourceImpl
 		implements AffectedEntryResource {
 
-		public Page<AffectedEntry> getAffectedEntry(
+		public Page<AffectedEntry> getEntryAffectedEntriesPage(
 				Long entryId, String keywords, Pagination pagination)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getAffectedEntryHttpResponse(entryId, keywords, pagination);
+				getEntryAffectedEntriesPageHttpResponse(
+					entryId, keywords, pagination);
 
 			String content = httpResponse.getContent();
 
@@ -104,7 +105,7 @@ public interface AffectedEntryResource {
 			return Page.of(content, AffectedEntrySerDes::toDTO);
 		}
 
-		public HttpInvoker.HttpResponse getAffectedEntryHttpResponse(
+		public HttpInvoker.HttpResponse getEntryAffectedEntriesPageHttpResponse(
 				Long entryId, String keywords, Pagination pagination)
 			throws Exception {
 
@@ -131,7 +132,7 @@ public interface AffectedEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/change-tracking/v1.0/affected-entries/{entryId}",
+						"/o/change-tracking/v1.0/entries/{entryId}/affected-entries",
 				entryId);
 
 			httpInvoker.userNameAndPassword(

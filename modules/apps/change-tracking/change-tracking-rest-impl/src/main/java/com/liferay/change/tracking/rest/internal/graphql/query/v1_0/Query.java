@@ -99,7 +99,7 @@ public class Query {
 
 	@GraphQLField
 	@GraphQLInvokeDetached
-	public java.util.Collection<AffectedEntry> getAffectedEntry(
+	public java.util.Collection<AffectedEntry> getEntryAffectedEntriesPage(
 			@GraphQLName("entryId") Long entryId,
 			@GraphQLName("keywords") String keywords,
 			@GraphQLName("pageSize") int pageSize,
@@ -110,8 +110,9 @@ public class Query {
 			_affectedEntryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			affectedEntryResource -> {
-				Page paginationPage = affectedEntryResource.getAffectedEntry(
-					entryId, keywords, Pagination.of(pageSize, page));
+				Page paginationPage =
+					affectedEntryResource.getEntryAffectedEntriesPage(
+						entryId, keywords, Pagination.of(pageSize, page));
 
 				return paginationPage.getItems();
 			});
