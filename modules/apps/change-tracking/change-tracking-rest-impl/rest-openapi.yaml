@@ -148,46 +148,6 @@ info:
     version: v1.0
 openapi: 3.0.1
 paths:
-    "/affected-entries/{entryId}":
-        get:
-            operationId: getAffectedEntry
-            parameters:
-                - in: path
-                  name: entryId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
-                  name: keywords
-                  required: false
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  required: false
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  required: false
-                  schema:
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/AffectedEntry"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/AffectedEntry"
-                                type: array
-                    description: ""
-            tags: ["AffectedEntry"]
     "/collections":
         get:
             operationId: getCollectionsPage
@@ -487,6 +447,46 @@ paths:
                                 $ref: "#/components/schemas/Entry"
                     description: ""
             tags: ["Entry"]
+    "/entries/{entryId}/affected-entries":
+        get:
+            operationId: getEntryAffectedEntriesPage
+            parameters:
+                - in: path
+                  name: entryId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: keywords
+                  required: false
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  required: false
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  required: false
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AffectedEntry"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AffectedEntry"
+                                type: array
+                    description: ""
+            tags: ["AffectedEntry"]
     "/processes":
         get:
             operationId: getProcessesPage
