@@ -67,11 +67,9 @@ public class ProcessUserResourceImpl extends BaseProcessUserResourceImpl {
 			);
 		}
 		else {
-			int status = _getStatus(type);
-
 			ctProcesses = _ctEngineManager.getCTProcesses(
 				companyId, CTConstants.USER_FILTER_ALL, keywords,
-				_getQueryDefinition(pagination, status));
+				_getQueryDefinition(pagination, type));
 		}
 
 		Stream<CTProcess> stream = ctProcesses.stream();
@@ -93,19 +91,13 @@ public class ProcessUserResourceImpl extends BaseProcessUserResourceImpl {
 	}
 
 	private QueryDefinition _getQueryDefinition(
-		Pagination pagination, int status) {
+		Pagination pagination, ProcessType processType) {
 
 		QueryDefinition queryDefinition = new QueryDefinition();
 
 		queryDefinition.setEnd(pagination.getEndPosition());
 		queryDefinition.setStart(pagination.getStartPosition());
 
-		queryDefinition.setStatus(status);
-
-		return queryDefinition;
-	}
-
-	private int _getStatus(ProcessType processType) {
 		int status = 0;
 
 		if (ProcessType.ALL == processType) {
@@ -121,7 +113,9 @@ public class ProcessUserResourceImpl extends BaseProcessUserResourceImpl {
 			status = BackgroundTaskConstants.STATUS_SUCCESSFUL;
 		}
 
-		return status;
+		queryDefinition.setStatus(status);
+
+		return queryDefinition;
 	}
 
 	private ProcessUser _toProcessUser(User user) {
